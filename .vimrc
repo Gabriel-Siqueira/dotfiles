@@ -11,3 +11,6 @@ source ~/.vim/startup/settings.vim
 Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-fugitive'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'jszakmeister/vim-togglecursor'
+Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
