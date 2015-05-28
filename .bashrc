@@ -38,7 +38,7 @@ alias socorro="echo 'continue a nadar'"
 alias resposta="echo '42'"
 alias answer="echo '42'"
 alias frase="echo 'We live in a world of possibilities'"
-alias programingtime="echo 'let\'s have some fun'"
+alias programingtime="echo 'let´s have some fun'"
 
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
 alias l="ls"
