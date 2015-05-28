@@ -36,8 +36,9 @@ alias tudoerrado="echo 'não desista as coisas vão dar certo'"
 alias culpasua="echo 'não é a maquina que comete erros é o programador'"
 alias socorro="echo 'continue a nadar'"
 alias resposta="echo '42'"
+alias answer="echo '42'"
 alias frase="echo 'We live in a world of possibilities'"
-alias bora="echo 'vamos nos divertir'"
+alias programingtime="echo 'let\'s have some fun'"
 
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
 alias l="ls"
