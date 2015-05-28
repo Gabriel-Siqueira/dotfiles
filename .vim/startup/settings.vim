@@ -14,6 +14,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'Lokaltog/vim-easymotion'
 Plugin 'jszakmeister/vim-togglecursor'
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'Valloric/YouCompleteMe'
 
 call vundle#end()
 
@@ -64,20 +65,21 @@ set foldmethod=marker "Método das dobras
 
 syntax enable	  " Enable syntax highlighting
 
-"************************************** Spell ***************************************
+" ----------------------------------------------------------------------------
+" Spell
+" ----------------------------------------------------------------------------
 
 set complete+=kspell
 
-"************************************************************************************
-
 " ----------------------------------------------------------------------------
-" Definindo o bash para o GNU/Linux
+" when use GNU/Linux use bash as shell 
 " ----------------------------------------------------------------------------
 
 if has("unix")
 	let &shell="bash"
     set clipboard=autoselect
 endif  
+
 " ----------------------------------------------------------------------------
 " Return to last edit position when opening files ans save history
 " ----------------------------------------------------------------------------
@@ -88,3 +90,13 @@ set viminfo='100,\"1000,:40,%,n~/.viminfo
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
     \   exe "normal g`\"" |
     \ endif
+
+" ----------------------------------------------------------------------------
+" Manager Cursor color
+" ----------------------------------------------------------------------------
+
+autocmd InsertEnter * silent !echo -ne "\033]12;blue\007"
+autocmd InsertLeave * silent !echo -ne "\033]12;red\007"
+silent !echo -ne "\033]12;rede\007"
+" reset cursor when vim exits
+autocmd VimLeave * silent !echo -ne "\033]112\007"
