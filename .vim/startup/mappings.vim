@@ -10,6 +10,16 @@ nnoremap <right> :echoe "use l"<cr>
 nnoremap <up> 	 :echoe "use j"<cr>
 nnoremap <down>  :echoe "use k"<cr>
 
+" Change h/j/k/l
+nnoremap j h
+vnoremap j h
+nnoremap k j
+vnoremap k j
+nnoremap l k
+vnoremap l k
+nnoremap ç l
+vnoremap ç l
+
 " Move a line of text using ALT+[jk]
 nmap <M-j> mz:m+<cr>`z 
 nmap <M-k> mz:m-2<cr>`z 
@@ -29,7 +39,8 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 
 " Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
+map <leader>ss :setlocal spell<cr>
+map <leader>ns :setlocal nospell<cr>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
@@ -44,6 +55,7 @@ imap <leader>' ''<ESC>i
 imap <leader>" ""<ESC>i
 imap <leader>( ()<ESC>i
 imap <leader>[ []<ESC>i
+imap <leader>{ {}<ESC>i<cr><BS><ESC>O
 
 " Change between insert and Paste
 set pastetoggle=<F2>
