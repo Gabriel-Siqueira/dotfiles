@@ -1,5 +1,5 @@
 " Leader
-let mapleader = ","
+let mapleader = "ç"
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
@@ -9,16 +9,6 @@ nnoremap <left>  :echoe "use h"<cr>
 nnoremap <right> :echoe "use l"<cr>
 nnoremap <up> 	 :echoe "use j"<cr>
 nnoremap <down>  :echoe "use k"<cr>
-
-" Change h/j/k/l
-nnoremap j h
-vnoremap j h
-nnoremap k j
-vnoremap k j
-nnoremap l k
-vnoremap l k
-nnoremap ç l
-vnoremap ç l
 
 " Move a line of text using ALT+[jk]
 nmap <M-j> mz:m+<cr>`z 
