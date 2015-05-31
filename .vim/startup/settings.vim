@@ -15,7 +15,8 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'jszakmeister/vim-togglecursor'
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'Valloric/YouCompleteMe'
-
+Plugin 'tpope/vim-repeat'
+	
 call vundle#end()
 
 filetype plugin indent on
@@ -95,8 +96,9 @@ set viminfo='100,\"1000,:40,%,n~/.viminfo
 " Manager Cursor color
 " ----------------------------------------------------------------------------
 
+autocmd VimEnter * silent !echo -ne "\033]12;red\007"
 autocmd InsertEnter * silent !echo -ne "\033]12;blue\007"
 autocmd InsertLeave * silent !echo -ne "\033]12;red\007"
 silent !echo -ne "\033]12;rede\007"
 " reset cursor when vim exits
-autocmd VimLeave * silent !echo -ne "\033]112\007"
+autocmd VimLeave * silent !echo -ne "\033]12\007"

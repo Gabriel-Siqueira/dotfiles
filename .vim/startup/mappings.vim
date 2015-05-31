@@ -41,11 +41,18 @@ nmap <Leader>o o<ESC>
 nmap <Leader>O O<ESC>
 
 " Quick pairs
-imap <leader>' ''<ESC>i
-imap <leader>" ""<ESC>i
-imap <leader>( ()<ESC>i
-imap <leader>[ []<ESC>i
-imap <leader>{ {}<ESC>i<cr><BS><ESC>O
+imap ( ()<ESC>i
+imap [ []<ESC>i
+imap { {}<ESC>i<cr><ESC>O
+imap < <><ESC>i
+
+" Without pairs
+imap <leader>' ';
+imap <leader>" ";
+imap <leader>( (;
+imap <leader>[ [;
+imap <leader>{ {;
+imap <leader>< <;
 
 " Change between insert and Paste
 set pastetoggle=<F2>
