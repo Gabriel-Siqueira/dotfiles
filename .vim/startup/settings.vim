@@ -16,7 +16,16 @@ Plugin 'jszakmeister/vim-togglecursor'
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'tpope/vim-repeat'
-	
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-commentary'
+Plugin 'kana/vim-textobj-user'
+Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'kana/vim-textobj-entire'
+Plugin 'kana/vim-textobj-function'
+Plugin 'kana/vim-textobj-line'
+Plugin 'kana/vim-textobj-indent'
+Plugin 'christoomey/vim-system-copy'
+
 call vundle#end()
 
 filetype plugin indent on
@@ -63,14 +72,10 @@ set si 		  	  " Smart indent
 set viminfo^=% 	  " Remember info about open buffers on close
 set showcmd		  " Show current comands
 set foldmethod=marker "Método das dobras
+set relativenumber " Show numbers relative to the current line
+set complete+=kspell " Extends dictionary
 
 syntax enable	  " Enable syntax highlighting
-
-" ----------------------------------------------------------------------------
-" Spell
-" ----------------------------------------------------------------------------
-
-set complete+=kspell
 
 " ----------------------------------------------------------------------------
 " when use GNU/Linux use bash as shell 

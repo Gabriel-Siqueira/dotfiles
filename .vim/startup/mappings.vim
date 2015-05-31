@@ -37,22 +37,22 @@ vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
 
 " Create new line and stay in normal mode
-nmap <Leader>o o<ESC> 	
+nmap <Leader>o o<ESC>k
 nmap <Leader>O O<ESC>
 
 " Quick pairs
+imap <leader>' ''<ESC>i
+imap <leader>" ""<ESC>i
 imap ( ()<ESC>i
 imap [ []<ESC>i
 imap { {}<ESC>i<cr><ESC>O
 imap < <><ESC>i
 
 " Without pairs
-imap <leader>' ';
-imap <leader>" ";
-imap <leader>( (;
-imap <leader>[ [;
-imap <leader>{ {;
-imap <leader>< <;
+imap <leader>( (
+imap <leader>[ [
+imap <leader>{ {
+imap <leader>< <
 
 " Change between insert and Paste
 set pastetoggle=<F2>
