@@ -7,24 +7,26 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
-Plugin 'tpope/vim-fugitive'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'jszakmeister/vim-togglecursor'
 Bundle 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'Lokaltog/vim-easymotion'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-commentary'
-Plugin 'kana/vim-textobj-user'
-Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'christoomey/vim-system-copy'
+Plugin 'ervandew/supertab'
+Plugin 'gmarik/Vundle.vim'
+Plugin 'jszakmeister/vim-togglecursor'
 Plugin 'kana/vim-textobj-entire'
 Plugin 'kana/vim-textobj-function'
-Plugin 'kana/vim-textobj-line'
 Plugin 'kana/vim-textobj-indent'
-Plugin 'christoomey/vim-system-copy'
+Plugin 'kana/vim-textobj-line'
+Plugin 'kana/vim-textobj-user'
+Plugin 'kien/ctrlp.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tpope/vim-commentary'
+Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-surround'
+Plugin 'vim-scripts/ReplaceWithRegister'
+Plugin 'vim-scripts/ZoomWin'
 
 call vundle#end()
 
@@ -66,8 +68,7 @@ set si 		  	  " Smart indent
 set smartcase	  " When searching try to be smart about cases 
 set smarttab	  " Be smart when using tabs
 set tabstop=4	  " 1 tab == 4 spaces
-set textwidth=80
-set tw=500	  	  " Linebreak on 500 characters
+set textwidth=100
 set viminfo^=% 	  " Remember info about open buffers on close
 set wildmenu	  " Turn on the WiLd menu
 set writebackup
