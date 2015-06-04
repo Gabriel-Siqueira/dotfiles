@@ -46,13 +46,11 @@ imap <leader>" ""<ESC>i
 imap ( ()<ESC>i
 imap [ []<ESC>i
 imap { {}<ESC>i<cr><ESC>O
-imap < <><ESC>i
 
 " Without pairs
 imap <leader>( (
 imap <leader>[ [
 imap <leader>{ {
-imap <leader>< <
 
 " Change between insert and Paste
 set pastetoggle=<F2>
