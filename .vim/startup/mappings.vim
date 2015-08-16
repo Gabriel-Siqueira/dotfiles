@@ -45,7 +45,8 @@ imap <leader>' ''<ESC>i
 imap <leader>" ""<ESC>i
 imap ( ()<ESC>i
 imap [ []<ESC>i
-imap { {}<ESC>i<cr><ESC>O
+imap { {}<ESC>i
+"imap {<CR> <esc>lxo}<esc>O
 
 " Without pairs
 imap <leader>( (

@@ -1,5 +1,5 @@
 " Leader
-let mapleader = ","
+let mapleader = "ç"
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
@@ -29,21 +29,29 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 
 " Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
+map <leader>ss :setlocal spell<cr>
+map <leader>ns :setlocal nospell<cr>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
 vnoremap <silent> # :call VisualSelection('b')<CR>
 
 " Create new line and stay in normal mode
-nmap <Leader>o o<ESC> 	
+nmap <Leader>o o<ESC>k
 nmap <Leader>O O<ESC>
 
 " Quick pairs
 imap <leader>' ''<ESC>i
 imap <leader>" ""<ESC>i
-imap <leader>( ()<ESC>i
-imap <leader>[ []<ESC>i
+imap ( ()<ESC>i
+imap [ []<ESC>i
+imap { {}<ESC>i
+"imap {<CR> <esc>lxo}<esc>O
+
+" Without pairs
+imap <leader>( (
+imap <leader>[ [
+imap <leader>{ {
 
 " Change between insert and Paste
 set pastetoggle=<F2>

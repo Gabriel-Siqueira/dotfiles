@@ -20,6 +20,7 @@ Plugin 'kana/vim-textobj-indent'
 Plugin 'kana/vim-textobj-line'
 Plugin 'kana/vim-textobj-user'
 Plugin 'kien/ctrlp.vim'
+Plugin 'lervag/vimtex'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-fugitive'
@@ -58,6 +59,7 @@ set mouse=a		  " enable mouse
 set noswapfile
 set number	  	  " Numbers
 set numberwidth=5
+set omnifunc=syntaxcomplete#Complete " omnicompletition
 set relativenumber " Show numbers relative to the current line
 set ruler		  " Always show current position
 set scrolloff=10  " Keep cursor centered
