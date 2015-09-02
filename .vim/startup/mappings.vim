@@ -1,14 +1,25 @@
 " Leader
-let mapleader = "ç"
+let mapleader = "@"
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
 
 " Force to use h/j/k/l and arrows move line
-nnoremap <left>  :echoe "use h"<cr>
-nnoremap <right> :echoe "use l"<cr>
-nnoremap <up> 	 :echoe "use j"<cr>
-nnoremap <down>  :echoe "use k"<cr>
+"nnoremap <left>  :echoe "use j"<cr>
+"nnoremap <right> :echoe "use ç"<cr>
+"nnoremap <up> 	 :echoe "use k"<cr>
+"nnoremap <down>  :echoe "use l"<cr>
+
+" bether navegation for brazilian keybord
+nmap j <left>
+nmap k <down>
+nmap l <up>
+nmap ç <right>
+vmap j <left>
+vmap ç <right>
+vmap l <up>
+vmap k <down>
+
 
 " Move a line of text using ALT+[jk]
 nmap <M-j> mz:m+<cr>`z 
@@ -17,10 +28,10 @@ vmap <M-j> m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+map <C-j> <C-W>k
+map <C-k> <C-W>l
+map <C-h> <C-W>j
+map <C-l> <C-W>ç
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
