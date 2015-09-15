@@ -13,9 +13,12 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 # go path
 export PATH=$PATH:/usr/local/go/bin
 
+# environment variables
+EDITOR="vim"; export EDITOR
+VISUAL="$EDITOR"; export VISUAL
+
 #fix keyboard leyout
 setxkbmap -model abnt2 -layout br -variant abnt2
-
 
 # change scape and CapsLock
 setxkbmap -option caps:escape

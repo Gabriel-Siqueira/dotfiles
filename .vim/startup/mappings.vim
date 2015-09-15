@@ -1,5 +1,5 @@
 " Leader
-let mapleader = "@"
+let mapleader = <M-...>
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>

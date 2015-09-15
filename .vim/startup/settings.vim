@@ -74,6 +74,7 @@ set textwidth=100
 set viminfo^=% 	  " Remember info about open buffers on close
 set wildmenu	  " Turn on the WiLd menu
 set writebackup
+set backupdir = ~/Documents/swap_files
 
 syntax enable	  " Enable syntax highlighting
 
