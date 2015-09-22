@@ -238,3 +238,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
 (if (window-system) nil (load-theme 'tango-dark) )
+(evil-leader/set-key "e" 'evil-emacs-state) ; key bindin for emacs state
