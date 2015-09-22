@@ -16,7 +16,7 @@
  '(ansi-color-names-vector
 	 ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (molokai)))
+ '(custom-enabled-themes (quote (deep-blue)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(show-paren-mode t)
