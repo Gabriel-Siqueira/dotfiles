@@ -12,12 +12,14 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
+	 [default default default italic underline success warning error])
  '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+	 ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (deeper-blue)))
+ '(custom-enabled-themes (quote (molokai)))
+ '(display-time-mode t)
  '(inhibit-startup-screen t)
+ '(show-paren-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -235,3 +237,4 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
+(if (window-system) nil (load-theme 'tango-dark) )
