@@ -4,7 +4,8 @@
 ;; **************************************************************
 ;; --------------------------------------------------------------
 
-; ================= Gerete by Custom ============================
+
+;;{{{================= Gerete by Custom ============================
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -28,10 +29,12 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Terminus" :foundry "xos4" :slant normal :weight bold :height 105 :width normal))))
  '(buffer-menu-buffer ((t (:weight bold)))))
+;;}}}
 
-; ================= things I insert ==============================
 
-; **************** marmalde ***************
+;;{{{================= things I insert ==============================
+
+;;{{{ **************** marmalde ***************
 (require 'package)
   (push '("marmalade" . "http://marmalade-repo.org/packages/")
         package-archives )
@@ -42,8 +45,9 @@
   (push '("gnu" . "http://elpa.gnu.org/packages/")
         package-archives)
   (package-initialize)
+;;}}}
 
-; **************** install all packages I use ***************
+;;{{{ **************** install all packages I use ***************
 
 (defun require-package (package)
   (setq-default highlight-tabs t)
@@ -55,59 +59,92 @@
 
 (defun install-all () (interactive)
 			 (or
-				(require-package 'auto-complete)
+				(require-package 'ace-jump-mode)
 				(require-package 'evil)
+				(require-package 'evil-leader)
 				(require-package 'evil-nerd-commenter)
+				(require-package 'evil-numbers)
+				(require-package 'evil-surround)
 				(require-package 'evil-tabs)
+				(require-package 'fill-column-indicator)
 				(require-package 'flymake)
 				(require-package 'flymake-cursor)
+				(require-package 'folding)
+				(require-package 'helm)
 				(require-package 'linum-relative)
 				(require-package 'multiple-cursors)
 				(require-package 'yasnippet)
-				(require-package 'ace-jump-mode)
-				(require-package 'fill-column-indicator)
-				(require-package 'helm)
-				(require-package 'evil-leader)))
+				(require-package 'auto-complete)
+				))
+;;}}}
 
-; **************** Evil mode ***************
+
+;;{{{ **************** Evil mode ***************
 
 (require 'evil)
 (evil-mode 1)
 
-;; ----------------- keys for diferent states ---------------
+;;{{{ -------------------- for work properly --------------------
+;; require for evil folding
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+;;}}}
+
+;;{{{ ----------------- keys for diferent states ---------------
 (setq evil-emacs-state-cursor '("orange" box))
 (setq evil-normal-state-cursor '("red" box))
 (setq evil-visual-state-cursor '("yellow" box))
 (setq evil-insert-state-cursor '("green" bar))
 (setq evil-replace-state-cursor '("grey" box))
 (setq evil-operator-state-cursor '("red" hollow))
+;;}}}
 																				;
-;; ----------------- evil leader ---------------
+;;{{{ ----------------- evil leader ---------------
 (global-evil-leader-mode)
 (evil-leader/set-leader "ç")
+;;}}}
 
-;; ----------------- evil-tabs (manager tabs) ---------------
+;;{{{ ----------------- evil-tabs (manager tabs) ---------------
 (global-evil-tabs-mode t)
+;;}}}
 
-;; ******************** complition ********************
+;;{{{ ----------------- evil-numbers ---------------
+(require 'evil-numbers)
+(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
+;;}}}
 
-;; -------------------- auto-complit --------------------
+;;{{{ ----------------- evil-surround ---------------
+
+;;}}}
+
+;;{{{ ----------------- settings --------------------
+(evil-leader/set-key "\\" 'evil-emacs-state) ; key bindin for emacs state
+;;}}}
+;;}}}
+
+
+;;{{{ ******************** complition ********************
+
+;;{{{ -------------------- auto-complit --------------------
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
+;;}}}
 
-;; ------------------- semantic to auto-complit ---------------------
+;;{{{ ------------------- semantic to auto-complit ---------------------
 (semantic-mode 1)
 (defun my:add-semantic-to-autocomplete()
   (add-to-list 'ac-sources 'ac-source-semantic)
 )
 (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+;;}}}
 
-; -------------------- yasnippet --------------------
+;;{{{ -------------------- yasnippet --------------------
 (require 'yasnippet)
 (yas-global-mode 1)
+;;}}}
 
-; -------------------- auto-complit-c-headers --------------------
+;;{{{ -------------------- auto-complit-c-headers --------------------
 ;(defun my:ac-c-header-init()
 ;  (require 'auto-complete-c-headers)
 ;  (add-to-list 'ac-sources 'ac-sources-c-headers)
@@ -121,12 +158,89 @@
 ;)
 ;(add-hook 'c++-mode-hook 'my:ac-c-header-init)
 ;(add-hook 'c-mode-hook 'my:ac-c-header-init)
+;;}}}
+
+;;}}}
 
 
-;; ****************** functions **************************
+;;{{{ ******************** Other packages ********************
+
+;;{{{ ----------------- Power line ----------------
+
+(add-to-list 'load-path "~/.emacs.d/el_files/powerline")
+(require 'powerline)
+(powerline-evil-theme)
+(display-time-mode t)
+;;}}}
+
+;;{{{ ----------------- Relative line numbers ---------------
+(require 'linum-relative)
+(linum-relative-on)
+(global-linum-mode)
+;; relative/absolute lines
+(evil-leader/set-key "l" 'linum-relative-toggle)
+;;}}}
+
+;;{{{ ----------------- flymake ---------------
+(require 'flymake)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
+(eval-after-load 'flymake '(require 'flymake-cursor))
+;;}}}
+
+;;{{{ ----------------- multiple cursors ---------------
+(require 'multiple-cursors)
+;; key bindings
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;;}}}
+
+;;{{{ ----------------- nerd-commenter ---------------
+(require 'evil-nerd-commenter)
+(evilnc-default-hotkeys)
+;;}}}
+
+;;{{{ ----------------- helm ---------------
+(require 'helm-config)
+(helm-mode 1)
+;; helm M-x
+(global-set-key (kbd "M-x") 'helm-M-x)
+;;}}}
+
+;;{{{ ----------------- ace-jump (easy move) ---------------
+(require 'ace-jump-mode)
+;; key bindings
+(evil-leader/set-key "gw" 'ace-jump-word-mode) ; çw for Ace Jump (word)
+(evil-leader/set-key "gl" 'ace-jump-line-mode) ; çl for Ace Jump (line)
+(evil-leader/set-key "gc" 'ace-jump-char-mode) ; çc for Ace Jump (char)define-key global-map (kbd "C-ç w") 'ace-jump-word-mode)
+;;}}}
+
+;;{{{ ----------------- fill column ---------------
+(require 'fill-column-indicator)
+(add-hook 'text-mode-hook (lambda ()
+                            (fci-mode)
+                            (set-fill-column 82)))
+(add-hook 'prog-mode-hook (lambda ()
+                            (fci-mode)
+                            (set-fill-column 82)))
+;;}}}
+
+;;{{{ -------------------- folding-mode --------------------
+(load "folding" 'nomessage 'noerror)
+(folding-mode-add-find-file-hook)
+(folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
+(setq folding-mode t)
+;; key bindings
+(evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
+;;}}}
+;;}}}
 
 
-;; -------------------- move line --------------------
+;;{{{ ****************** functions **************************
+
+
+;;{{{ -------------------- move line --------------------
 (defun move-line (n)
   "Move the current line up or down by N lines."
   (interactive "p")
@@ -153,8 +267,10 @@
 ;; key bindings
 (global-set-key (kbd "M-<up>") 'move-line-up)
 (global-set-key (kbd "M-<down>") 'move-line-down)
+;;}}}
 
-;; -------------------- esc quits --------------------
+
+;;{{{ -------------------- esc quits --------------------
 
 (defun minibuffer-keyboard-quit ()
   "Abort recursive edit.
@@ -174,63 +290,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (global-set-key [escape] 'evil-exit-emacs-state)
+;;}}}
 
-;; ******************** Other packages ********************
-
-;; ----------------- Power line ----------------
-(add-to-list 'load-path "~/.emacs.d/el_files/powerline")
-(require 'powerline)
-(powerline-evil-theme)
-(display-time-mode t)
-
-;; ----------------- Relative line numbers ---------------
-(require 'linum-relative)
-(linum-relative-on)
-(global-linum-mode)
-;; relative/absolute lines
-(evil-leader/set-key "l" 'linum-relative-toggle)
-
-;; ----------------- flymake ---------------
-(require 'flymake)
-(add-hook 'find-file-hook 'flymake-find-file-hook)
-(eval-after-load 'flymake '(require 'flymake-cursor))
-
-;; ----------------- multiple cursors ---------------
-(require 'multiple-cursors)
-;; key bindings
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-
-;; ----------------- nerd-commenter ---------------
-(require 'evil-nerd-commenter)
-(evilnc-default-hotkeys)
-
-;; ----------------- helm ---------------
-(require 'helm-config)
-(helm-mode 1)
-;; helm M-x
-(global-set-key (kbd "M-x") 'helm-M-x)
-
-;; ----------------- ace-jump (easy move) ---------------
-(require 'ace-jump-mode)
-;; key bindings
-(evil-leader/set-key "gw" 'ace-jump-word-mode) ; çw for Ace Jump (word)
-(evil-leader/set-key "gl" 'ace-jump-line-mode) ; çl for Ace Jump (line)
-(evil-leader/set-key "gc" 'ace-jump-char-mode) ; çc for Ace Jump (char)define-key global-map (kbd "C-ç w") 'ace-jump-word-mode)
-
-;; ----------------- fill column ---------------
-(require 'fill-column-indicator)
-(add-hook 'text-mode-hook (lambda ()
-                            (fci-mode)
-                            (set-fill-column 82)))
-(add-hook 'prog-mode-hook (lambda ()
-                            (fci-mode)
-                            (set-fill-column 82)))
+;;}}}
 
 
-;; ******************* other settings ********************
+;;{{{ ******************* other settings ********************
 
 
 (setq-default tab-width 2) ; tab with 2 spaces
@@ -238,4 +303,5 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
 (if (window-system) nil (load-theme 'tango-dark) )
-(evil-leader/set-key "e" 'evil-emacs-state) ; key bindin for emacs state
+;;}}}
+;;}}}
