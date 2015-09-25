@@ -114,12 +114,10 @@
 ;;}}}
 
 ;;{{{ ----------------- evil-surround ---------------
-
+(require 'evil-surround)
+(global-evil-surround-mode 1)
 ;;}}}
 
-;;{{{ ----------------- settings --------------------
-(evil-leader/set-key "\\" 'evil-emacs-state) ; key bindin for emacs state
-;;}}}
 ;;}}}
 
 
@@ -129,6 +127,7 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
+(add-hook 'text-mode-hook (lambda() (auto-complete-mode)))
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
@@ -230,7 +229,7 @@
 (load "folding" 'nomessage 'noerror)
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
-(setq folding-mode t)
+(add-hook 'prog-mode-hook (lambda() (folding-mode)))
 ;; key bindings
 (evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
 ;;}}}
