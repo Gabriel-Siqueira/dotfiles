@@ -60,6 +60,7 @@
 (defun install-all () (interactive)
 			 (or
 				(require-package 'ace-jump-mode)
+				(require-package 'auto-complete)
 				(require-package 'evil)
 				(require-package 'evil-leader)
 				(require-package 'evil-nerd-commenter)
@@ -74,7 +75,6 @@
 				(require-package 'linum-relative)
 				(require-package 'multiple-cursors)
 				(require-package 'yasnippet)
-				(require-package 'auto-complete)
 				))
 ;;}}}
 
@@ -97,7 +97,7 @@
 (setq evil-replace-state-cursor '("grey" box))
 (setq evil-operator-state-cursor '("red" hollow))
 ;;}}}
-																				;
+
 ;;{{{ ----------------- evil leader ---------------
 (global-evil-leader-mode)
 (evil-leader/set-leader "ç")
@@ -114,12 +114,10 @@
 ;;}}}
 
 ;;{{{ ----------------- evil-surround ---------------
-
+(require 'evil-surround)
+(global-evil-surround-mode 1)
 ;;}}}
 
-;;{{{ ----------------- settings --------------------
-(evil-leader/set-key "\\" 'evil-emacs-state) ; key bindin for emacs state
-;;}}}
 ;;}}}
 
 
@@ -129,6 +127,8 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
+(add-hook 'text-mode-hook (lambda() (auto-complete-mode)))
+(add-hook 'prog-mode-hook (lambda() (auto-complete-mode)))
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
@@ -177,8 +177,6 @@
 (require 'linum-relative)
 (linum-relative-on)
 (global-linum-mode)
-;; relative/absolute lines
-(evil-leader/set-key "l" 'linum-relative-toggle)
 ;;}}}
 
 ;;{{{ ----------------- flymake ---------------
@@ -189,11 +187,6 @@
 
 ;;{{{ ----------------- multiple cursors ---------------
 (require 'multiple-cursors)
-;; key bindings
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 ;;}}}
 
 ;;{{{ ----------------- nerd-commenter ---------------
@@ -211,9 +204,6 @@
 ;;{{{ ----------------- ace-jump (easy move) ---------------
 (require 'ace-jump-mode)
 ;; key bindings
-(evil-leader/set-key "gw" 'ace-jump-word-mode) ; çw for Ace Jump (word)
-(evil-leader/set-key "gl" 'ace-jump-line-mode) ; çl for Ace Jump (line)
-(evil-leader/set-key "gc" 'ace-jump-char-mode) ; çc for Ace Jump (char)define-key global-map (kbd "C-ç w") 'ace-jump-word-mode)
 ;;}}}
 
 ;;{{{ ----------------- fill column ---------------
@@ -230,10 +220,9 @@
 (load "folding" 'nomessage 'noerror)
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
-(setq folding-mode t)
-;; key bindings
-(evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
+(add-hook 'prog-mode-hook (lambda() (folding-mode)))
 ;;}}}
+
 ;;}}}
 
 
@@ -263,10 +252,6 @@
   "Move the current line down by N lines."
   (interactive "p")
   (move-line (if (null n) 1 n)))
-
-;; key bindings
-(global-set-key (kbd "M-<up>") 'move-line-up)
-(global-set-key (kbd "M-<down>") 'move-line-down)
 ;;}}}
 
 
@@ -295,6 +280,50 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;}}}
 
 
+;;{{{ ******************* key bindings ********************
+
+
+;;{{{ ----------------- evil-numbers ---------------
+(evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
+(evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
+;;}}}
+
+;;{{{ ----------------- Relative line numbers ---------------
+;; relative/absolute lines
+(evil-leader/set-key "l" 'linum-relative-toggle)
+;;}}}
+
+;;{{{ ----------------- multiple cursors ---------------
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+;;}}}
+
+;;{{{ ----------------- ace-jump (easy move) ---------------
+(evil-leader/set-key "gw" 'ace-jump-word-mode) ; çw for Ace Jump (word)
+(evil-leader/set-key "gl" 'ace-jump-line-mode) ; çl for Ace Jump (line)
+(evil-leader/set-key "gc" 'ace-jump-char-mode) ; çc for Ace Jump (char)define-key global-map (kbd "C-ç w") 'ace-jump-word-mode)
+;;}}}
+
+;;{{{ -------------------- folding-mode --------------------
+(evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
+;;}}}
+
+;;{{{ -------------------- move line --------------------
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+;;}}}
+
+;;{{{ -------------------- hide/show --------------------
+(evil-leader/set-key "s" 'hs-show-block) 
+(evil-leader/set-key "S" 'hs-show-all) 
+(evil-leader/set-key "h" 'hs-hide-block) 
+(evil-leader/set-key "H" 'hs-hide-all) 
+;;}}}
+;;}}}
+
+
 ;;{{{ ******************* other settings ********************
 
 
@@ -303,5 +332,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
 (if (window-system) nil (load-theme 'tango-dark) )
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
 ;;}}}
 ;;}}}
