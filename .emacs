@@ -128,10 +128,7 @@
 (require 'auto-complete-config)
 (ac-config-default)
 (add-hook 'text-mode-hook (lambda() (auto-complete-mode)))
-<<<<<<< HEAD
 (add-hook 'prog-mode-hook (lambda() (auto-complete-mode)))
-=======
->>>>>>> 7998f9f73762cd000b0d047dd63d8b288bf14821
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
@@ -224,11 +221,6 @@
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
-<<<<<<< HEAD
-=======
-;; key bindings
-(evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
->>>>>>> 7998f9f73762cd000b0d047dd63d8b288bf14821
 ;;}}}
 
 ;;}}}
