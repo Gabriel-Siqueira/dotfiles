@@ -75,6 +75,7 @@
 				(require-package 'linum-relative)
 				(require-package 'multiple-cursors)
 				(require-package 'yasnippet)
+				(require-package 'highlight-indentation)
 				))
 ;;}}}
 
@@ -223,6 +224,10 @@
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
 ;;}}}
 
+;;{{{ -------------------- highlight-indentation --------------------
+(highlight-indentation-mode 1)
+(highlight-indentation-current-column-mode 1)
+;;}}}
 ;;}}}
 
 
@@ -327,6 +332,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ ******************* other settings ********************
 
 
+(setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
 (menu-bar-mode 0) ; remave menu bar
