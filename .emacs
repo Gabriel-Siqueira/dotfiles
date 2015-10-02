@@ -72,10 +72,11 @@
 				(require-package 'flymake-cursor)
 				(require-package 'folding)
 				(require-package 'helm)
+				(require-package 'indent-guide)
 				(require-package 'linum-relative)
 				(require-package 'multiple-cursors)
+				(require-package 'php-mode)
 				(require-package 'yasnippet)
-				(require-package 'highlight-indentation)
 				))
 ;;}}}
 
@@ -224,9 +225,16 @@
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
 ;;}}}
 
-;;{{{ -------------------- highlight-indentation --------------------
-(highlight-indentation-mode 1)
-(highlight-indentation-current-column-mode 1)
+;;{{{ -------------------- indent-guide --------------------
+(require 'indent-guide)
+(indent-guide-global-mode)
+;;}}}
+
+;;{{{ -------------------- whitespace-mode --------------------
+(global-whitespace-mode)
+;; make whitespace-mode use just basic coloring
+(setq whitespace-style
+	(quote (spaces tabs space-mark tab-mark)))
 ;;}}}
 ;;}}}
 
