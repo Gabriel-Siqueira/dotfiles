@@ -134,11 +134,11 @@
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
-(semantic-mode 1)
-(defun my:add-semantic-to-autocomplete()
-  (add-to-list 'ac-sources 'ac-source-semantic)
-)
-(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+;; (semantic-mode 1)
+;; (defun my:add-semantic-to-autocomplete()
+;;   (add-to-list 'ac-sources 'ac-source-semantic)
+;; )
+;; (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
 ;;}}}
 
 ;;{{{ -------------------- yasnippet --------------------
@@ -231,7 +231,7 @@
 ;;}}}
 
 ;;{{{ -------------------- whitespace-mode --------------------
-(global-whitespace-mode)
+;; (global-whitespace-mode)
 ;; make whitespace-mode use just basic coloring
 (setq whitespace-style
 	(quote (spaces tabs space-mark tab-mark)))
