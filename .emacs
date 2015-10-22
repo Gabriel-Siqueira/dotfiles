@@ -354,3 +354,8 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
   (windmove-default-keybindings))
 ;;}}}
 ;;}}}
+
+
+;;read local file if exists
+(when (file-exists-p "~/.emacs.d/local.el")
+	(load-file "~/.emacs.d/local.el"))
