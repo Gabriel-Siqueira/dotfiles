@@ -138,7 +138,7 @@
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
 (semantic-mode 1)
-defun my:add-semantic-to-autocomplete()
+(defun my:add-semantic-to-autocomplete()
   (add-to-list 'ac-sources 'ac-source-semantic)
 )
 (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
@@ -345,6 +345,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 (setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
+(setq c-basic-offset 2)
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
