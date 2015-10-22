@@ -34,7 +34,7 @@
 
 ;;{{{================= things I insert ==============================
 
-;;{{{ **************** marmalde ***************
+;;{{{ **************** Packages repos ***************
 (require 'package)
   (push '("marmalade" . "http://marmalade-repo.org/packages/")
         package-archives )
@@ -45,7 +45,10 @@
   (push '("gnu" . "http://elpa.gnu.org/packages/")
         package-archives)
   (package-initialize)
+
+(when (not package-archive-contents) (package-refresh-contents))
 ;;}}}
+
 
 ;;{{{ **************** install all packages I use ***************
 
@@ -134,11 +137,11 @@
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
-;; (semantic-mode 1)
-;; (defun my:add-semantic-to-autocomplete()
-;;   (add-to-list 'ac-sources 'ac-source-semantic)
-;; )
-;; (add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
+(semantic-mode 1)
+defun my:add-semantic-to-autocomplete()
+  (add-to-list 'ac-sources 'ac-source-semantic)
+)
+(add-hook 'c-mode-common-hook 'my:add-semantic-to-autocomplete)
 ;;}}}
 
 ;;{{{ -------------------- yasnippet --------------------
