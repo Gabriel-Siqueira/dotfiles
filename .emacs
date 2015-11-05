@@ -17,7 +17,7 @@
  '(ansi-color-names-vector
 	 ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(blink-cursor-mode nil)
- '(custom-enabled-themes (quote (deeper-blue)))
+ '(custom-enabled-themes (quote (misterioso)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(show-paren-mode t)
@@ -34,7 +34,9 @@
 
 ;;{{{================= things I insert ==============================
 
-;;{{{ **************** Packages repos ***************
+;;{{{ **************** Packages general config ***************
+
+;;{{{ ---------------- Packages repos ---------------
 (require 'package)
   (push '("marmalade" . "http://marmalade-repo.org/packages/")
         package-archives )
@@ -49,8 +51,7 @@
 (when (not package-archive-contents) (package-refresh-contents))
 ;;}}}
 
-
-;;{{{ **************** install all packages I use ***************
+;;{{{ ---------------- install all packages I use ---------------
 
 (defun require-package (package)
   (setq-default highlight-tabs t)
@@ -78,13 +79,18 @@
 				(require-package 'indent-guide)
 				(require-package 'linum-relative)
 				(require-package 'multiple-cursors)
+				(require-package 'neotree)
 				(require-package 'php-mode)
 				(require-package 'yasnippet)
 				))
 ;;}}}
 
+;;}}}
 
-;;{{{ **************** Evil mode ***************
+
+;;{{{ **************** Modes specific configs *******************
+
+;;{{{ *****---------- Evil mode ----------*****
 
 (require 'evil)
 (evil-mode 1)
@@ -123,6 +129,17 @@
 (global-evil-surround-mode 1)
 ;;}}}
 
+;;}}}
+
+
+;;{{{ *****----------- Org mode ----------*****
+
+(require 'org)
+;;{{{ ---------------- Tex ------------------
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+;;}}}
+
+;;}}}
 ;;}}}
 
 
@@ -239,6 +256,10 @@
 (setq whitespace-style
 	(quote (spaces tabs space-mark tab-mark)))
 ;;}}}
+
+;;{{{ -------------------- neotree --------------------
+(require 'neotree)
+;;}}}
 ;;}}}
 
 
@@ -298,7 +319,6 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;{{{ ******************* key bindings ********************
 
-
 ;;{{{ ----------------- evil-numbers ---------------
 (evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
 (evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
@@ -336,6 +356,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-leader/set-key "S" 'hs-show-all) 
 (evil-leader/set-key "h" 'hs-hide-block) 
 (evil-leader/set-key "H" 'hs-hide-all) 
+;;}}}
+
+;;{{{ -------------------- neotree --------------------
+(global-set-key [f8] 'neotree-toggle)
 ;;}}}
 ;;}}}
 
