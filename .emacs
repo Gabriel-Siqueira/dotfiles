@@ -243,6 +243,8 @@
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
+(let* ((ptr (assq 'asm-mode folding-mode-marks-alist)))
+             (setcdr ptr (list "@*" "@-")))
 ;;}}}
 
 ;;{{{ -------------------- indent-guide --------------------
