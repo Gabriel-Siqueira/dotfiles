@@ -78,6 +78,7 @@
 				(require-package 'helm)
 				(require-package 'indent-guide)
 				(require-package 'linum-relative)
+				(require-package 'lua-mode)
 				(require-package 'multiple-cursors)
 				(require-package 'neotree)
 				(require-package 'php-mode)
@@ -136,7 +137,7 @@
 
 (require 'org)
 ;;{{{ ---------------- Tex ------------------
-(setq org-format-latex-options (plist-put org-format-latex-options :scale 2.0))
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 ;;}}}
 
 ;;}}}
@@ -242,6 +243,7 @@
 (load "folding" 'nomessage 'noerror)
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
+(folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
 (let* ((ptr (assq 'asm-mode folding-mode-marks-alist)))
              (setcdr ptr (list "@*" "@-")))
@@ -261,6 +263,12 @@
 
 ;;{{{ -------------------- neotree --------------------
 (require 'neotree)
+;;}}}
+
+;;{{{ -------------------- hippie-expand --------------------
+(fset 'my-complete-file-name
+        (make-hippie-expand-function '(try-complete-file-name-partially
+                                       try-complete-file-name)))
 ;;}}}
 ;;}}}
 
@@ -363,6 +371,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ -------------------- neotree --------------------
 (global-set-key [f8] 'neotree-toggle)
 ;;}}}
+
+;;{{{ -------------------- org latex --------------------
+(evil-leader/set-key "C-l" 'org-preview-latex-fragment) 
+;;}}}
+
+;;{{{ -------------------- hippie-expand --------------------
+(global-set-key (kbd "M-/") 'my-complete-file-name) 
+;;}}}
 ;;}}}
 
 
@@ -375,6 +391,14 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
 (menu-bar-mode 0) ; remave menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
+
+;; settings on history
+(savehist-mode 1)
+(setq history-length 1000)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+
+;; different color for terminal emacs
 (if (window-system) nil (load-theme 'tango-dark) )
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
