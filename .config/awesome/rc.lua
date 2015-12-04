@@ -12,8 +12,12 @@ local naughty = require("naughty")
 local menubar = require("menubar")
 -- layout symilar to i3
 local treesome = require("treesome")
-
+-- for the widgets
+local vicious = require("vicious")
+	 
 -- {{{ Functions
+
+-- Confirmation on exit
 cnfrm = "echo -e 'No\nYes' | dmenu -p Quit?"
 
 quit = function()
@@ -21,7 +25,9 @@ quit = function()
         awesome.quit()
     end
 end
+
 -- }}}
+
 -- {{{ Auto-start
 awful.util.spawn_with_shell("thunderbird")
 awful.util.spawn_with_shell("amor")
@@ -91,10 +97,22 @@ local layouts =
 -- }}}
 
 -- {{{ Wallpaper
-if beautiful.wallpaper then
-    for s = 1, screen.count() do
-        gears.wallpaper.maximized(beautiful.wallpaper, s, true)
-    end
+-- Random Wallpapers
+
+-- Get the list of files from a directory. Must be all images or folders and non-empty. 
+function scanDir(directory)
+	local i, fileList, popen = 0, {}, io.popen
+	for filename in popen([[find "]] ..directory.. [[" -type f]]):lines() do
+	    i = i + 1
+	    fileList[i] = filename
+	end
+	return fileList
+end
+wallpaperList = scanDir("/home/gabriel/Pictures/mywallpaper/favorites/")
+
+-- Apply a random wallpaper on startup.
+for s = 1, screen.count() do
+	gears.wallpaper.maximized(wallpaperList[math.random(1, #wallpaperList)], s, true)
 end
 -- }}}
 
@@ -111,8 +129,8 @@ end
 
 -- Create a laucher widget and a main menu
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
+   { "manual", terminal .. " -e 'man awesome'" },
+   { "edit config", editor .. " " .. awesome.conffile },
    { "restart", awesome.restart },
    { "quit", awesome.quit }
 }
@@ -131,9 +149,48 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- }}}
 
 -- {{{ Wibox
--- Create a textclock widget
-mytextclock = awful.widget.textclock()
-
+-- Battery widget
+batwidget = wibox.widget.textbox()
+vicious.register(batwidget, vicious.widgets.bat,
+								 function (widget, args)
+										if args[1] == "↯" then return "<span foreground=\"#00ff00\"></span> " .. args[2] .. "% | "
+										elseif args[1] == "+" and args[2] > 30 then return "<span foreground=\"#00ff00\"></span> " .. args[2] .. "% | "
+										elseif args[1] == "+" then return "<span foreground=\"#ff0000\"></span> " .. args[2] .. "% | "
+										elseif args[2] > 30 then return "<span foreground=\"#00ff00\">▇</span> " .. args[2] .. "% | "
+										else return "<span foreground=\"#ff0000\">▄</span> " .. args[2] .. "% | "
+										end
+									end
+, 13, "BAT1")
+-- Memory widget
+memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem, "<span foreground=\"#cc00cc\"></span> $2MB/$3MB | ", 13)
+-- Disk Space widget
+diskwidget = wibox.widget.textbox()
+vicious.register(diskwidget, vicious.widgets.fs, " | <span foreground=\"#cc00cc\"></span> ${/ used_gb} / ${/ size_gb} | ", 13)
+-- Wifi widget
+wifiwidget = wibox.widget.textbox()
+vicious.register(wifiwidget, vicious.widgets.wifi,
+								 function (widget, args)
+										if args['{linp}'] ~= 0 then return "<span foreground=\"#00ff00\"></span> " .. args['{ssid}'] .. " - " .. args['{linp}'] .. "% | "
+										else return "<span foreground=\"#999966\"></span> | "
+										end
+								end
+, 13, "wlp2s0")
+-- Packages updates
+pkgwidget = wibox.widget.textbox()
+vicious.register(pkgwidget, vicious.widgets.pkg, "<span foreground=\"#ff6600\"></span> $1 | ", 13, "Arch")
+-- Volume widget
+volwidget = wibox.widget.textbox()
+vicious.register(volwidget, vicious.widgets.volume,
+								 function (widget, args)
+										if   args[2] == "♫" then return "<span foreground=\"#ffff00\"></span> " ..  args[1] .. "% | "
+										else return "<span foreground=\"#999966\"></span> | "
+										end
+								 end
+								 , 13, "Master")
+-- Date widget
+datewidget = wibox.widget.textbox()
+vicious.register(datewidget, vicious.widgets.date, "<span foreground=\"#ff6600\"></span> %d/%m/%Y | <span foreground=\"#0066ff\"></span> %r | ")
 -- Create a wibox for each screen and add it
 mywibox = {}
 mypromptbox = {}
@@ -212,9 +269,14 @@ for s = 1, screen.count() do
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
+    right_layout:add(diskwidget)
+		right_layout:add(memwidget)
+    right_layout:add(pkgwidget)
+    right_layout:add(wifiwidget)
+    right_layout:add(volwidget)
+    right_layout:add(batwidget)
+    right_layout:add(datewidget)
     if s == 1 then right_layout:add(wibox.widget.systray()) end
-    right_layout:add(mytextclock)
-    right_layout:add(mylayoutbox[s])
 
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
@@ -231,9 +293,14 @@ for s = 1, screen.count() do
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "bottom", screen = s })
 
+    -- Widgets that are aligned to the left
+    local left_layout = wibox.layout.fixed.horizontal()
+    left_layout:add(mylayoutbox[s])
+		
     -- Now bring it all together (with the tasklist in the middle)
     local layout = wibox.layout.align.horizontal()
     layout:set_middle(mytasklist[s])
+    layout:set_left(left_layout)
 
     mywibox[s]:set_widget(layout)
 end
@@ -311,7 +378,18 @@ globalkeys = awful.util.table.join(
                   awful.util.getdir("cache") .. "/history_eval")
               end),
     -- Menubar
-    awful.key({ modkey }, "d", function() menubar.show() end)
+    awful.key({ modkey }, "d", function() menubar.show() end),
+		-- Volume
+		awful.key({ }, "XF86AudioRaiseVolume", function ()
+       awful.util.spawn("amixer set Master 5%+") end),
+   awful.key({ }, "XF86AudioLowerVolume", function ()
+       awful.util.spawn("amixer set Master 5%-") end),
+   awful.key({ }, "XF86AudioMute", function ()
+       awful.util.spawn("amixer sset Master toggle") end),
+   awful.key({ }, "XF86MonBrightnessDown", function ()
+       awful.util.spawn("xbacklight -dec 5") end),
+   awful.key({ }, "XF86MonBrightnessUp", function ()
+       awful.util.spawn("xbacklight -inc 5") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -413,6 +491,8 @@ awful.rules.rules = {
 		properties = { tag = tags[1][8] } },
 		{ rule = { class = "Steam" },
 		properties = { tag = tags[1][7] } },
+		{ rule = { instance = "plugin-container" },
+		properties = { floating = true } },
 }
 -- }}}
 
