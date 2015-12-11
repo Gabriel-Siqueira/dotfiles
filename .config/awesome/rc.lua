@@ -81,8 +81,8 @@ modkey = "Mod4"
 -- Table of layouts to cover with awful.layout.inc, order matters.
 local layouts =
 {
-    awful.layout.suit.max,
 		treesome,
+    awful.layout.suit.max,
     awful.layout.suit.floating,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
@@ -164,10 +164,10 @@ vicious.register(batwidget, vicious.widgets.bat,
 , 13, "BAT1")
 -- Memory widget
 memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem, "<span foreground=\"#cc00cc\"></span> $2MB/$3MB | ", 13)
+vicious.register(memwidget, vicious.widgets.mem, "<span foreground=\"#cc00cc\"></span> $2 MB/$3 MB | ", 13)
 -- Disk Space widget
 diskwidget = wibox.widget.textbox()
-vicious.register(diskwidget, vicious.widgets.fs, " | <span foreground=\"#cc00cc\"></span> ${/ used_gb} / ${/ size_gb} | ", 13)
+vicious.register(diskwidget, vicious.widgets.fs, " | <span foreground=\"#cc00cc\"></span> ${/ used_gb} GB / ${/ size_gb} GB | ", 13)
 -- Wifi widget
 wifiwidget = wibox.widget.textbox()
 vicious.register(wifiwidget, vicious.widgets.wifi,
@@ -495,6 +495,8 @@ awful.rules.rules = {
 		{ rule = { class = "VirtualBox" },
 		properties = { tag = tags[1][8] } },
 		{ rule = { class = "Steam" },
+		properties = { tag = tags[1][7] } },
+		{ rule = { name = "PlayOnLinux" },
 		properties = { tag = tags[1][7] } },
 		{ rule = { instance = "plugin-container" },
 		properties = { floating = true } },
