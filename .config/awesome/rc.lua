@@ -14,7 +14,8 @@ local menubar = require("menubar")
 local treesome = require("treesome")
 -- for the widgets
 local vicious = require("vicious")
-	 
+-- try wisk menu
+
 -- {{{ Functions
 
 -- Confirmation on exit
@@ -379,6 +380,7 @@ globalkeys = awful.util.table.join(
               end),
     -- Menubar
     awful.key({ modkey }, "d", function() menubar.show() end),
+
 		-- Volume
 		awful.key({ }, "XF86AudioRaiseVolume", function ()
        awful.util.spawn("amixer set Master 5%+") end),
@@ -389,7 +391,9 @@ globalkeys = awful.util.table.join(
    awful.key({ }, "XF86MonBrightnessDown", function ()
        awful.util.spawn("xbacklight -dec 5") end),
    awful.key({ }, "XF86MonBrightnessUp", function ()
-       awful.util.spawn("xbacklight -inc 5") end)
+       awful.util.spawn("xbacklight -inc 5") end),
+	 
+	 awful.key({ }, "Print", function () awful.util.spawn("xfce4-screenshot") end)
 )
 
 clientkeys = awful.util.table.join(
@@ -477,6 +481,7 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      raise = true,
                      keys = clientkeys,
+										 size_hints_honor = false,
                      buttons = clientbuttons } },
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
