@@ -14,12 +14,15 @@ local menubar = require("menubar")
 local treesome = require("treesome")
 -- for the widgets
 local vicious = require("vicious")
--- try wisk menu
+-- freedesktop (used for menu)
+local freedesktop = require('freedesktop')
+-- lain (new widgets)
+local lain = require("lain")
 
--- {{{ Functions
+-- {{{ ***************      Functions       ***************
 
 -- Confirmation on exit
-cnfrm = "echo -e 'No\nYes' | dmenu -p Quit?"
+cnfrm = "echo -e 'No\nYes' * dmenu -p Quit?"
 
 quit = function()
     if awful.util.pread(cnfrm):sub(1, 3) == "Yes" then
@@ -29,13 +32,15 @@ end
 
 -- }}}
 
--- {{{ Auto-start
+-- {{{ ***************      Auto-start      ***************
+
 awful.util.spawn_with_shell("thunderbird")
 awful.util.spawn_with_shell("amor")
 awful.util.spawn_with_shell("dropbox")
+
 -- }}}
 
--- {{{ Error handling
+-- {{{ ***************    Error handling    ***************
 
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -62,42 +67,56 @@ end
 
 -- }}}
 
--- {{{ Variable definitions
+-- {{{ *************** Variable definitions ***************
+
+-- some system info
+home = os.getenv("HOME")
+confdir = home .. "/.config/awesome"
+themes = confdir .. "/themes"
+active_theme = themes .. "/zenburn"
+language = string.gsub(os.getenv("LANG"),".utf8","")
+
 -- Themes define colours, icons, font and wallpapers.
 beautiful.init("/home/gabriel/.config/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
 terminal = "terminator"
-editor = os.getenv("EDITOR") or "nano"
+editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.
--- Usually, Mod4 is the key with a logo between Control and Alt.
--- If you do not like this or do not have such a key,
--- I suggest you to remap Mod4 to another key using xmodmap or other tools.
--- However, you can use another modifier like Mod1, but it may interact with others.
 modkey = "Mod4"
+altkey = "Mod1"
 
--- Table of layouts to cover with awful.layout.inc, order matters.
+-- settings on lain layouts
+lain.layout.termfair.nmaster = 3
+
+-- Table of layouts
 local layouts =
 {
 		treesome,
     awful.layout.suit.max,
     awful.layout.suit.floating,
+    awful.layout.suit.fair,
+    awful.layout.suit.fair.horizontal,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
-    awful.layout.suit.spiral,
-    awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max.fullscreen,
+    awful.layout.suit.magnifier,
+		lain.layout.termfair,
+		lain.layout.cascade,
+		lain.layout.centerwork
 }
+
 -- }}}
 
--- {{{ Wallpaper
+
+-- {{{ ***************      Wallpaper       ***************
+
 -- Random Wallpapers
 
 -- Get the list of files from a directory. Must be all images or folders and non-empty. 
@@ -106,51 +125,76 @@ function scanDir(directory)
 	for filename in popen([[find "]] ..directory.. [[" -type f]]):lines() do
 	    i = i + 1
 	    fileList[i] = filename
-	end
+  end
 	return fileList
 end
-wallpaperList = scanDir("/home/gabriel/Pictures/mywallpaper/favorites/")
 
--- Apply a random wallpaper on startup.
-for s = 1, screen.count() do
-	gears.wallpaper.maximized(wallpaperList[math.random(1, #wallpaperList)], s, true)
-end
+-- configuration
+wp_timeout  = 900
+wallpaperList = scanDir("/home/gabriel/Pictures/mywallpaper/favorites/")
+ 
+-- setup the timer
+wp_timer = timer { timeout = wp_timeout }
+wp_timer:connect_signal("timeout", function()
+ 
+  -- set wallpaper to current index for all screens
+  for s = 1, screen.count() do
+		gears.wallpaper.maximized(wallpaperList[math.random(1, #wallpaperList)], s, true)
+  end
+	
+  -- stop the timer (we don't need multiple instances running at the same time)
+  wp_timer:stop()
+ 
+  --restart the timer
+  wp_timer.timeout = wp_timeout
+  wp_timer:start()
+end)
+
+-- initial wallpaper
+gears.wallpaper.maximized(wallpaperList[math.random(1, #wallpaperList)], s, true)
+-- initial start when rc.lua is first run
+wp_timer:start()
+
 -- }}}
 
--- {{{ Tags
+-- {{{ ***************         Tags         ***************
+
 -- Define a tag table which hold all screen tags.
-tags = {}
+tags = {
+	 names = { "standard", "aux➊", "aux➋", ".", "..", "...", "Game ", "VM ", "email " },
+	 layout = { layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[1], layouts[2]}
+}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "standard", "aux1", "aux2", 4, 5, 6, "Game ", "VM ", "email " }, s, layouts[1])
+    tags[s] = awful.tag(tags.names, s, tags.layout)
 end
+
 -- }}}
 
--- {{{ Menu
-
--- Create a laucher widget and a main menu
+-- {{{ ***************         Menu         ***************
+menu_icon = "/usr/share/icons/Dowloaded/arch-linux-icon.png"
+menu_items = freedesktop.menu.new()
 myawesomemenu = {
-   { "manual", terminal .. " -e 'man awesome'" },
-   { "edit config", editor .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", awesome.quit }
+   { "manual", terminal .. " -e man awesome", freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { "edit config", editor_cmd .. " " .. awful.util.getdir("config") .. "/rc.lua", freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { "restart", awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
+   { "quit", awesome.quit, freedesktop.utils.lookup_icon({ icon = 'gtk-quit' }) }
 }
+table.insert(menu_items, { "awesome", myawesomemenu, beautiful.awesome_icon })
+table.insert(menu_items, { "open terminal", terminal, freedesktop.utils.lookup_icon({icon = 'terminal'}) })
 
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "open terminal", terminal }
-                                  }
-                        })
+mymainmenu = awful.menu({ items = menu_items })
 
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
+mylauncher = awful.widget.launcher({ image = menu_icon, menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 
 -- }}}
 
--- {{{ Wibox
--- Battery widget
+-- {{{ ***************         Wibox        ***************
+
+-- {{{ Battery widget
 batwidget = wibox.widget.textbox()
 vicious.register(batwidget, vicious.widgets.bat,
 								 function (widget, args)
@@ -162,13 +206,20 @@ vicious.register(batwidget, vicious.widgets.bat,
 										end
 									end
 , 13, "BAT1")
--- Memory widget
+-- }}}
+
+-- {{{ Memory widget
 memwidget = wibox.widget.textbox()
 vicious.register(memwidget, vicious.widgets.mem, "<span foreground=\"#cc00cc\"></span> $2 MB/$3 MB | ", 13)
--- Disk Space widget
+-- }}}
+-- {{{ Disk Space widget
 diskwidget = wibox.widget.textbox()
 vicious.register(diskwidget, vicious.widgets.fs, " | <span foreground=\"#cc00cc\"></span> ${/ used_gb} GB / ${/ size_gb} GB | ", 13)
--- Wifi widget
+diskwidget:buttons(awful.util.table.join(
+	awful.button({ }, 1, function () awful.util.spawn("thunar") end)
+))
+-- }}}
+-- {{{ Wifi widget
 wifiwidget = wibox.widget.textbox()
 vicious.register(wifiwidget, vicious.widgets.wifi,
 								 function (widget, args)
@@ -177,10 +228,16 @@ vicious.register(wifiwidget, vicious.widgets.wifi,
 										end
 								end
 , 13, "wlp2s0")
--- Packages updates
+wifiwidget:buttons(awful.util.table.join(
+	awful.button({ }, 1, function () awful.util.spawn("wicd-gtk") end)
+))
+-- }}}
+
+-- {{{ Packages updates widget
 pkgwidget = wibox.widget.textbox()
 vicious.register(pkgwidget, vicious.widgets.pkg, "<span foreground=\"#ff6600\"></span> $1 | ", 13, "Arch")
--- Volume widget
+-- }}}
+-- {{{ Volume widget
 volwidget = wibox.widget.textbox()
 vicious.register(volwidget, vicious.widgets.volume,
 								 function (widget, args)
@@ -189,11 +246,18 @@ vicious.register(volwidget, vicious.widgets.volume,
 										end
 								 end
 								 , 13, "Master")
--- Date widget
+volwidget:buttons(awful.util.table.join(
+	awful.button({ }, 1, function () awful.util.spawn("pavucontrol") end)
+))
+-- }}}
+-- {{{ Date and clock widget
 datewidget = wibox.widget.textbox()
 vicious.register(datewidget, vicious.widgets.date, "<span foreground=\"#ff6600\"></span> %d/%m/%Y | <span foreground=\"#0066ff\"></span> %r | ")
+lain.widgets.calendar:attach(datewidget)
+-- }}}
 -- Create a wibox for each screen and add it
-mywibox = {}
+-- {{{ declare items
+mywibox= {}
 mypromptbox = {}
 mylayoutbox = {}
 mytaglist = {}
@@ -241,7 +305,9 @@ mytasklist.buttons = awful.util.table.join(
                                               awful.client.focus.byidx(-1)
                                               if client.focus then client.focus:raise() end
                                           end))
+-- }}}
 
+-- {{{ top bar
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
     mypromptbox[s] = awful.widget.prompt()
@@ -262,7 +328,7 @@ for s = 1, screen.count() do
     -- Create the wibox
     mywibox[s] = awful.wibox({ position = "top", screen = s })
 
-    -- Widgets that are aligned to the left
+		-- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
     left_layout:add(mylauncher)
     left_layout:add(mytaglist[s])
@@ -287,6 +353,9 @@ for s = 1, screen.count() do
 
     mywibox[s]:set_widget(layout)
 end
+-- }}}
+
+-- {{{ bottom bar
 for s = 1, screen.count() do
     -- Create a tasklist widget
     mytasklist[s] = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
@@ -307,16 +376,22 @@ for s = 1, screen.count() do
 end
 -- }}}
 
--- {{{ Mouse bindings
+
+-- }}}
+
+-- {{{ ***************    Mouse bindings    ***************
+
 root.buttons(awful.util.table.join(
     awful.button({ }, 3, function () mymainmenu:toggle() end),
     awful.button({ }, 4, awful.tag.viewnext),
     awful.button({ }, 5, awful.tag.viewprev)
 ))
+
 -- }}}
 
--- {{{ Key bindings
+-- {{{ ***************     key bindings     ***************
 
+-- {{{ define global keys
 globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
     awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
@@ -395,7 +470,10 @@ globalkeys = awful.util.table.join(
 	 
 	 awful.key({ }, "Print", function () awful.util.spawn("xfce4-screenshot") end)
 )
+-- }}}
 
+
+-- {{{ define clientkeys keys
 clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end),
     awful.key({ modkey, "Shift"   }, "q",      function (c) c:kill()                         end),
@@ -415,10 +493,13 @@ clientkeys = awful.util.table.join(
             c.maximized_vertical   = not c.maximized_vertical
         end)
 )
+-- }}}
+
 
 -- Bind all key numbers to tags.
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
+-- {{{ 
 for i = 1, 9 do
     globalkeys = awful.util.table.join(globalkeys,
         -- View tag only.
@@ -460,6 +541,8 @@ for i = 1, 9 do
                       end
                   end))
 end
+-- }}}
+
 
 clientbuttons = awful.util.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
@@ -471,7 +554,8 @@ root.keys(globalkeys)
 
 -- }}}
 
--- {{{ Rules
+-- {{{ ***************         Rules        ***************
+
 -- Rules to apply to new clients (through the "manage" signal).
 awful.rules.rules = {
     -- All clients will match this rule.
@@ -501,9 +585,10 @@ awful.rules.rules = {
 		{ rule = { instance = "plugin-container" },
 		properties = { floating = true } },
 }
+
 -- }}}
 
--- {{{ Signals
+-- {{{ ***************        Signals       ***************
 
 -- Signal function to execute when a new client appears.
 client.connect_signal("manage", function (c, startup)

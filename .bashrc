@@ -16,7 +16,7 @@ fi
 # \u eh substituido pelo nome do usuario
 
 if [[ ${EUID} != 0 ]] ; then
-    PS1='\[\033[0;33m\]\u\[\033[0;37m\]:>> '
+	PS1='\[\033[0;33m\]⬖ -(\[\033[0;32m\]\w\[\033[0;33m\])-⬗ \t\n\[\033[0;33m\]\u\[\033[0;37m\]:>> '
 else
     PS1='\[\033[1;31m\]\u\[\033[1;31m\]-\#\[\033[0;01m\]:# '
 fi
@@ -40,6 +40,7 @@ alias answer="echo '42'"
 alias frase="echo 'We live in a world of possibilities'"
 alias programingtime="echo 'let´s have some fun'"
 
+alias clr='clear'
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
 alias l="ls"
 alias ls='ls --color=auto'
