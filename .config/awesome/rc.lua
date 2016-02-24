@@ -15,19 +15,92 @@ local treesome = require("treesome")
 -- for the widgets
 local vicious = require("vicious")
 -- freedesktop (used for menu)
-local freedesktop = require('freedesktop')
+local freedesktop = require("freedesktop")
 -- lain (new widgets)
 local lain = require("lain")
+-- keydoc (key maps infos)
+local keydoc = require("keydoc")
+-- scratch (drop down)
+local scratch = require("scratch")
 
 -- {{{ ***************      Functions       ***************
 
--- Confirmation on exit
-cnfrm = "echo -e 'No\nYes' * dmenu -p Quit?"
-
 quit = function()
-    if awful.util.pread(cnfrm):sub(1, 3) == "Yes" then
-        awesome.quit()
+  local scr = mouse.screen
+  awful.prompt.run({prompt = "Quit (type 'yes' to confirm)? "},
+  mypromptbox[scr].widget,
+  function (t)
+    if string.lower(t) == 'yes' then
+			awesome.quit()
     end
+  end,
+  function (t, p, n)
+    return awful.completion.generic(t, p, n, {'no', 'NO', 'yes', 'YES'})
+  end)
+end
+
+system_lock = function ()
+  awful.util.spawn("i3lock -i /home/gabriel/Pictures/lock_und_dm/rsz_dragon.png")
+end
+
+system_suspend = function ()
+  awful.util.spawn("systemctl suspend")
+end
+
+system_hibernate = function ()
+  local scr = mouse.screen
+  awful.prompt.run({prompt = "Hibernate (type 'yes' to confirm)? "},
+  mypromptbox[scr].widget,
+  function (t)
+    if string.lower(t) == 'yes' then
+      awful.util.spawn("systemctl hibernate")
+    end
+  end,
+  function (t, p, n)
+    return awful.completion.generic(t, p, n, {'no', 'NO', 'yes', 'YES'})
+  end)
+end
+
+system_hybrid_sleep = function ()
+  local scr = mouse.screen
+  awful.prompt.run({prompt = "Hybrid Sleep (type 'yes' to confirm)? "},
+  mypromptbox[scr].widget,
+  function (t)
+    if string.lower(t) == 'yes' then
+      awful.util.spawn("systemctl hybrid-sleep")
+    end
+  end,
+  function (t, p, n)
+    return awful.completion.generic(t, p, n, {'no', 'NO', 'yes', 'YES'})
+  end)
+end
+
+system_reboot = function ()
+  local scr = mouse.screen
+  awful.prompt.run({prompt = "Reboot (type 'yes' to confirm)? "},
+  mypromptbox[scr].widget,
+  function (t)
+    if string.lower(t) == 'yes' then
+      awful.util.spawn("systemctl reboot")
+    end
+  end,
+  function (t, p, n)
+    return awful.completion.generic(t, p, n, {'no', 'NO', 'yes', 'YES'})
+  end)
+end
+
+system_power_off = function ()
+  local scr = mouse.screen
+  awful.prompt.run({prompt = "Power Off (type 'yes' to confirm)? "},
+  mypromptbox[scr].widget,
+  function (t)
+    if string.lower(t) == 'yes' then
+      awful.util.spawn("systemctl poweroff")
+    end
+  end,
+  function (t, p, n)
+    return awful.completion.generic(t, p, n, {'no', 'NO', 'yes', 'YES'})
+  end)
 end
 
 -- }}}
@@ -37,6 +110,8 @@ end
 awful.util.spawn_with_shell("thunderbird")
 awful.util.spawn_with_shell("amor")
 awful.util.spawn_with_shell("dropbox")
+awful.util.spawn_with_shell("compton -b")
+awful.util.spawn_with_shell("xfce4-power-maneger")
 
 -- }}}
 
@@ -97,8 +172,8 @@ local layouts =
 		treesome,
     awful.layout.suit.max,
     awful.layout.suit.floating,
-    awful.layout.suit.fair,
-    awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.fair,
+    -- awful.layout.suit.fair.horizontal,
     awful.layout.suit.tile,
     awful.layout.suit.tile.left,
     awful.layout.suit.tile.bottom,
@@ -172,6 +247,7 @@ end
 -- }}}
 
 -- {{{ ***************         Menu         ***************
+
 menu_icon = "/usr/share/icons/Dowloaded/arch-linux-icon.png"
 menu_items = freedesktop.menu.new()
 myawesomemenu = {
@@ -376,6 +452,13 @@ for s = 1, screen.count() do
 end
 -- }}}
 
+-- {{{ Other aditons on each screen
+promptbox = {}
+for s = 1, screen.count() do
+    -- Create a promptbox for each screen
+    promptbox[s] = awful.widget.prompt()
+end
+-- }}}
 
 -- }}}
 
@@ -393,58 +476,71 @@ root.buttons(awful.util.table.join(
 
 -- {{{ define global keys
 globalkeys = awful.util.table.join(
-    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       ),
-    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       ),
-    awful.key({ modkey,           }, "Escape", awful.tag.history.restore),
+		keydoc.group("Tags"),
+    awful.key({ modkey,           }, "Left",   awful.tag.viewprev       , "go ot next tag"),
+    awful.key({ modkey,           }, "Right",  awful.tag.viewnext       , "go to previl tag"),
+    awful.key({ modkey,           }, "Escape", awful.tag.history.restore, "go to last used tag"),
 
+		keydoc.group("Window focus"),
     awful.key({ modkey,           }, "l",
         function ()
             awful.client.focus.byidx( 1)
             if client.focus then client.focus:raise() end
-        end),
+        end, "change focus (inc)"),
     awful.key({ modkey,           }, "h",
         function ()
             awful.client.focus.byidx(-1)
             if client.focus then client.focus:raise() end
-        end),
-    awful.key({ modkey,           }, "w", function () mymainmenu:show() end),
+        end,  "change focus (dec)"),
+
+		keydoc.group("Menu"),
+    awful.key({ modkey,           }, "w", function () mymainmenu:show() end, "show menu"),
 
     -- Layout manipulation
-    awful.key({ modkey, "Shift"   }, "l", function () awful.client.swap.byidx(  1)    end),
-    awful.key({ modkey, "Shift"   }, "h", function () awful.client.swap.byidx( -1)    end),
+		keydoc.group("Layout manipulation"),
+    awful.key({ modkey, "Shift"   }, "l", function () awful.client.swap.byidx(  1)    end, "Swap with next window"),
+    awful.key({ modkey, "Shift"   }, "h", function () awful.client.swap.byidx( -1)    end, "Swap with previous window"),
     awful.key({ modkey, "Control" }, "l", function () awful.screen.focus_relative( 1) end),
     awful.key({ modkey, "Control" }, "h", function () awful.screen.focus_relative(-1) end),
-    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto),
+    awful.key({ modkey,           }, "u", awful.client.urgent.jumpto, "jump to urgent client"),
     awful.key({ modkey,           }, "Tab",
         function ()
             awful.client.focus.history.previous()
             if client.focus then
                 client.focus:raise()
             end
-        end),
+        end, "last previous focus"),
+
+    awful.key({ modkey,           }, "j",     function () awful.tag.incmwfact( 0.05)    end, "increase focus client size"),
+    awful.key({ modkey,           }, "k",     function () awful.tag.incmwfact(-0.05)    end, "decrease focus client size"),
+    awful.key({ modkey, "Shift"   }, "j",     function () awful.tag.incnmaster( 1)      end, "increase number of masters clients"),
+    awful.key({ modkey, "Shift"   }, "k",     function () awful.tag.incnmaster(-1)      end, "decrease number of masters clients"),
+    awful.key({ modkey, "Control" }, "j",     function () awful.tag.incncol( 1)         end, "increase size of column"),
+    awful.key({ modkey, "Control" }, "k",     function () awful.tag.incncol(-1)         end, "decrease size of column"),
+    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end, "next layout"),
+    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end, "prev layout"),
+
+    awful.key({ modkey, "Control" }, "n", awful.client.restore, "restore minimize clients"),
 
 		-- Treesome
-		awful.key({ modkey }, "v", treesome.vertical),
+		awful.key({ modkey }, "v", treesome.vertical, "treesome next split vertical (ç horisontal)"),
     awful.key({ modkey }, "ç", treesome.horizontal),
 
 		-- Standard program
-    awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
-    awful.key({ modkey, "Shift" }, "r", awesome.restart),
-    awful.key({ modkey, "Shift"   }, "e", quit),
-
-    awful.key({ modkey,           }, "j",     function () awful.tag.incmwfact( 0.05)    end),
-    awful.key({ modkey,           }, "k",     function () awful.tag.incmwfact(-0.05)    end),
-    awful.key({ modkey, "Shift"   }, "j",     function () awful.tag.incnmaster( 1)      end),
-    awful.key({ modkey, "Shift"   }, "k",     function () awful.tag.incnmaster(-1)      end),
-    awful.key({ modkey, "Control" }, "j",     function () awful.tag.incncol( 1)         end),
-    awful.key({ modkey, "Control" }, "k",     function () awful.tag.incncol(-1)         end),
-    awful.key({ modkey,           }, "space", function () awful.layout.inc(layouts,  1) end),
-    awful.key({ modkey, "Shift"   }, "space", function () awful.layout.inc(layouts, -1) end),
-
-    awful.key({ modkey, "Control" }, "n", awful.client.restore),
+		keydoc.group("Misc"),
+    awful.key({ modkey, "Shift"   }, "Return", function () awful.util.spawn(terminal) end, "Spawn a terminal"),
+    awful.key({ modkey, "Shift"   }, "r", awesome.restart, "restart"),
+    awful.key({ modkey, "Shift"   }, "e", quit, "quit"),
+    awful.key({ modkey, altkey    }, "l", system_lock, "lock"),
+		
+		-- scratch
+		awful.key({ modkey }, "Return",
+			 function ()
+					scratch.drop("termite", "top", "center", 0.7, 0.4)
+			 end, "Drop down terminal"),
 
     -- Prompt
-    awful.key({ modkey },            "r",     function () mypromptbox[mouse.screen]:run() end),
+    awful.key({ modkey }, "r", function () mypromptbox[mouse.screen]:run() end, "run aplication"),
 
     awful.key({ modkey }, "x",
               function ()
@@ -452,10 +548,13 @@ globalkeys = awful.util.table.join(
                   mypromptbox[mouse.screen].widget,
                   awful.util.eval, nil,
                   awful.util.getdir("cache") .. "/history_eval")
-              end),
+              end, "run lua code"),
     -- Menubar
-    awful.key({ modkey }, "d", function() menubar.show() end),
+    awful.key({ modkey }, "d", function() menubar.show() end, "menu bar"),
 
+		-- keydoc
+		awful.key({ modkey, }, "F1", keydoc.display),
+		 
 		-- Volume
 		awful.key({ }, "XF86AudioRaiseVolume", function ()
        awful.util.spawn("amixer set Master 5%+") end),
@@ -463,11 +562,14 @@ globalkeys = awful.util.table.join(
        awful.util.spawn("amixer set Master 5%-") end),
    awful.key({ }, "XF86AudioMute", function ()
        awful.util.spawn("amixer sset Master toggle") end),
+
+	 -- Brightness
    awful.key({ }, "XF86MonBrightnessDown", function ()
        awful.util.spawn("xbacklight -dec 5") end),
    awful.key({ }, "XF86MonBrightnessUp", function ()
        awful.util.spawn("xbacklight -inc 5") end),
 	 
+	 -- Screenshot
 	 awful.key({ }, "Print", function () awful.util.spawn("xfce4-screenshot") end)
 )
 -- }}}
@@ -581,6 +683,8 @@ awful.rules.rules = {
 		{ rule = { class = "Steam" },
 		properties = { tag = tags[1][7] } },
 		{ rule = { name = "PlayOnLinux" },
+		properties = { tag = tags[1][7] } },
+		{ rule = { class = "Minetest" },
 		properties = { tag = tags[1][7] } },
 		{ rule = { instance = "plugin-container" },
 		properties = { floating = true } },

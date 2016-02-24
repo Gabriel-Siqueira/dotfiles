@@ -65,10 +65,13 @@
 			 (or
 				(require-package 'ace-jump-mode)
 				(require-package 'auto-complete)
+				(require-package 'clojure-mode)
+				(require-package 'cider)
 				(require-package 'evil)
 				(require-package 'evil-leader)
 				(require-package 'evil-nerd-commenter)
 				(require-package 'evil-numbers)
+				(require-package 'evil-smartparens)
 				(require-package 'evil-surround)
 				(require-package 'evil-tabs)
 				(require-package 'fill-column-indicator)
@@ -82,6 +85,7 @@
 				(require-package 'multiple-cursors)
 				(require-package 'neotree)
 				(require-package 'php-mode)
+				(require-package 'smartparens)
 				(require-package 'yasnippet)
 				))
 ;;}}}
@@ -189,7 +193,6 @@
 ;;{{{ ******************** Other packages ********************
 
 ;;{{{ ----------------- Power line ----------------
-
 (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
 (require 'powerline)
 (powerline-evil-theme)
@@ -270,6 +273,27 @@
         (make-hippie-expand-function '(try-complete-file-name-partially
                                        try-complete-file-name)))
 ;;}}}
+
+;;{{{ -------------------- rainbow-delimiters -------------------- 
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+;;}}}
+
+;;{{{ -------------------- paxedit -------------------- 
+(require 'paxedit)
+(add-hook 'clojure-mode-hook 'paxedit-mode)
+;;}}}
+
+;;{{{ -------------------- smartparens -------------------- 
+(require 'smartparens-config)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'prog-mode-hook #'smartparens-mode)
+;;}}}
+
+;;{{{ -------------------- evil-smartparens -------------------- 
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+;;}}}
+
 ;;}}}
 
 
@@ -379,6 +403,27 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ -------------------- hippie-expand --------------------
 (global-set-key (kbd "M-/") 'my-complete-file-name) 
 ;;}}}
+;;{{{ --------------------   paxedit     -------------------- 
+(eval-after-load "paxedit"
+  '(progn (define-key paxedit-mode-map (kbd "M-<right>") 'paxedit-transpose-forward)
+          (define-key paxedit-mode-map (kbd "M-<left>") 'paxedit-transpose-backward)
+          (define-key paxedit-mode-map (kbd "M-<up>") 'paxedit-backward-up)
+          (define-key paxedit-mode-map (kbd "M-<down>") 'paxedit-backward-end)
+          (define-key paxedit-mode-map (kbd "M-b") 'paxedit-previous-symbol)
+          (define-key paxedit-mode-map (kbd "M-f") 'paxedit-next-symbol)
+          (define-key paxedit-mode-map (kbd "C-%") 'paxedit-copy)
+          (define-key paxedit-mode-map (kbd "C-&") 'paxedit-kill)
+          (define-key paxedit-mode-map (kbd "C-*") 'paxedit-delete)
+          (define-key paxedit-mode-map (kbd "C-~") 'paxedit-sexp-raise)
+          ;; Symbol backward/forward kill
+          (define-key paxedit-mode-map (kbd "M-k M-b") 'paxedit-backward-kill)
+          (define-key paxedit-mode-map (kbd "M-k M-f") 'paxedit-forward-kill)
+          ;; Symbol manipulation
+          (define-key paxedit-mode-map (kbd "M-u") 'paxedit-symbol-change-case)
+          (define-key paxedit-mode-map (kbd "M-l") 'paxedit-symbol-copy)
+          (define-key paxedit-mode-map (kbd "M-k M-k") 'paxedit-symbol-kill)))
+;;}}}
+
 ;;}}}
 
 
