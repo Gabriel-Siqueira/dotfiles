@@ -65,8 +65,9 @@
 			 (or
 				(require-package 'ace-jump-mode)
 				(require-package 'auto-complete)
-				(require-package 'clojure-mode)
 				(require-package 'cider)
+				(require-package 'clojure-mode)
+				(require-package 'ediprolog)
 				(require-package 'evil)
 				(require-package 'evil-leader)
 				(require-package 'evil-nerd-commenter)
@@ -84,7 +85,10 @@
 				(require-package 'lua-mode)
 				(require-package 'multiple-cursors)
 				(require-package 'neotree)
+				(require-package 'paxedit)
 				(require-package 'php-mode)
+				(require-package 'prolog)
+				(require-package 'rainbow-delimiters)
 				(require-package 'smartparens)
 				(require-package 'yasnippet)
 				))
@@ -145,6 +149,7 @@
 ;;}}}
 
 ;;}}}
+
 ;;}}}
 
 
@@ -154,8 +159,7 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
-(add-hook 'text-mode-hook (lambda() (auto-complete-mode)))
-(add-hook 'prog-mode-hook (lambda() (auto-complete-mode)))
+(setq global-auto-complete-mode)
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
@@ -191,6 +195,69 @@
 
 
 ;;{{{ ******************** Other packages ********************
+
+;;{{{ *****---------- Languages ----------*****
+
+;;{{{ ----------------- Prolog ----------------
+;; Mode for prolog
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+
+;; ediprolog
+(require 'ediprolog)
+
+;; flymake for prolog
+(add-hook 'prolog-mode-hook
+          (lambda ()
+            (require 'flymake)
+            (make-local-variable 'flymake-allowed-file-name-masks)
+            (make-local-variable 'flymake-err-line-patterns)
+            (setq flymake-err-line-patterns
+                  '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
+                    ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
+            (setq flymake-allowed-file-name-masks
+                  '(("\\.pl\\'" flymake-prolog-init)))
+            (flymake-mode 1)))
+
+(defun flymake-prolog-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
+;;}}}
+
+
+;;}}}
+
+
+;;{{{ *****------------ parens and delimiters ----------*****
+
+;;{{{ -------------------- rainbow-delimiters -------------------- 
+(require 'rainbow-delimiters)
+(setq rainbow-delimiters-mode)
+;;}}}
+
+;;{{{ -------------------- paxedit -------------------- 
+(require 'paxedit)
+(add-hook 'clojure-mode-hook 'paxedit-mode)
+;;}}}
+
+;;{{{ -------------------- smartparens -------------------- 
+(require 'smartparens-config)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'prog-mode-hook #'smartparens-mode)
+;;}}}
+
+;;{{{ -------------------- evil-smartparens -------------------- 
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+;;}}}
+
+;;}}}
+
 
 ;;{{{ ----------------- Power line ----------------
 (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
@@ -234,12 +301,9 @@
 
 ;;{{{ ----------------- fill column ---------------
 (require 'fill-column-indicator)
-(add-hook 'text-mode-hook (lambda ()
-                            (fci-mode)
-                            (set-fill-column 82)))
-(add-hook 'prog-mode-hook (lambda ()
-                            (fci-mode)
-                            (set-fill-column 82)))
+(set-fill-column 82)
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode 1)
 ;;}}}
 
 ;;{{{ -------------------- folding-mode --------------------
@@ -272,26 +336,6 @@
 (fset 'my-complete-file-name
         (make-hippie-expand-function '(try-complete-file-name-partially
                                        try-complete-file-name)))
-;;}}}
-
-;;{{{ -------------------- rainbow-delimiters -------------------- 
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-;;}}}
-
-;;{{{ -------------------- paxedit -------------------- 
-(require 'paxedit)
-(add-hook 'clojure-mode-hook 'paxedit-mode)
-;;}}}
-
-;;{{{ -------------------- smartparens -------------------- 
-(require 'smartparens-config)
-(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
-(add-hook 'prog-mode-hook #'smartparens-mode)
-;;}}}
-
-;;{{{ -------------------- evil-smartparens -------------------- 
-(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
 ;;}}}
 
 ;;}}}
@@ -403,6 +447,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ -------------------- hippie-expand --------------------
 (global-set-key (kbd "M-/") 'my-complete-file-name) 
 ;;}}}
+
 ;;{{{ --------------------   paxedit     -------------------- 
 (eval-after-load "paxedit"
   '(progn (define-key paxedit-mode-map (kbd "M-<right>") 'paxedit-transpose-forward)
@@ -424,17 +469,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
           (define-key paxedit-mode-map (kbd "M-k M-k") 'paxedit-symbol-kill)))
 ;;}}}
 
+;;{{{ --------------------   ediprolog     -------------------- 
+(add-hook 'prolog-mode-hook  (evil-leader/set-key "e" 'ediprolog-dwim)) 
+;;}}}
+
 ;;}}}
 
 
 ;;{{{ ******************* other settings ********************
 
-
 (setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
 (setq c-basic-offset 2)
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
-(menu-bar-mode 0) ; remave menu bar
+(menu-bar-mode 0) ; remuve menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
 
 ;; settings on history
@@ -448,9 +496,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
 ;;}}}
+
 ;;}}}
 
 
-;;read local file if exists
+;; read local file if exists
 (when (file-exists-p "~/.emacs.d/local.el")
 	(load-file "~/.emacs.d/local.el"))

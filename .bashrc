@@ -92,3 +92,6 @@ export TERM=xterm-256color
 
 # add bash-completion
 . /etc/bash_completion
+
+# screenfetch (begin)
+screenfetch
