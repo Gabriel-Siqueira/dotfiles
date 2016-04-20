@@ -29,6 +29,7 @@
  ;; If there is more than one, they won't work right.
  '(default ((t (:family "Terminus" :foundry "xos4" :slant normal :weight bold :height 105 :width normal))))
  '(buffer-menu-buffer ((t (:weight bold)))))
+
 ;;}}}
 
 
@@ -38,6 +39,8 @@
 
 ;;{{{ ---------------- Packages repos ---------------
 (require 'package)
+  (push '("melpa-stable" . "http://stable.melpa.org/packages/")
+        package-archives)
   (push '("marmalade" . "http://marmalade-repo.org/packages/")
         package-archives )
   (push '("melpa" . "http://melpa.milkbox.net/packages/")
@@ -79,6 +82,7 @@
 				(require-package 'flymake)
 				(require-package 'flymake-cursor)
 				(require-package 'folding)
+				(require-package 'haskell-mode)
 				(require-package 'helm)
 				(require-package 'indent-guide)
 				(require-package 'linum-relative)
@@ -92,6 +96,7 @@
 				(require-package 'smartparens)
 				(require-package 'yasnippet)
 				))
+
 ;;}}}
 
 ;;}}}
@@ -110,12 +115,14 @@
 ;;}}}
 
 ;;{{{ ----------------- keys for diferent states ---------------
+
 (setq evil-emacs-state-cursor '("orange" box))
 (setq evil-normal-state-cursor '("red" box))
 (setq evil-visual-state-cursor '("yellow" box))
 (setq evil-insert-state-cursor '("green" bar))
 (setq evil-replace-state-cursor '("grey" box))
 (setq evil-operator-state-cursor '("red" hollow))
+
 ;;}}}
 
 ;;{{{ ----------------- evil leader ---------------
@@ -144,6 +151,11 @@
 ;;{{{ *****----------- Org mode ----------*****
 
 (require 'org)
+;;{{{ ---------------- Minor-modes -----------
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'auto-complete-mode)
+;;}}}
+
 ;;{{{ ---------------- Tex ------------------
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 ;;}}}
@@ -159,7 +171,7 @@
 (require 'auto-complete)
 (require 'auto-complete-config)
 (ac-config-default)
-(setq global-auto-complete-mode)
+(global-auto-complete-mode t)
 ;;}}}
 
 ;;{{{ ------------------- semantic to auto-complit ---------------------
@@ -172,7 +184,10 @@
 
 ;;{{{ -------------------- yasnippet --------------------
 (require 'yasnippet)
-(yas-global-mode 1)
+(yas-reload-all)
+(add-hook 'prog-mode-hook 'yas-minor-mode)
+(add-hook 'ess-mode-hook 'yas-minor-mode)
+(add-hook 'markdown-mode-hook 'yas-minor-mode) 
 ;;}}}
 
 ;;{{{ -------------------- auto-complit-c-headers --------------------
@@ -191,48 +206,11 @@
 ;(add-hook 'c-mode-hook 'my:ac-c-header-init)
 ;;}}}
 
+
 ;;}}}
 
 
 ;;{{{ ******************** Other packages ********************
-
-;;{{{ *****---------- Languages ----------*****
-
-;;{{{ ----------------- Prolog ----------------
-;; Mode for prolog
-(setq prolog-system 'swi)
-(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
-                               auto-mode-alist))
-
-;; ediprolog
-(require 'ediprolog)
-
-;; flymake for prolog
-(add-hook 'prolog-mode-hook
-          (lambda ()
-            (require 'flymake)
-            (make-local-variable 'flymake-allowed-file-name-masks)
-            (make-local-variable 'flymake-err-line-patterns)
-            (setq flymake-err-line-patterns
-                  '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
-                    ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
-            (setq flymake-allowed-file-name-masks
-                  '(("\\.pl\\'" flymake-prolog-init)))
-            (flymake-mode 1)))
-
-(defun flymake-prolog-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
-;;}}}
-
-
-;;}}}
-
 
 ;;{{{ *****------------ parens and delimiters ----------*****
 
@@ -299,14 +277,14 @@
 ;; key bindings
 ;;}}}
 
-;;{{{ ----------------- fill column ---------------
+;;{{{ ----------------- fill column and visual'' ---------------
 (require 'fill-column-indicator)
-(set-fill-column 82)
 (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode 1)
 ;;}}}
 
 ;;{{{ -------------------- folding-mode --------------------
+
 (load "folding" 'nomessage 'noerror)
 (folding-mode-add-find-file-hook)
 (folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
@@ -314,6 +292,7 @@
 (add-hook 'prog-mode-hook (lambda() (folding-mode)))
 (let* ((ptr (assq 'asm-mode folding-mode-marks-alist)))
              (setcdr ptr (list "@*" "@-")))
+
 ;;}}}
 
 ;;{{{ -------------------- indent-guide --------------------
@@ -341,7 +320,89 @@
 ;;}}}
 
 
-;;{{{ ****************** functions **************************
+;;{{{ *************** Languages ***************************
+
+;;{{{ ----------------- Haskell  ----------------
+;;{{{ scion
+;; ;; Substitute the desired version for <version>
+;; (add-to-list 'load-path "~/.cabal/share/scion-<version>/emacs")
+;; (require 'scion)
+
+;; ;; if ./cabal/bin is not in your $PATH
+;; (setq scion-program "~/.cabal/bin/scion-server")
+
+;; (defun my-haskell-hook ()
+;;   ;; Whenever we open a file in Haskell mode, also activate Scion
+;;   (scion-mode 1)
+;;   ;; Whenever a file is saved, immediately type check it and
+;;   ;; highlight errors/warnings in the source.
+;;   (scion-flycheck-on-save 1))
+
+;; (add-hook 'haskell-mode-hook 'my-haskell-hook)
+
+;; ;; Use ido-mode completion (matches anywhere, not just beginning)
+;; ;;
+;; ;; WARNING: This causes some versions of Emacs to fail so badly
+;; ;; that Emacs needs to be restarted.
+;; (setq scion-completing-read-function 'ido-completing-read)
+;;}}}
+
+;;}}}
+
+;;{{{ ----------------- Prolog ----------------
+;; Mode for prolog
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+
+;; ediprolog
+(require 'ediprolog)
+
+;; flymake for prolog
+(add-hook 'prolog-mode-hook
+          (lambda ()
+            (require 'flymake)
+            (make-local-variable 'flymake-allowed-file-name-masks)
+            (make-local-variable 'flymake-err-line-patterns)
+            (setq flymake-err-line-patterns
+                  '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
+                    ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
+            (setq flymake-allowed-file-name-masks
+                  '(("\\.pl\\'" flymake-prolog-init)))
+            (flymake-mode 1)))
+
+(defun flymake-prolog-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
+;;}}}
+
+
+;;}}}
+
+
+;;{{{ ****************** functions ************************
+
+;;{{{ -------------------- ispell --------------------
+
+(defun my-flyspell ()
+	"init flyspell or change dictionary."
+	(interactive)
+	(if flyspell-mode
+			(if (string= ispell-dictionary "english")
+					(setq ispell-dictionary "pt_BR")
+			(if (string= ispell-dictionary "pt_BR")
+					(setq ispell-dictionary "de_DE")
+			(if (string= ispell-dictionary "de_DE")
+					(setq ispell-dictionary "english")
+			nil)))
+	nil))
+
+;;}}}
 
 
 ;;{{{ -------------------- move line --------------------
@@ -430,10 +491,12 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;}}}
 
 ;;{{{ -------------------- hide/show --------------------
-(evil-leader/set-key "s" 'hs-show-block) 
+
+;;(evil-leader/set-key "s" 'hs-show-block) 
 (evil-leader/set-key "S" 'hs-show-all) 
 (evil-leader/set-key "h" 'hs-hide-block) 
 (evil-leader/set-key "H" 'hs-hide-all) 
+
 ;;}}}
 
 ;;{{{ -------------------- neotree --------------------
@@ -469,22 +532,33 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
           (define-key paxedit-mode-map (kbd "M-k M-k") 'paxedit-symbol-kill)))
 ;;}}}
 
-;;{{{ --------------------   ediprolog     -------------------- 
+
+;;{{{ --------------------   evaluation    -------------------- 
+
+;; prolog
 (add-hook 'prolog-mode-hook  (evil-leader/set-key "e" 'ediprolog-dwim)) 
+
 ;;}}}
 
+;;{{{ --------------------   Visual line    -------------------- 
+(evil-leader/set-key "w" 'visual-line-mode) 
+;;}}}
+
+;;{{{ --------------------   my-flyspell    -------------------- 
+(evil-leader/set-key "s" 'my-flyspell)
+;;}}}
 ;;}}}
 
 
 ;;{{{ ******************* other settings ********************
-
 (setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
 (setq c-basic-offset 2)
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
 (menu-bar-mode 0) ; remuve menu bar
 (show-paren-mode 1) ; match parents, breckets, etc
-
+(set 'fill-column 82) ; line size
+(setq visible-bell 1) ; no beep
 ;; settings on history
 (savehist-mode 1)
 (setq history-length 1000)
