@@ -51,8 +51,10 @@
         package-archives)
   (package-initialize)
 
+;; update packages
 (when (not package-archive-contents) (package-refresh-contents))
 ;;}}}
+
 
 ;;{{{ ---------------- install all packages I use ---------------
 
@@ -67,7 +69,7 @@
 (defun install-all () (interactive)
 			 (or
 				(require-package 'ace-jump-mode)
-				(require-package 'auto-complete)
+			  (require-package 'auto-complete)
 				(require-package 'cider)
 				(require-package 'clojure-mode)
 				(require-package 'ediprolog)
@@ -136,8 +138,6 @@
 
 ;;{{{ ----------------- evil-numbers ---------------
 (require 'evil-numbers)
-(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
 ;;}}}
 
 ;;{{{ ----------------- evil-surround ---------------
@@ -156,7 +156,7 @@
 (add-hook 'org-mode-hook 'auto-complete-mode)
 ;;}}}
 
-;;{{{ ---------------- Tex ------------------
+;;{{{ ---------------- Latex ------------------
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 ;;}}}
 
@@ -225,9 +225,11 @@
 ;;}}}
 
 ;;{{{ -------------------- smartparens -------------------- 
+
 (require 'smartparens-config)
 (add-hook 'clojure-mode-hook #'smartparens-strict-mode)
 (add-hook 'prog-mode-hook #'smartparens-mode)
+
 ;;}}}
 
 ;;{{{ -------------------- evil-smartparens -------------------- 
@@ -322,31 +324,8 @@
 
 ;;{{{ *************** Languages ***************************
 
-;;{{{ ----------------- Haskell  ----------------
-;;{{{ scion
-;; ;; Substitute the desired version for <version>
-;; (add-to-list 'load-path "~/.cabal/share/scion-<version>/emacs")
-;; (require 'scion)
-
-;; ;; if ./cabal/bin is not in your $PATH
-;; (setq scion-program "~/.cabal/bin/scion-server")
-
-;; (defun my-haskell-hook ()
-;;   ;; Whenever we open a file in Haskell mode, also activate Scion
-;;   (scion-mode 1)
-;;   ;; Whenever a file is saved, immediately type check it and
-;;   ;; highlight errors/warnings in the source.
-;;   (scion-flycheck-on-save 1))
-
-;; (add-hook 'haskell-mode-hook 'my-haskell-hook)
-
-;; ;; Use ido-mode completion (matches anywhere, not just beginning)
-;; ;;
-;; ;; WARNING: This causes some versions of Emacs to fail so badly
-;; ;; that Emacs needs to be restarted.
-;; (setq scion-completing-read-function 'ido-completing-read)
-;;}}}
-
+;;{{{ ----------------- Haskell ----------------
+(require 'haskell-mode)
 ;;}}}
 
 ;;{{{ ----------------- Prolog ----------------
@@ -392,18 +371,16 @@
 (defun my-flyspell ()
 	"init flyspell or change dictionary."
 	(interactive)
-	(if flyspell-mode
+	(if (flyspell-mode t) nil
 			(if (string= ispell-dictionary "english")
 					(setq ispell-dictionary "pt_BR")
 			(if (string= ispell-dictionary "pt_BR")
 					(setq ispell-dictionary "de_DE")
 			(if (string= ispell-dictionary "de_DE")
 					(setq ispell-dictionary "english")
-			nil)))
-	nil))
+			nil)))))
 
 ;;}}}
-
 
 ;;{{{ -------------------- move line --------------------
 (defun move-line (n)
@@ -451,6 +428,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
 (define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
 (global-set-key [escape] 'evil-exit-emacs-state)
+
 ;;}}}
 
 ;;}}}
@@ -547,10 +525,17 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ --------------------   my-flyspell    -------------------- 
 (evil-leader/set-key "s" 'my-flyspell)
 ;;}}}
+
+;;{{{ ----------------- evil-numbers ---------------
+(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
+(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
+;;}}}
+
 ;;}}}
 
 
 ;;{{{ ******************* other settings ********************
+
 (setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
 (setq c-basic-offset 2)
@@ -569,6 +554,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (if (window-system) nil (load-theme 'tango-dark) )
 (when (fboundp 'windmove-default-keybindings)
   (windmove-default-keybindings))
+
 ;;}}}
 
 ;;}}}
