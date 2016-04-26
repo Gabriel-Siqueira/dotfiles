@@ -371,14 +371,14 @@
 (defun my-flyspell ()
 	"init flyspell or change dictionary."
 	(interactive)
-	(if (flyspell-mode t) nil
-			(if (string= ispell-dictionary "english")
-					(setq ispell-dictionary "pt_BR")
-			(if (string= ispell-dictionary "pt_BR")
-					(setq ispell-dictionary "de_DE")
-			(if (string= ispell-dictionary "de_DE")
-					(setq ispell-dictionary "english")
-			nil)))))
+	(if (flyspell-mode t)
+			(print
+			 (if (string= ispell-dictionary "english")
+					 (setq ispell-dictionary "pt_BR")
+				   (if (string= ispell-dictionary "pt_BR")
+							 (setq ispell-dictionary "de_DE")
+						   (setq ispell-dictionary "english"))))
+			nil))
 
 ;;}}}
 
@@ -431,6 +431,21 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;}}}
 
+
+;;{{{ -------------------- clipboard --------------------
+
+(defun toggle-clip ()
+	"Enable or Disable system clipboard."
+	(interactive)
+			(if (not interprogram-cut-function)
+					(and
+					 (setq interprogram-cut-function 'x-select-text)
+					 (setq interprogram-paste-function 'x-selection-value))
+					(or
+					 (setq interprogram-cut-function nil)
+					 (setq interprogram-paste-function nil))
+))
+;;}}}
 ;;}}}
 
 
@@ -470,10 +485,10 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 ;;{{{ -------------------- hide/show --------------------
 
-;;(evil-leader/set-key "s" 'hs-show-block) 
-(evil-leader/set-key "S" 'hs-show-all) 
-(evil-leader/set-key "h" 'hs-hide-block) 
-(evil-leader/set-key "H" 'hs-hide-all) 
+(evil-leader/set-key "hs" 'hs-show-block) 
+(evil-leader/set-key "hS" 'hs-show-all) 
+(evil-leader/set-key "hh" 'hs-hide-block) 
+(evil-leader/set-key "hH" 'hs-hide-all) 
 
 ;;}}}
 
@@ -486,7 +501,7 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;}}}
 
 ;;{{{ -------------------- hippie-expand --------------------
-(global-set-key (kbd "M-/") 'my-complete-file-name) 
+(evil-leader/set-key "/" 'my-complete-file-name)
 ;;}}}
 
 ;;{{{ --------------------   paxedit     -------------------- 
@@ -526,15 +541,20 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-leader/set-key "s" 'my-flyspell)
 ;;}}}
 
-;;{{{ ----------------- evil-numbers ---------------
-(global-set-key (kbd "C-c +") 'evil-numbers/inc-at-pt)
-(global-set-key (kbd "C-c -") 'evil-numbers/dec-at-pt)
+;;{{{ ------------------ registers -----------------
+
+(evil-leader/set-key "\"y" 'copy-to-register)
+(evil-leader/set-key "\"p" 'insert-register)
 ;;}}}
 
+;;{{{ ------------------ clipboard -----------------
+(evil-leader/set-key "c" 'toggle-clip)
+;;}}}
 ;;}}}
 
 
 ;;{{{ ******************* other settings ********************
+
 
 (setq-default evil-shift-width 2) ; evil shift(tab) 2 spaces
 (setq-default tab-width 2) ; tab with 2 spaces
@@ -544,11 +564,18 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (show-paren-mode 1) ; match parents, breckets, etc
 (set 'fill-column 82) ; line size
 (setq visible-bell 1) ; no beep
-;; settings on history
+
+;;{{{ settings on history
 (savehist-mode 1)
 (setq history-length 1000)
 (setq history-delete-duplicates t)
 (setq savehist-save-minibuffer-history 1)
+;;}}}
+
+;;{{{ isolate kill ring 
+(setq interprogram-cut-function nil)
+(setq interprogram-paste-function nil)
+;;}}}
 
 ;; different color for terminal emacs
 (if (window-system) nil (load-theme 'tango-dark) )
