@@ -452,8 +452,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 ;;{{{ ******************* key bindings ********************
 
 ;;{{{ ----------------- evil-numbers ---------------
-(evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
-(evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
+(evil-leader/set-key "n+" 'evil-numbers/inc-at-pt)
+(evil-leader/set-key "n-" 'evil-numbers/dec-at-pt)
+;;}}}
+
+;;{{{ ----------------- zoom ---------------
+(evil-leader/set-key "+" 'text-scale-increase)
+(evil-leader/set-key "-" 'text-scale-decrease)
 ;;}}}
 
 ;;{{{ ----------------- Relative line numbers ---------------

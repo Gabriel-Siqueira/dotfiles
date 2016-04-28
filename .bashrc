@@ -62,12 +62,17 @@ alias df='df -h'
 alias df10='df -H'
 alias du='du -h'
 
+# Historico
+
 # quando usamos "seta para cima" para visualizar o historico de
 # comandos, essa especificacao faz com que comandos iguais sejam
 # ignorados
 
 HISTCONTROL=ignoreboth
 export HISTCONTROL
+
+# historico nao eh sobrescrito
+shopt -s histappend
 
 export PATH=/home/gsiqueira/applications/sbt/usr/bin:$PATH
 export PATH=/usr/java/jdk1.8.0_31/bin:$PATH
