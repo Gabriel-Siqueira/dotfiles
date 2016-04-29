@@ -1,0 +1,819 @@
+#+TITLE: Emacs configuration file
+* About this file
+  This file have all my code to configure emacs, in order to load I 
+use the babel package.
+  My emacs.d/init.el:
+	
+#+begin_src emacs-lisp :tangle no
+(org-babel-load-file "~/.emacs.d/emacs.org")
+#+END_SRC
+
+* Personal information
+My personal data
+
+#+begin_src emacs-lisp :tangle yes
+(setq user-full-name "Gabriel Siqueira"
+      user-mail-address "gabriel.gabrielhs@gmail.com")
+#+END_SRC
+
+* UI settings
+ Some configuration on how emacs look like.
+
+#+begin_src emacs-lisp :tangle yes
+
+;; how ANSI escape sequences will be translate into faces
+(customize-set-variable 'ansi-color-faces-vector 
+[default default default italic underline success warning error])
+
+;; colors
+(customize-set-variable 'ansi-color-names-vector
+	 ["#242424" "#e5786d" "#95e454" "#cae682" "#badef7" "#5555aa" "#ccaa8f" "#f6f3e8"])
+
+(customize-set-variable 'custom-enabled-themes (quote (misterioso))) ; theme
+(customize-set-variable 'blink-cursor-mode nil)    ; cursor does not blink
+(customize-set-variable 'tool-bar-mode nil)        ; no tool bar
+(customize-set-variable 'menu-bar-mode nil)        ; remove menu bar
+(customize-set-variable 'display-time-mode t)      ; display time
+(customize-set-variable 'inhibit-startup-screen t) ; no startup screen
+
+#+END_SRC
+
+* General Configurations
+
+#+begin_src emacs-lisp :tangle yes
+
+;; Indentation 2 spaces
+(setq-default evil-shift-width 2)
+(setq-default tab-width 2)
+(setq c-basic-offset 2)
+
+(menu-bar-mode 0)     ; remove menu bar ok
+(show-paren-mode 1)   ; match parents, breckets, etc
+(set 'fill-column 77) ; line size
+(setq visible-bell 1) ; no beep
+
+;; Isolate kill ring
+(setq interprogram-cut-function nil)
+(setq interprogram-paste-function nil)
+
+;; Directory to save beckup files
+(setq backup-directory-alist `(("." . "~/Documents/swap_files")))
+
+;; different color for terminal emacs
+(if (window-system) nil (load-theme 'tango-dark) )
+(when (fboundp 'windmove-default-keybindings)
+  (windmove-default-keybindings))
+
+#+END_SRC
+
+** Settings on history
+
+#+begin_src emacs-lisp :tangle yes
+
+(savehist-mode 1)
+(setq history-length 1000)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+
+#+END_SRC
+
+* Packages general configuration
+Some general settings related to packages
+
+** Packages repositories
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'package)
+(push '("melpa-stable" . "http://stable.melpa.org/packages/")
+			package-archives)
+(push '("marmalade" . "http://marmalade-repo.org/packages/")
+			package-archives )
+(push '("melpa" . "http://melpa.milkbox.net/packages/")
+			package-archives)
+(push '("org" . "http://orgmode.org/elpa/")
+			package-archives)
+(push '("gnu" . "http://elpa.gnu.org/packages/")
+			package-archives)
+(package-initialize)
+
+
+#+END_SRC
+
+** Install/update all packages I use
+
+#+begin_src emacs-lisp :tangle yes
+
+;; update packages
+(when (not package-archive-contents) (package-refresh-contents))
+
+(defun require-package (package)
+  (setq-default highlight-tabs t)
+  "Install given PACKAGE."
+  (unless (package-installed-p package)
+    (unless (assoc package package-archive-contents)
+      (package-refresh-contents))
+    (package-install package)))
+
+(defun install-all () (interactive)
+			 (or
+				(require-package 'ace-jump-mode)
+			  (require-package 'auto-complete)
+				(require-package 'cider)
+				(require-package 'clojure-mode)
+				(require-package 'ediprolog)
+				(require-package 'evil)
+				(require-package 'evil-leader)
+				(require-package 'evil-nerd-commenter)
+				(require-package 'evil-numbers)
+				(require-package 'evil-smartparens)
+				(require-package 'evil-surround)
+				(require-package 'evil-tabs)
+				(require-package 'fill-column-indicator)
+				(require-package 'flymake)
+				(require-package 'flymake-cursor)
+				(require-package 'folding)
+				(require-package 'haskell-mode)
+				(require-package 'helm)
+				(require-package 'indent-guide)
+				(require-package 'linum-relative)
+				(require-package 'lua-mode)
+				(require-package 'multiple-cursors)
+				(require-package 'neotree)
+				(require-package 'paxedit)
+				(require-package 'php-mode)
+				(require-package 'prolog)
+				(require-package 'rainbow-delimiters)
+				(require-package 'smartparens)
+				(require-package 'yasnippet)
+				))
+
+#+END_SRC
+	
+* Modes specific configs
+	Modes that demand a lot of configuration and/or have many minor-modes 
+related with them. 
+
+** Evil mode
+	 Simulate the behavior of vim modes and shortcuts.
+	 
+#+begin_src emacs-lisp :tangle yes
+
+(require 'evil)
+(evil-mode 1)
+
+;; require for evil folding
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+
+#+END_SRC
+
+*** Cursors for different states
+  Each state have its on cursor.
+
+#+begin_src emacs-lisp :tangle yes
+
+(setq evil-emacs-state-cursor '("orange" box))
+(setq evil-normal-state-cursor '("red" box))
+(setq evil-visual-state-cursor '("yellow" box))
+(setq evil-insert-state-cursor '("green" bar))
+(setq evil-replace-state-cursor '("grey" box))
+(setq evil-operator-state-cursor '("red" hollow))
+
+#+END_SRC
+	
+*** Evil-tabs
+  Tabs like vim.
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-evil-tabs-mode t)
+
+#+END_SRC
+
+*** Evil-numbers
+	Increase and decrease numbers.
+	[[Evil-numbers key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'evil-numbers)
+
+#+END_SRC
+
+*** Evil-surround
+	Works like vim surround.
+	
+#+begin_src emacs-lisp :tangle yes
+
+(require 'evil-surround)
+(global-evil-surround-mode 1)
+
+#+END_SRC
+
+*** Evil-smartparens	
+	Works with smartparens and improve its usage in evil-mode.
+	
+
+#+begin_src emacs-lisp :tangle yes
+
+(add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+
+#+END_SRC
+	
+*** nerd-commenter
+	Fast way for comment and uncomment code
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'evil-nerd-commenter)
+(evilnc-default-hotkeys)
+
+#+END_SRC
+
+** Org mode
+	 A mode that does a lot of things.
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'org)
+
+;; hooks for minor modes
+(add-hook 'org-mode-hook 'flyspell-mode)
+(add-hook 'org-mode-hook 'auto-complete-mode)
+
+#+END_SRC
+
+*** Latex
+	Settings related with Embedded LaTeX. 
+
+	[[Org latex key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+;; Size of mathematical images
+(setq org-format-latex-options 
+(plist-put org-format-latex-options :scale 1.5))
+
+#+END_SRC
+
+* Packages
+** Languages
+	Packages related with specific languages.
+
+*** Haskell
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'haskell-mode)
+
+#+END_SRC
+
+*** Prolog
+[[Evaluation key]]
+#+begin_src emacs-lisp :tangle yes
+
+;; Mode for prolog
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+															("\\.m$" . mercury-mode))
+														 auto-mode-alist))
+
+;; ediprolog
+(require 'ediprolog)
+
+;; flymake for prolog
+(add-hook 'prolog-mode-hook
+				(lambda ()
+					(require 'flymake)
+					(make-local-variable 'flymake-allowed-file-name-masks)
+					(make-local-variable 'flymake-err-line-patterns)
+					(setq flymake-err-line-patterns
+								'(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
+									("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
+					(setq flymake-allowed-file-name-masks
+								'(("\\.pl\\'" flymake-prolog-init)))
+					(flymake-mode 1)))
+
+(defun flymake-prolog-init ()
+(let* ((temp-file   (flymake-init-create-temp-buffer-copy
+										 'flymake-create-temp-inplace))
+			 (local-file  (file-relative-name
+										 temp-file
+										 (file-name-directory buffer-file-name))))
+	(list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
+
+#+END_SRC
+
+** Completion
+	Packages related with auto completion.
+	
+*** Auto-complete
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'auto-complete)
+(require 'auto-complete-config)
+(ac-config-default)
+(global-auto-complete-mode t)
+
+#+END_SRC
+
+*** Semantic-mode
+	Combine semantic-mode with auto-complete.
+	 
+#+begin_src emacs-lisp :tangle yes
+
+(semantic-mode 1)
+(defun my:add-semantic-to-autocomplete()
+  (add-to-list 'ac-sources 'ac-source-semantic)
+)
+(add-hook 'prog-mode-hook 'my:add-semantic-to-autocomplete)
+
+#+END_SRC
+
+*** Yasnippet
+  A template system for Emacs.
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'yasnippet)
+(yas-reload-all)
+(add-hook 'prog-mode-hook 'yas-minor-mode)
+(add-hook 'ess-mode-hook 'yas-minor-mode)
+(add-hook 'markdown-mode-hook 'yas-minor-mode) 
+
+#+END_SRC
+
+** Parents and delimiters
+	Packages related with parents and delimiters.
+
+*** Rainbow-delimiters
+	Color for delimiters
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'rainbow-delimiters)
+(setq rainbow-delimiters-mode)
+
+#+END_SRC
+
+*** Paxedit
+	Edit delimiters
+
+	[[Paxedit key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'paxedit)
+(add-hook 'clojure-mode-hook 'paxedit-mode)
+
+#+END_SRC
+	
+*** smartparens
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'smartparens-config)
+(add-hook 'clojure-mode-hook #'smartparens-strict-mode)
+(add-hook 'prog-mode-hook #'smartparens-mode)
+
+#+END_SRC
+
+** Other packages
+	All the other types of packages.
+
+*** Power line
+	Nice bottom bar, not installed with package.
+
+#+begin_src emacs-lisp :tangle yes
+
+(add-to-list 'load-path "~/.emacs.d/el_files/powerline")
+(require 'powerline)
+(powerline-evil-theme)
+(display-time-mode t)
+#+END_SRC
+
+*** Relative line numbers
+	Change line numbers in order to make them relative to the current line.
+
+	[[Relative line numbers key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'linum-relative)
+(linum-relative-on)
+(global-linum-mode)
+
+#+END_SRC
+
+*** Flymake
+
+	Check syntax, for work with c add the follow line to your Makefile: 
+
+#+begin_src :tangle no
+
+.PHONY: check-syntax
+
+check-syntax:
+        $(CC) model.cpp -Wall -Wextra -pedantic -fsyntax-only $(SRCS
+
+#+END_SRC
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'flymake)
+(add-hook 'find-file-hook 'flymake-find-file-hook)
+(eval-after-load 'flymake '(require 'flymake-cursor))
+
+#+END_SRC
+	
+*** Multiple cursors
+	Create new cursors on the buffer.
+	
+	[[Multiple cursors key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'multiple-cursors)
+
+#+END_SRC
+	
+*** Helm
+Emacs incremental completion and selection narrowing framework.
+
+#+begin_src emacs-lisp :tangle yes
+
+(helm-mode 1)
+;; helm M-x
+(global-set-key (kbd "M-x") 'helm-M-x)
+
+#+END_SRC
+
+*** Ace-jump
+	Easy way to move (like vim easy move).
+
+	[[Ace-jump key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'ace-jump-mode)
+
+#+END_SRC
+
+*** Fill column
+	Colorful column on the width limit.
+#+begin_src emacs-lisp :tangle yes
+
+(require 'fill-column-indicator)
+(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+(global-fci-mode 1)
+
+#+END_SRC
+	
+*** Folding-mode
+	Create folds in the code.
+
+	[[Folding-mode key]]
+	
+#+begin_src emacs-lisp :tangle yes
+
+(load "folding" 'nomessage 'noerror)
+(folding-mode-add-find-file-hook)
+
+;; new marks
+(folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
+(folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
+
+(add-hook 'prog-mode-hook (lambda() (folding-mode)))
+(let* ((ptr (assq 'asm-mode folding-mode-marks-alist)))
+             (setcdr ptr (list "@*" "@-")))
+
+#+END_SRC
+
+*** Indent-guide
+	Marks the current indentation.
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'indent-guide)
+(indent-guide-global-mode)
+
+#+END_SRC
+
+*** Whitespace mode
+	Marks all witespaces
+
+#+begin_src emacs-lisp :tangle no
+
+(global-whitespace-mode)
+;; make whitespace-mode use just basic coloring
+(setq whitespace-style
+	(quote (spaces tabs space-mark tab-mark)))
+
+#+END_SRC
+
+*** Neotree
+  Show tree of directories/files
+
+	[[Neotree key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'neotree)
+
+#+END_SRC
+
+*** Hippie-expand
+	Complete paths for files.
+
+	[[Hippie-expand key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(fset 'my-complete-file-name
+        (make-hippie-expand-function '(try-complete-file-name-partially
+                                       try-complete-file-name)))
+
+#+END_SRC
+
+* Fuctions
+
+** My-flyspell
+	Easier way of change dictionary and enable flyspell.
+	
+	[[My-flyspell key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(defun my-flyspell ()
+	"init flyspell or change dictionary."
+	(interactive)
+	(if (flyspell-mode t)
+			(print
+			 (if (string= ispell-dictionary "english")
+					 (setq ispell-dictionary "pt_BR")
+				   (if (string= ispell-dictionary "pt_BR")
+							 (setq ispell-dictionary "de_DE")
+						   (setq ispell-dictionary "english"))))
+			nil))
+
+#+END_SRC
+
+** Move line
+	Move entire line up and down.
+
+	[[Move line key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(defun move-line (n)
+  "Move the current line up or down by N lines."
+  (interactive "p")
+  (setq col (current-column))
+  (beginning-of-line) (setq start (point))
+  (end-of-line) (forward-char) (setq end (point))
+  (let ((line-text (delete-and-extract-region start end)))
+    (forward-line n)
+    (insert line-text)
+    ;; restore point to original column in moved line
+    (forward-line -1)
+    (forward-char col)))
+
+(defun move-line-up (n)
+  "Move the current line up by N lines."
+  (interactive "p")
+  (move-line (if (null n) -1 (- n))))
+
+(defun move-line-down (n)
+  "Move the current line down by N lines."
+  (interactive "p")
+  (move-line (if (null n) 1 n)))
+
+#+END_SRC
+
+** Esc quits
+	Closer to vim were asc quits everything.
+
+#+begin_src emacs-lisp :tangle yes
+
+(defun minibuffer-keyboard-quit ()
+  "Abort recursive edit.
+In Delete Selection mode, if the mark is active, just deactivate it;
+then it takes a second \\[keyboard-quit] to abort the minibuffer."
+  (interactive)
+  (if (and delete-selection-mode transient-mark-mode mark-active)
+      (setq deactivate-mark  t)
+    (when (get-buffer "*Completions*") (delete-windows-on "*Completions*"))
+    (abort-recursive-edit)))
+;; key bindings
+(define-key evil-normal-state-map [escape] 'keyboard-quit)
+(define-key evil-visual-state-map [escape] 'keyboard-quit)
+(define-key minibuffer-local-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-ns-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-completion-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-must-match-map [escape] 'minibuffer-keyboard-quit)
+(define-key minibuffer-local-isearch-map [escape] 'minibuffer-keyboard-quit)
+(global-set-key [escape] 'evil-exit-emacs-state)
+
+#+END_SRC
+
+** Clipboard
+	Enable or Disable system clipboard.
+
+	[[Clipboard key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(defun toggle-clip ()
+	"Enable or Disable system clipboard."
+	(interactive)
+			(if (not interprogram-cut-function)
+					(and
+					 (setq interprogram-cut-function 'x-select-text)
+					 (setq interprogram-paste-function 'x-selection-value))
+					(or
+					 (setq interprogram-cut-function nil)
+					 (setq interprogram-paste-function nil))
+))
+
+#+END_SRC
+
+* Key bindings
+
+** Evil leader
+	Set evil leader key
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-evil-leader-mode)
+(evil-leader/set-leader "ç")
+
+#+END_SRC
+
+** <<Evil-numbers key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "n+" 'evil-numbers/inc-at-pt)
+(evil-leader/set-key "n-" 'evil-numbers/dec-at-pt)
+
+#+END_SRC
+
+** Zoom
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "+" 'text-scale-increase)
+(evil-leader/set-key "-" 'text-scale-decrease)
+
+#+END_SRC
+
+** <<Relative line numbers key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+;; relative/absolute lines
+(evil-leader/set-key "l" 'linum-relative-toggle)
+
+#+END_SRC
+
+** <<Multiple cursors key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+
+#+END_SRC
+
+** <<Ace-jump key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "gw" 'ace-jump-word-mode) ; çw for Ace Jump (word)
+(evil-leader/set-key "gl" 'ace-jump-line-mode) ; çl for Ace Jump (line)
+(evil-leader/set-key "gc" 'ace-jump-char-mode) ; çc for Ace Jump (char)define-key global-map (kbd "C-ç w") 'ace-jump-word-mode)
+
+#+END_SRC
+
+** <<Folding-mode key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
+
+#+END_SRC
+
+** <<Move line key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key (kbd "M-<up>") 'move-line-up)
+(global-set-key (kbd "M-<down>") 'move-line-down)
+
+#+END_SRC
+
+** Hide/show
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "hs" 'hs-show-block) 
+(evil-leader/set-key "hS" 'hs-show-all) 
+(evil-leader/set-key "hh" 'hs-hide-block) 
+(evil-leader/set-key "hH" 'hs-hide-all) 
+
+#+END_SRC
+
+** <<Neotree key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key [f8] 'neotree-toggle)
+
+#+END_SRC
+
+** <<Org latex key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "C-l" 'org-preview-latex-fragment) 
+
+#+END_SRC
+
+** <<Hippie-expand key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "/" 'my-complete-file-name)
+
+#+END_SRC
+
+** <<Paxedit key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(eval-after-load "paxedit"
+  '(progn (define-key paxedit-mode-map (kbd "M-<right>") 'paxedit-transpose-forward)
+          (define-key paxedit-mode-map (kbd "M-<left>") 'paxedit-transpose-backward)
+          (define-key paxedit-mode-map (kbd "M-<up>") 'paxedit-backward-up)
+          (define-key paxedit-mode-map (kbd "M-<down>") 'paxedit-backward-end)
+          (define-key paxedit-mode-map (kbd "M-b") 'paxedit-previous-symbol)
+          (define-key paxedit-mode-map (kbd "M-f") 'paxedit-next-symbol)
+          (define-key paxedit-mode-map (kbd "C-%") 'paxedit-copy)
+          (define-key paxedit-mode-map (kbd "C-&") 'paxedit-kill)
+          (define-key paxedit-mode-map (kbd "C-*") 'paxedit-delete)
+          (define-key paxedit-mode-map (kbd "C-~") 'paxedit-sexp-raise)
+          ;; Symbol backward/forward kill
+          (define-key paxedit-mode-map (kbd "M-k M-b") 'paxedit-backward-kill)
+          (define-key paxedit-mode-map (kbd "M-k M-f") 'paxedit-forward-kill)
+          ;; Symbol manipulation
+          (define-key paxedit-mode-map (kbd "M-u") 'paxedit-symbol-change-case)
+          (define-key paxedit-mode-map (kbd "M-l") 'paxedit-symbol-copy)
+          (define-key paxedit-mode-map (kbd "M-k M-k") 'paxedit-symbol-kill)))
+
+#+END_SRC
+
+** <<Evaluation key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+;; prolog
+(add-hook 'prolog-mode-hook  (evil-leader/set-key "e" 'ediprolog-dwim)) 
+
+#+END_SRC
+
+** Visual line
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "w" 'visual-line-mode) 
+
+#+END_SRC
+
+** <<My-flyspell key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "s" 'my-flyspell)
+
+#+END_SRC
+
+** Registers
+Copy and paste inside a register.
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "\"y" 'copy-to-register)
+(evil-leader/set-key "\"p" 'insert-register)
+
+#+END_SRC
+
+** <<Clipboard key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "c" 'toggle-clip)
+
+#+END_SRC

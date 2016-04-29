@@ -210,6 +210,48 @@
 ;;}}}
 
 
+;;{{{ *************** Languages ***************************
+
+;;{{{ ----------------- Haskell ----------------
+(require 'haskell-mode)
+;;}}}
+
+;;{{{ ----------------- Prolog ----------------
+;; Mode for prolog
+(setq prolog-system 'swi)
+(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
+                                ("\\.m$" . mercury-mode))
+                               auto-mode-alist))
+
+;; ediprolog
+(require 'ediprolog)
+
+;; flymake for prolog
+(add-hook 'prolog-mode-hook
+          (lambda ()
+            (require 'flymake)
+            (make-local-variable 'flymake-allowed-file-name-masks)
+            (make-local-variable 'flymake-err-line-patterns)
+            (setq flymake-err-line-patterns
+                  '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
+                    ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
+            (setq flymake-allowed-file-name-masks
+                  '(("\\.pl\\'" flymake-prolog-init)))
+            (flymake-mode 1)))
+
+(defun flymake-prolog-init ()
+  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+         (local-file  (file-relative-name
+                       temp-file
+                       (file-name-directory buffer-file-name))))
+    (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
+;;}}}
+
+
+;;}}}
+
+
 ;;{{{ ******************** Other packages ********************
 
 ;;{{{ *****------------ parens and delimiters ----------*****
@@ -219,7 +261,7 @@
 (setq rainbow-delimiters-mode)
 ;;}}}
 
-;;{{{ -------------------- paxedit -------------------- 
+;;{{{ -------------------- axedit -------------------- 
 (require 'paxedit)
 (add-hook 'clojure-mode-hook 'paxedit-mode)
 ;;}}}
@@ -276,7 +318,6 @@
 
 ;;{{{ ----------------- ace-jump (easy move) ---------------
 (require 'ace-jump-mode)
-;; key bindings
 ;;}}}
 
 ;;{{{ ----------------- fill column and visual'' ---------------
@@ -318,48 +359,6 @@
         (make-hippie-expand-function '(try-complete-file-name-partially
                                        try-complete-file-name)))
 ;;}}}
-
-;;}}}
-
-
-;;{{{ *************** Languages ***************************
-
-;;{{{ ----------------- Haskell ----------------
-(require 'haskell-mode)
-;;}}}
-
-;;{{{ ----------------- Prolog ----------------
-;; Mode for prolog
-(setq prolog-system 'swi)
-(setq auto-mode-alist (append '(("\\.pl$" . prolog-mode)
-                                ("\\.m$" . mercury-mode))
-                               auto-mode-alist))
-
-;; ediprolog
-(require 'ediprolog)
-
-;; flymake for prolog
-(add-hook 'prolog-mode-hook
-          (lambda ()
-            (require 'flymake)
-            (make-local-variable 'flymake-allowed-file-name-masks)
-            (make-local-variable 'flymake-err-line-patterns)
-            (setq flymake-err-line-patterns
-                  '(("ERROR: (?\\(.*?\\):\\([0-9]+\\)" 1 2)
-                    ("Warning: (\\(.*\\):\\([0-9]+\\)" 1 2)))
-            (setq flymake-allowed-file-name-masks
-                  '(("\\.pl\\'" flymake-prolog-init)))
-            (flymake-mode 1)))
-
-(defun flymake-prolog-init ()
-  (let* ((temp-file   (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-         (local-file  (file-relative-name
-                       temp-file
-                       (file-name-directory buffer-file-name))))
-    (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
-;;}}}
-
 
 ;;}}}
 
@@ -450,6 +449,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 
 
 ;;{{{ ******************* key bindings ********************
+
+; (global-evil-leader-mode)
+; (evil-leader/set-leader "ç")
 
 ;;{{{ ----------------- evil-numbers ---------------
 (evil-leader/set-key "n+" 'evil-numbers/inc-at-pt)
@@ -565,9 +567,9 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (setq-default tab-width 2) ; tab with 2 spaces
 (setq c-basic-offset 2)
 (setq backup-directory-alist `(("." . "~/Documents/swap_files"))) ; directory to save beckup files
-(menu-bar-mode 0) ; remuve menu bar
+(menu-bar-mode 0) ; remuve menu bar ok
 (show-paren-mode 1) ; match parents, breckets, etc
-(set 'fill-column 82) ; line size
+(set 'fill-column 82) ; line size ok
 (setq visible-bell 1) ; no beep
 
 ;;{{{ settings on history
