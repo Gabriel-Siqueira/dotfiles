@@ -3,6 +3,7 @@ ln -s ~/.dotfiles/.bash_profile      ~/.bash_profile
 ln -s ~/.dotfiles/.bashrc            ~/.bashrc
 ln -s ~/.dotfiles/.cvimrc            ~/.cvimrc
 ln -s ~/.dotfiles/.emacs.d/emacs.org ~/.emacs.d/emacs.org
+ln -s ~/.dotfiles/.emacs.d/init.el   ~/.emacs.d/init.el
 ln -s ~/.dotfiles/.inputrc           ~/.inputrc
 ln -s ~/.dotfiles/.vimrc             ~/.vimrc
 ln -s ~/.dotfiles/.vimperatorrc      ~/.vimperatorrc

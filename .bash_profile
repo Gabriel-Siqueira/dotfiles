@@ -12,6 +12,8 @@ PATH=$PATH:$HOME/.local/bin:$HOME/bin
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 # go path
 export PATH=$PATH:/usr/local/go/bin
+# cask path 
+export PATH="/home/gabriel/.cask/bin:$PATH"
 
 # environment variables
 EDITOR="vim"; export EDITOR
