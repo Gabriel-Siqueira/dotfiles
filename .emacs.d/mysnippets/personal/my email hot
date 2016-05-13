@@ -1,0 +1,6 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# name: my email hotmail
+# key: myemail-hot
+# binding: direct-keybinding
+# --
+gabriel._gabriel@hotmail.com

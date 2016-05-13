@@ -159,12 +159,15 @@ Some general settings related to packages
 
 #+begin_src emacs-lisp :tangle yes
 
-    ;; how ANSI escape sequences will be translate into faces
-    (customize-set-variable 'ansi-color-faces-vector 
-    [default default default italic underline success warning error])
+  ;; how ANSI escape sequences will be translate into faces
+  (customize-set-variable 'ansi-color-faces-vector 
+  [default default default italic underline success warning error])
 
-		(add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
-    (customize-set-variable 'custom-enabled-themes (quote (misterioso-blue))) ; theme
+  (add-to-list 'custom-theme-load-path "~/.emacs.d/themes/")
+
+  ;; Theme
+  (if (file-exists-p "~/.emacs.d/themes/misterioso-blue-theme.el") (customize-set-variable 'custom-enabled-themes (quote (misterioso-blue))) 
+  (customize-set-variable 'custom-enabled-themes (quote (misterioso))))
 
 #+END_SRC
 
@@ -195,7 +198,9 @@ Smart-mode-line as mode-line.
 
 #+begin_src emacs-lisp :tangle yes
 
-(global-prettify-symbols-mode t)
+(use-package pretty-mode
+   :ensure t
+   :config (global-pretty-mode t))
 
 #+END_SRC
 	
@@ -483,13 +488,14 @@ related with them.
   (use-package yasnippet 
      :ensure t
      :config
+				(setq yas-snippet-dirs '("~/.emacs.d/mysnippets"))
 				(yas-reload-all)
 				(add-hook 'prog-mode-hook 'yas-minor-mode)
 				(add-hook 'ess-mode-hook 'yas-minor-mode)
-				(add-hook 'markdown-mode-hook 'yas-minor-mode)) 
+				(add-hook 'markdown-mode-hook 'yas-minor-mode)
+				(add-hook 'org-mode-hook 'yas-minor-mode))
 
 #+END_SRC
-
 ** Parents and delimiters
 	Packages related with parents and delimiters.
 
@@ -892,8 +898,11 @@ clipboard.
 
 #+begin_src emacs-lisp :tangle yes
 
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "ç")
+  (use-package evil-leader
+     :ensure t
+     :config
+			(global-evil-leader-mode)
+			(evil-leader/set-leader "ç"))
 
 #+END_SRC
 

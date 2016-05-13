@@ -21,17 +21,18 @@
   (require 'ob-tangle))
 
 ;; load up all literate org-mode files in this directory
-(mapc #'org-babel-load-file (directory-files dotfiles-dir t "\\.org$"))
-
-;;; init.el ends here
+(org-babel-load-file "~/.emacs.d/emacs.org")
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector [default default default italic underline success warning error])
+ '(ansi-color-faces-vector
+	 [default default default italic underline success warning error])
  '(blink-cursor-mode nil)
- '(custom-safe-themes (quote ("a27c00821ccfd5a78b01e4f35dc056706dd9ede09a8b90c6955ae6a390eb1c1e" default)))
+ '(custom-safe-themes
+	 (quote
+		("3c83b3676d796422704082049fc38b6966bcad960f896669dfc21a7a37a748fa" "1fcc7bd661ad59252a56db9105868d254b15c69ed5ebbdeff39f2793036d4d07" default)))
  '(display-time-mode t)
  '(inhibit-startup-screen t)
  '(menu-bar-mode nil)
