@@ -213,10 +213,10 @@ Smart-mode-line as mode-line.
   (setq-default tab-width 2)
   (setq c-basic-offset 2)
 
-  (menu-bar-mode 0)     ; remove menu bar ok
-  (show-paren-mode 1)   ; match parents, breckets, etc
-  (set 'fill-column 77) ; line size
-  (setq visible-bell 1) ; no beep
+  (menu-bar-mode 0)             ; remove menu bar ok
+  (show-paren-mode 1)           ; match parents, breckets, etc
+  (setq-default fill-column 77) ; line size
+  (setq visible-bell 1)         ; no beep
 
   ;; yes is y and no is n
   (fset 'yes-or-no-p 'y-or-n-p)
@@ -227,9 +227,9 @@ Smart-mode-line as mode-line.
 
   ;; Directory to save beckup files
   (setq backup-directory-alist `(("." . "~/Documents/swap_files")))
-  (setq version-control t    ;; Use version numbers for backups.
-        kept-new-versions 8  ;; Number of newest versions to keep.
-        kept-old-versions 2) ;; Number of oldest versions to keep.
+  (setq version-control t    ; Use version numbers for backups.
+        kept-new-versions 8  ; Number of newest versions to keep.
+        kept-old-versions 2) ; Number of oldest versions to keep.
     
   ;; different color for terminal emacs
   (if (window-system) nil (load-theme 'tango-dark) )
@@ -825,12 +825,12 @@ check-syntax:
   (defun my/move-line-up (n)
     "Move the current line up by N lines."
     (interactive "p")
-    (move-line (if (null n) -1 (- n))))
+    (my/move-line (if (null n) -1 (- n))))
 
   (defun my/move-line-down (n)
     "Move the current line down by N lines."
     (interactive "p")
-    (move-line (if (null n) 1 n)))
+    (my/move-line (if (null n) 1 n)))
 
 #+END_SRC
 
@@ -990,8 +990,10 @@ clipboard.
 
 #+begin_src emacs-lisp :tangle yes
 
-  (global-set-key (kbd "M-<up>") 'my/move-line-up)
-  (global-set-key (kbd "M-<down>") 'my/move-line-down)
+  (evil-leader/set-key "<up>" 'my/move-line-up)
+  (evil-leader/set-key "k" 'my/move-line-up)
+  (evil-leader/set-key "<down>" 'my/move-line-down)
+  (evil-leader/set-key "j" 'my/move-line-down)
 
 #+END_SRC
 
