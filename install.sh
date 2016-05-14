@@ -1,7 +1,9 @@
 # create links to use files in .dotfiles folder
 ln -s ~/.dotfiles/.bash_profile       ~/.bash_profile
 ln -s ~/.dotfiles/.bashrc             ~/.bashrc
-ln -s ~/.dotfiles/.zshrc              ~/.zshrc
+ln -s ~/.dotfiles/zsh/.zshrc          ~/.zshrc
+ln -s ~/.dotfiles/zsh/my.zsh-theme    ~/.oh-my-zsh/themes/my.zsh-theme
+ln -s ~/.dotfiles/zsh/my_config.zsh   ~/.oh-my-zsh/custom/my_config.zsh
 ln -s ~/.dotfiles/.cvimrc             ~/.cvimrc
 ln -s ~/.dotfiles/.emacs.d/emacs.org  ~/.emacs.d/emacs.org
 ln -s ~/.dotfiles/.emacs.d/init.el    ~/.emacs.d/init.el

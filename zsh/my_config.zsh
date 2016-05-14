@@ -1,22 +1,15 @@
-# manda para lixeira
+# Functions
+
+# Manda para lixeira
 function trash(){
 	n=$1;
 	mv $n ~/.local/share/Trash/files/;
 }
 
+# Use ssh on ic
 function ic_term(){
 	ssh ra155446@ssh.students.ic.unicamp.br
 }
-
-if [ ${EUID} != 0 ] ; then
-	PROMPT="%F{gray}┌╼%f%F{yellow} ⬖ -(%f%F{green}%~%f%F{yellow})-⬗  %D{%d/%m/%y} %f%F{gray}╾╼ %f%F{yellow}%T%f%F{gray}
-└╼ %f%F{yellow}%n%f%F{gray}:>> $reset_color"
-	RPROMPT="%F{yellow}[%f%F{green}%M %f%F{yellow}| %f%F{green}%l %f%F{yellow}| %f%F{green}%!%f%F{yellow}]"
-else
-	PROMPT="%F{gray}┌╼%f%F{red} ⬖ -(%f%F{white}%~%f%F{red})-⬗  %D{%d/%m/%y} %f%F{gray}╾╼ %f%F{red}%T%f%F{gray}
-└╼ %f%F{red}%n%f%F{gray}:# $reset_color"
-	RPROMPT="%F{red}[%f%F{white}%M %f%F{red}| %f%F{white}%l %f%F{red}| %f%F{white}%!%f%F{red}]"
-fi
 
 alias oi="echo 'oi, tenha um bom dia'"
 alias tudoerrado="echo 'não desista as coisas vão dar certo'"
@@ -62,28 +55,16 @@ setopt autocd nomatch
 # no beep
 unsetopt beep notify
 
-# Completition settings
-zstyle ':completion:*' completer _expand _complete _ignored _correct _approximate
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' matcher-list '+' 'm:{[:lower:]}={[:upper:]} r:|[. _ -]=** r:|=**' 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'l:|=* r:|=*'
-zstyle ':completion:*' menu select=long
-zstyle ':completion:*' original true
-zstyle ':completion:*' select-prompt "%p/%l >"
-
-autoload -Uz compinit
-compinit
-
-# add colors
-export TERM=xterm-256color
+bindkey -v
 
 # work nice with emacs
 if [ -n "$INSIDE_EMACS" ]; then
   chpwd() { print -P "\033AnSiTc %d" }
   print -P "\033AnSiTu %n"
   print -P "\033AnSiTc %d"
-  set key -o emacs
+  export ATHAME_ENABLED=0
+  bindkey -e
 fi
-set key -o emacs
 
 # screenfetch (begin)
 screenfetch

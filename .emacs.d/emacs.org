@@ -452,7 +452,7 @@ related with them.
 
 ** Completion
 	Packages related with auto completion.
-	
+
 *** Auto-complete
 
 #+begin_src emacs-lisp :tangle yes
@@ -463,7 +463,21 @@ related with them.
 				(require 'auto-complete-config)
 				(ac-config-default)
 				(ac-flyspell-workaround)
+				(setq ac-disable-faces nil)
 				(global-auto-complete-mode t))
+
+#+END_SRC
+
+*** Ac-ispell
+	Ispell/aspell completion source for auto-complete.
+		
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package ac-ispell
+     :ensure t
+     :config
+      (ac-ispell-setup)
+			(add-hook 'flyspell-hook 'ac-ispell-ac-setup))
 
 #+END_SRC
 
@@ -785,22 +799,19 @@ check-syntax:
 ** My-flyspell
 	Easier way of change dictionary and enable flyspell.
 	
-	[[My-flyspell key]]
+	[[Flyspell key]]
 
 #+begin_src emacs-lisp :tangle yes
 
-  (defun my/flyspell ()
-    "init flyspell or change dictionary."
-    (interactive)
-    (if (flyspell-mode t)
-        (print
-         (if (string= ispell-dictionary "english")
-             (setq ispell-dictionary "pt_BR")
-             (if (string= ispell-dictionary "pt_BR")
-                 (setq ispell-dictionary "de_DE")
-                 (setq ispell-dictionary "english"))))
-        nil))
-
+  (defun my/change-dictionary ()
+    " change dictionary."
+		(interactive)
+		(print
+		 (if (string= ispell-dictionary "english")
+				 (setq ispell-dictionary "pt_BR")
+				 (if (string= ispell-dictionary "pt_BR")
+						 (setq ispell-dictionary "de_DE")
+						 (setq ispell-dictionary "english")))))
 #+END_SRC
 
 ** Move line
@@ -1009,11 +1020,12 @@ clipboard.
 
 #+END_SRC
 
-** <<My-flyspell key>>
+** <<Flyspell key>>
 
 #+begin_src emacs-lisp :tangle yes
 
-  (evil-leader/set-key "s" 'my/flyspell)
+  (evil-leader/set-key "ss" 'flyspell-mode)
+  (evil-leader/set-key "sc" 'my/change-dictionary)
 
 #+END_SRC
 
