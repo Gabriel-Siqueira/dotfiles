@@ -462,6 +462,7 @@ related with them.
      :config
 				(require 'auto-complete-config)
 				(ac-config-default)
+				(ac-flyspell-workaround)
 				(global-auto-complete-mode t))
 
 #+END_SRC
