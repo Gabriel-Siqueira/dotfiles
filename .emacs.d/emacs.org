@@ -340,6 +340,23 @@ related with them.
 
 #+END_SRC
 
+*** Other modes compatibility
+		Make some configurations to make evil works better with other modes.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil 
+    :config
+			(add-hook 'neotree-mode-hook
+								 (lambda ()
+									 (define-key evil-normal-state-local-map (kbd "TAB") 'neotree-enter)
+									 (define-key evil-normal-state-local-map (kbd "SPC") 'neotree-enter)
+									 (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
+									 (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
+)
+
+#+END_SRC
+
 ** Org mode
 	 A mode that does a lot of things.
 	
@@ -774,10 +791,14 @@ check-syntax:
 #+END_SRC
 
 *** Winer-mode
+Winner Mode is a global minor mode. When activated, it allows you to “undo”
+(and “redo”) changes in the window configuraton with the key commands 
+‘C-c left’ and ‘C-c right’.
 
 #+begin_src emacs-lisp :tangle yes
 
-  (setq winer-mode t)
+  (when (fboundp 'winner-mode)
+      (winner-mode 1))
 
 #+END_SRC
 
@@ -919,6 +940,10 @@ clipboard.
 
 #+END_SRC
 
+** Fi keys
+	 [[Neotree key]]
+   [[Menu bar key]]
+
 
 ** <<Clipboard key>>
 
@@ -979,6 +1004,15 @@ clipboard.
    
 #+END_SRC
 
+** <<Menu bar key>>
+	 Hide/show menu bar.
+
+#+begin_src emacs-lisp :tangle yes
+
+  (global-set-key [f6] 'menu-bar-mode)
+
+#+END_SRC
+
 ** <<Hippie-expand key>>
 
 #+begin_src emacs-lisp :tangle yes
@@ -1030,10 +1064,10 @@ clipboard.
 #+END_SRC
 
 ** <<Neotree key>>
-
+	 
 #+begin_src emacs-lisp :tangle yes
 
-  (global-set-key [f8] 'neotree-toggle)
+  (global-set-key [f5] 'neotree-toggle)
 
 #+END_SRC
 

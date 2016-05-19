@@ -47,8 +47,6 @@ HISTFILE=~/.histfile
 HISTSIZE=100000
 SAVEHIST=100000
 setopt hist_ignore_all_dups
-# historico nao eh sobrescrito
-setopt appendhistory
 
 # auto use cd on files names and nomatch
 setopt autocd nomatch
