@@ -172,26 +172,73 @@ Some general settings related to packages
 #+END_SRC
 
 ** Mode lines
+
+*** Powerline
 Powerline as mode-line, not installed with package.
 
 #+begin_src emacs-lisp :tangle no
 
   (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
   (require 'powerline)
-  (powerline-evil-theme)
+  (powerline-default-theme
   (display-time-mode t)
 
 #+END_SRC
 
+*** Smart-mode-line
 Smart-mode-line as mode-line.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (use-package smart-mode-line
      :ensure t
      :config (sml/setup))
 
 #+END_SRC
+
+*** Spaceline
+Spaceline os mode-line
+
+#+begin_src emacs-lisp :tangle yes 
+
+  (if (file-exists-p "~/.emacs.d/el_files/powerline") 
+  (and (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
+  (use-package spaceline
+     :ensure t
+     :config 
+      (require 'powerline)
+      (require 'spaceline-config)
+      (spaceline-helm-mode)
+      (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+      (setq spaceline-evil-state-faces 
+            '((normal . powerline-evil-normal-face) 
+            (insert . powerline-evil-insert-face) 
+            (emacs . powerline-evil-emacs-face) 
+            (replace . spaceline-evil-visual)
+            (visual . powerline-evil-visual-face) 
+            (motion . powerline-evil-motion-face)))
+			(set-face-background 'mode-line "black")
+			(set-face-background 'powerline-active1 "#660066")
+			(setq powerline-height 18)
+      (setq powerline-default-separator 'contour)
+			(setq spaceline-workspace-numbers-unicode t)
+      (spaceline-spacemacs-theme))
+  ) nil )
+
+#+END_SRC
+
+*** Additions
+**** Anzu
+		Just show number of matches on search.
+		
+		#+begin_src emacs-lisp :tangle yes
+
+			(use-package anzu 
+				 :ensure t
+				 :diminish anzu-mode
+				 :init (global-anzu-mode +1))
+
+		#+END_SRC
 
 ** Nice characters
 	Same changes to use nicer symbols
@@ -286,8 +333,9 @@ related with them.
 	
 *** Evil-tabs
   Tabs like vim.
+	I use [[eyebrowse]] instead.
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (use-package evil-tabs 
      :ensure t
@@ -302,7 +350,8 @@ related with them.
 #+begin_src emacs-lisp :tangle yes
 
   (use-package evil-numbers
-     :ensure t)
+     :ensure t
+	)
 
 #+END_SRC
 
@@ -411,6 +460,15 @@ related with them.
 ** Languages
 	Packages related with specific languages.
 
+*** Clojure
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package clojure-mode
+     :ensure t)
+
+#+END_SRC
+
 *** Haskell
 
 #+begin_src emacs-lisp :tangle yes
@@ -424,6 +482,24 @@ related with them.
 										(turn-on-haskell-indent)
 										(ghc-init))))
 
+
+#+END_SRC
+
+*** Lua
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package lua-mode
+     :ensure t)
+
+#+END_SRC
+
+*** Php
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package php-mode
+     :ensure t)
 
 #+END_SRC
 
@@ -528,6 +604,19 @@ related with them.
 				(add-hook 'org-mode-hook 'yas-minor-mode))
 
 #+END_SRC
+*** Hippie-expand
+	Complete paths for files.
+
+	[[Hippie-expand key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+  (fset 'my-complete-file-name
+          (make-hippie-expand-function '(try-complete-file-name-partially
+                                         try-complete-file-name)))
+
+#+END_SRC
+
 ** Parents and delimiters
 	Packages related with parents and delimiters.
 
@@ -592,6 +681,71 @@ related with them.
 
 #+END_SRC
 
+** Helm/Smex/etc
+*** Helm
+	Emacs incremental completion and selection narrowing framework.
+
+	[[Minibuffers key]]
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package helm
+     :ensure t
+     :config (helm-mode 1))
+
+#+END_SRC
+
+*** Smex
+	Smex is a better way of use commands on minibuffer.
+	[[Minibuffers key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package smex 
+     :ensure t
+		 :config
+				(smex-initialize))
+
+#+END_SRC
+
+** Manager buffers/windows/etc
+*** Eyebrowse
+	Manage windows configurations.
+	<<eyebrowse>>
+
+#+begin_src emacs-lisp :tangle yes
+
+		(use-package eyebrowse
+			 :ensure t
+			 :init (eyebrowse-mode t)
+			 :config (eyebrowse-setup-opinionated-keys)
+		)
+
+#+END_SRC
+
+*** Neotree
+  Show tree of directories/files
+
+	[[Neotree key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package neotree 
+     :ensure t)
+
+#+END_SRC
+
+*** Winer-mode
+Winner Mode is a global minor mode. When activated, it allows you to “undo”
+(and “redo”) changes in the window configuraton with the key commands 
+‘C-c left’ and ‘C-c right’.
+
+#+begin_src emacs-lisp :tangle yes
+
+  (when (fboundp 'winner-mode)
+      (winner-mode 1))
+
+#+END_SRC
+
 ** Other packages
 	All the other types of packages.
 
@@ -620,9 +774,22 @@ related with them.
 
 #+END_SRC
 	
+*** Flycheck
+	Check syntax. 
+
+	<<Flycheck>>	
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode))
+#+END_SRC
+	
 *** Flymake
 		
 	Check syntax, for work with c add the follow line to your Makefile: 
+	I am using [[Flycheck]] instead.
 
 #+begin_src :tangle no
 
@@ -633,7 +800,7 @@ check-syntax:
 
 #+END_SRC
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no 
 
   (use-package flymake
      :ensure t
@@ -667,31 +834,6 @@ check-syntax:
 
 #+END_SRC
 
-*** Guide-key
-	Show the shortcuts
-	[[Guide key key]]
-
-#+begin_src emacs-lisp :tangle yes
-
-  (use-package guide-key
-     :ensure t
-		 :config
-				(guide-key-mode 1))  ; Enable guide-key-mode
-
-#+END_SRC
-		
-*** Helm
-	Emacs incremental completion and selection narrowing framework.
-
-	[[Minibuffers key]]
-#+begin_src emacs-lisp :tangle yes
-
-  (use-package helm
-     :ensure t
-     :config (helm-mode 1))
-
-#+END_SRC
-
 *** Hl-line-mode
 		Different background on the current line.
 #+begin_src emacs-lisp :tangle yes
@@ -711,6 +853,7 @@ check-syntax:
 
   (use-package indent-guide
      :ensure t
+		 :diminish indent-guide-mode 
 		 :config
 				(indent-guide-global-mode))
 
@@ -728,18 +871,6 @@ check-syntax:
 
 #+END_SRC
 	
-*** Neotree
-  Show tree of directories/files
-
-	[[Neotree key]]
-
-#+begin_src emacs-lisp :tangle yes
-
-  (use-package neotree 
-     :ensure t)
-
-#+END_SRC
-
 *** Relative line numbers
 	Change line numbers in order to make them relative to the current line.
 
@@ -755,21 +886,8 @@ check-syntax:
 
 #+END_SRC
 
-*** Smex
-	Smex is a better way of use commands on minibuffer.
-	[[Minibuffers key]]
-
-#+begin_src emacs-lisp :tangle yes
-
-  (use-package smex 
-     :ensure t
-		 :config
-				(smex-initialize))
-
-#+END_SRC
-
 *** Undo-tree
-		
+  Undo behave like a tree.		
 #+begin_src emacs-lisp :tangle yes
 
   (global-undo-tree-mode)
@@ -778,8 +896,21 @@ check-syntax:
 
 #+END_SRC
 
+*** Which-key
+  Show key bindings.	
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package which-key
+     :ensure t
+		 :config
+				(which-key-mode)
+				(setq which-key-show-operator-state-maps t)
+  )
+
+#+END_SRC
+
 *** Whitespace mode
-	Marks all witespaces
+	Marks all witespaces.
 
 #+begin_src emacs-lisp :tangle no
 
@@ -787,31 +918,6 @@ check-syntax:
   ;; make whitespace-mode use just basic coloring
   (setq whitespace-style
     (quote (spaces tabs space-mark tab-mark)))
-
-#+END_SRC
-
-*** Winer-mode
-Winner Mode is a global minor mode. When activated, it allows you to “undo”
-(and “redo”) changes in the window configuraton with the key commands 
-‘C-c left’ and ‘C-c right’.
-
-#+begin_src emacs-lisp :tangle yes
-
-  (when (fboundp 'winner-mode)
-      (winner-mode 1))
-
-#+END_SRC
-
-*** Hippie-expand
-	Complete paths for files.
-
-	[[Hippie-expand key]]
-
-#+begin_src emacs-lisp :tangle yes
-
-  (fset 'my-complete-file-name
-          (make-hippie-expand-function '(try-complete-file-name-partially
-                                         try-complete-file-name)))
 
 #+END_SRC
 
@@ -976,14 +1082,6 @@ clipboard.
 #+begin_src emacs-lisp :tangle yes
 
   (evil-leader/set-key "f" 'folding-toggle-show-hide) ; key bindin
-
-#+END_SRC
-
-** <<Guide key key>>
-
-#+begin_src emacs-lisp :tangle yes
-
-  (setq guide-key/guide-key-sequence '("C-x r" "C-x 4"))
 
 #+END_SRC
 
