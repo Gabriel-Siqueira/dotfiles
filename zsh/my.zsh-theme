@@ -1,4 +1,4 @@
-if [ ${EUID} != -1 ] ; then
+if [ ${EUID} != 0 ] ; then
 	local color1="yellow"
 	local color2="green"
 else
