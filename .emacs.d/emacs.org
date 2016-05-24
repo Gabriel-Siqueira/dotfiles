@@ -913,14 +913,14 @@ In order to work these configurations are necessary:
 	#+END_SRC
 
 4. Create ~/.authinfo with the gmail password and  encrypt with:   
-#+begin_src :tangle no
-	M-x epa-encrypt-file (remember to remove original)
-#+END_SRC
+	#+begin_src :tangle no
+		M-x epa-encrypt-file (remember to remove original)
+	#+END_SRC
 
 5. Index the messages: 
-#+begin_src :tangle no
-mu index --maildir=~/Documents/Maildir
-#+END_SRC
+	#+begin_src :tangle no
+	mu index --maildir=~/Documents/Maildir
+	#+END_SRC
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -1003,6 +1003,15 @@ mu index --maildir=~/Documents/Maildir
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
+
+#+END_SRC
+
+*** Emacs-w3m
+		Web browser
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package w3m :ensure t)
 
 #+END_SRC
 
