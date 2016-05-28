@@ -1,5 +1,7 @@
 # Functions
 
+PATH=$PATH:/bin
+
 # Manda para lixeira
 function trash(){
 	n=$1;

@@ -832,6 +832,7 @@ check-syntax:
 				;; new marks
 				(folding-add-to-marks-list 'emacs-lisp-mode ";;{{{" ";;}}}" nil t)
 				(folding-add-to-marks-list 'lua-mode "-- {{{" "-- }}}" nil t)
+				(folding-add-to-marks-list 'haskell-mode "--{{{" "--}}}" nil t)
 
 				(add-hook 'prog-mode-hook (lambda() (folding-mode)))
 				(let* ((ptr (assq 'asm-mode folding-mode-marks-alist)))
@@ -1009,7 +1010,7 @@ In order to work these configurations are necessary:
 *** Emacs-w3m
 		Web browser
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (use-package w3m :ensure t)
 
@@ -1265,10 +1266,10 @@ clipboard.
 
 #+begin_src emacs-lisp :tangle yes
 
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+  (evil-leader/set-key "mm" 'mc/edit-lines)
+  (evil-leader/set-key "m>" 'mc/mark-next-like-this)
+  (evil-leader/set-key "m<" 'mc/mark-previous-like-this)
+  (evil-leader/set-key "ma" 'mc/mark-all-like-this)
 
 #+END_SRC
 
@@ -1343,6 +1344,7 @@ clipboard.
 
 #+begin_src emacs-lisp :tangle yes
 
+  (global-set-key [f8] 'multi-term-dedicated-toggle)
   (add-hook 'term-mode-hook
             (lambda ()
               (evil-leader/set-key "tl" 'term-line-mode)

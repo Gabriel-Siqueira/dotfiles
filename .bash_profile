@@ -7,6 +7,7 @@ if [ -f ~/.bashrc ]; then
 fi
 
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
+PATH=$PATH:/bin
 
 # java path
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
