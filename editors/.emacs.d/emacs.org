@@ -554,7 +554,7 @@ related with them.
 				(ac-config-default)
 				(ac-flyspell-workaround)
 				(setq ac-disable-faces nil)
-				(global-auto-complete-mode t))
+				(setq global-auto-complete-mode t))
 
 #+END_SRC
 
