@@ -11,7 +11,7 @@ Config { --"-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
 		-- layout
 		, sepChar  = "%"   -- delineator between plugin names and straight text
 		, alignSep = "}{"  -- separator between left-right alignment
-		, template = "                 %StdinReader% }{| <fc=#9900cc>%uname% </fc>|<fc=yellow>⚛: </fc> %cpu% |<fc=yellow>⚅: </fc> %memory% | <fc=yellow>⚡: </fc>%battery% | <fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
+		, template = "                 %StdinReader% }{| <fc=#9900cc>%uname% </fc>|<fc=yellow>⚛: </fc> %cpu% |<fc=yellow>⚅: </fc> %memory% | <fc=yellow>⚡: </fc>%battery% | <fc=yellow>♫: </fc> %myvolume% | <fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
 
 		-- general behavior
 		, lowerOnStart     = True    -- send to bottom of window stack on start
@@ -48,5 +48,6 @@ Config { --"-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
 										, Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
 										, Run StdinReader
 										, Run Battery [ "--template" , "<acstatus>", "--Low", "20", "--High", "80", "--low", "red", "--normal", "orange", "--high", "green", "--", "-o", "<left>%", "-O"	,"<fc=#dAA520><left>% ...</fc>", "-i", "<fc=green><left>% ✓</fc>"] 50
+										, Run Com "/bin/bash" ["-c", "~/.xmonad/volume.sh" ] "myvolume" 10
 								 ]
 }

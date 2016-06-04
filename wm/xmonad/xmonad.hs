@@ -52,7 +52,8 @@ myConfig = baseConfig
 
     , normalBorderColor  = myNormalBorderColor
     , focusedBorderColor = myFocusedBorderColor
-                           
+
+    , layoutHook         = myLayouts                     
     , manageHook         = myManageHook 
     , startupHook        = myStartupHook
     }
@@ -64,9 +65,9 @@ myFocusedBorderColor = "#0033cc"
 
                        -- Workspace on a grid corresponding to number Pad keys 
 myWorkspaces = [
-    "Game",   "Emacs",   "Mail",
+    "Game",   "Dev",    "Mail",
     "aux➊",  "standard","aux➋",
-    ".",       "VM",     ".."
+    "Midia",  "VM",      ".."
   ]
 startupWorkspace = "standard"
 
@@ -78,11 +79,6 @@ defaultLayouts = avoidStruts(
   -- takes up half the screen, but you can resize using "super-h" and
   -- "super-l".
   ResizableTall 1 (3/100) (1/2) []
-
-  -- Mirrored variation of ResizableTall. In this layout, the large
-  -- master window is at the top, and remaining windows tile at the
-  -- bottom of the screen. Can be resized as described above.
-  ||| Mirror (ResizableTall 1 (3/100) (1/2) [])
 
   -- Full layout makes every window full screen. When you toggle the
   -- active window, it will bring the active window to the front.
@@ -102,7 +98,12 @@ defaultLayouts = avoidStruts(
   -- Grid layout tries to equally distribute windows in the available
   -- space, increasing the number of columns and rows as necessary.
   -- Master window is at top left.
-  ||| Grid)
+  ||| Grid
+
+  -- Mirrored variation of ResizableTall. In this layout, the large
+  -- master window is at the top, and remaining windows tile at the
+  -- bottom of the screen. Can be resized as described above.
+  ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
 
 --{{{ Keys
 numKeys = [
@@ -200,13 +201,15 @@ myManageHook = (composeAll . concat $
     , [className =? x           --> doShift      "Mail" | x <- cShiftMail]
     , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
-    , [className =? x           --> doShift      "Emacs"| x <- cShiftEmacs]
+    , [className =? x           --> doShift      "Dev"| x <- cShiftDev]
+    , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
     ]
   ) where
   cShiftMail  = ["Thunderbird"]
   cShiftGame  = ["Steam", "PlayOnLinux", "Minetest"]
-  cShiftEmacs = ["Emacs"]
+  cShiftDev   = ["Dev"]
   cShiftVM    = ["VirtualBox"]
+  cShiftMidia = ["kdenlive","Vlc"]
   -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 --}}}
 

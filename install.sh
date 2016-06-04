@@ -22,6 +22,7 @@ ln -s ~/.dotfiles/wm/awesome/rc.lua    ~/.config/awesome/rc.lua
 ln -s ~/.dotfiles/wm/.i3/config        ~/.i3/config
 
 ln -s ~/.dotfiles/wm/xmonad/xmonad.hs  ~/.xmonad/xmonad.hs
+ln -s ~/.dotfiles/wm/xmonad/volume.sh  ~/.xmonad/volume.sh
 ln -s ~/.dotfiles/wm/xmonad/.xmobarrc  ~/.xmobarrc
 
 ln -s ~/.dotfiles/.stalonetrayrc       ~/.stalonetrayrc
