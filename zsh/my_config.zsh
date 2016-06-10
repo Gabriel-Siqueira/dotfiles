@@ -1,6 +1,6 @@
-# Functions
-
 PATH=$PATH:/bin
+
+# Functions
 
 # Manda para lixeira
 function trash(){

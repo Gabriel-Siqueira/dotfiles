@@ -14,11 +14,11 @@ import XMonad.Layout.Circle
 import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Fullscreen
 import XMonad.Hooks.UrgencyHook
+import XMonad.Util.Cursor
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 --}}}
-    
 
 baseConfig = desktopConfig
 
@@ -198,6 +198,7 @@ myManageHook = (composeAll . concat $
 --{{{
     [[ className =? "MPlayer"   --> doFloat]
     , [className =? "Gimp"      --> doFloat]
+    , [className =? "VirtualBox"--> doFloat]
     , [className =? x           --> doShift      "Mail" | x <- cShiftMail]
     , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
@@ -205,7 +206,7 @@ myManageHook = (composeAll . concat $
     , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
     ]
   ) where
-  cShiftMail  = ["Thunderbird"]
+  cShiftMail  = ["Thunderbird","Telegram"]
   cShiftGame  = ["Steam", "PlayOnLinux", "Minetest"]
   cShiftDev   = ["Dev"]
   cShiftVM    = ["VirtualBox"]
@@ -216,7 +217,8 @@ myManageHook = (composeAll . concat $
 
 myStartupHook = do
 --{{{
-                spawns ["dropbox","thunderbird","stalonetray","wicd-client","xcompmgr -n","~/bin/random_wallpaper.sh"]
+                setDefaultCursor xC_center_ptr
+                spawns ["dropbox","thunderbird","stalonetray","wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh","~/applications/Telegram/Telegram"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []      -> return ()

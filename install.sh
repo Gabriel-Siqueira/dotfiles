@@ -7,6 +7,8 @@ ln -s ~/.dotfiles/zsh/.zshrc          ~/.zshrc
 ln -s ~/.dotfiles/zsh/my.zsh-theme    ~/.oh-my-zsh/themes/my.zsh-theme
 ln -s ~/.dotfiles/zsh/my_config.zsh   ~/.oh-my-zsh/custom/my_config.zsh
 
+ln -s ~/.dotfiles/config.fish         ~/.config/fish/config.fish
+
 ln -s ~/.dotfiles/editors/.emacs.d/emacs.org  ~/.emacs.d/emacs.org
 ln -s ~/.dotfiles/editors/.emacs.d/init.el    ~/.emacs.d/init.el
 ln -s ~/.dotfiles/editors/.emacs.d/mysnippets ~/.emacs.d/mysnippets
