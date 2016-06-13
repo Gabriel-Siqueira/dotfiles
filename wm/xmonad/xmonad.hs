@@ -208,7 +208,7 @@ myManageHook = (composeAll . concat $
   ) where
   cShiftMail  = ["Thunderbird","Telegram"]
   cShiftGame  = ["Steam", "PlayOnLinux", "Minetest"]
-  cShiftDev   = ["Dev"]
+  cShiftDev   = ["Emacs"]
   cShiftVM    = ["VirtualBox"]
   cShiftMidia = ["kdenlive","Vlc"]
   -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws

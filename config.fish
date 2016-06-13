@@ -143,6 +143,11 @@ function du
 	command du -h $argv
 end
 
+# to work nice on emacs
+function fish_title
+  true
+end
+
 #vi keys
 fish_vi_key_bindings
 

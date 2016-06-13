@@ -287,27 +287,11 @@
                      (file-name-directory buffer-file-name))))
   (list "swipl" (list "-q" "-t" "halt" "-s " local-file))))
 
-(use-package auto-complete
+(use-package company
    :ensure t
    :config
-                              (require 'auto-complete-config)
-                              (ac-config-default)
-                              (ac-flyspell-workaround)
-                              (setq ac-disable-faces nil)
-                              (setq global-auto-complete-mode t))
-
-(use-package ac-ispell
-   :ensure t
-   :config
-    (ac-ispell-setup)
-                      (add-hook 'flyspell-hook 'ac-ispell-ac-setup))
-
-(require 'auto-complete)
-(semantic-mode 1)
-(defun my:add-semantic-to-autocomplete()
-  (add-to-list 'ac-sources 'ac-source-semantic)
-)
-(add-hook 'prog-mode-hook 'my:add-semantic-to-autocomplete)
+                              (add-hook 'after-init-hook 'global-company-mode)
+      )
 
 (use-package yasnippet 
    :ensure t

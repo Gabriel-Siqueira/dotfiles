@@ -543,9 +543,10 @@ related with them.
 ** Completion
 	Packages related with auto completion.
 
-*** Auto-complete
+*** When using auto-complete
+**** Auto-complete
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (use-package auto-complete
      :ensure t
@@ -558,10 +559,10 @@ related with them.
 
 #+END_SRC
 
-*** Ac-ispell
+**** Ac-ispell
 	Ispell/aspell completion source for auto-complete.
 		
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (use-package ac-ispell
      :ensure t
@@ -571,10 +572,10 @@ related with them.
 
 #+END_SRC
 
-*** Semantic-mode
+**** Semantic-mode
 	Combine semantic-mode with auto-complete.
 	 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
   (require 'auto-complete)
   (semantic-mode 1)
@@ -582,6 +583,20 @@ related with them.
     (add-to-list 'ac-sources 'ac-source-semantic)
   )
   (add-hook 'prog-mode-hook 'my:add-semantic-to-autocomplete)
+
+#+END_SRC
+
+*** When using company
+**** Company
+		 Auto complete words (alternative to auto-complete-mode) 
+
+#+begin_src emacs-lisp :tangle yes
+
+  (use-package company
+     :ensure t
+     :config
+				(add-hook 'after-init-hook 'global-company-mode)
+	)
 
 #+END_SRC
 
