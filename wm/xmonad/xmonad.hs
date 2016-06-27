@@ -65,9 +65,10 @@ myFocusedBorderColor = "#0033cc"
 
                        -- Workspace on a grid corresponding to number Pad keys 
 myWorkspaces = [
-    "Game",   "Dev",    "Mail",
+    "..",    "Dev",    "Mail",
     "aux➊",  "standard","aux➋",
-    "Midia",  "VM",      ".."
+    "Midia",  "VM",      ".",
+    "Game"
   ]
 startupWorkspace = "standard"
 
@@ -105,16 +106,18 @@ defaultLayouts = avoidStruts(
   -- bottom of the screen. Can be resized as described above.
   ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
 
---{{{ Keys
 numKeys = [
+--{{{ Keys
     xK_7, xK_8, xK_9
   , xK_4, xK_5, xK_6
   , xK_1, xK_2, xK_3
+  , xK_0
   ]
 numPadKeys = [
   xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up,
   xK_KP_Left, xK_KP_Begin, xK_KP_Right,
-  xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down
+  xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down,
+  xK_KP_Insert
   ]
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
@@ -210,7 +213,7 @@ myManageHook = (composeAll . concat $
   cShiftGame  = ["Steam", "PlayOnLinux", "Minetest"]
   cShiftDev   = ["Emacs"]
   cShiftVM    = ["VirtualBox"]
-  cShiftMidia = ["kdenlive","Vlc"]
+  cShiftMidia = ["kdenlive","Vlc","Spotify"]
   -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 --}}}
 
