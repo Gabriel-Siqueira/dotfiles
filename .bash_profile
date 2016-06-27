@@ -9,19 +9,23 @@ fi
 PATH=$PATH:$HOME/.local/bin:$HOME/bin
 PATH=$PATH:/bin
 
-# java path
+# Java path
 export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
-# go path
+# Go path
 export PATH=$PATH:/usr/local/go/bin
-# cask path 
+# Cask path 
 export PATH="/home/gabriel/.cask/bin:$PATH"
 
-# environment variables
+# Environment variables
 EDITOR="vim"; export EDITOR
 VISUAL="$EDITOR"; export VISUAL
 
-#fix keyboard leyout
+# Mount Drive
+gdfstool mount ~/data/gdrivefs/gdfs.creds ~/Drive/
+gdfstool mount ~/data/gdrivefs/gdfs2.creds ~/Drive_ST/
+
+# Fix keyboard leyout
 setxkbmap -model abnt2 -layout br -variant abnt2
 
-# change scape and CapsLock
+# Change scape and CapsLock
 setxkbmap -option caps:escape
