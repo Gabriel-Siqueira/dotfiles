@@ -1,10 +1,3 @@
-"{{{ ====================== color ======================
-
-color molokai
-"color monokai
-
-"}}}
-
 "{{{ ====================== commands ======================
 
 command! -nargs=0 Clean :set nonu nolist foldcolun=0
@@ -37,27 +30,11 @@ endfunction
 
 function! <SID>SwitchColorSchemes()
 	if g:colors_name == 'molokai'
-		colorscheme monokay
-	elseif g:colors_name == 'molokai'
-		colorscheme monokay
-	elseif g:colors_name == 'native'
-		colorscheme automation
-	elseif g:colors_name == 'automation'
-	 	colorscheme moria
-	elseif g:colors_name == 'moria'
+		colorscheme monokai
+	elseif g:colors_name == 'monokai'
 	 	colorscheme desert
 	elseif g:colors_name == 'desert'
-	 	colorscheme colorful
-	elseif g:colors_name == 'colorful'
-	 	colorscheme navajo-night
-	elseif g:colors_name == 'navajo-night'
-	 	colorscheme bmichaelsen
-	elseif g:colors_name == 'bmichaelsen'
-	 	colorscheme impact
-	elseif g:colors_name == 'impact'
-	 	colorscheme ir_black
-	elseif g:colors_name == 'ir_black'
-		colorscheme native
+		colorscheme molokai
 	endif
 endfunction
 
@@ -70,23 +47,6 @@ let mapleader = 'ç'
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
-
-" Force to use h/j/k/l and arrows move line
-"nnoremap <left>  :echoe "use j"<cr>
-"nnoremap <right> :echoe "use ç"<cr>
-"nnoremap <up> 	 :echoe "use k"<cr>
-"nnoremap <down>  :echoe "use l"<cr>
-
-" bether navegation for brazilian keybord
-nmap j <left>
-nmap k <down>
-nmap l <up>
-nmap ç <right>
-vmap j <left>
-vmap ç <right>
-vmap l <up>
-vmap k <down>
-
 
 " Move a line of text using ALT+[jk]
 nmap <M-j> mz:m+<cr>`z 
@@ -107,8 +67,7 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 
 " Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell<cr>
-map <leader>ns :setlocal nospell<cr>
+map <leader>ss :setlocal spell!<cr>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
@@ -179,10 +138,25 @@ filetype plugin indent on
 "
 "{{{*******************************************************************************
 
+syntax enable	  " Enable syntax highlighting
+
 set ai		  	  " Auto indent
+set backspace=2   " Backspace deletes like most programs in insert mode
+set hlsearch	  " Highlight search results
+set incsearch     " Makes search act like search in modern browsers
+set mouse=a		  " enable mouse
+set number	  	  " Numbers
+set numberwidth=5
+set scrolloff=10  " Keep cursor centered
+set relativenumber " Show numbers relative to the current line
+set ruler		  " Always show current position
+set showmatch	  " Show matching brackets when text indicator is over them
+set si 		  	  " Smart indent
+set smarttab	  " Be smart when using tabs
+set tabstop=4	  " 1 tab == 2 spaces
+
 set autoread	  " Set to auto read when a file is changed from the outside
 set autowrite     " Automatically :write before running commands
-set backspace=2   " Backspace deletes like most programs in insert mode
 set backup
 set colorcolumn=+1	" Make it obvious where 80 characters is
 set complete+=kspell " Extends dictionary
@@ -191,36 +165,22 @@ set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard lang
 set ffs=unix,dos,mac " Use Unix as the standard file type
 set foldmethod=marker "Método das dobras
 set history=700
-set hlsearch	  " Highlight search results
 set ignorecase	  " Ignore case when searching
-set incsearch     " Makes search act like search in modern browsers
 set laststatus=2  " Always display the status line
 set lazyredraw    " Don't redraw while executing macros (good performance config)
 set lbr
 set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set mat=2	  	  " How many tenths of a second to blink when matching brackets
-set mouse=a		  " enable mouse
 set noswapfile
-set number	  	  " Numbers
-set numberwidth=5
 set omnifunc=syntaxcomplete#Complete " omnicompletition
-set relativenumber " Show numbers relative to the current line
-set ruler		  " Always show current position
-set scrolloff=10  " Keep cursor centered
 set shiftwidth=4
 set showcmd		  " Show current comands
-set showmatch	  " Show matching brackets when text indicator is over them
-set si 		  	  " Smart indent
 set smartcase	  " When searching try to be smart about cases 
-set smarttab	  " Be smart when using tabs
-set tabstop=4	  " 1 tab == 4 spaces
 set textwidth=100
 set viminfo^=% 	  " Remember info about open buffers on close
 set wildmenu	  " Turn on the WiLd menu
 set writebackup
 set backupdir=~/Documents/swap_files
-
-syntax enable	  " Enable syntax highlighting
 
 "}}}
 
@@ -251,7 +211,7 @@ set viminfo='100,\"1000,:40,%,n~/.viminfo
 " {{{----------------------------------------------------------------------------
 
 autocmd VimEnter * silent !echo -ne "\033]12;red\007"
-autocmd InsertEnter * silent !echo -ne "\033]12;blue\007"
+autocmd InsertEnter * silent !echo -ne "\033]12;green\007"
 autocmd InsertLeave * silent !echo -ne "\033]12;red\007"
 silent !echo -ne "\033]12;rede\007"
 " reset cursor when vim exits
@@ -259,4 +219,11 @@ autocmd VimLeave * silent !echo -ne "\033]12\007"
 
 "}}}
 "
+"}}}
+
+"{{{ ====================== color ======================
+
+color monokai
+color molokai
+
 "}}}
