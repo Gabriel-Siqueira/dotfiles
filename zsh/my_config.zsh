@@ -24,6 +24,7 @@ alias programingtime="echo 'let´s have some fun'"
 
 alias clr='clear'
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
+alias emacsc='emacsclient'
 alias l="ls"
 alias ls='ls --color=auto'
 alias dot='ls .[a-zA-Z0-9_]*'

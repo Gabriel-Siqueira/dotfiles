@@ -135,6 +135,9 @@
    :ensure t
    :config (global-pretty-mode t))
 
+;; Start emacs server
+      (server-start)
+
 ;; Indentation 2 spaces
 (setq-default evil-shift-width 2)
 (setq-default tab-width 2)

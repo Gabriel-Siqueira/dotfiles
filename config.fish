@@ -54,94 +54,32 @@ end
 
 # aleases
 
-function oi
-	echo 'oi, tenha um bom dia'
-end
-function tudoerrado
-	echo 'não desista as coisas vão dar certo'
-end
-function culpasua
-	echo 'não é a maquina que comete erros é o programador'
-end
-function socorro
-	echo 'continue a nadar'
-end
-function resposta
-	echo '42'
-end
-function answer
-	echo '42'
-end
-function frase
-	echo 'We live in a world of possibilities'
-end
-function programingtime
-	echo 'let´s have some fun'
-end
-
-function clr
-	clear
-end
-function gccs
-	gcc -ansi -pedantic -Wall -Werror -lm $argv
-end
-function l
-	ls $argv
-end
-function ls
-	command ls --color=auto $argv
-end
-function dot
-	ls .[a-zA-Z0-9_]* $argv
-end
-function ll
-	ls -l $argv
-end
-function la
-	ls -A $argv
-end
-function lh
-	ls -lh $argv
-end
-function ltr
-	ls -ltr $argv
-end
-function cd..
-	cd ..
-end
-function mkdir
-	command mkdir -p $argv
-end
-function rm
-	command rm -i $argv
-end
-function mv
-	command mv -i $argv
-end
-function cp
-	command cp -ai $argv
-end
-function .
-	pwd $argv
-end
-function ..
-	pwd ..
-end
-function ...=
-	pwd ../..
-end
-function grep
-	command grep --color=auto $argv
-end
-function df
-	command df -h $argv
-end
-function df10
-	command df -H $argv
-end
-function du
-	command du -h $argv
-end
+alias oi "echo 'oi, tenha um bom dia'"
+alias tudoerrado "echo 'não desista as coisas vão dar certo'"
+alias culpasua "echo 'não é a maquina que comete erros é o programador'"
+alias socorro "echo 'continue a nadar'"
+alias resposta "echo '42'"
+alias clr "clear"
+alias gccs "gcc -ansi -pedantic -Wall -Werror -lm $argv"
+alias l "ls $argv"
+alias ls "command ls --color=auto $argv"
+alias dot "ls .[a-zA-Z0-9_]* $argv"
+alias ll "ls -l $argv"
+alias la "ls -A $argv"
+alias lh "ls -lh $argv"
+alias ltr "ls -ltr $argv"
+alias cd.. "cd .."
+alias mkdir "command mkdir -p $argv"
+alias rm "command rm -i $argv"
+alias mv "command mv -i $argv"
+alias cp "command cp -ai $argv"
+alias . "pwd $argv"
+alias .. "pwd .."
+alias ...= "pwd ../.."
+alias grep "command grep --color=auto $argv"
+alias df "command df -h $argv"
+alias df10 "command df -H $argv"
+alias du "command du -h $argv"
 
 # to work nice on emacs
 function fish_title
