@@ -1000,6 +1000,21 @@ In order to work these configurations are necessary:
 
 #+END_SRC
 	
+*** Origami
+		Hide and show blocks
+
+	[[Origami key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+    (use-package origami
+       :ensure t
+       :config
+			     (setq global-origami-mode t)
+    )
+
+#+END_SRC
+	
 *** Relative line numbers
 	Change line numbers in order to make them relative to the current line.
 
@@ -1288,6 +1303,19 @@ clipboard.
   (evil-leader/set-key "m>" 'mc/mark-next-like-this)
   (evil-leader/set-key "m<" 'mc/mark-previous-like-this)
   (evil-leader/set-key "ma" 'mc/mark-all-like-this)
+
+#+END_SRC
+
+** <<Origami key>>
+
+#+begin_src emacs-lisp :tangle yes
+
+  (evil-leader/set-key "[" 'origami-open-node)
+  (evil-leader/set-key "]" 'origami-close-node)
+  (evil-leader/set-key "{" 'origami-open-node-recursively)
+  (evil-leader/set-key "}" 'origami-close-node-recursively)
+  (evil-leader/set-key "ª" 'origami-open-all-nodes)
+  (evil-leader/set-key "º" 'origami-close-all-nodes)
 
 #+END_SRC
 

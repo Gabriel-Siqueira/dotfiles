@@ -154,6 +154,7 @@ set showmatch	  " Show matching brackets when text indicator is over them
 set si 		  	  " Smart indent
 set smarttab	  " Be smart when using tabs
 set tabstop=4	  " 1 tab == 2 spaces
+:set tw=0         " wrap but not brake line
 
 set autoread	  " Set to auto read when a file is changed from the outside
 set autowrite     " Automatically :write before running commands
