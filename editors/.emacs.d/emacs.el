@@ -138,10 +138,9 @@
 ;; Start emacs server
       (server-start)
 
-;; Indentation 2 spaces
-(setq-default evil-shift-width 2)
-(setq-default tab-width 2)
-(setq c-basic-offset 2)
+;; Indentation 4 spaces
+(setq-default tab-width 4)
+(setq c-basic-offset 4)
 
 (menu-bar-mode 0)             ; remove menu bar ok
 (show-paren-mode 1)           ; match parents, breckets, etc
@@ -177,7 +176,10 @@
 
 (use-package evil 
  :ensure t
-  :config (evil-mode 1))
+  :config
+                              (setq evil-shift-width 4)
+      (evil-mode 1)
+)
 
 ;; require for evil folding
 (add-hook 'prog-mode-hook 'hs-minor-mode)
@@ -440,6 +442,12 @@
 (use-package multiple-cursors
    :ensure t)
 
+(use-package origami
+   :ensure t
+   :config
+                         (global-origami-mode)
+)
+
 (use-package linum-relative
    :ensure t
                :config
@@ -575,6 +583,13 @@ then it takes a second \\[keyboard-quit] to abort the minibuffer."
 (evil-leader/set-key "m>" 'mc/mark-next-like-this)
 (evil-leader/set-key "m<" 'mc/mark-previous-like-this)
 (evil-leader/set-key "ma" 'mc/mark-all-like-this)
+
+(evil-leader/set-key "[" 'origami-open-node)
+(evil-leader/set-key "]" 'origami-close-node)
+(evil-leader/set-key "{" 'origami-open-node-recursively)
+(evil-leader/set-key "}" 'origami-close-node-recursively)
+(evil-leader/set-key "ª" 'origami-open-all-nodes)
+(evil-leader/set-key "º" 'origami-close-all-nodes)
 
 (global-set-key [f7] 'flycheck-list-errors)
 

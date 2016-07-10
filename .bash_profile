@@ -21,8 +21,8 @@ EDITOR="vim"; export EDITOR
 VISUAL="$EDITOR"; export VISUAL
 
 # Mount Drive
-gdfstool mount ~/data/gdrivefs/gdfs.creds ~/Drive/
-gdfstool mount ~/data/gdrivefs/gdfs2.creds ~/Drive_ST/
+# gdfstool mount ~/data/gdrivefs/gdfs.creds ~/Drive/
+# gdfstool mount ~/data/gdrivefs/gdfs2.creds ~/Drive_ST/
 
 # Fix keyboard leyout
 setxkbmap -model abnt2 -layout br -variant abnt2

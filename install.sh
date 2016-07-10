@@ -15,9 +15,10 @@ ln -s ~/.dotfiles/editors/.emacs.d/mysnippets ~/.emacs.d/mysnippets
 
 ln -s ~/.dotfiles/editors/.inputrc            ~/.inputrc
 
-ln -s ~/.dotfiles/editors/.vimrc       ~/.vimrc
-ln -s ~/.dotfiles/.vimperatorrc        ~/.vimperatorrc
-ln -s ~/.dotfiles/.cvimrc              ~/.cvimrc
+ln -s ~/.dotfiles/editors/.vimrc              ~/.vimrc
+ln -s ~/.dotfiles/browser_vim/.vimperatorrc   ~/.vimperatorrc
+ln -s ~/.dotfiles/browser_vim/dark.vimp       ~/.vimperator/colors/dark.vimp
+ln -s ~/.dotfiles/browser_vim/.cvimrc         ~/.cvimrc
 
 ln -s ~/.dotfiles/wm/awesome/rc.lua    ~/.config/awesome/rc.lua
 

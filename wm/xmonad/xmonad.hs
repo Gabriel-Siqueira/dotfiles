@@ -15,7 +15,8 @@ import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Fullscreen
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Cursor
-
+    
+import XMonad.Hooks.EwmhDesktops as Ewmh
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
 --}}}
@@ -30,20 +31,23 @@ main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 myBar = "xmobar"
 
 -- Custom PP, configure it as you like. It determines what is being written to the bar.
-myPP = xmobarPP { ppVisible = xmobarColor "bright red" ""
-                , ppCurrent = xmobarColor "#2E9AFE" ""
+myPP = xmobarPP { ppVisible = xmobarColor "#2E9AFE" "" . wrap "[" "]"
+                , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
                 , ppTitle = xmobarColor "#9900cc" ""
-                , ppLayout = xmobarColor "#790a0a" ""
+                , ppLayout = xmobarColor "#990000" ""
                 , ppUrgent  = xmobarColor "red" "" . wrap "*" "*"
                 }
-
+          
  -- Key binding to toggle the gap for the bar.
 toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)      
 --}}}
                                                      
-
+-- use the EWMH hints to tell panel applications about its workspaces
+-- and the windows therein.
+myConfig = ewmh myConfig_par{ handleEventHook =
+            handleEventHook myConfig_par <+> Ewmh.fullscreenEventHook }
 -- my changes on baseConfig
-myConfig = baseConfig
+myConfig_par = baseConfig
     { terminal           = myTerminal
     , modMask            = myModMask
     , keys               = myKeys
@@ -167,7 +171,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Quit xmonad
     , ((modm .|. shiftMask, xK_c     ), io (exitWith ExitSuccess))
     -- Restart xmonad
-    , ((modm              , xK_q     ), spawn "xmonad --recompile; xmonad --restart")
+    , ((modm              , xK_c     ), spawn "xmonad --recompile; xmonad --restart")
     -- Volume
     , ((modm              , xK_Up    ), spawn "amixer set Master 5%+")
     , ((modm              , xK_Down  ), spawn "amixer set Master 5%-")

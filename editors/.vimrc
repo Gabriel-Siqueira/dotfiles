@@ -98,9 +98,7 @@ map <F6> :call <SID>SwitchColorSchemes()<CR>:echo g:colors_name<CR>
 
 "}}}
 
-"{{{ ====================== settings ======================
-
-"{{{********************* Vundle and Plugins **************************
+"{{{ ===================== Vundle and Plugins ==========================
 
 set nocompatible  " be iMproved
 filetype off
@@ -131,61 +129,101 @@ Plugin 'tpope/vim-surround'
 Plugin 'vim-scripts/ReplaceWithRegister'
 Plugin 'vim-scripts/ZoomWin'
 
+"{{{ Haskell
+Plugin 'neovimhaskell/haskell-vim'
+Plugin 'enomsg/vim-haskellConcealPlus'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'Twinside/vim-hoogle'
+Plugin 'mpickering/hlint-refactor-vim'
+"}}}
+
 call vundle#end()
 
 filetype plugin indent on
 "}}}
 "
-"{{{*******************************************************************************
+"{{{ ====================== settings ======================
+
+"{{{ ******************************************************
 
 syntax enable	  " Enable syntax highlighting
 
+"{{{ indentation
 set ai		  	  " Auto indent
-set backspace=2   " Backspace deletes like most programs in insert mode
+set si 		  	  " Smart indent
+set tabstop=4	  " 1 tab == 2 spaces
+set sw = 4		  " Number of spaces to use for each step of (auto)indent
+"}}}
+
+"{{{ numbers
+set number	  	  " Line number
+set ruler		    " Always show current position
+set numberwidth=2
+set relativenumber " Show numbers relative to the current line
+"}}}
+
+"{{{ search
 set hlsearch	  " Highlight search results
 set incsearch     " Makes search act like search in modern browsers
-set mouse=a		  " enable mouse
-set number	  	  " Numbers
-set numberwidth=5
-set scrolloff=10  " Keep cursor centered
-set relativenumber " Show numbers relative to the current line
-set ruler		  " Always show current position
-set showmatch	  " Show matching brackets when text indicator is over them
-set si 		  	  " Smart indent
-set smarttab	  " Be smart when using tabs
-set tabstop=4	  " 1 tab == 2 spaces
-:set tw=0         " wrap but not brake line
+"}}}
 
+"{{{ line and column
+set cursorline    " Highlight cursor line
+set colorcolumn=+1	" Make it obvious where 80 characters is
+"}}}
+
+"{{{ play nice
+set backspace=2   " Backspace deletes like most programs in insert mode
+set mouse=a		  " enable mouse
+set scrolloff=10  " Keep cursor centered
+set showmatch	  " Show matching brackets when text indicator is over them
+set tw=0          " wrap but not brake line
+set textwidth=77
+set viminfo^=% 	  " Remember info about open buffers on close
+"}}}
+"
+"{{{ files (save, read, ...)
 set autoread	  " Set to auto read when a file is changed from the outside
 set autowrite     " Automatically :write before running commands
 set backup
-set colorcolumn=+1	" Make it obvious where 80 characters is
-set complete+=kspell " Extends dictionary
-set cursorline    " Highlight cursor line
-set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard language
-set ffs=unix,dos,mac " Use Unix as the standard file type
-set foldmethod=marker "Método das dobras
-set history=700
-set ignorecase	  " Ignore case when searching
-set laststatus=2  " Always display the status line
-set lazyredraw    " Don't redraw while executing macros (good performance config)
-set lbr
-set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
-set mat=2	  	  " How many tenths of a second to blink when matching brackets
-set noswapfile
-set omnifunc=syntaxcomplete#Complete " omnicompletition
-set shiftwidth=4
-set showcmd		  " Show current comands
-set smartcase	  " When searching try to be smart about cases 
-set textwidth=100
-set viminfo^=% 	  " Remember info about open buffers on close
-set wildmenu	  " Turn on the WiLd menu
 set writebackup
 set backupdir=~/Documents/swap_files
+"}}}
+
+"{{{ spell and language
+set complete+=kspell " Extends dictionary
+set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard language
+"}}}
+
+"{{{ history
+set history=7000
+"}}}
+
+"{{{ Folds
+augroup vimrcFold
+  " fold vimrc itself by categories
+  autocmd!
+  autocmd FileType vim set foldmethod=marker
+  autocmd FileType vim set foldlevel=0
+augroup END
+set foldmethod=indent
+set foldlevelstart=99
+set foldcolumn=1
+set foldlevel=1
+
+"{{{ Others
+set ffs=unix,dos,mac  " Use Unix as the standard file type
+set laststatus=2  " Always display the status line
+set lazyredraw    " Don't redraw while executing macros (good performance)
+set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
+set omnifunc=syntaxcomplete#Complete " omnicompletition
+set showcmd		  " Show current commands
+set wildmenu	  " Turn on the WiLd menu
+"}}}
 
 "}}}
 
-" ----------------------------------------------------------------------------
 " when use GNU/Linux use bash as shell 
 "{{{ -------------------------------------------------------------------------
 
@@ -194,8 +232,7 @@ if has("unix")
     set clipboard=autoselect
 endif  
 "}}}
-"
-" ----------------------------------------------------------------------------
+
 " Return to last edit position when opening files ans save history
 "{{{ ----------------------------------------------------------------------------
 
@@ -206,8 +243,7 @@ set viminfo='100,\"1000,:40,%,n~/.viminfo
     \   exe "normal g`\"" |
     \ endif
 "}}}
-"
-" ----------------------------------------------------------------------------
+
 " Manager Cursor color
 " {{{----------------------------------------------------------------------------
 

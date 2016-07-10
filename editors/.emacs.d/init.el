@@ -28,8 +28,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-	 (quote
-		("34748217b070b04814291657a81f0374c64bcc70b5c15704ce6bcd706574a9f9" default))))
+   (quote
+	("34748217b070b04814291657a81f0374c64bcc70b5c15704ce6bcd706574a9f9" default))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
