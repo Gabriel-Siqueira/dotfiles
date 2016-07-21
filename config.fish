@@ -17,11 +17,11 @@ function fish_prompt
 	set -l color4 (set_color -o red)
 	set -l normal (set_color normal)
 
-	set -l up_beg $color3" ┌╼$color1 ⬖ -("
+	set -l up_beg $color3"┌╼$color1 ⬖ -("
 	set -l up_mid $color2(basename $PWD)
 	set -l sep $normal$color3"<->"
 	set -l up_end $color1")-⬗"$normal $sep $color1(date "+%d/%m/%y")$normal $sep $color1(date "+%T")
-    set -l down $normal $color3"└╼" $color1(users)$normal$color3":➤ " $normal
+    set -l down $normal $color3"   └╼" $color1(users)$normal$color3":➤ " $normal
 
   if [ (_git_branch_name) ]
 	  set -l git_branch $color2(_git_branch_name)

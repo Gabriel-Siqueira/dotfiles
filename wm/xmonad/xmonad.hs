@@ -34,7 +34,13 @@ myBar = "xmobar"
 myPP = xmobarPP { ppVisible = xmobarColor "#2E9AFE" "" . wrap "[" "]"
                 , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
                 , ppTitle = xmobarColor "#9900cc" ""
-                , ppLayout = xmobarColor "#990000" ""
+                , ppLayout = xmobarColor "#990000" "" . (\ x -> case x of
+                          "ResizableTall"        -> "[|]"
+                          "Mirror ResizableTall" -> "[-]"
+                          "Circle"               -> "[o]"
+                          "Grid"                 -> "[+]"
+                          "Full"                 -> "[ ]"
+                          _                      -> x )
                 , ppUrgent  = xmobarColor "red" "" . wrap "*" "*"
                 }
           

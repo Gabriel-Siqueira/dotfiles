@@ -11,7 +11,7 @@ Config { --"-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
 		-- layout
 		, sepChar  = "%"   -- delineator between plugin names and straight text
 		, alignSep = "}{"  -- separator between left-right alignment
-		, template = "                 %StdinReader% }{|<fc=yellow>⚛: </fc> %multicpu% |<fc=yellow>⚅: </fc> %memory% |<fc=yellow>◙: </fc> %fs-used% |<fc=yellow>⇑: </fc> %pacman% | <fc=yellow>⚡: </fc>%battery% | <fc=yellow>♫: </fc> %myvolume% | <fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
+		, template = "                 %StdinReader% }{|<fc=yellow>⚛: </fc> %multicpu% |<fc=yellow>⚅: </fc> %memory% |<fc=yellow>◙: </fc> %disku% |<fc=yellow>⇑: </fc> %pacman% |<fc=yellow>⚡: </fc>%battery% |<fc=yellow>♫: </fc> %default:Master% |<fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
 
 		-- general behavior
 		, lowerOnStart     = True    -- send to bottom of window stack on start
@@ -28,28 +28,28 @@ Config { --"-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
                              , "--normal"   , "orange"
                              , "--high"     , "red"
                              ] 10
-										, Run MultiCpu       [ "--template" , "<total0>%<total1>%<total2>%<total3>%"
+						, Run MultiCpu       [ "--template" , "<total0>%<total1>%<total2>%<total3>%"
                              , "--Low"      , "50"         -- units: %
                              , "--High"     , "85"         -- units: %
                              , "--low"      , "green"
                              , "--normal"   , "orange"
                              , "--high"     , "red"
                              ] 10
-										, Run Memory [ "--template" ,"<usedratio>%"
+						, Run Memory [ "--template" ,"<usedratio>%"
                              , "--Low"      , "20"        -- units: %
                              , "--High"     , "90"        -- units: %
                              , "--low"      , "green"
                              , "--normal"   , "orange"
                              , "--high"     , "red"
                              ] 10
-										-- , Run Swap [] 10
-										, Run Com "uname" ["-s","-r"] "" 36000
-										, Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
-										, Run StdinReader
-										, Run Battery [ "--template" , "<acstatus>", "--Low", "20", "--High", "80", "--low", "red", "--normal", "orange", "--high", "green", "--", "-o", "<left>%", "-O"	,"<fc=#dAA520><left>% ...</fc>", "-i", "<fc=green><left>% ✓</fc>"] 50
-										, Run Com "/bin/bash" ["-c", "~/.xmonad/volume.sh" ] "myvolume" 10
-										, Run Com "/bin/bash" ["-c", "/usr/bin/checkupdates | wc -l | tail" ] "pacman" 36000
-										, Run Com "/bin/bash" ["-c", "df -h / | sed '2q;d' | cut -d ' ' -f 10" ] "fs-used" 36000
-										, Run Com "/bin/bash" ["-c", "df -h / | sed '2q;d' | cut -d ' ' -f 8" ] "fs-all" 36000
-								 ]
+				 	 -- , Run Swap [] 10
+					 -- , Run Com "uname" ["-s","-r"] "" 36000
+						, Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
+						, Run StdinReader
+						, Run Battery [ "--template" , "<acstatus>", "--Low", "20", "--High", "80", "--low", "red", "--normal", "orange", "--high", "green", "--", "-o", "<left>%", "-O"	,"<fc=#dAA520><left>% ...</fc>", "-i", "<fc=green><left>% ✓</fc>"] 50
+						, Run Com "/bin/bash" ["-c", "~/.xmonad/volume.sh" ] "myvolume" 10
+						, Run Com "/bin/bash" ["-c", "/usr/bin/checkupdates | wc -l | tail" ] "pacman" 36000
+						, Run DiskU [("/", "<used>"), ("sda", "<usedbar>")] ["-L", "20", "-H", "50", "-m", "1", "-p", "3"] 20
+					    , Run Volume "default" "Master" ["--template","<volume>% <status>"] 10
+		]
 }
