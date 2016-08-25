@@ -29,3 +29,5 @@ ln -s ~/.dotfiles/wm/xmonad/volume.sh  ~/.xmonad/volume.sh
 ln -s ~/.dotfiles/wm/xmonad/.xmobarrc  ~/.xmobarrc
 
 ln -s ~/.dotfiles/.stalonetrayrc       ~/.stalonetrayrc
+
+ln -s ~/.dotfiles/.Xresources          ~/.Xresources

@@ -68,7 +68,7 @@ myConfig_par = baseConfig
     , startupHook        = myStartupHook
     }
 
-myTerminal           = "xfce4-terminal"
+myTerminal           = "urxvt"
 myModMask            = mod4Mask
 myNormalBorderColor  = "#94b8b8"
 myFocusedBorderColor = "#0033cc"
@@ -135,8 +135,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_Return), spawn "terminator")
     -- launch dmenu
     , ((modm,               xK_d     ), spawn "dmenu_run")
-    -- launch gmrun
-    , ((modm .|. shiftMask, xK_d     ), spawn "gmrun")
+    -- launch rofi
+    , ((modm .|. shiftMask, xK_d     ), spawn "rofi -show run -font 'Michroma 15' -padding 335 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '85' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'")
     -- close focused window
     , ((modm .|. shiftMask, xK_q     ), kill)
      -- Rotate through the available layout algorithms
