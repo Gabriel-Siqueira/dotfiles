@@ -68,19 +68,19 @@ myConfig_par = baseConfig
     , startupHook        = myStartupHook
     }
 
-myTerminal           = "urxvt"
+myTerminal           = "terminator"
 myModMask            = mod4Mask
 myNormalBorderColor  = "#94b8b8"
 myFocusedBorderColor = "#0033cc"
 
                        -- Workspace on a grid corresponding to number Pad keys 
 myWorkspaces = [
-    "..",    "Dev",    "Mail",
-    "aux➊",  "standard","aux➋",
+    "aux➊",    "Dev",    "Mail",
+    "aux➋",  "default","Web➋",
     "Midia",  "VM",      ".",
     "Game"
   ]
-startupWorkspace = "standard"
+startupWorkspace = "default"
 
 -- aplly onWorkspace "<WS>" <Layout> to use customs layouts to specifics workspace
 myLayouts = defaultLayouts
@@ -94,6 +94,11 @@ defaultLayouts = avoidStruts(
   -- Full layout makes every window full screen. When you toggle the
   -- active window, it will bring the active window to the front.
   ||| noBorders Full
+
+  -- Mirrored variation of ResizableTall. In this layout, the large
+  -- master window is at the top, and remaining windows tile at the
+  -- bottom of the screen. Can be resized as described above.
+  ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
 
   -- ThreeColMid layout puts the large master window in the center
   -- of the screen. As configured below, by default it takes of 3/4 of
@@ -111,13 +116,8 @@ defaultLayouts = avoidStruts(
   -- Master window is at top left.
   ||| Grid
 
-  -- Mirrored variation of ResizableTall. In this layout, the large
-  -- master window is at the top, and remaining windows tile at the
-  -- bottom of the screen. Can be resized as described above.
-  ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
-
-numKeys = [
 --{{{ Keys
+numKeys = [
     xK_7, xK_8, xK_9
   , xK_4, xK_5, xK_6
   , xK_1, xK_2, xK_3
@@ -132,7 +132,7 @@ numPadKeys = [
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm              , xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm .|. shiftMask, xK_Return), spawn "terminator")
+    , ((modm .|. shiftMask, xK_Return), spawn "terminator --profile=fish")
     -- launch dmenu
     , ((modm,               xK_d     ), spawn "dmenu_run")
     -- launch rofi
@@ -153,6 +153,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- Move focus to the next window
     , ((modm,               xK_j     ), windows W.focusDown)
     -- Move focus to the previous window
+    , ((modm .|. shiftMask, xK_Tab   ), windows W.focusUp  )
+    -- Move focus to the previous window
     , ((modm,               xK_k     ), windows W.focusUp  )
     -- Move focus to the master window
     , ((modm,               xK_m     ), windows W.focusMaster)
@@ -168,6 +170,9 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm,               xK_h     ), sendMessage Shrink)
     -- Expand the master area
     , ((modm,               xK_l     ), sendMessage Expand)
+    -- rezize on ResizableTall
+    , ((modm .|. shiftMask, xK_h     ), sendMessage MirrorShrink)
+    , ((modm .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
     -- Push window back into tiling
     , ((modm,               xK_t     ), withFocused $ windows . W.sink)
     -- Increment the number of windows in the master area
@@ -212,18 +217,22 @@ myManageHook = (composeAll . concat $
     [[ className =? "MPlayer"   --> doFloat]
     , [className =? "Gimp"      --> doFloat]
     , [className =? "VirtualBox"--> doFloat]
+    , [className =? x           --> doShift      "Dev"| x <- cShiftDev]
     , [className =? x           --> doShift      "Mail" | x <- cShiftMail]
+    , [className =? x           --> doShift      "default" | x <- cShiftdefault]
+    , [className =? x           --> doShift      "Web➋" | x <- cShiftWeb]
+    , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
     , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
-    , [className =? x           --> doShift      "Dev"| x <- cShiftDev]
-    , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
     ]
   ) where
-  cShiftMail  = ["Thunderbird","Telegram"]
-  cShiftGame  = ["Steam", "PlayOnLinux", "Minetest"]
-  cShiftDev   = ["Emacs"]
-  cShiftVM    = ["VirtualBox"]
-  cShiftMidia = ["kdenlive","Vlc","Spotify"]
+  cShiftDev     = ["Emacs"]
+  cShiftMail    = ["Thunderbird","Telegram"]
+  cShiftdefault = ["Firefox"]
+  cShiftWeb     = ["chromium","google-chrome","vivaldi-stable"]
+  cShiftMidia   = ["kdenlive","Vlc","spotify"]
+  cShiftVM      = ["VirtualBox"]
+  cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
   -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 --}}}
 

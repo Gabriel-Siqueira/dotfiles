@@ -355,18 +355,6 @@
                               (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
                               (global-fci-mode 1))
 
-(use-package flycheck
-  :ensure t
-  :init (global-flycheck-mode)
-  :config
-                      (set-face-attribute
-                              'flycheck-error nil :foreground "red" :underline "red")
-                      (set-face-attribute
-                              'flycheck-warning nil :foreground "yellow" :underline "yellow")
-                      (set-face-attribute
-                              'flycheck-info nil :foreground "blue" :underline "blue")
-)
-
 (use-package folding
    :ensure t
                :config
