@@ -19,7 +19,7 @@ export PATH="/home/gabriel/.cask/bin:$PATH"
 # Environment variables
 EDITOR="vim"; export EDITOR
 VISUAL="$EDITOR"; export VISUAL
-
+ZSH_TMUX_AUTOSTART=true; export ZSH_TMUX_AUTOSTART
 # Mount Drive
 # gdfstool mount ~/data/gdrivefs/gdfs.creds ~/Drive/
 # gdfstool mount ~/data/gdrivefs/gdfs2.creds ~/Drive_ST/

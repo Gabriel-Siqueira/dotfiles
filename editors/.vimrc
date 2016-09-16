@@ -30,10 +30,16 @@ endfunction
 
 function! <SID>SwitchColorSchemes()
     if g:colors_name == 'molokai'
-        colorscheme monokai
+         colorscheme monokai
     elseif g:colors_name == 'monokai'
          colorscheme desert
     elseif g:colors_name == 'desert'
+        colorscheme vividchalk
+    elseif g:colors_name == 'vividchalk'
+        colorscheme solarized
+        let g:solarized_termcolors=256
+    elseif g:colors_name == 'solarized'
+        colorscheme monokai
         colorscheme molokai
     endif
 endfunction
@@ -89,19 +95,27 @@ nmap <leader><space> :%s/\s\+$<cr>
 
 " Prompt for comand with vimux
 nmap <Leader>p :VimuxPromptCommand<CR>
+
+" Toggle Hard mode
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+
 "}}}
 
-"{{{ ===================== Vundle and Plugins ==========================
+"{{{ ===================== Plugins ==========================
 
 set nocompatible  " be iMproved
+
 filetype off
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
+
 Plugin 'Lokaltog/vim-easymotion'                   " move following leters
-"Plugin 'Valloric/YouCompleteMe'                    " auto-completition
+Plugin 'Valloric/YouCompleteMe'                    " auto-completition
 Plugin 'benmills/vimux'                            " use tmux with vim
+Plugin 'ctrlpvim/ctrlp.vim'                        " finder (fuzzy file, tag, etc)
+Plugin 'ervandew/supertab'                         " tab for complete
 Plugin 'gmarik/Vundle.vim'                         " manage plugins
 Plugin 'honza/vim-snippets'                        " snippets for ultisnips
 Plugin 'jiangmiao/auto-pairs'                      " add pairs automaticaly
@@ -110,10 +124,10 @@ Plugin 'kana/vim-textobj-function'                 " new object
 Plugin 'kana/vim-textobj-indent'                   " new object
 Plugin 'kana/vim-textobj-line'                     " new object
 Plugin 'kana/vim-textobj-user'                     " new object
-Plugin 'kien/ctrlp.vim'                            " fuzy find
 Plugin 'lervag/vimtex'                             " for edit latex
 Plugin 'scrooloose/nerdtree'                       " tree of files
-Plugin 'Shougo/neocomplete.vim'                    " auto-completition
+Plugin 'scrooloose/syntastic'                      " tree of files
+"Plugin 'Shougo/neocomplete.vim'                    " auto-completition
 Plugin 'SirVer/ultisnips'                          " use snippets
 Plugin 'tpope/vim-commentary'                      " comment in and out
 Plugin 'tpope/vim-fugitive'                        " work with git
@@ -122,10 +136,18 @@ Plugin 'tpope/vim-surround'                        " new object surrond
 Plugin 'vim-airline/vim-airline'                   " new mode line
 Plugin 'vim-airline/vim-airline-themes'            " themes for airline
 Plugin 'vim-scripts/ZoomWin'                       " make pane full screen
+Plugin 'wikitopian/hardmode'                       " make pane full screen
+
+""{{{ Colors
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'tomasr/molokai'
+Plugin 'sickill/vim-monokai'
+Plugin 'tpope/vim-vividchalk'
+""}}}
 
 "{{{ Haskell
 Plugin 'neovimhaskell/haskell-vim'
-Plugin 'enomsg/vim-haskellConcealPlus'
+" Plugin 'enomsg/vim-haskellConcealPlus'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'eagletmt/neco-ghc'
 Plugin 'Twinside/vim-hoogle'
@@ -222,89 +244,29 @@ set wildmenu      " Turn on the WiLd menu
 
 " Plugins {{{
 
-" Auto-completes {{{
-
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" let g:ycm_filetype_whitelist = { 'c': 1 }
-" autocmd FileType c NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'cpp': 1 }
-" autocmd FileType cpp NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'c#': 1 }
-" autocmd FileType c# NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'python': 1 }
-" autocmd FileType python NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'go': 1 }
-" autocmd FileType go NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'typescript': 1 }
-" autocmd FileType typescript NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'javascript': 1 }
-" autocmd FileType javascript NeoCompleteLock
-" let g:ycm_filetype_whitelist = { 'rust': 1 }
-" autocmd FileType rust NeoCompleteLock
-" }}}
+" hard mode default
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 " airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
 "}}}
 
-" ultisnips {{{
+" ultisnips and ycm {{{
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<C-h>"
+let g:UltiSnipsJumpBackwardTrigger = "<C-l>"
 "}}}
 
 "}}}

@@ -69,3 +69,19 @@ fi
 
 # screenfetch (begin)
 screenfetch
+
+# The following lines were added by compinstall
+
+zstyle ':completion:*' completer _complete _ignored _correct
+zstyle ':completion:*' format 'Competing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=** r:|=**' 'l:|=* r:|=*'
+zstyle ':completion:*' menu select=0
+zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
+zstyle ':completion:*' verbose true
+zstyle :compinstall filename '/home/gabriel/.oh-my-zsh/custom/my_config.zsh'
+
+autoload -Uz compinit
+compinit
+# End of lines added by compinstall

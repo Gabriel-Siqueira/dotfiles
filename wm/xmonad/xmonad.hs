@@ -1,4 +1,4 @@
---{{{ Imports
+-- Imports {{{
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Config.Desktop
@@ -15,18 +15,19 @@ import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Fullscreen
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Cursor
-    
+
 import XMonad.Hooks.EwmhDesktops as Ewmh
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
---}}}
+-- }}}
+
+-- Main {{{
 
 baseConfig = desktopConfig
 
 -- main function
 main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
 
---{{{ Xmobar
 -- Command to launch the bar.
 myBar = "xmobar"
 
@@ -43,16 +44,19 @@ myPP = xmobarPP { ppVisible = xmobarColor "#2E9AFE" "" . wrap "[" "]"
                           _                      -> x )
                 , ppUrgent  = xmobarColor "red" "" . wrap "*" "*"
                 }
-          
+
  -- Key binding to toggle the gap for the bar.
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)      
---}}}
-                                                     
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
+
 -- use the EWMH hints to tell panel applications about its workspaces
 -- and the windows therein.
 myConfig = ewmh myConfig_par{ handleEventHook =
-            handleEventHook myConfig_par <+> Ewmh.fullscreenEventHook }
--- my changes on baseConfig
+    handleEventHook myConfig_par <+> Ewmh.fullscreenEventHook }
+
+-- }}}
+
+-- my changes on baseConfig {{{
+
 myConfig_par = baseConfig
     { terminal           = myTerminal
     , modMask            = myModMask
@@ -63,8 +67,8 @@ myConfig_par = baseConfig
     , normalBorderColor  = myNormalBorderColor
     , focusedBorderColor = myFocusedBorderColor
 
-    , layoutHook         = myLayouts                     
-    , manageHook         = myManageHook 
+    , layoutHook         = myLayouts
+    , manageHook         = myManageHook
     , startupHook        = myStartupHook
     }
 
@@ -73,62 +77,68 @@ myModMask            = mod4Mask
 myNormalBorderColor  = "#94b8b8"
 myFocusedBorderColor = "#0033cc"
 
-                       -- Workspace on a grid corresponding to number Pad keys 
+-- Workspace on a grid corresponding to number Pad keys
 myWorkspaces = [
-    "aux➊",    "Dev",    "Mail",
+    "aux➊",  "Dev",    "Mail",
     "aux➋",  "default","Web➋",
-    "Midia",  "VM",      ".",
-    "Game"
-  ]
+    "Midia", "VM",     "docs",
+    "Game"]
 startupWorkspace = "default"
+
+-- }}}
+
+-- Layouts {{{
 
 -- aplly onWorkspace "<WS>" <Layout> to use customs layouts to specifics workspace
 myLayouts = defaultLayouts
 defaultLayouts = avoidStruts(
-  -- ResizableTall layout has a large master window on the left,
-  -- and remaining windows tile on the right. By default each area
-  -- takes up half the screen, but you can resize using "super-h" and
-  -- "super-l".
-  ResizableTall 1 (3/100) (1/2) []
+      -- ResizableTall layout has a large master window on the left,
+      -- and remaining windows tile on the right. By default each area
+      -- takes up half the screen, but you can resize using "super-h" and
+      -- "super-l".
+      ResizableTall 1 (3/100) (1/2) []
 
-  -- Full layout makes every window full screen. When you toggle the
-  -- active window, it will bring the active window to the front.
-  ||| noBorders Full
+      -- Full layout makes every window full screen. When you toggle the
+      -- active window, it will bring the active window to the front.
+      ||| noBorders Full
 
-  -- Mirrored variation of ResizableTall. In this layout, the large
-  -- master window is at the top, and remaining windows tile at the
-  -- bottom of the screen. Can be resized as described above.
-  ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
+      -- Mirrored variation of ResizableTall. In this layout, the large
+      -- master window is at the top, and remaining windows tile at the
+      -- bottom of the screen. Can be resized as described above.
+      ||| Mirror (ResizableTall 1 (3/100) (1/2) []))
 
-  -- ThreeColMid layout puts the large master window in the center
-  -- of the screen. As configured below, by default it takes of 3/4 of
-  -- the available space. Remaining windows tile to both the left and
-  -- right of the master window. You can resize using "super-h" and
-  -- "super-l".
-  -- ||| ThreeColMid 1 (3/100) (3/4)
+      -- ThreeColMid layout puts the large master window in the center
+      -- of the screen. As configured below, by default it takes of 3/4 of
+      -- the available space. Remaining windows tile to both the left and
+      -- right of the master window. You can resize using "super-h" and
+      -- "super-l".
+      -- ||| ThreeColMid 1 (3/100) (3/4)
 
-  -- Circle layout places the master window in the center of the screen.
-  -- Remaining windows appear in a circle around it
-  ||| Circle
+      -- Circle layout places the master window in the center of the screen.
+      -- Remaining windows appear in a circle around it
+      ||| Circle
 
-  -- Grid layout tries to equally distribute windows in the available
-  -- space, increasing the number of columns and rows as necessary.
-  -- Master window is at top left.
-  ||| Grid
+      -- Grid layout tries to equally distribute windows in the available
+      -- space, increasing the number of columns and rows as necessary.
+      -- Master window is at top left.
+      ||| Grid
 
---{{{ Keys
+-- }}}
+
+-- Keys {{{
+
 numKeys = [
-    xK_7, xK_8, xK_9
-  , xK_4, xK_5, xK_6
-  , xK_1, xK_2, xK_3
-  , xK_0
-  ]
+        xK_7, xK_8, xK_9
+      , xK_4, xK_5, xK_6
+      , xK_1, xK_2, xK_3
+      , xK_0
+      ]
 numPadKeys = [
-  xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up,
-  xK_KP_Left, xK_KP_Begin, xK_KP_Right,
-  xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down,
-  xK_KP_Insert
-  ]
+      xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up,
+      xK_KP_Left, xK_KP_Begin, xK_KP_Right,
+      xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down,
+      xK_KP_Insert
+      ]
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm              , xK_Return), spawn $ XMonad.terminal conf)
@@ -209,11 +219,12 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m)    <- [(W.view, 0), (W.shift, shiftMask)]]
---}}}
 
+-- }}}
+
+-- Hooks {{{
 
 myManageHook = (composeAll . concat $
---{{{
     [[ className =? "MPlayer"   --> doFloat]
     , [className =? "Gimp"      --> doFloat]
     , [className =? "VirtualBox"--> doFloat]
@@ -225,26 +236,25 @@ myManageHook = (composeAll . concat $
     , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
     ]
-  ) where
-  cShiftDev     = ["Emacs"]
-  cShiftMail    = ["Thunderbird","Telegram"]
-  cShiftdefault = ["Firefox"]
-  cShiftWeb     = ["chromium","google-chrome","vivaldi-stable"]
-  cShiftMidia   = ["kdenlive","Vlc","spotify"]
-  cShiftVM      = ["VirtualBox"]
-  cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
-  -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
---}}}
-
+    )
+        where
+        cShiftDev     = ["Emacs"]
+        cShiftMail    = ["Thunderbird","Telegram"]
+        cShiftdefault = ["Firefox"]
+        cShiftWeb     = ["chromium","google-chrome","vivaldi-stable"]
+        cShiftMidia   = ["kdenlive","Vlc","spotify"]
+        cShiftVM      = ["VirtualBox"]
+        cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
+        -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 
 myStartupHook = do
---{{{
                 setDefaultCursor xC_center_ptr
                 spawns ["dropbox","thunderbird","stalonetray","wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh","~/applications/Telegram/Telegram"]
                 windows $ W.greedyView startupWorkspace
                 where
-                  spawns y = case y of []      -> return ()
-                                       (x:xs) -> do
-                                                spawn x
-                                                spawns xs
---}}}
+                  spawns y = case y of []     -> return ()
+                                       (x:xs) -> do 
+                                           spawn x
+                                           spawns xs
+
+-- }}}
