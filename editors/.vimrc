@@ -50,22 +50,22 @@ endfunction
 
 " Leader
 let mapleader = 'ç'
-set tm=2000
+set tm=2000 " time to leader became ç
 
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
 
 " Move a line of text using ALT+[jk]
-nmap <A-j> mz:m+<cr>`z
-nmap <A-k> mz:m-2<cr>`z
-vmap <A-j> m'>+<cr>`<my`>mzgv`yo`z
-vmap <A-k> :m'<-2<cr>`>my`<mzgv`yo`z
+nmap <leader>j mz:m+<cr>`z
+nmap <leader>k mz:m-2<cr>`z
+vmap <leader>j m'>+<cr>`<my`>mzgv`yo`z
+vmap <leader>k :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Smart way to move between windows
-map <C-j> <C-W>k
-map <C-k> <C-W>l
-map <C-h> <C-W>j
-map <C-l> <C-W>ç
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -99,6 +99,18 @@ nmap <Leader>p :VimuxPromptCommand<CR>
 " Toggle Hard mode
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 
+" ultisnips and ycm {{{
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+"}}}
+
 "}}}
 
 "{{{ ===================== Plugins ==========================
@@ -110,7 +122,6 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-
 Plugin 'Lokaltog/vim-easymotion'                   " move following leters
 Plugin 'Valloric/YouCompleteMe'                    " auto-completition
 Plugin 'benmills/vimux'                            " use tmux with vim
@@ -125,6 +136,7 @@ Plugin 'kana/vim-textobj-indent'                   " new object
 Plugin 'kana/vim-textobj-line'                     " new object
 Plugin 'kana/vim-textobj-user'                     " new object
 Plugin 'lervag/vimtex'                             " for edit latex
+Plugin 'ryanoasis/vim-devicons'                    " icons
 Plugin 'scrooloose/nerdtree'                       " tree of files
 Plugin 'scrooloose/syntastic'                      " tree of files
 "Plugin 'Shougo/neocomplete.vim'                    " auto-completition
@@ -245,28 +257,11 @@ set wildmenu      " Turn on the WiLd menu
 " Plugins {{{
 
 " hard mode default
-autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
 " airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
-"}}}
-
-" ultisnips and ycm {{{
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
-
-" make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-j>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-k>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<C-h>"
-let g:UltiSnipsJumpBackwardTrigger = "<C-l>"
 "}}}
 
 "}}}
