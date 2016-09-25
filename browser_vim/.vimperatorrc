@@ -1,2 +1,3 @@
 set gui=nonavigation
+set tabnumbers
 colorscheme dark

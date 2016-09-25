@@ -84,11 +84,12 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 nmap <Leader>o o<ESC>k
 nmap <Leader>O O<ESC>
 
-" Change between insert and Paste
-set pastetoggle=<F2>
-
 " Change color scheme
 map <F6> :call <SID>SwitchColorSchemes()<CR>:echo g:colors_name<CR>
+" Change between insert and Paste
+set pastetoggle=<F2>
+" toggle graphic undo tree
+nnoremap <F5> :GundoToggle<CR>
 
 " remove extra whitespace
 nmap <leader><space> :%s/\s\+$<cr>
@@ -101,9 +102,9 @@ nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 
 " ultisnips and ycm {{{
 " make YCM compatible with UltiSnips (using supertab)
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " better key bindings for UltiSnipsExpandTrigger
 let g:UltiSnipsExpandTrigger = "<tab>"
@@ -122,33 +123,38 @@ filetype off
 set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
-Plugin 'Lokaltog/vim-easymotion'                   " move following leters
-Plugin 'Valloric/YouCompleteMe'                    " auto-completition
-Plugin 'benmills/vimux'                            " use tmux with vim
-Plugin 'ctrlpvim/ctrlp.vim'                        " finder (fuzzy file, tag, etc)
-Plugin 'ervandew/supertab'                         " tab for complete
-Plugin 'gmarik/Vundle.vim'                         " manage plugins
-Plugin 'honza/vim-snippets'                        " snippets for ultisnips
-Plugin 'jiangmiao/auto-pairs'                      " add pairs automaticaly
-Plugin 'kana/vim-textobj-entire'                   " new object
-Plugin 'kana/vim-textobj-function'                 " new object
-Plugin 'kana/vim-textobj-indent'                   " new object
-Plugin 'kana/vim-textobj-line'                     " new object
-Plugin 'kana/vim-textobj-user'                     " new object
-Plugin 'lervag/vimtex'                             " for edit latex
-Plugin 'ryanoasis/vim-devicons'                    " icons
-Plugin 'scrooloose/nerdtree'                       " tree of files
-Plugin 'scrooloose/syntastic'                      " tree of files
-"Plugin 'Shougo/neocomplete.vim'                    " auto-completition
-Plugin 'SirVer/ultisnips'                          " use snippets
-Plugin 'tpope/vim-commentary'                      " comment in and out
-Plugin 'tpope/vim-fugitive'                        " work with git
-Plugin 'tpope/vim-repeat'                          " extend use of .
-Plugin 'tpope/vim-surround'                        " new object surrond
-Plugin 'vim-airline/vim-airline'                   " new mode line
-Plugin 'vim-airline/vim-airline-themes'            " themes for airline
-Plugin 'vim-scripts/ZoomWin'                       " make pane full screen
-Plugin 'wikitopian/hardmode'                       " make pane full screen
+
+Plugin 'Konfekt/FastFold'                   " speed up folds by updating
+Plugin 'Lokaltog/vim-easymotion'            " move following leters
+Plugin 'Shougo/neocomplete.vim'             " auto-completition
+" Plugin 'Shougo/neosnippet.vim'              " snippets
+Plugin 'Shougo/vimproc.vim'                 " Interactive command execution
+Plugin 'SirVer/ultisnips'                   " use snippets
+" Plugin 'Valloric/YouCompleteMe'             " auto-completition
+Plugin 'benmills/vimux'                     " use tmux with vim
+Plugin 'ctrlpvim/ctrlp.vim'                 " finder (fuzzy file, tag, etc)
+Plugin 'ervandew/supertab'                  " tab for complete
+Plugin 'gmarik/Vundle.vim'                  " manage plugins
+Plugin 'honza/vim-snippets'                 " more snippets
+Plugin 'jiangmiao/auto-pairs'               " add pairs automaticaly
+Plugin 'kana/vim-textobj-entire'            " new object
+Plugin 'kana/vim-textobj-function'          " new object
+Plugin 'kana/vim-textobj-indent'            " new object
+Plugin 'kana/vim-textobj-line'              " new object
+Plugin 'kana/vim-textobj-user'              " new object
+Plugin 'lervag/vimtex'                      " for edit latex
+Plugin 'ryanoasis/vim-devicons'             " icons
+Plugin 'scrooloose/nerdtree'                " tree of files
+Plugin 'scrooloose/syntastic'               " tree of files
+Plugin 'sjl/gundo.vim'                      " undo tree
+Plugin 'tpope/vim-commentary'               " comment in and out
+Plugin 'tpope/vim-fugitive'                 " work with git
+Plugin 'tpope/vim-repeat'                   " extend use of .
+Plugin 'tpope/vim-surround'                 " new object surrond
+Plugin 'vim-airline/vim-airline'            " new mode line
+Plugin 'vim-airline/vim-airline-themes'     " themes for airline
+Plugin 'vim-scripts/ZoomWin'                " make pane full screen
+Plugin 'wikitopian/hardmode'                " make pane full screen
 
 ""{{{ Colors
 Plugin 'altercation/vim-colors-solarized'
@@ -158,12 +164,13 @@ Plugin 'tpope/vim-vividchalk'
 ""}}}
 
 "{{{ Haskell
-Plugin 'neovimhaskell/haskell-vim'
 " Plugin 'enomsg/vim-haskellConcealPlus'
+Plugin 'Twinside/vim-hoogle'
+Plugin 'dag/vim2hs'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'eagletmt/neco-ghc'
-Plugin 'Twinside/vim-hoogle'
 Plugin 'mpickering/hlint-refactor-vim'
+Plugin 'neovimhaskell/haskell-vim'
 "}}}
 
 call vundle#end()
@@ -259,11 +266,78 @@ set wildmenu      " Turn on the WiLd menu
 " hard mode default
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 
+" Neocomplete {{{
+" Disable AutoComplPop.
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+let g:neocomplete#enable_auto_select = 1
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+"}}}
+
 " airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
 "}}}
 
+" ultisnips
+let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 "}}}
 
 " when use GNU/Linux use bash as shell

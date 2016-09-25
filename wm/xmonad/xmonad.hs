@@ -80,8 +80,8 @@ myFocusedBorderColor = "#0033cc"
 -- Workspace on a grid corresponding to number Pad keys
 myWorkspaces = [
     "aux➊",  "Dev",    "Mail",
-    "aux➋",  "default","Web➋",
-    "Midia", "VM",     "docs",
+    "aux➋",  "Default","Web➋",
+    "Midia", "VM",     "Docs",
     "Game"]
 startupWorkspace = "default"
 
@@ -230,26 +230,30 @@ myManageHook = (composeAll . concat $
     , [className =? "VirtualBox"--> doFloat]
     , [className =? x           --> doShift      "Dev"| x <- cShiftDev]
     , [className =? x           --> doShift      "Mail" | x <- cShiftMail]
-    , [className =? x           --> doShift      "default" | x <- cShiftdefault]
+    , [className =? x           --> doShift      "Default" | x <- cShiftDefault]
     , [className =? x           --> doShift      "Web➋" | x <- cShiftWeb]
     , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
     , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
+    , [className =? x           --> doShift      "Docs" | x <- cShiftDocs]
     ]
     )
         where
         cShiftDev     = ["Emacs"]
         cShiftMail    = ["Thunderbird","Telegram"]
-        cShiftdefault = ["Firefox"]
+        cShiftDefault = ["Firefox"]
         cShiftWeb     = ["chromium","google-chrome","vivaldi-stable"]
         cShiftMidia   = ["kdenlive","Vlc","spotify"]
         cShiftVM      = ["VirtualBox"]
         cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
+        cShiftDocs    = ["libreoffice"]
         -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox","thunderbird","stalonetray","wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh","~/applications/Telegram/Telegram"]
+                spawns ["dropbox","thunderbird","stalonetray"
+                       ,"wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh"
+                       ,"~/applications/Telegram/Telegram", "unclutter -grab &"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()
