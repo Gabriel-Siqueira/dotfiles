@@ -63,6 +63,14 @@ if [ -n "$INSIDE_EMACS" ]; then
   bindkey -e
 fi
 
+# Try to predict the command
+autoload predict-on
+predict-on
+zle -N predict-on
+zle -N predict-off
+bindkey '^Z' predict-on
+bindkey '^X' predict-off
+
 # use fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
