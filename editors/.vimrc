@@ -28,7 +28,7 @@ function! VisualSelection(direction) range
     let @" = l:saved_reg
 endfunction
 
-function! <SID>SwitchColorSchemes()
+function! SwitchColorSchemes()
     if g:colors_name == 'molokai'
          colorscheme monokai
     elseif g:colors_name == 'monokai'
@@ -42,6 +42,18 @@ function! <SID>SwitchColorSchemes()
         colorscheme monokai
         colorscheme molokai
     endif
+    echomsg 'color:' g:colors_name
+endfunction
+
+let g:myLang = 0
+let g:myLangList = ['de', 'pt_br', 'en']
+function! SwitchSpellLang()
+  "loop through languages
+  if g:myLang == 0 | setlocal nospell
+  else | let &l:spelllang = g:myLangList[g:myLang] | setlocal spell | endif
+  echomsg 'language:' g:myLangList[g:myLang]
+  let g:myLang = g:myLang + 1
+  if g:myLang >= len(g:myLangList) | let g:myLang = 0 | endif
 endfunction
 
 "}}}
@@ -73,8 +85,9 @@ map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 
-" Pressing ,ss will toggle and untoggle spell checking
-map <leader>ss :setlocal spell!<cr>
+" Toggle and untoggle spell checking
+nmap <leader>ss :setlocal spell!<cr>
+nmap <leader>sc :call SwitchSpellLang()<CR>
 
 " Visual mode pressing * or # searches for the current selection
 vnoremap <silent> * :call VisualSelection('f')<CR>
@@ -82,10 +95,10 @@ vnoremap <silent> # :call VisualSelection('b')<CR>
 
 " Create new line and stay in normal mode
 nmap <Leader>o o<ESC>k
-nmap <Leader>O O<ESC>
+nmap <Leader>O O<ESC>j
 
 " Change color scheme
-map <F6> :call <SID>SwitchColorSchemes()<CR>:echo g:colors_name<CR>
+map <F6> :call SwitchColorSchemes()<CR>
 " Change between insert and Paste
 set pastetoggle=<F2>
 " toggle graphic undo tree
@@ -133,6 +146,7 @@ Plugin 'SirVer/ultisnips'                   " use snippets
 " Plugin 'Valloric/YouCompleteMe'             " auto-completition
 Plugin 'benmills/vimux'                     " use tmux with vim
 Plugin 'ctrlpvim/ctrlp.vim'                 " finder (fuzzy file, tag, etc)
+Plugin 'dhruvasagar/vim-table-mode'         " create and edit tables
 Plugin 'ervandew/supertab'                  " tab for complete
 Plugin 'gmarik/Vundle.vim'                  " manage plugins
 Plugin 'honza/vim-snippets'                 " more snippets
@@ -145,7 +159,7 @@ Plugin 'kana/vim-textobj-user'              " new object
 Plugin 'lervag/vimtex'                      " for edit latex
 Plugin 'ryanoasis/vim-devicons'             " icons
 Plugin 'scrooloose/nerdtree'                " tree of files
-Plugin 'scrooloose/syntastic'               " tree of files
+Plugin 'scrooloose/syntastic'               " syntax Highlight
 Plugin 'sjl/gundo.vim'                      " undo tree
 Plugin 'tpope/vim-commentary'               " comment in and out
 Plugin 'tpope/vim-fugitive'                 " work with git
@@ -190,6 +204,7 @@ set si               " Smart indent
 set tabstop=4        " 1 tab == 2 spaces
 set shiftwidth=4     " Number of spaces to use for each step of (auto)indent
 set expandtab        " Replace tabs with spaces
+set shiftround       " always indent by multiple of shiftwidth
 "}}}
 
 "{{{ numbers
@@ -206,30 +221,65 @@ set incsearch     " Makes search act like search in modern browsers
 
 "{{{ line and column
 set cursorline    " Highlight cursor line
-set colorcolumn=+1    " Make it obvious where 80 characters is
+set colorcolumn=+1    " Make it obvious where textwith are
+if has('linebreak')
+  set linebreak                       " wrap long lines at characters in 'breakat'
+  let &showbreak='⤷ '                 " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
+endif
 "}}}
 
 "{{{ play nice
-set backspace=2   " Backspace deletes like most programs in insert mode
-set mouse=a          " enable mouse
-set scrolloff=10  " Keep cursor centered
-set showmatch      " Show matching brackets when text indicator is over them
-set tw=0          " wrap but not brake line
+set backspace=indent,start,eol  " Backspace deletes like most programs in insert mode
+set mouse=a                     " enable mouse
+set scrolloff=10                " Keep cursor centered
+set sidescrolloff=3             " scrolloff for columns
+set showmatch                   " Show matching brackets when text indicator is over them
 set textwidth=77
-set viminfo^=%       " Remember info about open buffers on close
+set viminfo^=%                  " Remember info about open buffers on close
+if v:version > 703 || v:version == 703 && has('patch541')
+  set formatoptions+=j          " remove comment leader when joining comment lines
+endif
 "}}}
-"
+
 "{{{ files (save, read, ...)
 set autoread      " Set to auto read when a file is changed from the outside
 set autowrite     " Automatically :write before running commands
+
 set backup
 set writebackup
-set backupdir=~/Documents/swap_files
+" Where save backup
+set backupdir=~/Documents/vim_files/backup
+set backupdir+=~/Documents/vim_files
+set backupdir+=.
+
+" Where place swap files 
+set directory=~/Documents/vim_files/swap
+set directory+=~/Documents/vim_files
+set directory+=.
+
+" Place for undo files
+if has('persistent_undo')
+    set undodir=~/Documents/vim_files/undo
+    set undodir=~/Documents/vim_files
+    set undodir+=.
+    set undofile                      " use undo files
+endif
+
+" don't create root-owned files
+if exists('$SUDO_USER')
+    if has('persistent_undo')
+        set noundofile
+    endif
+    set noswapfile 
+    set nobackup
+    set nowritebackup
+endif
+
 "}}}
 
 "{{{ spell and language
 set complete+=kspell " Extends dictionary
-set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8 " Set utf8 as standard encoding
 "}}}
 
 "{{{ history
@@ -237,16 +287,28 @@ set history=7000
 "}}}
 
 "{{{ Folds
-augroup vimrcFold
-  " fold vimrc itself by categories
-  autocmd!
-  autocmd FileType vim set foldmethod=marker
-  autocmd FileType vim set foldlevel=0
-augroup END
-set foldmethod=indent
-set foldlevelstart=99
-set foldcolumn=1
-set foldlevel=1
+if has('folding')
+    augroup vimrcFold
+      " fold vimrc itself by categories
+      autocmd!
+      autocmd FileType vim set foldmethod=marker
+      autocmd FileType vim set foldlevel=0
+    augroup END
+    set foldmethod=indent
+    set foldlevelstart=99   " start unfolded
+    set foldcolumn=1
+    set foldlevel=1
+    if has('windows')
+        set fillchars=vert:┃
+    endif
+endif
+"}}}
+
+"{{{ Gui
+set guioptions-=T     " don't show toolbar
+set guioptions-=m     " don't show menubar
+set guifont=Unispace
+set guicursor+=a:blinkon0
 "}}}
 
 "{{{ Others
@@ -256,7 +318,10 @@ set lazyredraw    " Don't redraw while executing macros (good performance)
 set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set omnifunc=syntaxcomplete#Complete " omnicompletition
 set showcmd          " Show current commands
-set wildmenu      " Turn on the WiLd menu
+if has('wildmenu')
+  set wildmenu                        " show options as list when switching buffers etc
+endif
+set wildmode=longest:full,full        " shell-like autocomplete to unambiguous portion
 "}}}
 
 "}}}
@@ -265,6 +330,9 @@ set wildmenu      " Turn on the WiLd menu
 
 " hard mode default
 " autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
+
+" Table modeline
+let g:table_mode_corner="|"
 
 " Neocomplete {{{
 " Disable AutoComplPop.

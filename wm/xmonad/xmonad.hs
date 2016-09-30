@@ -83,7 +83,7 @@ myWorkspaces = [
     "aux➋",  "Default","Web➋",
     "Midia", "VM",     "Docs",
     "Game"]
-startupWorkspace = "default"
+startupWorkspace = "Default"
 
 -- }}}
 
@@ -246,14 +246,14 @@ myManageHook = (composeAll . concat $
         cShiftMidia   = ["kdenlive","Vlc","spotify"]
         cShiftVM      = ["VirtualBox"]
         cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
-        cShiftDocs    = ["libreoffice"]
+        cShiftDocs    = ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"]
         -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
 
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox","thunderbird","stalonetray"
+                spawns ["dropbox","firefox","stalonetray"
                        ,"wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh"
-                       ,"~/applications/Telegram/Telegram", "unclutter -grab &"]
+                       , "unclutter -grab &"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()

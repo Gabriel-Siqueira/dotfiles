@@ -14,7 +14,7 @@ export JAVA_HOME=/usr/lib/jvm/java-8-openjdk
 # Go path
 export PATH=$PATH:/usr/local/go/bin
 # Cask path 
-export PATH="/home/gabriel/.cask/bin:$PATH"
+export PATH=/home/gabriel/.cask/bin:$PATH
 # Cabal path
 export PATH=$PATH:/home/gabriel/.cabal/bin
 

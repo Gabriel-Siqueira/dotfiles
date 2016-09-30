@@ -100,3 +100,5 @@ export TERM=xterm-256color
 
 # screenfetch (begin)
 screenfetch
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash

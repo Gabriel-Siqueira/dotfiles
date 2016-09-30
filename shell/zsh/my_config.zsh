@@ -1,12 +1,8 @@
 PATH=$PATH:/bin
+# Cabal path
+PATH=$PATH:/home/gabriel/.cabal/bin
 
 # Functions
-
-# Manda para lixeira
-function trash(){
-	n=$1;
-	mv $n ~/.local/share/Trash/files/;
-}
 
 # Use ssh on ic
 function ic_term(){
@@ -66,6 +62,9 @@ if [ -n "$INSIDE_EMACS" ]; then
   export ATHAME_ENABLED=0
   bindkey -e
 fi
+
+# use fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # screenfetch (begin)
 screenfetch

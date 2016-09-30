@@ -1,3 +1,5 @@
 set gui=nonavigation
 set tabnumbers
 colorscheme dark
+:command google open https://www.google.com.br/intl/pt-BR/about/products/
+:command todo open https://todoist.com/app?lang=pt_BR&v=820#agenda/overdue,%20today
