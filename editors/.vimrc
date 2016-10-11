@@ -90,8 +90,8 @@ nmap <leader>ss :setlocal spell!<cr>
 nmap <leader>sc :call SwitchSpellLang()<CR>
 
 " Visual mode pressing * or # searches for the current selection
-vnoremap <silent> * :call VisualSelection('f')<CR>
-vnoremap <silent> # :call VisualSelection('b')<CR>
+" vnoremap <silent> * :call VisualSelection('f')<CR>
+" vnoremap <silent> # :call VisualSelection('b')<CR>
 
 " Create new line and stay in normal mode
 nmap <Leader>o o<ESC>k
@@ -104,10 +104,10 @@ set pastetoggle=<F2>
 " toggle graphic undo tree
 nnoremap <F5> :GundoToggle<CR>
 
-" remove extra whitespace
+" remove extra white space
 nmap <leader><space> :%s/\s\+$<cr>
 
-" Prompt for comand with vimux
+" Prompt for command with vimux
 nmap <Leader>p :VimuxPromptCommand<CR>
 
 " Toggle Hard mode
@@ -125,78 +125,92 @@ let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 "}}}
 
+" {{{ Accept habits 
+" Q also quits
+cnoreabbrev Q q
+" }}}
+
 "}}}
 
 "{{{ ===================== Plugins ==========================
 
 set nocompatible  " be iMproved
 
-filetype off
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall | source $MYVIMRC
+endif
 
-call vundle#begin()
-
-Plugin 'Konfekt/FastFold'                   " speed up folds by updating
-Plugin 'Lokaltog/vim-easymotion'            " move following leters
-Plugin 'Shougo/neocomplete.vim'             " auto-completition
-" Plugin 'Shougo/neosnippet.vim'              " snippets
-Plugin 'Shougo/vimproc.vim'                 " Interactive command execution
-Plugin 'SirVer/ultisnips'                   " use snippets
-" Plugin 'Valloric/YouCompleteMe'             " auto-completition
-Plugin 'benmills/vimux'                     " use tmux with vim
-Plugin 'ctrlpvim/ctrlp.vim'                 " finder (fuzzy file, tag, etc)
-Plugin 'dhruvasagar/vim-table-mode'         " create and edit tables
-Plugin 'ervandew/supertab'                  " tab for complete
-Plugin 'gmarik/Vundle.vim'                  " manage plugins
-Plugin 'honza/vim-snippets'                 " more snippets
-Plugin 'jiangmiao/auto-pairs'               " add pairs automaticaly
-Plugin 'kana/vim-textobj-entire'            " new object
-Plugin 'kana/vim-textobj-function'          " new object
-Plugin 'kana/vim-textobj-indent'            " new object
-Plugin 'kana/vim-textobj-line'              " new object
-Plugin 'kana/vim-textobj-user'              " new object
-Plugin 'lervag/vimtex'                      " for edit latex
-Plugin 'ryanoasis/vim-devicons'             " icons
-Plugin 'scrooloose/nerdtree'                " tree of files
-Plugin 'scrooloose/syntastic'               " syntax Highlight
-Plugin 'sjl/gundo.vim'                      " undo tree
-Plugin 'tpope/vim-commentary'               " comment in and out
-Plugin 'tpope/vim-fugitive'                 " work with git
-Plugin 'tpope/vim-repeat'                   " extend use of .
-Plugin 'tpope/vim-surround'                 " new object surrond
-Plugin 'vim-airline/vim-airline'            " new mode line
-Plugin 'vim-airline/vim-airline-themes'     " themes for airline
-Plugin 'vim-scripts/ZoomWin'                " make pane full screen
-Plugin 'wikitopian/hardmode'                " make pane full screen
+call plug#begin('~/.vim/plugged')
+Plug 'Konfekt/FastFold'                       " speed up folds by updating
+Plug 'Lokaltog/vim-easymotion'                " move following leters
+Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
+Plug 'Shougo/neocomplete.vim'                 " auto-completition
+" Plug 'Shougo/neosnippet.vim'                 " snippets
+Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
+Plug 'SirVer/ultisnips'                       " use snippets
+" Plug 'Valloric/YouCompleteMe'                 " auto-completition
+Plug 'benmills/vimux'                         " use tmux with vim
+Plug 'ctrlpvim/ctrlp.vim'                     " finder (fuzzy file, tag, etc)
+Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
+Plug 'ervandew/supertab'                      " tab for complete
+Plug 'gmarik/Vundle.vim'                      " manage plugins
+Plug 'honza/vim-snippets'                     " more snippets
+Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
+Plug 'kana/vim-operator-user'                 " user operators
+Plug 'kana/vim-textobj-entire'                " new object
+Plug 'kana/vim-textobj-function'              " new object
+Plug 'kana/vim-textobj-indent'                " new object
+Plug 'kana/vim-textobj-line'                  " new object
+Plug 'kana/vim-textobj-user'                  " new object
+Plug 'lervag/vimtex'                          " for edit latex
+Plug 'rhysd/vim-grammarous'                   " grammar checking
+Plug 'ryanoasis/vim-devicons'                 " icons
+Plug 'scrooloose/nerdtree'                    " tree of files
+Plug 'scrooloose/syntastic'                   " syntax Highlight
+Plug 'sjl/gundo.vim'                          " undo tree
+Plug 'tpope/vim-commentary'                   " comment in and out
+Plug 'tpope/vim-fugitive'                     " work with git
+Plug 'tpope/vim-repeat'                       " extend use of .
+Plug 'tpope/vim-surround'                     " new object surrond
+Plug 'vim-airline/vim-airline'                " new mode line
+Plug 'vim-airline/vim-airline-themes'         " themes for airline
+Plug 'vim-scripts/ZoomWin'                    " make pane full screen
+Plug 'wikitopian/hardmode'                    " make pane full screen
 
 ""{{{ Colors
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'tomasr/molokai'
-Plugin 'sickill/vim-monokai'
-Plugin 'tpope/vim-vividchalk'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tomasr/molokai'
+Plug 'sickill/vim-monokai'
+Plug 'tpope/vim-vividchalk'
 ""}}}
 
 "{{{ Haskell
-" Plugin 'enomsg/vim-haskellConcealPlus'
-Plugin 'Twinside/vim-hoogle'
-Plugin 'dag/vim2hs'
-Plugin 'eagletmt/ghcmod-vim'
-Plugin 'eagletmt/neco-ghc'
-Plugin 'mpickering/hlint-refactor-vim'
-Plugin 'neovimhaskell/haskell-vim'
+" Plug 'enomsg/vim-haskellConcealPlus'         " prity haskell symbols
+Plug 'Twinside/vim-haskellFold'                " fold for haskell
+Plug 'Twinside/vim-hoogle'                     " search on hoogle
+Plug 'dag/vim2hs'                              " lots of help with haskell
+Plug 'eagletmt/ghcmod-vim'                     " type checker
+Plug 'eagletmt/neco-ghc'                       " Omni completition
+Plug 'mpickering/hlint-refactor-vim'           " use hlint
+" Plug 'neovimhaskell/haskell-vim'
 "}}}
 
-call vundle#end()
+" {{{ Other lenguages
+Plug 'rust-lang/rust.vim'                     " for rust
+" }}}
 
-filetype plugin indent on
+call plug#end()
+
 "}}}
 
 "{{{ ====================== settings ======================
 
 syntax enable      " Enable syntax highlighting
 
-" Sets {{{
+" ----------------- Sets -----------------  {{{
 
 "{{{ indentation
 set ai               " Auto indent
@@ -326,13 +340,11 @@ set wildmode=longest:full,full        " shell-like autocomplete to unambiguous p
 
 "}}}
 
-" Plugins {{{
+" ----------------- Plugins --------------- {{{
 
-" hard mode default
-" autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
-
-" Table modeline
+" Table modeline {{{
 let g:table_mode_corner="|"
+" }}}
 
 " Neocomplete {{{
 " Disable AutoComplPop.
@@ -403,9 +415,16 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
 "}}}
 
-" ultisnips
+" ultisnips {{{
 let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+" }}}
+
+" vim2hs {{{
+let g:haskell_conceal = 0 " disable all prity haskell symbols
+" let g:haskell_conceal_wide = 1 " enable all prity haskell symbols
+" }}}
+
 "}}}
 
 " when use GNU/Linux use bash as shell

@@ -41,6 +41,9 @@ alias df='df -h'
 alias df10='df -H'
 alias du='du -h'
 
+# Global variables
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+
 # settings on history
 HISTFILE=~/.histfile
 HISTSIZE=100000
@@ -62,14 +65,6 @@ if [ -n "$INSIDE_EMACS" ]; then
   export ATHAME_ENABLED=0
   bindkey -e
 fi
-
-# Try to predict the command
-autoload predict-on
-predict-on
-zle -N predict-on
-zle -N predict-off
-bindkey '^Z' predict-on
-bindkey '^X' predict-off
 
 # use fzf
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

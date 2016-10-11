@@ -1,4 +1,3 @@
--- Imports {{{
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Config.Desktop
@@ -19,9 +18,6 @@ import XMonad.Util.Cursor
 import XMonad.Hooks.EwmhDesktops as Ewmh
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
--- }}}
-
--- Main {{{
 
 baseConfig = desktopConfig
 
@@ -53,10 +49,7 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
 myConfig = ewmh myConfig_par{ handleEventHook =
     handleEventHook myConfig_par <+> Ewmh.fullscreenEventHook }
 
--- }}}
-
--- my changes on baseConfig {{{
-
+-- my changes on baseConfig
 myConfig_par = baseConfig
     { terminal           = myTerminal
     , modMask            = myModMask
@@ -84,10 +77,6 @@ myWorkspaces = [
     "Midia", "VM",     "Docs",
     "Game"]
 startupWorkspace = "Default"
-
--- }}}
-
--- Layouts {{{
 
 -- aplly onWorkspace "<WS>" <Layout> to use customs layouts to specifics workspace
 myLayouts = defaultLayouts
@@ -123,10 +112,6 @@ defaultLayouts = avoidStruts(
       -- Master window is at top left.
       ||| Grid
 
--- }}}
-
--- Keys {{{
-
 numKeys = [
         xK_7, xK_8, xK_9
       , xK_4, xK_5, xK_6
@@ -139,6 +124,7 @@ numPadKeys = [
       xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down,
       xK_KP_Insert
       ]
+
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm              , xK_Return), spawn $ XMonad.terminal conf)
@@ -193,6 +179,8 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     , ((modm .|. shiftMask, xK_c     ), io (exitWith ExitSuccess))
     -- Restart xmonad
     , ((modm              , xK_c     ), spawn "xmonad --recompile; xmonad --restart")
+    -- Lock screen
+    , ((modm          , xK_KP_Delete ), spawn "i3lock -i ~/Dropbox/Pictures/lock_und_dm/rsz_1maxresdefault.png")
     -- Volume
     , ((modm              , xK_Up    ), spawn "amixer set Master 5%+")
     , ((modm              , xK_Down  ), spawn "amixer set Master 5%-")
@@ -220,10 +208,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
         , (f, m)    <- [(W.view, 0), (W.shift, shiftMask)]]
 
--- }}}
-
--- Hooks {{{
-
+-- Hooks
 myManageHook = (composeAll . concat $
     [[ className =? "MPlayer"   --> doFloat]
     , [className =? "Gimp"      --> doFloat]
@@ -253,12 +238,10 @@ myStartupHook = do
                 setDefaultCursor xC_center_ptr
                 spawns ["dropbox","firefox","stalonetray"
                        ,"wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh"
-                       , "unclutter -grab &"]
+                       , "unclutter -grab &","thunderbird","~/applications/Telegram/Telegram"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()
                                        (x:xs) -> do 
                                            spawn x
                                            spawns xs
-
--- }}}

@@ -5,7 +5,7 @@ else
 	local color1="red"
 	local color2="white"
 fi
-local color3="gray"
+local color3="white"
 
 PROMPT='%F{$color3}┌╼%f%F{$color1} ⬖ -(%f%F{$color2}%~%f%F{$color1})-⬗ %F{$color3}╾╼%f%F{$color1} %D{%d/%m/%y} %f%F{$color3}╾╼ %f%F{$color1}%T%f%F{$color3} $(git_prompt_info)
 └╼ %f%F{$color1}%n%f%{$fg_bold[$color3]%}$( vi_mode_prompt_info ):%(!.#.➤) $reset_color'
