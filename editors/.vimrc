@@ -46,11 +46,10 @@ function! SwitchColorSchemes()
 endfunction
 
 let g:myLang = 0
-let g:myLangList = ['de', 'pt_br', 'en']
+let g:myLangList = ['de_de', 'pt_br', 'en']
 function! SwitchSpellLang()
   "loop through languages
-  if g:myLang == 0 | setlocal nospell
-  else | let &l:spelllang = g:myLangList[g:myLang] | setlocal spell | endif
+  let &l:spelllang = g:myLangList[g:myLang] | setlocal spell
   echomsg 'language:' g:myLangList[g:myLang]
   let g:myLang = g:myLang + 1
   if g:myLang >= len(g:myLangList) | let g:myLang = 0 | endif
@@ -128,6 +127,8 @@ let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 " {{{ Accept habits 
 " Q also quits
 cnoreabbrev Q q
+cnoreabbrev WQ wq
+cnoreabbrev Wq q
 " }}}
 
 "}}}
@@ -159,6 +160,7 @@ Plug 'ervandew/supertab'                      " tab for complete
 Plug 'gmarik/Vundle.vim'                      " manage plugins
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
+Plug 'justmao945/vim-clang'                   " clang completition
 Plug 'kana/vim-operator-user'                 " user operators
 Plug 'kana/vim-textobj-entire'                " new object
 Plug 'kana/vim-textobj-function'              " new object

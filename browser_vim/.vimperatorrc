@@ -1,4 +1,4 @@
-set gui=nonavigation
+set gui=navigation
 set tabnumbers
 set complete=hsSl
 colorscheme dark

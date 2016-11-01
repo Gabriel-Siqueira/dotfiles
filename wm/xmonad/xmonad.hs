@@ -225,9 +225,9 @@ myManageHook = (composeAll . concat $
     )
         where
         cShiftDev     = ["Emacs"]
-        cShiftMail    = ["Thunderbird","Telegram"]
+        cShiftMail    = ["Thunderbird","TelegramDesktop"]
         cShiftDefault = ["Firefox"]
-        cShiftWeb     = ["chromium","google-chrome","vivaldi-stable"]
+        cShiftWeb     = ["Chromium","google-chrome","vivaldi-stable"]
         cShiftMidia   = ["kdenlive","Vlc","spotify"]
         cShiftVM      = ["VirtualBox"]
         cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
