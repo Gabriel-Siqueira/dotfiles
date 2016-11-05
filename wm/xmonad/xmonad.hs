@@ -236,7 +236,7 @@ myManageHook = (composeAll . concat $
 
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox","firefox","stalonetray"
+                spawns ["dropbox","megasync","firefox","stalonetray"
                        ,"wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh"
                        , "unclutter -grab &","thunderbird","~/applications/Telegram/Telegram"]
                 windows $ W.greedyView startupWorkspace
