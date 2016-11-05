@@ -11,7 +11,7 @@ Config { --"-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
 		-- layout
 		, sepChar  = "%"   -- delineator between plugin names and straight text
 		, alignSep = "}{"  -- separator between left-right alignment
-		, template = "                 %StdinReader% }{|<fc=yellow>⚛: </fc> %multicpu% |<fc=yellow>⚅: </fc> %memory% |<fc=yellow>◙: </fc> %disku% |<fc=yellow>⇑: </fc> %pacman% |<fc=yellow>⚡: </fc>%battery% |<fc=yellow>♫: </fc> %default:Master% |<fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
+		, template = "                       %StdinReader% }{|<fc=yellow>⚛: </fc> %multicpu% |<fc=yellow>⚅: </fc> %memory% |<fc=yellow>◙: </fc> %disku% |<fc=yellow>⇑: </fc> %pacman% |<fc=yellow>⚡: </fc>%battery% |<fc=yellow>♫: </fc> %default:Master% |<fc=yellow>☎: </fc> %dynnetwork% | <fc=#9900cc>%date%</fc> "
 
 		-- general behavior
 		, lowerOnStart     = True    -- send to bottom of window stack on start
