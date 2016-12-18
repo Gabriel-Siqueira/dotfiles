@@ -65,7 +65,7 @@ myConfig_par = baseConfig
     , startupHook        = myStartupHook
     }
 
-myTerminal           = "terminator"
+myTerminal           = "terminology"
 myModMask            = mod4Mask
 myNormalBorderColor  = "#94b8b8"
 myFocusedBorderColor = "#0033cc"
@@ -118,6 +118,7 @@ numKeys = [
       , xK_1, xK_2, xK_3
       , xK_0
       ]
+
 numPadKeys = [
       xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up,
       xK_KP_Left, xK_KP_Begin, xK_KP_Right,
@@ -128,7 +129,8 @@ numPadKeys = [
 myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
     -- launch a terminal
     [ ((modm              , xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm .|. shiftMask, xK_Return), spawn "terminator --profile=fish")
+    , ((modm .|. shiftMask, xK_Return), spawn "terminator --profile=zsh")
+    , ((modm .|. controlMask, xK_Return), spawn "terminator")
     -- launch dmenu
     , ((modm,               xK_d     ), spawn "dmenu_run")
     -- launch rofi
@@ -209,7 +211,7 @@ myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
         , (f, m)    <- [(W.view, 0), (W.shift, shiftMask)]]
 
 -- Hooks
-myManageHook = (composeAll . concat $
+myManageHook = composeAll . concat $
     [[ className =? "MPlayer"   --> doFloat]
     , [className =? "Gimp"      --> doFloat]
     , [className =? "VirtualBox"--> doFloat]
@@ -222,7 +224,6 @@ myManageHook = (composeAll . concat $
     , [className =? x           --> doShift      "Game" | x <- cShiftGame]
     , [className =? x           --> doShift      "Docs" | x <- cShiftDocs]
     ]
-    )
         where
         cShiftDev     = ["Emacs"]
         cShiftMail    = ["Thunderbird","TelegramDesktop"]

@@ -1,11 +1,11 @@
-set PATH $PATH /bin
+# set PATH $PATH /bin
 
 # Prompt
-if ls bin | grep powerline-shell
-    function fish_prompt
-        ~/bin/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null
-    end
-else
+# if ls bin | grep powerline-shell
+#     function fish_prompt
+#         ~/bin/powerline-shell/powerline-shell.py $status --shell bare ^/dev/null
+#     end
+# else
     function _git_branch_name
       echo (git symbolic-ref HEAD ^/dev/null | sed -e 's|^refs/heads/||')
     end
@@ -44,7 +44,7 @@ else
         echo $up_beg $up_mid $up_end $git_info
         echo $down
     end
-end
+# end
 
 # Functions
 
@@ -65,6 +65,7 @@ alias tudoerrado "echo 'não desista as coisas vão dar certo'"
 alias culpasua "echo 'não é a maquina que comete erros é o programador'"
 alias socorro "echo 'continue a nadar'"
 alias resposta "echo '42'"
+
 alias clr "clear"
 alias gccs "gcc -ansi -pedantic -Wall -Werror -lm $argv"
 alias l "ls $argv"
@@ -87,7 +88,7 @@ alias df "command df -h $argv"
 alias df10 "command df -H $argv"
 alias du "command du -h $argv"
 
-# to work nice on emacs
+# title
 function fish_title
   true
 end
@@ -96,4 +97,4 @@ end
 fish_vi_key_bindings
 
 # screenfetch (begin)
-screenfetch
+# screenfetch

@@ -9,6 +9,8 @@ function ic_term(){
 	ssh ra155446@ssh.students.ic.unicamp.br
 }
 
+alias betty="~/application/betty/main.rb"
+
 alias oi="echo 'oi, tenha um bom dia'"
 alias tudoerrado="echo 'não desista as coisas vão dar certo'"
 alias culpasua="echo 'não é a maquina que comete erros é o programador'"

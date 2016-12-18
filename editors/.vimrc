@@ -135,8 +135,6 @@ cnoreabbrev Wq q
 
 "{{{ ===================== Plugins ==========================
 
-set nocompatible  " be iMproved
-
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -144,6 +142,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
+Plug 'suan/vim-instant-markdown'              " see markdown files on browser
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
 Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
@@ -210,7 +210,9 @@ call plug#end()
 
 "{{{ ====================== settings ======================
 
+set nocompatible   " be iMproved
 syntax enable      " Enable syntax highlighting
+syntax on
 
 " ----------------- Sets -----------------  {{{
 
@@ -338,6 +340,7 @@ if has('wildmenu')
   set wildmenu                        " show options as list when switching buffers etc
 endif
 set wildmode=longest:full,full        " shell-like autocomplete to unambiguous portion
+filetype plugin on                " allow file types plugins to run when opening file
 "}}}
 
 "}}}
@@ -426,6 +429,16 @@ let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
 let g:haskell_conceal = 0 " disable all prity haskell symbols
 " let g:haskell_conceal_wide = 1 " enable all prity haskell symbols
 " }}}
+
+" vimwiki {{{
+" markdown support
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+"}}}
+
+" instant markdown_autostart {{{
+" don't open browser on startup
+let g:instant_markdown_autostart = 0
+"}}}
 
 "}}}
 
