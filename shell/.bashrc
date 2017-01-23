@@ -77,21 +77,6 @@ shopt -s histappend
 export PATH=/home/gsiqueira/applications/sbt/usr/bin:$PATH
 export PATH=/usr/java/jdk1.8.0_31/bin:$PATH
 
-# gitprompt configuration
-
-# Set config variables first
-GIT_PROMPT_ONLY_IN_REPO=1
-
-# GIT_PROMPT_FETCH_REMOTE_STATUS=0   # uncomment to avoid fetching remote status
-
-#GIT_PROMPT_START='\[\033[0;33m\]\u\[\033[0;37m\]:>> '   # uncomment for custom prompt start sequence
-# GIT_PROMPT_END=...      # uncomment for custom prompt end sequence
-
-# as last entry source the gitprompt script
-# GIT_PROMPT_THEME=Custom # use custom .git-prompt-colors.sh
-# GIT_PROMPT_THEME=Solarized # use theme optimized for solarized color scheme
-source ~/.bash-git-prompt/gitprompt.sh
-
 # add colors
 export TERM=xterm-256color
 

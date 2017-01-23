@@ -66,7 +66,7 @@ set tm=2000 " time to leader became ç
 " NerdTree Ctrl n
 map <C-n> :NERDTreeToggle<CR>
 
-" Move a line of text using ALT+[jk]
+" Move a line of text using leader+[jk]
 nmap <leader>j mz:m+<cr>`z
 nmap <leader>k mz:m-2<cr>`z
 vmap <leader>j m'>+<cr>`<my`>mzgv`yo`z
@@ -112,16 +112,36 @@ nmap <Leader>p :VimuxPromptCommand<CR>
 " Toggle Hard mode
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
 
-" ultisnips and ycm {{{
-" make YCM compatible with UltiSnips (using supertab)
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-" let g:SuperTabDefaultCompletionType = '<C-n>'
+" ultisnips and neocomplete {{{
 
-" better key bindings for UltiSnipsExpandTrigger
-let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsExpandTrigger = "<c-y>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+endfunction
+" For smart TAB completion.
+inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ neocomplete#start_manual_complete()
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+        \ <SID>check_back_space() ? "\<TAB>" :
+        \ neocomplete#start_manual_complete()
+function! s:check_back_space() "{{{
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
 "}}}
 
 " {{{ Accept habits 
@@ -142,24 +162,24 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
-Plug 'suan/vim-instant-markdown'              " see markdown files on browser
+" Plug 'Shougo/neosnippet.vim'                 " snippets
+" Plug 'Valloric/YouCompleteMe'                 " auto-completition
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
 Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
 Plug 'Shougo/neocomplete.vim'                 " auto-completition
-" Plug 'Shougo/neosnippet.vim'                 " snippets
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
 Plug 'SirVer/ultisnips'                       " use snippets
-" Plug 'Valloric/YouCompleteMe'                 " auto-completition
 Plug 'benmills/vimux'                         " use tmux with vim
 Plug 'ctrlpvim/ctrlp.vim'                     " finder (fuzzy file, tag, etc)
 Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
-Plug 'ervandew/supertab'                      " tab for complete
+" Plug 'ervandew/supertab'                      " tab for complete
 Plug 'gmarik/Vundle.vim'                      " manage plugins
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'                       " fuzzy finder on vim
 Plug 'justmao945/vim-clang'                   " clang completition
 Plug 'kana/vim-operator-user'                 " user operators
 Plug 'kana/vim-textobj-entire'                " new object
@@ -173,6 +193,7 @@ Plug 'ryanoasis/vim-devicons'                 " icons
 Plug 'scrooloose/nerdtree'                    " tree of files
 Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'sjl/gundo.vim'                          " undo tree
+Plug 'suan/vim-instant-markdown'              " see markdown files on browser
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'tpope/vim-repeat'                       " extend use of .
@@ -180,7 +201,8 @@ Plug 'tpope/vim-surround'                     " new object surrond
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
-Plug 'wikitopian/hardmode'                    " make pane full screen
+Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
+Plug 'wikitopian/hardmode'                    " make vim harder
 
 ""{{{ Colors
 Plug 'altercation/vim-colors-solarized'
@@ -194,7 +216,7 @@ Plug 'tpope/vim-vividchalk'
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
 Plug 'dag/vim2hs'                              " lots of help with haskell
-Plug 'eagletmt/ghcmod-vim'                     " type checker
+Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 Plug 'eagletmt/neco-ghc'                       " Omni completition
 Plug 'mpickering/hlint-refactor-vim'           " use hlint
 " Plug 'neovimhaskell/haskell-vim'
@@ -349,9 +371,10 @@ filetype plugin on                " allow file types plugins to run when opening
 
 " Table modeline {{{
 let g:table_mode_corner="|"
-" }}}
+"}}}
 
 " Neocomplete {{{
+
 " Disable AutoComplPop.
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -360,7 +383,6 @@ let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
 
 " Define dictionary.
 let g:neocomplete#sources#dictionary#dictionaries = {
@@ -375,27 +397,8 @@ if !exists('g:neocomplete#keyword_patterns')
 endif
 let g:neocomplete#keyword_patterns['default'] = '\h\w*'
 
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
+" Shell like behavior(not recommended).
+set completeopt+=longest
 let g:neocomplete#enable_auto_select = 1
 
 " Enable omni completion.
@@ -413,6 +416,7 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+
 "}}}
 
 " airline {{{
@@ -422,7 +426,7 @@ let g:airline_theme='jellybeans'
 
 " ultisnips {{{
 let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets","vim-snippets"]
 " }}}
 
 " vim2hs {{{
@@ -480,5 +484,7 @@ endif
 color monokai
 color molokai
 set t_ut=
+
+"}}}
 
 "}}}
