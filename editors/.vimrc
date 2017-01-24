@@ -63,9 +63,7 @@ endfunction
 let mapleader = 'ç'
 set tm=2000 " time to leader became ç
 
-" NerdTree Ctrl n
-map <C-n> :NERDTreeToggle<CR>
-
+" Moviment and screen {{{
 " Move a line of text using leader+[jk]
 nmap <leader>j mz:m+<cr>`z
 nmap <leader>k mz:m-2<cr>`z
@@ -87,7 +85,9 @@ map <leader>tm :tabmove
 " Toggle and untoggle spell checking
 nmap <leader>ss :setlocal spell!<cr>
 nmap <leader>sc :call SwitchSpellLang()<CR>
+" }}}
 
+" Best edit {{{
 " Visual mode pressing * or # searches for the current selection
 " vnoremap <silent> * :call VisualSelection('f')<CR>
 " vnoremap <silent> # :call VisualSelection('b')<CR>
@@ -96,21 +96,30 @@ nmap <leader>sc :call SwitchSpellLang()<CR>
 nmap <Leader>o o<ESC>k
 nmap <Leader>O O<ESC>j
 
-" Change color scheme
-map <F6> :call SwitchColorSchemes()<CR>
-" Change between insert and Paste
-set pastetoggle=<F2>
-" toggle graphic undo tree
-nnoremap <F5> :GundoToggle<CR>
-
 " remove extra white space
 nmap <leader><space> :%s/\s\+$<cr>
+" }}}
 
+" F* {{{
+" Change color scheme
+map <F6> :call SwitchColorSchemes()<CR>
+
+" Change between insert and Paste
+set pastetoggle=<F2>
+
+" toggle graphic undo tree
+nnoremap <F5> :GundoToggle<CR>
+" }}}
+
+" {{{ Plugins
 " Prompt for command with vimux
 nmap <Leader>p :VimuxPromptCommand<CR>
 
 " Toggle Hard mode
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
+
+" NerdTree Ctrl n
+map <C-n> :VimFilerExplorer<CR>
 
 " ultisnips and neocomplete {{{
 
@@ -132,16 +141,17 @@ inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" :
 inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
         \ <SID>check_back_space() ? "\<TAB>" :
         \ neocomplete#start_manual_complete()
-function! s:check_back_space() "{{{
+function! s:check_back_space()
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
-endfunction"}}}
+endfunction
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
 
+"}}}
 "}}}
 
 " {{{ Accept habits 
@@ -162,19 +172,22 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
+" Others {{{
 " Plug 'Shougo/neosnippet.vim'                 " snippets
-" Plug 'Valloric/YouCompleteMe'                 " auto-completition
+" Plug 'Valloric/YouCompleteMe'                " auto-completition
+" Plug 'ervandew/supertab'                      " tab for complete
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
-Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
+Plug 'Shougo/echodoc.vim'                     " Signatures in command line 
 Plug 'Shougo/neocomplete.vim'                 " auto-completition
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
+Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
+Plug 'Shougo/vimshell.vim'                    " shell
 Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'benmills/vimux'                         " use tmux with vim
 Plug 'ctrlpvim/ctrlp.vim'                     " finder (fuzzy file, tag, etc)
 Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
-" Plug 'ervandew/supertab'                      " tab for complete
 Plug 'gmarik/Vundle.vim'                      " manage plugins
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
@@ -189,8 +202,6 @@ Plug 'kana/vim-textobj-line'                  " new object
 Plug 'kana/vim-textobj-user'                  " new object
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rhysd/vim-grammarous'                   " grammar checking
-Plug 'ryanoasis/vim-devicons'                 " icons
-Plug 'scrooloose/nerdtree'                    " tree of files
 Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'suan/vim-instant-markdown'              " see markdown files on browser
@@ -203,6 +214,7 @@ Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
+" }}}
 
 ""{{{ Colors
 Plug 'altercation/vim-colors-solarized'
@@ -222,7 +234,8 @@ Plug 'mpickering/hlint-refactor-vim'           " use hlint
 " Plug 'neovimhaskell/haskell-vim'
 "}}}
 
-" {{{ Other lenguages
+" {{{ Other lenguages and file types
+Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
 Plug 'rust-lang/rust.vim'                     " for rust
 " }}}
 
@@ -352,33 +365,32 @@ set guicursor+=a:blinkon0
 "}}}
 
 "{{{ Others
-set ffs=unix,dos,mac  " Use Unix as the standard file type
-set laststatus=2  " Always display the status line
-set lazyredraw    " Don't redraw while executing macros (good performance)
+set noshowmode       " remove insert from command line
+set ffs=unix,dos,mac " Use Unix as the standard file type
+set laststatus=2     " Always display the status line
+set lazyredraw       " Don't redraw while executing macros (good performance)
 set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set omnifunc=syntaxcomplete#Complete " omnicompletition
 set showcmd          " Show current commands
 if has('wildmenu')
-  set wildmenu                        " show options as list when switching buffers etc
+  set wildmenu       " show options as list when switching buffers etc
 endif
-set wildmode=longest:full,full        " shell-like autocomplete to unambiguous portion
-filetype plugin on                " allow file types plugins to run when opening file
+set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
+filetype plugin on   " allow file types plugins to run when opening file
 "}}}
 
 "}}}
 
 " ----------------- Plugins --------------- {{{
 
-" Table modeline {{{
-let g:table_mode_corner="|"
-"}}}
+" Enable/disable on startup {{{
+let g:echodoc_enable_at_startup = 1
+let g:neocomplete#enable_at_startup = 1
+let g:acp_enableAtStartup = 0
+" }}}
 
 " Neocomplete {{{
 
-" Disable AutoComplPop.
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
@@ -434,15 +446,18 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 " let g:haskell_conceal_wide = 1 " enable all prity haskell symbols
 " }}}
 
-" vimwiki {{{
-" markdown support
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-"}}}
+" Others {{{
 
-" instant markdown_autostart {{{
-" don't open browser on startup
+" Table modeline 
+let g:table_mode_corner="|"
+" VimFiler
+let g:vimfiler_as_default_explorer = 1
+" instant don't open browser on startup
 let g:instant_markdown_autostart = 0
-"}}}
+" vimwiki markdown support
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
+
+" }}}
 
 "}}}
 
