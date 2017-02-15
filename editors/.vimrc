@@ -1,19 +1,15 @@
 "{{{ ====================== Commands ======================
-
-command! -nargs=0 Clean :set nonu nolist foldcolun=0
-command! -nargs=0 Unclean :set nu list foldcolun=1
-
+command! -nargs=0 Clean :set nonu nolist foldcolumn=0
+command! -nargs=0 Unclean :set nu list foldcolumn=1
 "}}}
-
-"{{{ ====================== functions ======================
-
+"{{{ ====================== Functions ======================
+"{{{ VisualSelection 
 function! VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
 
     let l:pattern = escape(@", '\\/.*$^~[]')
     let l:pattern = substitute(l:pattern, "\n$", "", "")
-
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'gv'
@@ -27,24 +23,8 @@ function! VisualSelection(direction) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
-function! SwitchColorSchemes()
-    if g:colors_name == 'molokai'
-         colorscheme monokai
-    elseif g:colors_name == 'monokai'
-         colorscheme desert
-    elseif g:colors_name == 'desert'
-        colorscheme vividchalk
-    elseif g:colors_name == 'vividchalk'
-        colorscheme solarized
-        let g:solarized_termcolors=256
-    elseif g:colors_name == 'solarized'
-        colorscheme monokai
-        colorscheme molokai
-    endif
-    echomsg 'color:' g:colors_name
-endfunction
-
+"}}}
+"{{{ SwitchSpellLang
 let g:myLang = 0
 let g:myLangList = ['de_de', 'pt_br', 'en']
 function! SwitchSpellLang()
@@ -54,79 +34,40 @@ function! SwitchSpellLang()
   let g:myLang = g:myLang + 1
   if g:myLang >= len(g:myLangList) | let g:myLang = 0 | endif
 endfunction
-
 "}}}
-
-"{{{ ====================== mappings ======================
-
-" Leader
+"}}}
+"{{{ ====================== Mappings ======================
+" Leader {{{
 let mapleader = 'ç'
 set tm=2000 " time to leader became ç
-
-" Moviment and screen {{{
-" Move a line of text using leader+[jk]
-nmap <leader>j mz:m+<cr>`z
-nmap <leader>k mz:m-2<cr>`z
-vmap <leader>j m'>+<cr>`<my`>mzgv`yo`z
-vmap <leader>k :m'<-2<cr>`>my`<mzgv`yo`z
-
-" Smart way to move between windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
-
-" Useful mappings for managing tabs
+" }}}
+" tabs {{{
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
-
-" Toggle and untoggle spell checking
+" }}}
+" spell checking {{{
 nmap <leader>ss :setlocal spell!<cr>
 nmap <leader>sc :call SwitchSpellLang()<CR>
 " }}}
-
 " Best edit {{{
-" Visual mode pressing * or # searches for the current selection
-" vnoremap <silent> * :call VisualSelection('f')<CR>
-" vnoremap <silent> # :call VisualSelection('b')<CR>
-
-" Create new line and stay in normal mode
-nmap <Leader>o o<ESC>k
-nmap <Leader>O O<ESC>j
-
-" remove extra white space
-nmap <leader><space> :%s/\s\+$<cr>
+vnoremap <silent> * :call VisualSelection('f')<CR> " * searches current selection foword
+nmap <leader><space> :%s/\s\+$<cr>                 " remove extra white space
 " }}}
-
 " F* {{{
-" Change color scheme
-map <F6> :call SwitchColorSchemes()<CR>
-
-" Change between insert and Paste
-set pastetoggle=<F2>
-
-" toggle graphic undo tree
-nnoremap <F5> :GundoToggle<CR>
+set pastetoggle=<F2>           " Change between insert and Paste
+nnoremap <F3> :GundoToggle<CR> " toggle graphic undo tree
+map <F4> :VimFilerExplorer<CR> " Toggle File Explorer
 " }}}
-
 " {{{ Plugins
-" Prompt for command with vimux
-nmap <Leader>p :VimuxPromptCommand<CR>
-
-" Toggle Hard mode
-nnoremap <leader>h <Esc>:call ToggleHardMode()<CR>
-
-" NerdTree Ctrl n
-map <C-n> :VimFilerExplorer<CR>
-
-" ultisnips and neocomplete {{{
-
+nnoremap <leader>h <Esc>:call ToggleHardMode()<CR> " Toggle Hard mode
+" ultisnips {{{
 let g:UltiSnipsExpandTrigger = "<c-y>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
-
+"}}}
+" neocomplete {{{
 inoremap <expr><C-g>     neocomplete#undo_completion()
 inoremap <expr><C-l>     neocomplete#complete_common_string()
 " <CR>: close popup and save indent.
@@ -150,21 +91,15 @@ inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
 " Close popup by <Space>.
 inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
 "}}}
 "}}}
-
-" {{{ Accept habits 
-" Q also quits
+" {{{ Accept habits
 cnoreabbrev Q q
 cnoreabbrev WQ wq
 cnoreabbrev Wq q
 " }}}
-
 "}}}
-
 "{{{ ===================== Plugins ==========================
-
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
@@ -173,22 +108,17 @@ endif
 
 call plug#begin('~/.vim/plugged')
 " Others {{{
-" Plug 'Shougo/neosnippet.vim'                 " snippets
-" Plug 'Valloric/YouCompleteMe'                " auto-completition
-" Plug 'ervandew/supertab'                      " tab for complete
+Plug 'AndrewRadev/splitjoin.vim'              " split and join expressions
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
-Plug 'Shougo/echodoc.vim'                     " Signatures in command line 
+Plug 'Shougo/echodoc.vim'                     " Signatures in command line
 Plug 'Shougo/neocomplete.vim'                 " auto-completition
-Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
+Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
 Plug 'Shougo/vimshell.vim'                    " shell
 Plug 'SirVer/ultisnips'                       " use snippets
-Plug 'benmills/vimux'                         " use tmux with vim
-Plug 'ctrlpvim/ctrlp.vim'                     " finder (fuzzy file, tag, etc)
 Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
-Plug 'gmarik/Vundle.vim'                      " manage plugins
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -205,111 +135,100 @@ Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'suan/vim-instant-markdown'              " see markdown files on browser
+Plug 'tpope/vim-capslock'                     " software caps lock
+Plug 'tpope/vim-unimpaired'                   " complementary pairs of mappings
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'tpope/vim-repeat'                       " extend use of .
+Plug 'tpope/vim-speeddating'                  " fast way of change date
 Plug 'tpope/vim-surround'                     " new object surrond
+Plug 'tpope/vim-sleuth'                       " set indentation for files
+Plug 'tpope/vim-tbone'                        " commands for tmux on vim
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
 " }}}
-
 ""{{{ Colors
 Plug 'altercation/vim-colors-solarized'
 Plug 'tomasr/molokai'
 Plug 'sickill/vim-monokai'
 Plug 'tpope/vim-vividchalk'
 ""}}}
-
 "{{{ Haskell
-" Plug 'enomsg/vim-haskellConcealPlus'         " prity haskell symbols
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
 Plug 'dag/vim2hs'                              " lots of help with haskell
 Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 Plug 'eagletmt/neco-ghc'                       " Omni completition
 Plug 'mpickering/hlint-refactor-vim'           " use hlint
-" Plug 'neovimhaskell/haskell-vim'
 "}}}
-
 " {{{ Other lenguages and file types
 Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
 Plug 'rust-lang/rust.vim'                     " for rust
 " }}}
-
 call plug#end()
 
 "}}}
-
-"{{{ ====================== settings ======================
-
+"{{{ ====================== Settings ======================
 set nocompatible   " be iMproved
 syntax enable      " Enable syntax highlighting
 syntax on
-
 " ----------------- Sets -----------------  {{{
-
 "{{{ indentation
 set ai               " Auto indent
 set si               " Smart indent
-set tabstop=4        " 1 tab == 2 spaces
-set shiftwidth=4     " Number of spaces to use for each step of (auto)indent
 set expandtab        " Replace tabs with spaces
 set shiftround       " always indent by multiple of shiftwidth
 "}}}
-
 "{{{ numbers
 set number            " Line number
 set ruler            " Always show current position
 set numberwidth=2
+set number
 set relativenumber " Show numbers relative to the current line
 "}}}
-
 "{{{ search
 set hlsearch      " Highlight search results
 set incsearch     " Makes search act like search in modern browsers
 "}}}
-
 "{{{ line and column
-set cursorline    " Highlight cursor line
-set colorcolumn=+1    " Make it obvious where textwith are
+set cursorline         " Highlight cursor line
+set colorcolumn=+1     " Highlight textwith column
 if has('linebreak')
-  set linebreak                       " wrap long lines at characters in 'breakat'
-  let &showbreak='⤷ '                 " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
+  set linebreak        " wrap long lines at characters in 'breakat'
+  let &showbreak='⤷ '  " ARROW POINTING DOWNWARDS THEN CURVING RIGHTWARDS (U+2937, UTF-8: E2 A4 B7)
 endif
 "}}}
-
-"{{{ play nice
-set backspace=indent,start,eol  " Backspace deletes like most programs in insert mode
+"{{{ mouse and cursor
 set mouse=a                     " enable mouse
+set mousemodel=popup            " right button open pupup menu
 set scrolloff=10                " Keep cursor centered
 set sidescrolloff=3             " scrolloff for columns
 set showmatch                   " Show matching brackets when text indicator is over them
+"}}}
+"{{{ play nice
+set backspace=indent,start,eol  " Backspace deletes like most programs in insert mode
 set textwidth=77
 set viminfo^=%                  " Remember info about open buffers on close
 if v:version > 703 || v:version == 703 && has('patch541')
   set formatoptions+=j          " remove comment leader when joining comment lines
 endif
 "}}}
-
 "{{{ files (save, read, ...)
 set autoread      " Set to auto read when a file is changed from the outside
 set autowrite     " Automatically :write before running commands
-
 set backup
 set writebackup
 " Where save backup
 set backupdir=~/Documents/vim_files/backup
 set backupdir+=~/Documents/vim_files
 set backupdir+=.
-
-" Where place swap files 
+" Where place swap files
 set directory=~/Documents/vim_files/swap
 set directory+=~/Documents/vim_files
 set directory+=.
-
 " Place for undo files
 if has('persistent_undo')
     set undodir=~/Documents/vim_files/undo
@@ -317,28 +236,23 @@ if has('persistent_undo')
     set undodir+=.
     set undofile                      " use undo files
 endif
-
 " don't create root-owned files
 if exists('$SUDO_USER')
     if has('persistent_undo')
         set noundofile
     endif
-    set noswapfile 
+    set noswapfile
     set nobackup
     set nowritebackup
 endif
-
 "}}}
-
 "{{{ spell and language
 set complete+=kspell " Extends dictionary
-set encoding=utf8 " Set utf8 as standard encoding
+set encoding=utf8    " Set utf8 as standard encoding
 "}}}
-
 "{{{ history
 set history=7000
 "}}}
-
 "{{{ Folds
 if has('folding')
     augroup vimrcFold
@@ -356,16 +270,15 @@ if has('folding')
     endif
 endif
 "}}}
-
 "{{{ Gui
 set guioptions-=T     " don't show toolbar
 set guioptions-=m     " don't show menubar
-set guifont=Unispace
+set guifont=Terminus
 set guicursor+=a:blinkon0
 "}}}
-
 "{{{ Others
 set noshowmode       " remove insert from command line
+set virtualedit=block " better block selection
 set ffs=unix,dos,mac " Use Unix as the standard file type
 set laststatus=2     " Always display the status line
 set lazyredraw       " Don't redraw while executing macros (good performance)
@@ -378,19 +291,14 @@ endif
 set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
 filetype plugin on   " allow file types plugins to run when opening file
 "}}}
-
 "}}}
-
 " ----------------- Plugins --------------- {{{
-
 " Enable/disable on startup {{{
 let g:echodoc_enable_at_startup = 1
 let g:neocomplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0
 " }}}
-
 " Neocomplete {{{
-
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
 " Set minimum syntax keyword length.
@@ -428,51 +336,37 @@ let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
 "}}}
-
 " airline {{{
 let g:airline_powerline_fonts = 1
 let g:airline_theme='jellybeans'
+let g:airline#extensions#capslock#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
 "}}}
-
 " ultisnips {{{
 let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets","vim-snippets"]
 " }}}
-
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols
 " let g:haskell_conceal_wide = 1 " enable all prity haskell symbols
 " }}}
-
 " Others {{{
-
-" Table modeline 
-let g:table_mode_corner="|"
-" VimFiler
-let g:vimfiler_as_default_explorer = 1
-" instant don't open browser on startup
-let g:instant_markdown_autostart = 0
-" vimwiki markdown support
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'}
-
+let g:table_mode_corner="|"            " Table modeline
+let g:vimfiler_as_default_explorer = 1 " VimFiler
+let g:instant_markdown_autostart = 0   " instant don't open browser on startup
+let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
-
 "}}}
-
-" when use GNU/Linux use bash as shell
-"{{{
-
+"{{{ when use GNU/Linux use bash as shell
 if has("unix")
     let &shell="bash"
     set clipboard=autoselect
 endif
 "}}}
-
-" Return to last edit position when opening files ans save history
-"{{{
-
+" Return to last edit position when opening files ans save history {{{
 set viminfo='100,\"1000,:40,%,n~/.viminfo
    au BufReadPost * if line("'\"")|execute("normal `\"")|endif
    autocmd BufReadPost *
@@ -480,26 +374,9 @@ set viminfo='100,\"1000,:40,%,n~/.viminfo
     \   exe "normal g`\"" |
     \ endif
 "}}}
-
-" Manager Cursor color
-" {{{
-if exists('$TMUX')
-else
-    autocmd VimEnter * silent !echo -ne "\033]12;blue\007"
-    autocmd InsertEnter * silent !echo -ne "\033]12;green\007"
-    autocmd InsertLeave * silent !echo -ne "\033]12;blue\007"
-    silent !echo -ne "\033]12;blue\007"
-    " reset cursor when vim exits
-    autocmd VimLeave * silent !echo -ne "\033]12\007"
-endif
-"}}}
-
 "{{{ color
-
 color monokai
 color molokai
 set t_ut=
-
 "}}}
-
 "}}}
