@@ -5,16 +5,6 @@ if [ -f /etc/bashrc ]; then
         . /etc/bashrc
 fi
 
-# Uncomment the following line if you don't like systemctl's auto-paging feature:
-# export SYSTEMD_PAGER=
-
-# ${EUID} identifica o tipo de usuario:
-#    se for 0 eh o root, caso contrario, eh um usuario comum
-# \[\033[x;xxm]] indica uma cor
-# \w eh substituido pelo nome do diretorio atual
-# \$ eh substituido por $ caso o usuario seja normal ou por # caso seja root
-# \u eh substituido pelo nome do usuario
-
 if [[ ${EUID} != 0 ]] ; then
 	PS1='\[\033[0;33m\]⬖ -(\[\033[0;32m\]\w\[\033[0;33m\])-⬗ \t\n\[\033[0;33m\]\u\[\033[0;37m\]:>> '
 else
@@ -31,6 +21,15 @@ function ic_term(){
 	ssh ra155446@ssh.students.ic.unicamp.br
 }
 
+# programs {{{
+alias betty="~/application/betty/main.rb"
+# }}}
+# files {{{
+alias fvim="vim ~/.vimrc"
+alias fzsh="vim ~/.oh-my-zsh/custom/my_config.zsh"
+alias ftmux="vim ~/.tmux.conf"
+# }}}
+# fun {{{
 alias oi="echo 'oi, tenha um bom dia'"
 alias tudoerrado="echo 'não desista as coisas vão dar certo'"
 alias culpasua="echo 'não é a maquina que comete erros é o programador'"
@@ -39,9 +38,11 @@ alias resposta="echo '42'"
 alias answer="echo '42'"
 alias frase="echo 'We live in a world of possibilities'"
 alias programingtime="echo 'let´s have some fun'"
-
+# }}}
+# usefull {{{
 alias clr='clear'
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
+alias emacsc='emacsclient'
 alias l="ls"
 alias ls='ls --color=auto'
 alias dot='ls .[a-zA-Z0-9_]*'
@@ -61,6 +62,7 @@ alias grep='grep --color=auto'
 alias df='df -h'
 alias df10='df -H'
 alias du='du -h'
+# }}}
 
 # Historico
 

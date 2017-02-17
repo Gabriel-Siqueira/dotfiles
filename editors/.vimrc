@@ -114,6 +114,7 @@ Plug 'Lokaltog/vim-easymotion'                " move following leters
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
 Plug 'Shougo/neocomplete.vim'                 " auto-completition
 Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
+Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
 Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
 Plug 'Shougo/vimshell.vim'                    " shell
@@ -253,13 +254,12 @@ set encoding=utf8    " Set utf8 as standard encoding
 "{{{ history
 set history=7000
 "}}}
-"{{{ Folds
+"{{{ folds
 if has('folding')
     augroup vimrcFold
       " fold vimrc itself by categories
       autocmd!
-      autocmd FileType vim set foldmethod=marker
-      autocmd FileType vim set foldlevel=0
+      autocmd FileType vim,zsh,conf set foldmethod=marker | set foldlevel=0
     augroup END
     set foldmethod=indent
     set foldlevelstart=99   " start unfolded
@@ -270,13 +270,13 @@ if has('folding')
     endif
 endif
 "}}}
-"{{{ Gui
+"{{{ gui
 set guioptions-=T     " don't show toolbar
 set guioptions-=m     " don't show menubar
 set guifont=Terminus
 set guicursor+=a:blinkon0
 "}}}
-"{{{ Others
+"{{{ others
 set noshowmode       " remove insert from command line
 set virtualedit=block " better block selection
 set ffs=unix,dos,mac " Use Unix as the standard file type
@@ -355,7 +355,6 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 " }}}
 " Others {{{
 let g:table_mode_corner="|"            " Table modeline
-let g:vimfiler_as_default_explorer = 1 " VimFiler
 let g:instant_markdown_autostart = 0   " instant don't open browser on startup
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
