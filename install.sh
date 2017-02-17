@@ -15,7 +15,8 @@ ln -s ~/MEGA/dotfiles/shell/config.fish         ~/.config/fish/config.fish
 
 ln -s ~/MEGA/dotfiles/editors/.inputrc            ~/.inputrc
 
-ln -s ~/MEGA/dotfiles/editors/.vimrc              ~/.vimrc
+ln -s ~/MEGA/dotfiles/editors/.vimrc               ~/.vimrc
+ln -s ~/MEGA/dotfiles/editors/init.vim             ~/.config/nvim/init.vim
 ln -s ~/MEGA/dotfiles/editors/.vim/mysnippets      ~/.vim/mysnippets
 # ln -s ~/MEGA/dotfiles/browser_vim/.vimperatorrc   ~/.vimperatorrc
 # ln -s ~/MEGA/dotfiles/browser_vim/dark.vimp       ~/.vimperator/colors/dark.vimp

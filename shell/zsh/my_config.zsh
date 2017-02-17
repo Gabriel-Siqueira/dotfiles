@@ -14,13 +14,18 @@ function ic_term(){
 alias betty="~/application/betty/main.rb"
 # }}}
 # exeptions to auto-correction {{{
-alias mkdir='nocorrect mkdir'
-alias mv='nocorrect mv'
+alias mkdir='nocorrect mkdir -p'
+alias mv='nocorrect mv -i'
 # }}}
 # files {{{
 alias fvim="vim ~/.vimrc"
+alias fnvim="vim ~/.config/nvim/init.vim"
 alias fzsh="vim ~/.oh-my-zsh/custom/my_config.zsh"
 alias ftmux="vim ~/.tmux.conf"
+alias nfvim="nvim ~/.vimrc"
+alias nfnvim="nvim ~/.config/nvim/init.vim"
+alias nfzsh="nvim ~/.oh-my-zsh/custom/my_config.zsh"
+alias nftmux="nvim ~/.tmux.conf"
 # }}}
 # fun {{{
 alias oi="echo 'oi, tenha um bom dia'"
@@ -44,9 +49,7 @@ alias la='ls -A'
 alias lh="ls -lh"
 alias ltr="ls -ltr"
 alias cd..='cd ..'
-alias mkdir='mkdir -p'
 alias rm='rm -i'
-alias mv='mv -i'
 alias cp='cp -ai'
 alias .='pwd'
 alias ..='cd ..'
