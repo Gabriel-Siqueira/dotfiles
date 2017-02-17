@@ -261,12 +261,6 @@ if has('folding')
     endif
 endif
 "}}}
-"{{{ gui
-set guioptions-=T     " don't show toolbar
-set guioptions-=m     " don't show menubar
-set guifont=Terminus
-set guicursor+=a:blinkon0
-"}}}
 "{{{ others
 set noshowmode       " remove insert from command line
 set virtualedit=block " better block selection
