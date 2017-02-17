@@ -145,6 +145,11 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
 " }}}
+" Nyaovim {{{
+Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip
+Plug 'rhysd/nyaovim-markdown-preview' " preview markdown files
+Plug 'rhysd/nyaovim-mini-browser'     " browser for nyaovim
+" }}}
 ""{{{ Colors
 Plug 'altercation/vim-colors-solarized'
 Plug 'tomasr/molokai'
