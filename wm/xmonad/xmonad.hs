@@ -1,3 +1,5 @@
+-- import {{{
+import System.IO
 import XMonad
 import XMonad.Hooks.DynamicLog
 import XMonad.Config.Desktop
@@ -14,20 +16,25 @@ import XMonad.Layout.PerWorkspace (onWorkspace)
 import XMonad.Layout.Fullscreen
 import XMonad.Hooks.UrgencyHook
 import XMonad.Util.Cursor
+import XMonad.Util.EZConfig
+import XMonad.Util.NamedActions
+import XMonad.Util.NamedScratchpad
+import XMonad.Util.Run
 
 import XMonad.Hooks.EwmhDesktops as Ewmh
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
+-- }}}
 
-baseConfig = desktopConfig
-
--- main function
-main = xmonad =<< statusBar myBar myPP toggleStrutsKey myConfig
-
--- Command to launch the bar.
+-- main {{{
+main = xmonad 
+    =<< statusBar myBar myPP toggleStrutsKey
+    (addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
+    myConfig)
+-- Command to launch the bar. {{{
 myBar = "xmobar"
-
--- Custom PP, configure it as you like. It determines what is being written to the bar.
+-- }}}
+-- Custom PP, determines what is being written to the bar. {{{
 myPP = xmobarPP { ppVisible = xmobarColor "#2E9AFE" "" . wrap "[" "]"
                 , ppCurrent = xmobarColor "yellow" "" . wrap "[" "]"
                 , ppTitle = xmobarColor "#9900cc" ""
@@ -40,45 +47,51 @@ myPP = xmobarPP { ppVisible = xmobarColor "#2E9AFE" "" . wrap "[" "]"
                           _                      -> x )
                 , ppUrgent  = xmobarColor "red" "" . wrap "*" "*"
                 }
-
- -- Key binding to toggle the gap for the bar.
-toggleStrutsKey XConfig {XMonad.modMask = modMask} = (modMask, xK_b)
-
--- use the EWMH hints to tell panel applications about its workspaces
+-- }}}
+-- use the EWMH hints to tell panel applications about its workspaces {{{
 -- and the windows therein.
 myConfig = ewmh myConfig_par{ handleEventHook =
     handleEventHook myConfig_par <+> Ewmh.fullscreenEventHook }
-
--- my changes on baseConfig
+-- }}}
+-- Key binding to toggle the gap for the bar. {{{
+toggleStrutsKey XConfig {XMonad.modMask = modMask} = (myModMask, xK_b)
+-- }}}
+-- }}}
+-- Basic Configuration {{{
+baseConfig           = desktopConfig
+myTerminal           = "terminator"
+myMenu               = "rofi -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '50' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'" 
+myShiftMenu          = "dmenu"
+myShiftTerminal      = "terminology"
+myCtrlTerminal       = "terminator --profile=Fish"
+myScreenShot         = "xfce4-screenshot" 
+myModMask            = mod4Mask -- (super/win key)
+myNormalBorderColor  = "#94b8b8"
+myFocusedBorderColor = "#0033cc"
+myClickJustFocuses   = True
+myFocusFollowsMouse  = False
 myConfig_par = baseConfig
     { terminal           = myTerminal
     , modMask            = myModMask
-    , keys               = myKeys
-
     , workspaces         = myWorkspaces
-
     , normalBorderColor  = myNormalBorderColor
     , focusedBorderColor = myFocusedBorderColor
-
+    , clickJustFocuses   = myClickJustFocuses
+    , focusFollowsMouse = myFocusFollowsMouse
     , layoutHook         = myLayouts
     , manageHook         = myManageHook
     , startupHook        = myStartupHook
     }
-
-myTerminal           = "terminology"
-myModMask            = mod4Mask
-myNormalBorderColor  = "#94b8b8"
-myFocusedBorderColor = "#0033cc"
-
--- Workspace on a grid corresponding to number Pad keys
-myWorkspaces = [
-    "aux➊",  "Dev",    "Mail",
-    "aux➋",  "Default","Web➋",
-    "Midia", "VM",     "Docs",
-    "Game"]
-startupWorkspace = "Default"
-
--- aplly onWorkspace "<WS>" <Layout> to use customs layouts to specifics workspace
+-- }}}
+-- Workspace on a grid corresponding to number Pad keys {{{
+myWorkspaces = ["1","2","3","4","5","6","7","8","9","0",
+    ".",    "dev",    "mail",
+    "aux",  "default","web",
+    "midia","vm",     "docs",
+    "game"]
+startupWorkspace = "default"
+-- }}}
+-- aplly onWorkspace "<WS>" <Layout> to use customs layouts to specifics workspace {{{
 myLayouts = defaultLayouts
 defaultLayouts = avoidStruts(
       -- ResizableTall layout has a large master window on the left,
@@ -111,138 +124,149 @@ defaultLayouts = avoidStruts(
       -- space, increasing the number of columns and rows as necessary.
       -- Master window is at top left.
       ||| Grid
-
-numKeys = [
-        xK_7, xK_8, xK_9
-      , xK_4, xK_5, xK_6
-      , xK_1, xK_2, xK_3
-      , xK_0
-      ]
-
-numPadKeys = [
-      xK_KP_Home, xK_KP_Up,    xK_KP_Page_Up,
-      xK_KP_Left, xK_KP_Begin, xK_KP_Right,
-      xK_KP_End,  xK_KP_Down,  xK_KP_Page_Down,
-      xK_KP_Insert
-      ]
-
-myKeys conf@(XConfig {XMonad.modMask = modm}) = M.fromList $
-    -- launch a terminal
-    [ ((modm              , xK_Return), spawn $ XMonad.terminal conf)
-    , ((modm .|. shiftMask, xK_Return), spawn "terminator --profile=zsh")
-    , ((modm .|. controlMask, xK_Return), spawn "terminator")
-    -- launch dmenu
-    , ((modm,               xK_d     ), spawn "dmenu_run")
-    -- launch rofi
-    , ((modm .|. shiftMask, xK_d     ), spawn "rofi -show run -font 'Michroma 15' -padding 335 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '85' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'")
-    -- close focused window
-    , ((modm .|. shiftMask, xK_q     ), kill)
-     -- Rotate through the available layout algorithms
-    , ((modm,               xK_space ), sendMessage NextLayout)
-    --  Reset the layouts on the current workspace to default
-    , ((modm .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)
-    -- Resize viewed windows to the correct size
-    , ((modm,               xK_n     ), refresh)
-    -- Move to worspace on the Left/Right
-    , ((modm,               xK_s     ), nextWS)
-    , ((modm,               xK_a     ), prevWS)
-    -- Move focus to the next window
-    , ((modm,               xK_Tab   ), windows W.focusDown)
-    -- Move focus to the next window
-    , ((modm,               xK_j     ), windows W.focusDown)
-    -- Move focus to the previous window
-    , ((modm .|. shiftMask, xK_Tab   ), windows W.focusUp  )
-    -- Move focus to the previous window
-    , ((modm,               xK_k     ), windows W.focusUp  )
-    -- Move focus to the master window
-    , ((modm,               xK_m     ), windows W.focusMaster)
-    -- Focus on urgent workspce
-    , ((myModMask, xK_u), focusUrgent)
-    -- Swap the focused window and the master window
-    , ((modm .|. shiftMask, xK_m     ), windows W.swapMaster)
-    -- Swap the focused window with the next window
-    , ((modm .|. shiftMask, xK_j     ), windows W.swapDown  )
-    -- Swap the focused window with the previous window
-    , ((modm .|. shiftMask, xK_k     ), windows W.swapUp    )
-    -- Shrink the master area
-    , ((modm,               xK_h     ), sendMessage Shrink)
-    -- Expand the master area
-    , ((modm,               xK_l     ), sendMessage Expand)
-    -- rezize on ResizableTall
-    , ((modm .|. shiftMask, xK_h     ), sendMessage MirrorShrink)
-    , ((modm .|. shiftMask, xK_l     ), sendMessage MirrorExpand)
-    -- Push window back into tiling
-    , ((modm,               xK_t     ), withFocused $ windows . W.sink)
-    -- Increment the number of windows in the master area
-    , ((modm              , xK_comma ), sendMessage (IncMasterN 1))
-    -- Deincrement the number of windows in the master area
-    , ((modm              , xK_period), sendMessage (IncMasterN (-1)))
-    -- Quit xmonad
-    , ((modm .|. shiftMask, xK_c     ), io (exitWith ExitSuccess))
-    -- Restart xmonad
-    , ((modm              , xK_c     ), spawn "xmonad --recompile; xmonad --restart")
-    -- Lock screen
-    , ((modm          , xK_KP_Delete ), spawn "i3lock -i ~/Dropbox/Pictures/lock_und_dm/rsz_1maxresdefault.png")
-    -- Volume
-    , ((modm              , xK_Up    ), spawn "amixer set Master 5%+")
-    , ((modm              , xK_Down  ), spawn "amixer set Master 5%-")
-    , ((modm              , xK_F8    ), spawn "amixer sset Master toggle")
-    -- Brightness
-    , ((modm              , xK_Left  ), spawn "xbacklight -dec 1")
-    , ((modm              , xK_Right ), spawn "xbacklight -inc 1")
-    -- Screenshot
-    , ((0                 , xK_Print ), spawn "xfce4-screenshot")
+-- }}}
+-- Scratchpads for some applications {{{
+scratchpads =
+    [ NS "spotify" "spotify" (className =? "Spotify") nonFloating
+    , NS "clementine" "clementine" (className =? "Clementine") nonFloating
     ]
+-- }}}
+-- Keys 
+-- {{{
+-- {{{
+numPadKeys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
+      , "<KP_Home>", "<KP_Up>",    "<KP_Page_Up>"
+      , "<KP_Left>", "<KP_Begin>", "<KP_Right>"
+      , "<KP_End>",  "<KP_Down>",  "<KP_Page_Down>"
+      , "<KP_Insert>"
+      ]
+-- }}}-
+showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction -- {{{
+showKeybindings x = addName "Show Keybindings" $ io $ do
+    h <- spawnPipe "zenity --text-info --font=terminus"
+    hPutStr h (unlines $ showKm x)
+    hClose h
+    return ()
+-- }}}
+-- {{{
+myKeys conf =
+    subtitle "lanch terminal": mkNamedKeymap conf
+-- {{{
+    [ ("M-<Return>",   spawnh $ XMonad.terminal conf)
+    , ("M-S-<Return>", spawnh myShiftTerminal)
+    , ("M-C-<Return>", spawnh myCtrlTerminal)] ++
+-- }}}
+    subtitle "launch application menus": mkNamedKeymap conf
+-- {{{
+    [ ("M-d",   spawnh myMenu)
+    , ("M-S-d", spawnh myShiftMenu)] ++
+-- }}}
+    subtitle "layout": mkNamedKeymap conf
+-- {{{
+    [ ("M-<Space>", addName "Rotate through the available layout algorithms" $ sendMessage NextLayout)
+    , ("M-S-<Space>", addName "Reset the layouts on the current workspace to default" $ setLayout $ XMonad.layoutHook conf)] ++
+-- }}}
+    subtitle "move/focus": mkNamedKeymap conf
+-- {{{
+    [ ("M-t", addName "push window back into tiling" $ withFocused $ windows . W.sink)
+    , ("M-<Backspace>", addName "close focused window" $ kill)
+    , ("M-,", addName "Increment the number of windows in the master area" $ sendMessage (IncMasterN 1))
+    , ("M-.", addName "Decrement the number of windows in the master area" $ sendMessage (IncMasterN (-1)))
+    , ("M-s", addName "Move to worspace on the Right" $ nextWS)
+    , ("M-a", addName "Move to worspace on the Left" $ prevWS)
+    , ("M-<Tab>", addName "Move focus to the next window" $ windows W.focusDown)
+    , ("M-j", addName "Move focus to the next window" $ windows W.focusDown)
+    , ("M-S-<Tab>", addName "Move focus to the previous window" $ windows W.focusUp  )
+    , ("M-k", addName "Move focus to the previous window" $ windows W.focusUp  )
+    , ("M-m", addName "Move focus to the master window" $ windows W.focusMaster)
+    , ("M-u", addName "Focus on urgent workspace" $ focusUrgent)
+    , ("M-S-m", addName "Swap the focused window and the master window" $ windows W.swapMaster)
+    , ("M-S-j", addName "Swap the focused window with the next window" $ windows W.swapDown  )
+    , ("M-S-k", addName "Swap the focused window with the previous window" $ windows W.swapUp    )] ++
+-- }}}
+    subtitle "resize": mkNamedKeymap conf
+-- {{{
+    [ ("M-n", addName "Resize viewed windows to the correct size" $ refresh)
+    , ("M-h", addName "Shrink the master area" $ sendMessage Shrink)
+    , ("M-l", addName "Expand the master area" $ sendMessage Expand)
+    , ("M-S-h", addName "rezize on ResizableTall" $ sendMessage MirrorShrink)
+    , ("M-S-l", addName "rezize on ResizableTall" $ sendMessage MirrorExpand)] ++
+-- }}}
+    subtitle "Quit/lock/etc": mkNamedKeymap conf
+-- {{{
+    [ ("M-S-c", addName "Quit xmonad" $ io (exitWith ExitSuccess))
+    , ("M-c", addName "Restart xmonad" $ spawn "xmonad --recompile; xmonad --restart")
+    , ("M-<KP_Delete>", addName "Lock screen" $ spawn "i3lock -i ~/Dropbox/Pictures/lock_und_dm/rsz_1maxresdefault.png")] ++
+-- }}}
+    subtitle "volume/brightness/etc": mkNamedKeymap conf
+-- {{{
+    [ ("M-<Up>", addName "Volume Up" $ spawn "amixer set Master 5%+")
+    , ("M-<Down>", addName "Volume Down" $ spawn "amixer set Master 5%-")
+    , ("M-<F8>", addName "enable/disable sound" $ spawn "amixer sset Master toggle")
+    , ("M-<Left>", addName "Brightness Down" $ spawn "xbacklight -dec 1")
+    , ("M-<Right>", addName "Brightness Up" $ spawn "xbacklight -inc 1")
+    , ("<Print>", addName "Screenshot" $ spawn myScreenShot)
+    ] ++
+-- }}}
+    subtitle "scratchpads": mkNamedKeymap conf
+-- {{{
+    [ ("M-<F2>", addName "popup Spotfy" $ namedScratchpadAction scratchpads "spotify")
+    , ("M-<F3>", addName "popup Clementine" $ namedScratchpadAction scratchpads "clementine") ]
+-- }}}
     ++
-    -- mod-[1..9], Switch to workspace N
-    -- mod-shift-[1..9], Move client to workspace N
-    [((m .|. myModMask, k), windows $ f i)
+    subtitle "workspace": mkNamedKeymap conf
+    -- {{{
+    [("M-" ++ m ++ k, addName (n ++ i) $ windows $ f i)
         | (i, k) <- zip myWorkspaces numPadKeys
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
+        , (f, m, n) <- [(W.greedyView, "", "switch to workspace "), (W.shift, "S-", "move client to workspace ")]]
+    -- }}}
     ++
-    [((m .|. myModMask, k), windows $ f i)
-        | (i, k) <- zip myWorkspaces numKeys
-        , (f, m) <- [(W.greedyView, 0), (W.shift, shiftMask)]]
-    ++
+    subtitle "screens": mkNamedKeymap conf
+-- {{{
     -- mod-{w,e,r}, Switch to physical/Xinerama screens 1, 2, or 3
     -- mod-shift-{w,e,r}, Move client to screen 1, 2, or 3
-    [((m .|. modm, key), screenWorkspace sc >>= flip whenJust (windows . f))
-        | (key, sc) <- zip [xK_w, xK_e, xK_r] [0..]
-        , (f, m)    <- [(W.view, 0), (W.shift, shiftMask)]]
-
--- Hooks
-myManageHook = composeAll . concat $
-    [[ className =? "MPlayer"   --> doFloat]
-    , [className =? "Gimp"      --> doFloat]
-    , [className =? "VirtualBox"--> doFloat]
-    , [className =? x           --> doShift      "Dev"| x <- cShiftDev]
-    , [className =? x           --> doShift      "Mail" | x <- cShiftMail]
-    , [className =? x           --> doShift      "Default" | x <- cShiftDefault]
-    , [className =? x           --> doShift      "Web➋" | x <- cShiftWeb]
-    , [className =? x           --> doShift      "Midia" | x <- cShiftMidia]
-    , [className =? x           --> doShift      "VM"   | x <- cShiftVM]
-    , [className =? x           --> doShift      "Game" | x <- cShiftGame]
-    , [className =? x           --> doShift      "Docs" | x <- cShiftDocs]
-    ]
-        where
-        cShiftDev     = ["Emacs"]
-        cShiftMail    = ["Thunderbird","TelegramDesktop"]
-        cShiftDefault = ["Firefox"]
-        cShiftWeb     = ["Chromium","google-chrome","vivaldi-stable"]
-        cShiftMidia   = ["kdenlive","Vlc","spotify"]
-        cShiftVM      = ["VirtualBox"]
-        cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
-        cShiftDocs    = ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"]
-        -- doShiftAndGo ws = doF (W.greedyView ws) <+> doShift ws
-
+    [("M-" ++ m ++ key, addName (n ++ show sc) $ screenWorkspace sc >>= flip whenJust (windows . f))
+        | (key, sc) <- zip ["w", "e", "r"] [0..]
+        , (f, m, n) <- [(W.view, "", "switch to screen "), (W.shift, "S-", "move client to screen ")]]
+    where
+        spawnh cmd' = addName cmd' $ spawn cmd'
+-- }}}
+-- }}}
+-- }}}
+-- ManagerHook {{{
+myManageHook = namedScratchpadManageHook scratchpads <+> managerHooke_par
+    where
+        managerHooke_par = composeAll . concat $
+            [[ className =? "MPlayer"   --> doFloat]
+            , [className =? "Gimp"      --> doFloat]
+            , [className =? "VirtualBox"--> doFloat]
+            , [className =? x           --> doShift      "dev"| x <- cShiftDev]
+            , [className =? x           --> doShift      "mail" | x <- cShiftMail]
+            , [className =? x           --> doShift      "default" | x <- cShiftDefault]
+            , [className =? x           --> doShift      "web" | x <- cShiftWeb]
+            , [className =? x           --> doShift      "midia" | x <- cShiftMidia]
+            , [className =? x           --> doShift      "vM"   | x <- cShiftVM]
+            , [className =? x           --> doShift      "game" | x <- cShiftGame]
+            , [className =? x           --> doShift      "docs" | x <- cShiftDocs]
+            ]
+                where
+                cShiftDev     = ["Emacs"]
+                cShiftMail    = ["Thunderbird","TelegramDesktop","Franz"]
+                cShiftDefault = ["Firefox"]
+                cShiftWeb     = ["Chromium","google-chrome","vivaldi-stable"]
+                cShiftMidia   = ["kdenlive","Vlc","Kodi"]
+                cShiftVM      = ["VirtualBox"]
+                cShiftGame    = ["Steam","Mainwindow.py","Minetest"]
+                cShiftDocs    = ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"]
+-- }}}
+-- StartupHook {{{
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox","megasync","firefox","stalonetray"
-                       ,"wicd-client --tray","xcompmgr -n","~/bin/random_wallpaper.sh"
-                       , "unclutter -grab &","thunderbird","~/applications/Telegram/Telegram"]
+                spawns ["dropbox", "megasync", "firefox", "stalonetray", "wicd-client --tray", "xcompmgr -n", "~/bin/random_wallpaper.sh", "unclutter -grab &", "redshift-gtk","/opt/franz-bin/Franz"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()
                                        (x:xs) -> do 
                                            spawn x
                                            spawns xs
+-- }}}

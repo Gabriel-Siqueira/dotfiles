@@ -130,6 +130,7 @@ Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'suan/vim-instant-markdown'              " see markdown files on browser
+Plug 'wincent/terminus'                       " integration with terminal
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
@@ -303,6 +304,9 @@ let g:deoplete#enable_smart_case = 1
 " ultisnips {{{
 let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets","vim-snippets"]
+" }}}
+" terminus {{{
+let g:TerminusNormalCursorShape=2
 " }}}
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols
