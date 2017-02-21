@@ -55,6 +55,12 @@ nmap <leader>sc :call SwitchSpellLang()<CR>
 vnoremap <silent> * :call VisualSelection('f')<CR> " * searches current selection foword
 nmap <leader><space> :%s/\s\+$<cr>                 " remove extra white space
 " }}}
+" Smart way to move between windows {{{
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" }}}
 " F* {{{
 set pastetoggle=<F2>           " Change between insert and Paste
 nnoremap <F3> :GundoToggle<CR> " toggle graphic undo tree
