@@ -130,12 +130,10 @@ Plug 'kana/vim-textobj-function'              " new object
 Plug 'kana/vim-textobj-indent'                " new object
 Plug 'kana/vim-textobj-line'                  " new object
 Plug 'kana/vim-textobj-user'                  " new object
-Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
-Plug 'suan/vim-instant-markdown'              " see markdown files on browser
 Plug 'wincent/terminus'                       " integration with terminal
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
@@ -173,6 +171,8 @@ Plug 'mpickering/hlint-refactor-vim'           " use hlint
 "}}}
 " {{{ Other lenguages and file types
 Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
+Plug 'codegram/vim-todo'                      " for todo files
+Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
 " }}}
 call plug#end()

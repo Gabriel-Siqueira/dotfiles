@@ -64,6 +64,7 @@ alias du='du -h'
 # }}}
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
+LS_COLORS='di=1;33';export LS_COLORS
 # }}}
 # Settings on history {{{
 HISTFILE=~/.histfile
