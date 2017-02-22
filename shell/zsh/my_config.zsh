@@ -94,6 +94,7 @@ zstyle ':completion:*' matcher-list '' 'm:{[:lower:]}={[:upper:]}' 'r:|[._-]=** 
 zstyle ':completion:*' menu select=0
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*' verbose true
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 zstyle :compinstall filename '/home/gabriel/.oh-my-zsh/custom/my_config.zsh'
 
 autoload -Uz compinit
