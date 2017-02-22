@@ -360,7 +360,7 @@ myManageHook = namedScratchpadManageHook scratchpads <+> managerHooke_par
 
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox", "megasync", "firefox", "stalonetray", "wicd-client --tray", "xcompmgr -n", "~/bin/random_wallpaper.sh", "unclutter -grab &", "redshift-gtk","/opt/franz-bin/Franz"]
+                spawns ["dropbox", "megasync", "firefox", "stalonetray", "wicd-client --tray", "xcompmgr -n", "~/bin/random_wallpaper.sh", "unclutter -grab &", "redshift-gtk","/opt/franz-bin/Franz","dunst"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()
