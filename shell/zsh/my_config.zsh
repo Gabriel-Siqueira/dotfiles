@@ -12,6 +12,7 @@ function ic_term(){
 # Alias {{{
 # programs {{{
 alias betty="~/application/betty/main.rb"
+eval $(thefuck --alias)
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'

@@ -1,6 +1,7 @@
 "{{{ ====================== Commands ======================
-command! -nargs=0 Clean :set nonu nolist foldcolumn=0
+command! -nargs=0 Clean   :set nonu nolist foldcolumn=0
 command! -nargs=0 Unclean :set nu list foldcolumn=1
+command! -nargs=0 Envim   :e ~/.config/nvim/init.vim
 "}}}
 "{{{ ====================== Functions ======================
 "{{{ VisualSelection 
