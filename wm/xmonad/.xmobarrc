@@ -23,7 +23,7 @@ Config {
 
     , commands = [
         Run DynNetwork [ "--template" , "<tx>kB/s - <rx>kB/s"
-                            , "--Low"      , "500000"       -- units: kB/s
+            , "--Low"      , "500000"       -- units: kB/s
             , "--High"     , "5000000"       -- units: kB/s
             , "--low"      , "green"
             , "--normal"   , "orange"

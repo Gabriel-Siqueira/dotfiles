@@ -79,7 +79,7 @@ toggleStrutsKey XConfig {XMonad.modMask = modMask} = (myModMask, xK_b)
 
 baseConfig           = desktopConfig
 myTerminal           = "terminator"
-myMenu               = "rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '50' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'" 
+myMenu               = "rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'" 
 myShiftMenu          = "dmenu"
 myShiftTerminal      = "terminology"
 myCtrlTerminal       = "terminator --profile=Fish"
@@ -360,7 +360,7 @@ myManageHook = namedScratchpadManageHook scratchpads <+> managerHooke_par
 
 myStartupHook = do
                 setDefaultCursor xC_center_ptr
-                spawns ["dropbox", "megasync", "firefox", "stalonetray", "wicd-client --tray", "xcompmgr -n", "~/bin/random_wallpaper.sh", "unclutter -grab &", "redshift-gtk","/opt/franz-bin/Franz","dunst"]
+                spawns ["dropbox", "megasync", "firefox", "stalonetray", "wicd-client --tray","nm-applet", "xcompmgr -n", "~/bin/random_wallpaper.sh", "unclutter -grab &", "redshift-gtk","/opt/franz-bin/Franz","dunst"]
                 windows $ W.greedyView startupWorkspace
                 where
                   spawns y = case y of []     -> return ()
