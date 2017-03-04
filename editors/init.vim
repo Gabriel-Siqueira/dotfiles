@@ -171,10 +171,11 @@ Plug 'eagletmt/neco-ghc'                       " Omni completition
 Plug 'mpickering/hlint-refactor-vim'           " use hlint
 "}}}
 " {{{ Other lenguages and file types
-Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
+Plug 'LumenAstralis/lilypond-vim'             " for lilypond files
 Plug 'codegram/vim-todo'                      " for todo files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
+Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 " }}}
 call plug#end()
 "}}}

@@ -26,6 +26,11 @@ ln -s ~/MEGA/dotfiles/editors/.vim/mysnippets      ~/.vim/mysnippets
 # ln -s ~/MEGA/dotfiles/wm/xmonad/volume.sh  ~/.xmonad/volume.sh
 # ln -s ~/MEGA/dotfiles/wm/xmonad/.xmobarrc  ~/.xmobarrc
 
+ln -s ~/MEGA/dotfiles/wm/i3/config         ~/.config/i3/config
+ln -s ~/MEGA/dotfiles/wm/i3/.conkyrc       ~/.conkyrc
+# ln -s ~/MEGA/dotfiles/wm/i3/i3blocks       ~/.config/i3blocks/config
+# ln -s ~/MEGA/dotfiles/wm/i3/.i3status.conf ~/.i3status.conf
+
 # ln -s ~/MEGA/dotfiles/.stalonetrayrc       ~/.stalonetrayrc
 
 ln -s ~/MEGA/dotfiles/.Xresources          ~/.Xresources

@@ -24,11 +24,13 @@ alias fnvim="vim ~/.config/nvim/init.vim"
 alias fzsh="vim ~/.oh-my-zsh/custom/my_config.zsh"
 alias ftmux="vim ~/.tmux.conf"
 alias fxmonad="vim ~/.xmonad/xmonad.hs"
+alias fi3="vim ~/.i3/config"
 alias nfvim="nvim ~/.vimrc"
 alias nfnvim="nvim ~/.config/nvim/init.vim"
 alias nfzsh="nvim ~/.oh-my-zsh/custom/my_config.zsh"
 alias nftmux="nvim ~/.tmux.conf"
 alias nfxmonad="nvim ~/.xmonad/xmonad.hs"
+alias nfi3="nvim ~/.i3/config"
 # }}}
 # fun {{{
 alias oi="echo 'oi, tenha um bom dia'"
