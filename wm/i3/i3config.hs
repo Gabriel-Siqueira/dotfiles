@@ -2,14 +2,27 @@ import System.IO
 
 -- Config {{{
 
-i3file           = "/home/gabriel/.config/i3/config"
-statusCommand    = "$HOME/bin/conky-i3bar"
+pc = "ic"
+i3file           = case pc of
+			"GAMa"    -> "/home/gabriel/.config/i3/config" 
+			"ic"      -> "/home/ec2014/ra155446/.config/i3/config"
+			otherwise -> ""
+statusCommand    = case pc of
+			"GAMa"    -> "$HOME/bin/conky-i3bar"
+			"ic"      -> "i3status"
+			otherwise -> "i3status"
 startupWorkspace = "default"
 -- applications {{{
 
-myMenu             = "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
+myMenu             = case pc of
+			"GAMa"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
+			"ic"      -> "dmenu_run"
+			otherwise -> "dmenu_run"
 mySmenu            = "dmenu_run"
-myTerminal         =  "terminator"
+myTerminal         =  case pc of
+			"GAMa"    -> "terminator"
+			"ic"      -> "xfce4-terminal"
+			otherwise -> "i3-sensible-terminal"
 mySterminal        = "terminology"
 myCterminal        = "terminator --profile=Fish"
 myScreenShot       = "xfce4-screenshot"
