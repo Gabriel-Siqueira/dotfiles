@@ -1,6 +1,7 @@
 "{{{ ====================== Commands ======================
-command! -nargs=0 Clean :set nonu nolist foldcolumn=0
+command! -nargs=0 Clean   :set nonu nolist foldcolumn=0
 command! -nargs=0 Unclean :set nu list foldcolumn=1
+command! -nargs=0 Envim   :e ~/.config/nvim/init.vim
 "}}}
 "{{{ ====================== Functions ======================
 "{{{ VisualSelection 
@@ -55,6 +56,12 @@ nmap <leader>sc :call SwitchSpellLang()<CR>
 vnoremap <silent> * :call VisualSelection('f')<CR> " * searches current selection foword
 nmap <leader><space> :%s/\s\+$<cr>                 " remove extra white space
 " }}}
+" Smart way to move between windows {{{
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" }}}
 " F* {{{
 set pastetoggle=<F2>           " Change between insert and Paste
 nnoremap <F3> :GundoToggle<CR> " toggle graphic undo tree
@@ -100,13 +107,7 @@ cnoreabbrev Wq q
 " }}}
 "}}}
 "{{{ ===================== Plugins ==========================
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall | source $MYVIMRC
-endif
-
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 " Others {{{
 Plug 'AndrewRadev/splitjoin.vim'              " split and join expressions
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
@@ -131,20 +132,20 @@ Plug 'kana/vim-textobj-function'              " new object
 Plug 'kana/vim-textobj-indent'                " new object
 Plug 'kana/vim-textobj-line'                  " new object
 Plug 'kana/vim-textobj-user'                  " new object
-Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'scrooloose/syntastic'                   " syntax Highlight
+Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
-Plug 'suan/vim-instant-markdown'              " see markdown files on browser
+Plug 'wincent/terminus'                       " integration with terminal
 Plug 'tpope/vim-capslock'                     " software caps lock
-Plug 'tpope/vim-unimpaired'                   " complementary pairs of mappings
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'tpope/vim-repeat'                       " extend use of .
+Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-speeddating'                  " fast way of change date
 Plug 'tpope/vim-surround'                     " new object surrond
-Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-tbone'                        " commands for tmux on vim
+Plug 'tpope/vim-unimpaired'                   " complementary pairs of mappings
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
@@ -166,11 +167,13 @@ Plug 'eagletmt/neco-ghc'                       " Omni completition
 Plug 'mpickering/hlint-refactor-vim'           " use hlint
 "}}}
 " {{{ Other lenguages and file types
-Plug 'LumenAstralis/lilypond-vim'             " recognize lilypond files
+Plug 'LumenAstralis/lilypond-vim'             " for lilypond files
+Plug 'codegram/vim-todo'                      " for todo files
+Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
+Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 " }}}
 call plug#end()
-
 "}}}
 "{{{ ====================== Settings ======================
 set nocompatible   " be iMproved
@@ -213,9 +216,7 @@ set showmatch                   " Show matching brackets when text indicator is 
 set backspace=indent,start,eol  " Backspace deletes like most programs in insert mode
 set textwidth=77
 set viminfo^=%                  " Remember info about open buffers on close
-if v:version > 703 || v:version == 703 && has('patch541')
-  set formatoptions+=j          " remove comment leader when joining comment lines
-endif
+set formatoptions+=j            " remove comment leader when joining comment lines
 "}}}
 "{{{ files (save, read, ...)
 set autoread      " Set to auto read when a file is changed from the outside
@@ -270,12 +271,6 @@ if has('folding')
     endif
 endif
 "}}}
-"{{{ gui
-set guioptions-=T     " don't show toolbar
-set guioptions-=m     " don't show menubar
-set guifont=Terminus
-set guicursor+=a:blinkon0
-"}}}
 "{{{ others
 set noshowmode       " remove insert from command line
 set virtualedit=block " better block selection
@@ -298,6 +293,14 @@ let g:echodoc_enable_at_startup = 1
 let g:neocomplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0
 " }}}
+" airline {{{
+let g:airline_powerline_fonts = 1
+let g:airline_theme='jellybeans'
+let g:airline#extensions#capslock#enabled = 1
+let g:airline#extensions#syntastic#enabled = 1
+let g:airline#extensions#wordcount#enabled = 1
+let g:airline#extensions#tmuxline#enabled = 0
+"}}}
 " Neocomplete {{{
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
@@ -337,14 +340,6 @@ let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
 let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
 let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 "}}}
-" airline {{{
-let g:airline_powerline_fonts = 1
-let g:airline_theme='jellybeans'
-let g:airline#extensions#capslock#enabled = 1
-let g:airline#extensions#syntastic#enabled = 1
-let g:airline#extensions#wordcount#enabled = 1
-let g:airline#extensions#tmuxline#enabled = 0
-"}}}
 " ultisnips {{{
 let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
 let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets","vim-snippets"]
@@ -358,20 +353,6 @@ let g:table_mode_corner="|"            " Table modeline
 let g:instant_markdown_autostart = 0   " instant don't open browser on startup
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
-"}}}
-"{{{ when use GNU/Linux use bash as shell
-if has("unix")
-    let &shell="bash"
-    set clipboard=autoselect
-endif
-"}}}
-" Return to last edit position when opening files ans save history {{{
-set viminfo='100,\"1000,:40,%,n~/.viminfo
-   au BufReadPost * if line("'\"")|execute("normal `\"")|endif
-   autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
 "}}}
 "{{{ color
 color monokai
