@@ -1,28 +1,33 @@
 import System.IO
+import Control.Monad (when)
 
 -- Config {{{
 
 pc = "GAMa"
-i3file           = case pc of
+i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
-                        otherwise -> ""
+                        _         -> ""
+conkyFile        = case pc of
+                        "GAMa"    -> "/home/gabriel/.conkyrc" 
+                        "ic"      -> ""
+                        _         -> ""
 statusCommand    = case pc of
                         "GAMa"    -> "$HOME/bin/conky-i3bar"
                         "ic"      -> "i3status"
-                        otherwise -> "i3status"
+                        _         -> "i3status"
 startupWorkspace = "default"
 -- applications {{{
 
 myMenu             = case pc of
                         "GAMa"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
                         "ic"      -> "dmenu_run"
-                        otherwise -> "dmenu_run"
+                        _         -> "dmenu_run"
 mySmenu            = "dmenu_run"
 myTerminal         =  case pc of
                         "GAMa"    -> "terminator"
                         "ic"      -> "xfce4-terminal"
-                        otherwise -> "i3-sensible-terminal"
+                        _         -> "i3-sensible-terminal"
 mySterminal        = "terminology"
 myCterminal        = "terminator --profile=Fish"
 myScreenShot       = "xfce4-screenshot"
@@ -42,7 +47,8 @@ barBackground               = "#333333"
 -- Main {{{
 
 main = do
-        writeFile i3file . unlines $ all
+        when (i3File /= "")    $ writeFile i3File    . unlines $ all 
+        when (conkyFile /= "") $ writeFile conkyFile . unlines $ conky
         where
                 all = basic ++ variables ++ keys ++ modes ++ colors ++ i3bar ++ fixWorkspaces ++ autoStart ++ start
 
@@ -370,6 +376,192 @@ autoStart = map ("exec " ++) autoStart'
                 -- , "exec dunst"
                 , "firefox"
                 ]
+
+-- }}}
+-- Conky {{{
+
+conky = base ++ text 
+-- base {{{
+
+base =
+        [ "background no"
+        , "out_to_console yes"
+        , "out_to_x no"
+        , "max_text_width 0"
+        , "own_window no"
+        , "update_interval 0.5"
+        , "total_run_times 0"
+        , "short_units yes"
+        , "if_up_strictness address"
+        , "use_spacer right"
+        , "override_utf8_locale no"
+        , "cpu_avg_samples 2"
+        , "TEXT"
+        ]
+
+-- }}}
+-- text {{{
+
+text = ["["] ++ toJason text' ++ ["],"]
+toJason [t]    = ["{" ++ toJason' t ++ "}"]
+toJason (t:ts) = ("{" ++ toJason' t ++ "},\\") : toJason ts
+toJason' []         = ""
+toJason' [(h,t)]    = h ++ ":" ++ t
+toJason' ((h,t):xs) = h ++ ":" ++ t ++ "," ++ toJason' xs
+
+-- }}}
+
+text' = [
+-- Disk Space 
+                -- {{{
+                [ ("\"full_text\""  ,"\" ◙\"")
+                , ("\"color\""      ,"\"\\#B538AB\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[$fs_used/$fs_size] \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Memory
+                -- {{{
+                [ ("\"full_text\""  ,"\" ⚅\"")
+                , ("\"color\""      ,"\"\\#B538AB\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[$mem/$memmax] \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- CPU
+                -- {{{
+                [ ("\"full_text\""  ,"\" ⚛\"")
+                , ("\"color\""      ,"\"\\#FFFFFF\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[${cpu cpu1}%,\"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"${cpu cpu2}%,\"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"${cpu cpu3}%,\"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"${cpu cpu4}%] \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Pacman
+                -- {{{
+                [ ("\"full_text\""  ,"\" ⇑\"")
+                , ("\"color\""      ,"\"\\#FF6200\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[${execi 200 checkupdates | wc -l}] \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Wifi
+                -- {{{
+                [ ("\"full_text\""  ,"\" ☎\"")
+                , ("\"color\""      ,"${if_existing /proc/net/route wlp2s0}\"\\#00FF00\"$else\"\\#FF0000\" ${endif}")
+                , ("\"separator\""  ,"false"),("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[${wireless_link_qual_perc wlp2s0}% - ${wireless_bitrate wlp2s0}]\"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Net
+                -- {{{
+                [ ("\"full_text\""  ,"${if_existing /proc/net/route p2p1}\"- [${wireless_bitrate p2p1}] \"$else\" \"${endif}")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Volume
+                -- {{{
+                [ ("\"full_text\""  ,"\" ♫\"")
+                , ("\"color\""      ,"\"\\#FFFF00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"${exec amixer -c 1 get Master | grep Mono: | cut -d \" \" -f6} \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")],
+                -- }}}
+-- Brighness
+                -- {{{
+                [ ("\"full_text\""  ,"\" ☀\"")
+                , ("\"color\""      ,"\"\\#FFFF00\"")
+                , ("\"separator\""  ,"false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\""  ,"\"[${exec xbacklight| awk '{printf(\"%d\n\",$1 + 0.5)}'}%] \"")
+                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"separator\""  ,"true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Battery
+                -- {{{
+                [ ("\"full_text\"","\" ⚡\"")
+                , ("\"color\"","${if_match ${battery_percent BAT1} >= 20 }\"\\#00FF00\"$else\"\\#FF0000\" ${endif}") 
+                , ("\"separator\"","false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\"","\"[${battery_percent BAT1}%] \"")
+                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"separator\"","true")
+                , ("\"separator_block_width\"","6")
+                ],
+                -- }}}
+-- Calender
+                -- {{{
+                [ ("\"full_text\"","\" <\"")
+                , ("\"color\"","\"\\#2E9AFE\"")
+                , ("\"separator\"","false")
+                , ("\"separator_block_width\"","6")
+                ],
+                [ ("\"full_text\"","\"${time %a %b %d}\"")
+                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"separator\"","true")
+                ],
+                -- }}}
+-- Time
+                -- {{{
+                [ ("\"full_text\"","\"${time %H:%M:%S}\"")
+                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"separator\"","false")
+                ],
+                [ ("\"full_text\"","\">\"")
+                , ("\"color\"","\"\\#2E9AFE\"")
+                , ("\"separator\"","false")
+                , ("\"separator_block_width\"","6")
+                ]
+                -- }}}
+        ]
 
 -- }}}
 -- Startup workspace

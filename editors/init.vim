@@ -4,7 +4,7 @@ command! -nargs=0 Unclean :set nu list foldcolumn=1
 command! -nargs=0 Envim   :e ~/.config/nvim/init.vim
 "}}}
 "{{{ ====================== Functions ======================
-"{{{ VisualSelection 
+"{{{ VisualSelection
 function! VisualSelection(direction) range
     let l:saved_reg = @"
     execute "normal! vgvy"
@@ -103,6 +103,7 @@ endfunction"}}}
 cnoreabbrev Q q
 cnoreabbrev WQ wq
 cnoreabbrev Wq q
+noremap <leader>p @
 " }}}
 "}}}
 "{{{ ===================== Plugins ==========================
@@ -310,8 +311,7 @@ let g:airline#extensions#tmuxline#enabled = 0
 let g:deoplete#enable_smart_case = 1
 " }}}
 " ultisnips {{{
-let g:UltiSnipsSnippetsDir='~/.vim/mysnippets'
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "mysnippets","vim-snippets"]
+let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
 " }}}
 " terminus {{{
 let g:TerminusNormalCursorShape=2
