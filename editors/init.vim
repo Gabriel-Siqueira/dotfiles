@@ -142,6 +142,7 @@ Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
+Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'tpope/vim-repeat'                       " extend use of .
 Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-speeddating'                  " fast way of change date
