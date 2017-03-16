@@ -2,6 +2,7 @@
 command! -nargs=0 Clean   :set nonu nolist foldcolumn=0
 command! -nargs=0 Unclean :set nu list foldcolumn=1
 command! -nargs=0 Envim   :e ~/.config/nvim/init.vim
+command! -nargs=0 Evim    :e ~/.vimrc
 "}}}
 "{{{ ====================== Functions ======================
 "{{{ VisualSelection
@@ -74,7 +75,7 @@ let g:UltiSnipsExpandTrigger = "<c-y>"
 let g:UltiSnipsJumpForwardTrigger = "<tab>"
 let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
 "}}}
-" deoplete {{{
+" [NV] deoplete {{{
 " <C-h>, <BS>: close popup and delete backword char.
 inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
 inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
@@ -108,17 +109,19 @@ noremap <leader>p @
 "}}}
 "{{{ ===================== Plugins ==========================
 call plug#begin('~/.local/share/nvim/plugged')
-" Others {{{
+" [NV] Others {{{
 Plug 'AndrewRadev/splitjoin.vim'              " split and join expressions
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
 Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
-Plug 'Shougo/deoplete.nvim'                   " auto-completition
+Plug 'Shougo/deol.nvim'                       " [NV] terminal
+Plug 'Shougo/deoplete.nvim'                   " [NV] auto-completition
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
+" Plug 'Shougo/neocomplete.vim'                 " [V] auto-completition
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
 Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
-Plug 'Shougo/deol.nvim'                       " terminal
+" Plug 'Shougo/vimshell.vim'                    " [V] shell
 Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
 Plug 'honza/vim-snippets'                     " more snippets
@@ -136,7 +139,6 @@ Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'scrooloose/syntastic'                   " syntax Highlight
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
-Plug 'wincent/terminus'                       " integration with terminal
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
@@ -152,7 +154,7 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
 " }}}
-" Nyaovim {{{
+" [NV] Nyaovim {{{
 Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip
 Plug 'rhysd/nyaovim-markdown-preview' " preview markdown files
 Plug 'rhysd/nyaovim-mini-browser'     " browser for nyaovim
@@ -291,6 +293,9 @@ endif
 set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
 filetype plugin on   " allow file types plugins to run when opening file
 "}}}
+" {{{ [NV] nvim specific
+let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+" }}}
 "}}}
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
@@ -306,15 +311,12 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 "}}}
-" deoplete {{{
+" [NV] deoplete {{{
 " Use smartcase.
 let g:deoplete#enable_smart_case = 1
 " }}}
 " ultisnips {{{
 let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
-" }}}
-" terminus {{{
-let g:TerminusNormalCursorShape=2
 " }}}
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols
