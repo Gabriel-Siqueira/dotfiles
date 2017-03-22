@@ -279,6 +279,9 @@ if has('folding')
     endif
 endif
 "}}}
+" file types {{{
+let g:tex_flavor = "latex"
+" }}}
 "{{{ others
 set noshowmode       " remove insert from command line
 set virtualedit=block " better block selection
@@ -316,8 +319,10 @@ let g:airline#extensions#tmuxline#enabled = 0
 " Use smartcase.
 let g:deoplete#enable_smart_case = 1
 " }}}
-" ultisnips {{{
+" [NV] ultisnips {{{
+let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
 let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
+let g:UltiSnipsEditSplit="context"
 " }}}
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols

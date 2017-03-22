@@ -1,0 +1,18 @@
+snippet tex_math_start "latex math body" b
+\documentclass[11pt,a4pape]{${1:article}}
+
+\usepackage[portuguese]{babel}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage[utf8]{inputenc}
+\usepackage{mathtools}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+    linktoc=all,
+}
+
+$2
+
+\end{document}
+endsnippet
