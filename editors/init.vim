@@ -154,6 +154,7 @@ Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
+" Plug 'wincent/terminus'                       " [V] integration with terminal
 " }}}
 " [NV] Nyaovim {{{
 Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip

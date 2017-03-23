@@ -141,6 +141,7 @@ Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
+Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'tpope/vim-repeat'                       " extend use of .
 Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-speeddating'                  " fast way of change date
@@ -273,6 +274,9 @@ if has('folding')
     endif
 endif
 "}}}
+" file types {{{
+let g:tex_flavor = "latex"
+" }}}
 "{{{ others
 set noshowmode       " remove insert from command line
 set virtualedit=block " better block selection
@@ -344,6 +348,7 @@ let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 "}}}
 " ultisnips {{{
 let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
+let g:UltiSnipsEditSplit="context"
 " }}}
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols
