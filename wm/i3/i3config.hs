@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "ic"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
@@ -367,13 +367,16 @@ fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "
 autoStart = map ("exec " ++) autoStart'
         where
         autoStart' =
-                [ "dropbox"
+                [ case pc of
+                        "GAMa"    -> "dropbox" 
+                        "ic"      -> "~/.dropbox-dist/dropboxd"
+                        _         -> ""
                 , "megasync"
                 , "--no-startup-id ~/bin/random_wallpaper.sh"
                 , "redshift-gtk"
                 , "/opt/franz-bin/Franz"
                 , "wicd-client" --tray
-                -- , "exec dunst"
+                -- , "dunst"
                 , "firefox"
                 ]
 
