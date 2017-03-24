@@ -1,5 +1,6 @@
 # Paths {{{
 PATH=$PATH:/bin
+PATH=$PATH:/sbin
 # Cabal path
 PATH=$PATH:$HOME/.cabal/bin
 # }}}
