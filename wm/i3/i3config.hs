@@ -3,17 +3,20 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "ic"
+pc = "GOLi"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
+                        "GOLi"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
                         _         -> ""
 conkyFile        = case pc of
                         "GAMa"    -> "/home/gabriel/.conkyrc" 
+                        "GOLi"    -> "/home/gabriel/.conkyrc" 
                         "ic"      -> ""
                         _         -> ""
 statusCommand    = case pc of
                         "GAMa"    -> "$HOME/bin/conky-i3bar"
+                        "GOLi"    -> "$HOME/bin/conky-i3bar"
                         "ic"      -> "i3status"
                         _         -> "i3status"
 startupWorkspace = "default"
@@ -21,11 +24,13 @@ startupWorkspace = "default"
 
 myMenu             = case pc of
                         "GAMa"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
+                        "GOLi"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
                         "ic"      -> "dmenu_run"
                         _         -> "dmenu_run"
 mySmenu            = "dmenu_run"
 myTerminal         =  case pc of
                         "GAMa"    -> "terminator"
+                        "GOLi"    -> "gnome-terminal"
                         "ic"      -> "xfce4-terminal"
                         _         -> "i3-sensible-terminal"
 mySterminal        = "terminology"
@@ -35,12 +40,40 @@ myScreenShot       = "xfce4-screenshot"
 -- }}}
 -- colors {{{
 
-focusedWorkspaceBackgroud   = "#0000ee"
-activeWorkspaceBackground   = "#0000ee"
-inactiveWorkspaceBackground = "#000066"
+focusedWorkspaceBackgroud   = case pc of
+                                "GAMa"    -> "#0000ee"
+                                "GOLi"    -> "#6f0582"
+                                "ic"      -> "#0000ee"
+                                _         -> "#00ff00"
+activeWorkspaceBackground   = case pc of
+                                "GAMa"    -> "#0000ee"
+                                "GOLi"    -> "#6f0582"
+                                "ic"      -> "#0000ee"
+                                _         -> "#00ff00"
+inactiveWorkspaceBackground = case pc of
+                                "GAMa"    -> "#000066"
+                                "GOLi"    -> "#2d0235"
+                                "ic"      -> "#000066"
+                                _         -> "#006600"
 urgentWorkspaceBackground   = "#ff0000"
 barBackground               = "#333333"
-
+focusedWorkspaceBorder      = case pc of
+                                "GAMa"    -> "#00ff00"
+                                "GOLi"    -> "#fc7b02"
+                                "ic"      -> "#00ff00"
+                                _         -> "#ffffff"
+activeWorkspaceBorder       = case pc of
+                                "GAMa"    -> "#000000"
+                                "GOLi"    -> "#000000"
+                                "ic"      -> "#000000"
+                                _         -> "#000000"
+inactiveWorkspaceBorder     = case pc of
+                                "GAMa"    -> "#000000"
+                                "GOLi"    -> "#000000"
+                                "ic"      -> "#000000"
+                                _         -> ""
+urgentWorkspaceBorder      = "#000000"
+barBorder                  = "#333333"
 -- }}}
 
 -- }}}
@@ -64,7 +97,7 @@ basic =
         -- no bar on single windom
         , "new_window pixel"
         -- hide border on screen edge
-        , "hide_edge_borders smart"
+        , "hide_edge_borders none"
         ]
 
 -- }}}
@@ -187,16 +220,16 @@ workspaces =
         , ("$mod+Mod2+KP_7",    "workspace .")
         , ("$mod+Mod2+KP_8",    "workspace dev")
         , ("$mod+Mod2+KP_9",    "workspace mail")
-        , ("$mod+KP_Insert",    "workspace [r]game")
-        , ("$mod+KP_End",       "workspace [r]midia")
-        , ("$mod+KP_Down",      "workspace [r]vm")
-        , ("$mod+KP_Page_Down", "workspace [r]docs")
-        , ("$mod+KP_Left",      "workspace [r]aux")
-        , ("$mod+KP_Begin",     "workspace [r]default")
-        , ("$mod+KP_Right",     "workspace [r]web")
-        , ("$mod+KP_Home",      "workspace [r].")
-        , ("$mod+KP_Up",        "workspace [r]dev")
-        , ("$mod+KP_Page_Up",   "workspace [r]mail")
+        , ("$mod+KP_Insert",    "workspace game")
+        , ("$mod+KP_End",       "workspace midia")
+        , ("$mod+KP_Down",      "workspace vm")
+        , ("$mod+KP_Page_Down", "workspace docs")
+        , ("$mod+KP_Left",      "workspace aux")
+        , ("$mod+KP_Begin",     "workspace default")
+        , ("$mod+KP_Right",     "workspace web")
+        , ("$mod+KP_Home",      "workspace .")
+        , ("$mod+KP_Up",        "workspace dev")
+        , ("$mod+KP_Page_Up",   "workspace mail")
         , ("$mod+0",            "workspace 0")
         , ("$mod+1",            "workspace 1")
         , ("$mod+2",            "workspace 2")
@@ -326,12 +359,12 @@ i3bar =
         , "        background " ++ barBackground
         , "        statusline #eeeeee"
         , "        separator  #666666"
-          --       <colorclass>       <border>             <background>                  <text>
-        , "        focused_workspace  #00ff00    " ++ focusedWorkspaceBackgroud   ++ "    #ffff00"
-        , "        active_workspace   #000000    " ++ activeWorkspaceBackground   ++ "    #ffff00"
-        , "        inactive_workspace #000000    " ++ inactiveWorkspaceBackground ++ "    #bbbb00"
-        , "        urgent_workspace   #000000    " ++ urgentWorkspaceBackground   ++ "    #ffff00"
-        , "        binding_mode       #333333    " ++ barBackground               ++ "    #ff5500"
+          --       <colorclass>            <border>                       <background>                        <text>
+        , "        focused_workspace  " ++ focusedWorkspaceBorder  ++ " " ++ focusedWorkspaceBackgroud   ++ "    #ffff00"
+        , "        active_workspace   " ++ activeWorkspaceBorder   ++ " " ++ activeWorkspaceBackground   ++ "    #ffff00"
+        , "        inactive_workspace " ++ inactiveWorkspaceBorder ++ " " ++ inactiveWorkspaceBackground ++ "    #bbbb00"
+        , "        urgent_workspace   " ++ urgentWorkspaceBorder   ++ " " ++ urgentWorkspaceBackground   ++ "    #ffff00"
+        , "        binding_mode       " ++ barBorder               ++ " " ++ barBackground               ++ "    #ff5500"
         , "    }"
         , "}"
         ]
@@ -364,17 +397,22 @@ fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "
 -- }}}
 -- Autostart {{{
 
-autoStart = map ("exec " ++) autoStart'
+autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
         where
         autoStart' =
                 [ case pc of
                         "GAMa"    -> "dropbox" 
+                        "GOLi"    -> "dropbox" 
                         "ic"      -> "~/.dropbox-dist/dropboxd"
                         _         -> ""
                 , "megasync"
                 , "--no-startup-id ~/bin/random_wallpaper.sh"
                 , "redshift-gtk"
-                , "/opt/franz-bin/Franz"
+                , case pc of
+                        "GAMa"    -> "/opt/franz-bin/Franz"
+                        "GOLi"    -> "/home/gabriel/application/franz/Franz"
+                        "ic"      -> ""
+                        _         -> ""
                 , "wicd-client" --tray
                 -- , "dunst"
                 , "firefox"
@@ -384,6 +422,30 @@ autoStart = map ("exec " ++) autoStart'
 -- Conky {{{
 
 conky = base ++ text 
+-- Settings {{{
+
+updateComand = case pc of
+                        "GAMa"    -> "execi 200 checkupdates | wc -l" 
+                        "GOLi"    -> "/usr/lib/update-notifier/apt-check --human-readable  | sed -n '1,1p' | cut -d ' ' -f 1"
+                        "ic"      -> ""
+                        _         -> ""
+wifi = case pc of
+                        "GAMa"    -> "wlp2s0" 
+                        "GOLi"    -> "wlp1s0"
+                        "ic"      -> ""
+                        _         -> ""
+eth = case pc of
+                        "GAMa"    -> "p2p1" 
+                        "GOLi"    -> "enp2s0f5"
+                        "ic"      -> ""
+                        _         -> ""
+bat = case pc of
+                        "GAMa"    -> "BAT1" 
+                        "GOLi"    -> "BAT0"
+                        "ic"      -> ""
+                        _         -> ""
+
+-- }}}
 -- base {{{
 
 base =
@@ -476,7 +538,7 @@ text' = [
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
-                [ ("\"full_text\""  ,"\"[${execi 200 checkupdates | wc -l}] \"")
+                [ ("\"full_text\""  ,"\"[${exec " ++ updateComand ++ "}] \"")
                 , ("\"color\""      ,"\"\\#AAAA00\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
@@ -485,10 +547,10 @@ text' = [
 -- Wifi
                 -- {{{
                 [ ("\"full_text\""  ,"\" ☎\"")
-                , ("\"color\""      ,"${if_existing /proc/net/route wlp2s0}\"\\#00FF00\"$else\"\\#FF0000\" ${endif}")
+                , ("\"color\""      ,"${if_existing /proc/net/route " ++ wifi ++ "}\"\\#00FF00\"$else\"\\#FF0000\" ${endif}")
                 , ("\"separator\""  ,"false"),("\"separator_block_width\"","6")
                 ],
-                [ ("\"full_text\""  ,"\"[${wireless_link_qual_perc wlp2s0}% - ${wireless_bitrate wlp2s0}]\"")
+                [ ("\"full_text\""  ,"\"[${wireless_link_qual_perc " ++ wifi ++ "}% - ${wireless_bitrate " ++ wifi ++ "}]\"")
                 , ("\"color\""      ,"\"\\#AAAA00\"")
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
@@ -496,7 +558,7 @@ text' = [
                 -- }}}
 -- Net
                 -- {{{
-                [ ("\"full_text\""  ,"${if_existing /proc/net/route p2p1}\"- [${wireless_bitrate p2p1}] \"$else\" \"${endif}")
+                [ ("\"full_text\""  ,"${if_existing /proc/net/route " ++ eth ++ "}\"- [${wireless_bitrate " ++ eth ++ "}] \"$else\" \"${endif}")
                 , ("\"color\""      ,"\"\\#AAAA00\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
@@ -530,11 +592,11 @@ text' = [
 -- Battery
                 -- {{{
                 [ ("\"full_text\"","\" ⚡\"")
-                , ("\"color\"","${if_match ${battery_percent BAT1} >= 20 }\"\\#00FF00\"$else\"\\#FF0000\" ${endif}") 
+                , ("\"color\"","${if_match ${battery_percent " ++ bat ++ "} >= 20 }\"\\#00FF00\"$else\"\\#FF0000\" ${endif}") 
                 , ("\"separator\"","false")
                 , ("\"separator_block_width\"","6")
                 ],
-                [ ("\"full_text\"","\"[${battery_percent BAT1}%] \"")
+                [ ("\"full_text\"","\"[${battery_percent " ++ bat ++ "}%] \"")
                 , ("\"color\"","\"\\#AAAA00\"")
                 , ("\"separator\"","true")
                 , ("\"separator_block_width\"","6")
