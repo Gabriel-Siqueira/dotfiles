@@ -339,5 +339,6 @@ let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown'
 color monokai
 color molokai
 set t_ut=
+hi CursorLine   cterm=NONE ctermbg=black ctermfg=gray guibg=black guifg=gray
 "}}}
 "}}}
