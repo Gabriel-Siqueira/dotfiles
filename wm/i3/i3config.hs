@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "ic"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -98,6 +98,8 @@ basic =
         , "new_window pixel"
         -- hide border on screen edge
         , "hide_edge_borders none"
+        -- focus does not folow mouse
+        , "focus_follows_mouse no"
         ]
 
 -- }}}
