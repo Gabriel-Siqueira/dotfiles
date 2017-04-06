@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GOLi"
+pc = "GAMa"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -156,11 +156,15 @@ general =
         --Print screen
         , ("Print","exec " ++ myScreenShot)
         --volume
+        , ("$mod+F5", "exec amixer set Master 5%+")
         , ("XF86AudioRaiseVolume", "exec amixer set Master 5%+")
+        , ("$mod+F6", "exec amixer set Master 5%-")
         , ("XF86AudioLowerVolume", "exec amixer set Master 5%-")
         --brightness
         , ("XF86MonBrightnessDown","exec xbacklight -dec 5")
+        , ("$mod+F7","exec xbacklight -dec 5")
         , ("XF86MonBrightnessUp",  "exec xbacklight -inc 5")
+        , ("$mod+F8",  "exec xbacklight -inc 5")
         -- }}}
         -- bar 
         -- {{{
@@ -253,16 +257,16 @@ workspaces =
         , ("$mod+Shift+Mod2+KP_Home", "move container to workspace .")
         , ("$mod+Shift+Mod2+KP_Up",   "move container to workspace dev")
         , ("$mod+Shift+Mod2+KP_Page_Up","move container to workspace mail")
-        , ("$mod+Shift+KP_Insert",    "move container to workspace [r]game")
-        , ("$mod+Shift+KP_End",      "move container to workspace [r]midia")
-        , ("$mod+Shift+KP_Down",      "move container to workspace [r]vm")
-        , ("$mod+Shift+KP_Page_Down", "move container to workspace [r]docs")
-        , ("$mod+Shift+KP_Left",      "move container to workspace [r]aux")
-        , ("$mod+Shift+KP_Begin",   "move container to workspace [r]default")
-        , ("$mod+Shift+KP_Right",   "move container to workspace [r]web")
-        , ("$mod+Shift+KP_Home",    "move container to workspace [r].")
-        , ("$mod+Shift+KP_Up",      "move container to workspace [r]dev")
-        , ("$mod+Shift+KP_Page_Up", "move container to workspace [r]mail")
+        , ("$mod+Shift+KP_Insert",    "move container to workspace game")
+        , ("$mod+Shift+KP_End",      "move container to workspace  midia")
+        , ("$mod+Shift+KP_Down",      "move container to workspace vm")
+        , ("$mod+Shift+KP_Page_Down", "move container to workspace docs")
+        , ("$mod+Shift+KP_Left",      "move container to workspace aux")
+        , ("$mod+Shift+KP_Begin",   "move container to workspace default")
+        , ("$mod+Shift+KP_Right",   "move container to workspace web")
+        , ("$mod+Shift+KP_Home",    "move container to workspace .")
+        , ("$mod+Shift+KP_Up",      "move container to workspace dev")
+        , ("$mod+Shift+KP_Page_Up", "move container to workspace mail")
         , ("$mod+Shift+1",          "move container to workspace 1")
         , ("$mod+Shift+2",          "move container to workspace 2")
         , ("$mod+Shift+3",          "move container to workspace 3")
@@ -291,14 +295,14 @@ modes = [ "mode \"resize\" {"] ++
         where
 -- {{{
         resize' =
-                [ ("h",     "resize shrink width  10 px or 10 ppt")
-                , ("j",     "resize grow   height 10 px or 10 ppt")
-                , ("k",     "resize shrink height 10 px or 10 ppt")
-                , ("l",     "resize grow   width  10 px or 10 ppt")
-                , ("Left",  "resize shrink width  10 px or 10 ppt")
-                , ("Down",  "resize grow   height 10 px or 10 ppt")
-                , ("Up",    "resize shrink height 10 px or 10 ppt")
-                , ("Right", "resize grow   width  10 px or 10 ppt")
+                [ ("h",     "resize shrink width  5 px or 5 ppt")
+                , ("j",     "resize grow   height 5 px or 5 ppt")
+                , ("k",     "resize shrink height 5 px or 5 ppt")
+                , ("l",     "resize grow   width  5 px or 5 ppt")
+                , ("Left",  "resize shrink width  5 px or 5 ppt")
+                , ("Down",  "resize grow   height 5 px or 5 ppt")
+                , ("Up",    "resize shrink height 5 px or 5 ppt")
+                , ("Right", "resize grow   width  5 px or 5 ppt")
                 , ("Escape","mode \"default\"")
                 ]
 -- }}}

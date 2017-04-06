@@ -18,3 +18,24 @@ $2
 
 \end{document}
 endsnippet
+
+snippet tex_nosection "do not use section numbers on latex" b
+\renewcommand\thesection{}
+endsnippet
+
+snippet tex_table "make table" b
+
+\begin{table}[${1:htpb}]
+    \center
+    \label{tab:$2}
+    \begin{tabular}{${3:l|c|r}}
+        ${4:\hline}
+    \end{tabular}
+\end{table}
+endsnippet
+
+snippet tex_margin "add text margin" b
+\begin{addmargin}[${1:2em}]{${2:1em}}
+    $3
+\end{addmargin}
+endsnippet
