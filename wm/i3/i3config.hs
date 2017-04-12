@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "ic"
+pc = "GAMa"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -431,7 +431,7 @@ conky = base ++ text
 -- Settings {{{
 
 updateComand = case pc of
-                        "GAMa"    -> "execi 200 checkupdates | wc -l" 
+                        "GAMa"    -> "checkupdates | wc -l" 
                         "GOLi"    -> "/usr/lib/update-notifier/apt-check --human-readable  | sed -n '1,1p' | cut -d ' ' -f 1"
                         "ic"      -> ""
                         _         -> ""

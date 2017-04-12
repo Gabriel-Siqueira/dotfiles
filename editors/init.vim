@@ -144,7 +144,7 @@ Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'tpope/vim-repeat'                       " extend use of .
-Plug 'tpope/vim-sleuth'                       " set indentation for files
+" Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-speeddating'                  " fast way of change date
 Plug 'tpope/vim-surround'                     " new object surrond
 Plug 'tpope/vim-tbone'                        " commands for tmux on vim
@@ -194,6 +194,8 @@ set ai               " Auto indent
 set si               " Smart indent
 set expandtab        " Replace tabs with spaces
 set shiftround       " always indent by multiple of shiftwidth
+set shiftwidth=4
+set softtabstop=4
 "}}}
 "{{{ numbers
 set number            " Line number
