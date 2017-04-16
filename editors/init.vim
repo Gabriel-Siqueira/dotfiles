@@ -228,6 +228,7 @@ set backspace=indent,start,eol  " Backspace deletes like most programs in insert
 set textwidth=77
 set viminfo^=%                  " Remember info about open buffers on close
 set formatoptions+=j            " remove comment leader when joining comment lines
+set hidden                      " Do not need to save buffers to open others
 "}}}
 "{{{ files (save, read, ...)
 set autoread      " Set to auto read when a file is changed from the outside
@@ -301,6 +302,7 @@ set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
 filetype plugin on   " allow file types plugins to run when opening file
 "}}}
 " {{{ [NV] nvim specific
+set gcr=a:blinkon0
 let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 " }}}
 "}}}
