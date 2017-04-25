@@ -188,6 +188,8 @@ set ai               " Auto indent
 set si               " Smart indent
 set expandtab        " Replace tabs with spaces
 set shiftround       " always indent by multiple of shiftwidth
+set shiftwidth=4
+set softtabstop=4
 "}}}
 "{{{ numbers
 set number            " Line number
