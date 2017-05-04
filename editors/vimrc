@@ -186,7 +186,7 @@ syntax on
 "{{{ indentation
 set ai               " Auto indent
 set si               " Smart indent
-set expandtab        " Replace tabs with spaces
+" set expandtab        " Replace tabs with spaces
 set shiftround       " always indent by multiple of shiftwidth
 set shiftwidth=4
 set softtabstop=4
@@ -288,7 +288,7 @@ set virtualedit=block " better block selection
 set ffs=unix,dos,mac " Use Unix as the standard file type
 set laststatus=2     " Always display the status line
 set lazyredraw       " Don't redraw while executing macros (good performance)
-set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
+set list listchars=tab:»\ ,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set omnifunc=syntaxcomplete#Complete " omnicompletition
 set showcmd          " Show current commands
 if has('wildmenu')

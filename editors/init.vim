@@ -192,7 +192,7 @@ syntax on
 "{{{ indentation
 set ai               " Auto indent
 set si               " Smart indent
-set expandtab        " Replace tabs with spaces
+" set expandtab        " Replace tabs with spaces
 set shiftround       " always indent by multiple of shiftwidth
 set shiftwidth=4
 set softtabstop=4
@@ -235,19 +235,19 @@ set autowrite     " Automatically :write before running commands
 set backup
 set writebackup
 " Where save backup
-set backupdir=~/Documents/vim_files/backup
-set backupdir+=~/Documents/vim_files
+set backupdir=~/Documents/vim_files/backup/
+set backupdir+=~/Documents/vim_files/
 set backupdir+=~/random/
 set backupdir+=.
 " Where place swap files
-set directory=~/Documents/vim_files/swap
-set directory+=~/Documents/vim_files
+set directory=~/Documents/vim_files/swap/
+set directory+=~/Documents/vim_files/
 set directory+=~/random/
 set directory+=.
 " Place for undo files
 if has('persistent_undo')
-    set undodir=~/Documents/vim_files/undo
-    set undodir=~/Documents/vim_files
+    set undodir=~/Documents/vim_files/undo/
+    set undodir=~/Documents/vim_files/
     set undodir=~/random/
     set undodir+=.
     set undofile                      " use undo files
@@ -294,7 +294,7 @@ set virtualedit=block " better block selection
 set ffs=unix,dos,mac " Use Unix as the standard file type
 set laststatus=2     " Always display the status line
 set lazyredraw       " Don't redraw while executing macros (good performance)
-set list listchars=tab:»·,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
+set list listchars=tab:»\ ,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set omnifunc=syntaxcomplete#Complete " omnicompletition
 set showcmd          " Show current commands
 if has('wildmenu')
