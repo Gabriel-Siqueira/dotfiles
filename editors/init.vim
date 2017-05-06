@@ -236,20 +236,26 @@ set autowrite     " Automatically :write before running commands
 set backup
 set writebackup
 " Where save backup
-set backupdir=~/Documents/vim_files/backup
-set backupdir+=~/Documents/vim_files
+set backupdir=./vim_files/backup/
+set backupdir+=./vim_files/
+set backupdir+=~/Documents/vim_files/backup/
+set backupdir+=~/Documents/vim_files/
 set backupdir+=~/random/
 set backupdir+=.
 " Where place swap files
-set directory=~/Documents/vim_files/swap
-set directory+=~/Documents/vim_files
+set directory=./vim_files/swap/
+set directory+=./vim_files/
+set directory+=~/Documents/vim_files/swap/
+set directory+=~/Documents/vim_files/
 set directory+=~/random/
 set directory+=.
 " Place for undo files
 if has('persistent_undo')
-    set undodir=~/Documents/vim_files/undo
-    set undodir=~/Documents/vim_files
-    set undodir=~/random/
+    set undodir=./vim_files/undo/
+    set undodir+=./vim_files/
+    set undodir+=~/Documents/vim_files/undo/
+    set undodir+=~/Documents/vim_files/
+    set undodir+=~/random/
     set undodir+=.
     set undofile                      " use undo files
 endif
