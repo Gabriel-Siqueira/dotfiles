@@ -5,6 +5,16 @@ PATH=$PATH:/sbin
 PATH=$PATH:$HOME/.cabal/bin
 # }}}
 # Functions {{{
+# Save/Load tmux session with tmuxp
+function tmux_save(){
+    rm ~/.tmuxp/default.yaml
+    rm ~/MEGA/backup/default.yaml
+    tmuxp freeze default
+    mv ~/.tmuxp/default.yaml ~/MEGA/backup/tmuxp/default.yaml
+}
+function tmux_load(){
+    tmuxp load ~/MEGA/backup/tmuxp/default.yaml
+}
 # Use ssh on ic
 function ic_term(){
 	ssh ra155446@ssh.students.ic.unicamp.br
