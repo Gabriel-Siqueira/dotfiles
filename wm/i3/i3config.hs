@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "ic"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -647,5 +647,11 @@ text' = [
 
 -- }}}
 -- Startup workspace
-start = ["workspace " ++ startupWorkspace ++ " output eDP1"]
+start = ["workspace " ++ startupWorkspace ++
+        case pc of
+                        "GAMa"    -> " output eDP1" 
+                        "GOLi"    -> " output eDP1" 
+                        "ic"      -> " output DP1"
+                        _         -> " output DP1"
+        ]
 -- vim: foldmethod=marker
