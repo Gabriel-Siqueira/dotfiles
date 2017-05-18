@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "ic"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -100,6 +100,8 @@ basic =
         , "hide_edge_borders none"
         -- focus does not folow mouse
         , "focus_follows_mouse no"
+        -- layout for workspace level
+        , "workspace_layout tabbed"
         ]
 
 -- }}}
@@ -209,7 +211,7 @@ move =
 -- {{{
 -- {{{
 --  .     dev      mail
--- aux    default  web
+-- auxE    default  auxD
 -- midia  vm       docs
 -- game
 -- }}}
@@ -220,9 +222,9 @@ workspaces =
         , ("$mod+Mod2+KP_1",    "workspace midia")
         , ("$mod+Mod2+KP_2",    "workspace vm")
         , ("$mod+Mod2+KP_3",    "workspace docs")
-        , ("$mod+Mod2+KP_4",    "workspace aux")
+        , ("$mod+Mod2+KP_4",    "workspace auxE")
         , ("$mod+Mod2+KP_5",    "workspace default")
-        , ("$mod+Mod2+KP_6",    "workspace web")
+        , ("$mod+Mod2+KP_6",    "workspace auxD")
         , ("$mod+Mod2+KP_7",    "workspace .")
         , ("$mod+Mod2+KP_8",    "workspace dev")
         , ("$mod+Mod2+KP_9",    "workspace mail")
@@ -230,9 +232,9 @@ workspaces =
         , ("$mod+KP_End",       "workspace midia")
         , ("$mod+KP_Down",      "workspace vm")
         , ("$mod+KP_Page_Down", "workspace docs")
-        , ("$mod+KP_Left",      "workspace aux")
+        , ("$mod+KP_Left",      "workspace auxE")
         , ("$mod+KP_Begin",     "workspace default")
-        , ("$mod+KP_Right",     "workspace web")
+        , ("$mod+KP_Right",     "workspace auxD")
         , ("$mod+KP_Home",      "workspace .")
         , ("$mod+KP_Up",        "workspace dev")
         , ("$mod+KP_Page_Up",   "workspace mail")
@@ -253,9 +255,9 @@ workspaces =
         , ("$mod+Shift+Mod2+KP_End",  "move container to workspace midia")
         , ("$mod+Shift+Mod2+KP_Down", "move container to workspace vm")
         , ("$mod+Shift+Mod2+KP_Page_Down","move container to workspace docs")
-        , ("$mod+Shift+Mod2+KP_Left", "move container to workspace aux")
+        , ("$mod+Shift+Mod2+KP_Left", "move container to workspace auxE")
         , ("$mod+Shift+Mod2+KP_Begin","move container to workspace default")
-        , ("$mod+Shift+Mod2+KP_Right","move container to workspace web")
+        , ("$mod+Shift+Mod2+KP_Right","move container to workspace auxD")
         , ("$mod+Shift+Mod2+KP_Home", "move container to workspace .")
         , ("$mod+Shift+Mod2+KP_Up",   "move container to workspace dev")
         , ("$mod+Shift+Mod2+KP_Page_Up","move container to workspace mail")
@@ -263,9 +265,9 @@ workspaces =
         , ("$mod+Shift+KP_End",      "move container to workspace  midia")
         , ("$mod+Shift+KP_Down",      "move container to workspace vm")
         , ("$mod+Shift+KP_Page_Down", "move container to workspace docs")
-        , ("$mod+Shift+KP_Left",      "move container to workspace aux")
+        , ("$mod+Shift+KP_Left",      "move container to workspace auxE")
         , ("$mod+Shift+KP_Begin",   "move container to workspace default")
-        , ("$mod+Shift+KP_Right",   "move container to workspace web")
+        , ("$mod+Shift+KP_Right",   "move container to workspace auxD")
         , ("$mod+Shift+KP_Home",    "move container to workspace .")
         , ("$mod+Shift+KP_Up",      "move container to workspace dev")
         , ("$mod+Shift+KP_Page_Up", "move container to workspace mail")
@@ -310,7 +312,7 @@ modes = [ "mode \"resize\" {"] ++
 -- }}}
         -- {{{
         layout' =
-                --move
+                -- focus
                 [ ("h",       "focus left")
                 , ("j",       "focus down")
                 , ("k",       "focus up")
@@ -319,6 +321,15 @@ modes = [ "mode \"resize\" {"] ++
                 , ("Down",    "focus down")
                 , ("Up",      "focus up")
                 , ("Right",   "focus right")
+                -- move
+                , ("Shift+h",    "move left")
+                , ("Shift+j",    "move down")
+                , ("Shift+k",    "move up")
+                , ("Shift+l",    "move right")
+                , ("Shift+Left", "move left")
+                , ("Shift+Down", "move down")
+                , ("Shift+Up",   "move up")
+                , ("Shift+Right","move right")
                 -- enter fullscreen mode for the focused container
                 , ("f",       "fullscreen")
                 -- change container layout (stacked, tabbed, toggle split)
@@ -380,16 +391,16 @@ i3bar =
 
 fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) workspaces fix
         where
-        workspaces = ["mail","dev","web","default","vm","midia","game","docs"]
+        workspaces = ["mail","dev","auxD","default","vm","midia","game","docs"]
         fix =
                 -- mail
                 [ ["thunderbird","TelegramDesktop","Franz"]
                 -- dev
                 , ["Emacs"]
-                -- web
-                , ["Chromium","google-chrome","vivaldi-stable"]
+                -- auxD
+                , ["Chromium","vivaldi-stable"]
                 -- default
-                , ["Firefox"]
+                , ["Firefox","google-chrome"]
                 -- vm
                 , ["VirtualBox"]
                 -- midia
@@ -421,7 +432,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         _         -> ""
                 , "wicd-client" --tray
                 -- , "dunst"
-                , "firefox"
+                , "google-chrome-stable"
                 ]
 
 -- }}}
@@ -636,5 +647,11 @@ text' = [
 
 -- }}}
 -- Startup workspace
-start = ["workspace " ++ startupWorkspace ++ " output eDP1"]
+start = ["workspace " ++ startupWorkspace ++
+        case pc of
+                        "GAMa"    -> " output eDP1" 
+                        "GOLi"    -> " output eDP1" 
+                        "ic"      -> " output DP1"
+                        _         -> " output DP1"
+        ]
 -- vim: foldmethod=marker
