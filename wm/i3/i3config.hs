@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "ic"
+pc = "GAMa"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -432,6 +432,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         _         -> ""
                 , "wicd-client" --tray
                 -- , "dunst"
+                , "twmnd"
                 , "google-chrome-stable"
                 ]
 
