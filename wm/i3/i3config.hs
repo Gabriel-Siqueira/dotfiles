@@ -8,7 +8,7 @@ i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
-                        _         -> ""
+                        _         -> "/home/ec2014/ra155446/.i3/config"
 conkyFile        = case pc of
                         "GAMa"    -> "/home/gabriel/.conkyrc" 
                         "GOLi"    -> "/home/gabriel/.conkyrc" 
@@ -44,17 +44,17 @@ focusedWorkspaceBackgroud   = case pc of
                                 "GAMa"    -> "#0000ee"
                                 "GOLi"    -> "#6f0582"
                                 "ic"      -> "#4B0000#"
-                                _         -> "#00ff00"
+                                _         -> "#00aa00"
 activeWorkspaceBackground   = case pc of
                                 "GAMa"    -> "#0000ee"
                                 "GOLi"    -> "#6f0582"
                                 "ic"      -> "#4B0000#"
-                                _         -> "#00ff00"
+                                _         -> "#00aa00"
 inactiveWorkspaceBackground = case pc of
                                 "GAMa"    -> "#000066"
                                 "GOLi"    -> "#2d0235"
                                 "ic"      -> "#290000#"
-                                _         -> "#006600"
+                                _         -> "#008800"
 urgentWorkspaceBackground   = "#ff0000"
 barBackground               = "#333333"
 focusedWorkspaceBorder      = case pc of
