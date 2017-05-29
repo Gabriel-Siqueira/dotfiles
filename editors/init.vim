@@ -157,9 +157,9 @@ Plug 'wikitopian/hardmode'                    " make vim harder
 " Plug 'wincent/terminus'                       " [V] integration with terminal
 " }}}
 " [NV] Nyaovim {{{
-Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip
-Plug 'rhysd/nyaovim-markdown-preview' " preview markdown files
-Plug 'rhysd/nyaovim-mini-browser'     " browser for nyaovim
+Plug 'rhysd/nyaovim-popup-tooltip'    " [NV] Image popup tooltip
+Plug 'rhysd/nyaovim-markdown-preview' " [NV] preview markdown files
+Plug 'rhysd/nyaovim-mini-browser'     " [NV] browser for nyaovim
 " }}}
 ""{{{ Colors
 Plug 'altercation/vim-colors-solarized'
@@ -182,12 +182,15 @@ Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 Plug 'eagletmt/neco-ghc'                       " Omni completition
 Plug 'mpickering/hlint-refactor-vim'           " use hlint
 "}}}
-" {{{ Other lenguages and file types
+" {{{ [NV] Other lenguages and file types
 Plug 'LumenAstralis/lilypond-vim'             " for lilypond files
 Plug 'codegram/vim-todo'                      " for todo files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
+Plug 'zchee/deoplete-zsh'                     " [NV] for zsh (deoplete)
+Plug 'poppyschmo/deoplete-latex'              " [NV] for python (deoplete)
+Plug 'zchee/deoplete-jedi'                    " [NV] for latex (deoplete)
 " }}}
 call plug#end()
 "}}}
@@ -340,6 +343,8 @@ let g:airline#extensions#tmuxline#enabled = 0
 " [NV] deoplete {{{
 " Use smartcase.
 let g:deoplete#enable_smart_case = 1
+" Deoplete does not complete automaticaly
+let g:deoplete#disable_auto_complete = 1
 " }}}
 " [NV] ultisnips {{{
 let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
