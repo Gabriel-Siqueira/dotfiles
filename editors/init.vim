@@ -72,8 +72,8 @@ map <F4> :VimFilerExplorer<CR> " Toggle File Explorer
 nnoremap <leader>h <Esc>:call ToggleHardMode()<CR> " Toggle Hard mode
 " ultisnips {{{
 let g:UltiSnipsExpandTrigger = "<c-y>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<c-f>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
 "}}}
 " [NV] deoplete {{{
 " <C-h>, <BS>: close popup and delete backword char.
@@ -123,6 +123,7 @@ Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
 " Plug 'Shougo/vimshell.vim'                    " [V] shell
 Plug 'SirVer/ultisnips'                       " use snippets
+Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automaticaly
@@ -136,13 +137,12 @@ Plug 'kana/vim-textobj-indent'                " new object
 Plug 'kana/vim-textobj-line'                  " new object
 Plug 'kana/vim-textobj-user'                  " new object
 Plug 'rhysd/vim-grammarous'                   " grammar checking
-Plug 'scrooloose/syntastic'                   " syntax Highlight
+Plug 'scrooloose/syntastic'                   " syntax Highlight (errors, etc)
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'tpope/vim-capslock'                     " software caps lock
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-fugitive'                     " work with git
-Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'tpope/vim-repeat'                       " extend use of .
 " Plug 'tpope/vim-sleuth'                       " set indentation for files
 Plug 'tpope/vim-speeddating'                  " fast way of change date
@@ -157,22 +157,22 @@ Plug 'wikitopian/hardmode'                    " make vim harder
 " Plug 'wincent/terminus'                       " [V] integration with terminal
 " }}}
 " [NV] Nyaovim {{{
-Plug 'rhysd/nyaovim-popup-tooltip'    " [NV] Image popup tooltip
 Plug 'rhysd/nyaovim-markdown-preview' " [NV] preview markdown files
 Plug 'rhysd/nyaovim-mini-browser'     " [NV] browser for nyaovim
+Plug 'rhysd/nyaovim-popup-tooltip'    " [NV] Image popup tooltip
 " }}}
 ""{{{ Colors
-Plug 'altercation/vim-colors-solarized'
-Plug 'tomasr/molokai'
-Plug 'sickill/vim-monokai'
-Plug 'tpope/vim-vividchalk'
-Plug 'vim-scripts/ChocolateLiquor'
-Plug 'dylanaraps/crayon'
-Plug 'tokers/magellan'
 Plug 'KeitaNakamura/neodark.vim'
-Plug 'liuchengxu/space-vim-dark'
+Plug 'altercation/vim-colors-solarized'
+Plug 'dylanaraps/crayon'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'jacoborus/tender.vim'
+Plug 'liuchengxu/space-vim-dark'
+Plug 'sickill/vim-monokai'
+Plug 'tokers/magellan'
+Plug 'tomasr/molokai'
+Plug 'tpope/vim-vividchalk'
+Plug 'vim-scripts/ChocolateLiquor'
 ""}}}
 "{{{ Haskell
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
@@ -184,13 +184,14 @@ Plug 'mpickering/hlint-refactor-vim'           " use hlint
 "}}}
 " {{{ [NV] Other lenguages and file types
 Plug 'LumenAstralis/lilypond-vim'             " for lilypond files
-Plug 'codegram/vim-todo'                      " for todo files
-Plug 'lervag/vimtex'                          " for edit latex
-Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
-Plug 'zchee/deoplete-zsh'                     " [NV] for zsh (deoplete)
+Plug 'codegram/vim-todo'                      " for todo files
+Plug 'justmao945/vim-clang'                   " for c,cpp files
+Plug 'lervag/vimtex'                          " for edit latex
 Plug 'poppyschmo/deoplete-latex'              " [NV] for python (deoplete)
+Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'zchee/deoplete-jedi'                    " [NV] for latex (deoplete)
+Plug 'zchee/deoplete-zsh'                     " [NV] for zsh (deoplete)
 " }}}
 call plug#end()
 "}}}
