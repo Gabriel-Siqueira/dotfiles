@@ -80,6 +80,11 @@ alias du='du -h'
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 LS_COLORS='di=1;33';export LS_COLORS
+if ! type "nvim" > /dev/null; then
+	EDITOR="vim"
+else
+	EDITOR="nvim"
+fi
 # }}}
 # Settings on history {{{
 HISTFILE=~/.histfile
