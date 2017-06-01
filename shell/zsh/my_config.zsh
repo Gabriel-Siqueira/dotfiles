@@ -24,7 +24,9 @@ function ic_term(){
 # Alias {{{
 # programs {{{
 alias betty="~/application/betty/main.rb"
-eval $(thefuck --alias)
+if type "nvim" > /dev/null; then
+	eval $(thefuck --alias)
+fi
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'
@@ -133,5 +135,9 @@ if [ -n "$INSIDE_EMACS" ]; then
   bindkey -e
 fi
 
-neofetch # neofetch (begin)
+if type "nvim" > /dev/null; then
+	neofetch # neofetch (begin)
+else
+	echo "Novo zsh"
+fi
 # }}}
