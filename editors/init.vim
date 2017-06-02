@@ -157,9 +157,9 @@ Plug 'wikitopian/hardmode'                    " make vim harder
 " Plug 'wincent/terminus'                       " [V] integration with terminal
 " }}}
 " [NV] Nyaovim {{{
-Plug 'rhysd/nyaovim-markdown-preview' " [NV] preview markdown files
-Plug 'rhysd/nyaovim-mini-browser'     " [NV] browser for nyaovim
-Plug 'rhysd/nyaovim-popup-tooltip'    " [NV] Image popup tooltip
+" Plug 'rhysd/nyaovim-markdown-preview' " [NV] preview markdown files
+" Plug 'rhysd/nyaovim-mini-browser'     " [NV] browser for nyaovim
+" Plug 'rhysd/nyaovim-popup-tooltip'    " [NV] Image popup tooltip
 " }}}
 ""{{{ Colors
 Plug 'KeitaNakamura/neodark.vim'
@@ -358,8 +358,7 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 " }}}
 " Others {{{
 let g:table_mode_corner="|"            " Table modeline
-let g:instant_markdown_autostart = 0   " instant don't open browser on startup
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
+" let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
 "}}}
 "{{{ color
