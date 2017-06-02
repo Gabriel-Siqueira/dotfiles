@@ -9,7 +9,7 @@ PATH=$PATH:$HOME/.cabal/bin
 # Save/Load tmux session with tmuxp
 function tmux_save(){
     rm ~/.tmuxp/default.yaml
-    rm ~/MEGA/backup/default.yaml
+    rm ~/MEGA/backup/tmuxp/default.yaml
     tmuxp freeze default
     mv ~/.tmuxp/default.yaml ~/MEGA/backup/tmuxp/default.yaml
 }
