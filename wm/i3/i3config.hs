@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "ic"
+pc = "GAMa"
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
@@ -146,8 +146,8 @@ general =
         -- quit, reload, restart, lock
         -- {{{
         --lock screen
-        , ("$mod+KP_Delete",   "exec i3lock -i /home/gabriel/Pictures/dragon.png")
-        , ("$mod+KP_Separator","exec i3lock -i /home/gabriel/Pictures/dragon.png")
+        , ("$mod+KP_Delete",        "exec i3lock -t -i ~/Dropbox/Pictures/lock_und_dm/guide_to_the_galaxy.png")
+        , ("$mod+Mod2+KP_Separator","exec i3lock -t -i ~/Dropbox/Pictures/lock_und_dm/guide_to_the_galaxy.png")
         -- reload the configuration file
         , ("$mod+e","reload")
         -- restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
@@ -262,25 +262,25 @@ workspaces =
         , ("$mod+Shift+Mod2+KP_Up",   "move container to workspace dev")
         , ("$mod+Shift+Mod2+KP_Page_Up","move container to workspace mail")
         , ("$mod+Shift+KP_Insert",    "move container to workspace game")
-        , ("$mod+Shift+KP_End",      "move container to workspace  midia")
+        , ("$mod+Shift+KP_End",       "move container to workspace  midia")
         , ("$mod+Shift+KP_Down",      "move container to workspace vm")
         , ("$mod+Shift+KP_Page_Down", "move container to workspace docs")
         , ("$mod+Shift+KP_Left",      "move container to workspace auxE")
-        , ("$mod+Shift+KP_Begin",   "move container to workspace default")
-        , ("$mod+Shift+KP_Right",   "move container to workspace auxD")
-        , ("$mod+Shift+KP_Home",    "move container to workspace .")
-        , ("$mod+Shift+KP_Up",      "move container to workspace dev")
-        , ("$mod+Shift+KP_Page_Up", "move container to workspace mail")
-        , ("$mod+Shift+1",          "move container to workspace 1")
-        , ("$mod+Shift+2",          "move container to workspace 2")
-        , ("$mod+Shift+3",          "move container to workspace 3")
-        , ("$mod+Shift+4",          "move container to workspace 4")
-        , ("$mod+Shift+5",          "move container to workspace 5")
-        , ("$mod+Shift+6",          "move container to workspace 6")
-        , ("$mod+Shift+7",          "move container to workspace 7")
-        , ("$mod+Shift+8",          "move container to workspace 8")
-        , ("$mod+Shift+9",          "move container to workspace 9")
-        , ("$mod+Shift+0",          "move container to workspace 10")
+        , ("$mod+Shift+KP_Begin",     "move container to workspace default")
+        , ("$mod+Shift+KP_Right",     "move container to workspace auxD")
+        , ("$mod+Shift+KP_Home",      "move container to workspace .")
+        , ("$mod+Shift+KP_Up",        "move container to workspace dev")
+        , ("$mod+Shift+KP_Page_Up",   "move container to workspace mail")
+        , ("$mod+Shift+1",            "move container to workspace 1")
+        , ("$mod+Shift+2",            "move container to workspace 2")
+        , ("$mod+Shift+3",            "move container to workspace 3")
+        , ("$mod+Shift+4",            "move container to workspace 4")
+        , ("$mod+Shift+5",            "move container to workspace 5")
+        , ("$mod+Shift+6",            "move container to workspace 6")
+        , ("$mod+Shift+7",            "move container to workspace 7")
+        , ("$mod+Shift+8",            "move container to workspace 8")
+        , ("$mod+Shift+9",            "move container to workspace 9")
+        , ("$mod+Shift+0",            "move container to workspace 10")
         -- }}}
         ]
 -- }}}
