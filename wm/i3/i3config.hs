@@ -389,7 +389,8 @@ i3bar =
 -- }}}
 -- Fix workspaces {{{
 
-fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) workspaces fix
+fixWorkspaces = concat $ (zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) workspaces fix) ++
+    (zipWith (\w -> map (\c -> "for_window [class=\"^" ++ c ++ "$\"] move to workspace " ++ w)) workspacesWin fixWin)
         where
         workspaces = ["mail","dev","auxD","default","vm","midia","game","docs"]
         fix =
@@ -404,11 +405,16 @@ fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "
                 -- vm
                 , ["VirtualBox"]
                 -- midia
-                , ["Vlc","Kodi","Spotify"]
+                , ["Vlc"]
                 -- game
                 , ["Steam","Mainwindow.py","Minetest"]
                 -- docs
                 , ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"]
+                ]
+        workspacesWin = ["midia"]
+        fixWin =
+                -- midia
+                [ ["Kodi","Spotify"]
                 ]
 
 -- }}}
@@ -648,6 +654,8 @@ text' = [
 
 -- }}}
 -- Startup workspace {{{
+
 start = ["exec --no-startup-id i3-msg workspace " ++ startupWorkspace]
+
 -- }}}
 -- vim: foldmethod=marker foldlevel=0
