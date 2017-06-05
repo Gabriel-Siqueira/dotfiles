@@ -165,9 +165,9 @@ general =
         , ("$mod+F6", "exec amixer set Master 5%-")
         , ("XF86AudioLowerVolume", "exec amixer set Master 5%-")
         --brightness
-        , ("XF86MonBrightnessDown","exec xbacklight -dec 5")
+        , ("XF86MonBrightnessDown","exec xbacklight -dec 1")
         , ("$mod+F7","exec xbacklight -dec 5")
-        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 5")
+        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 1")
         , ("$mod+F8",  "exec xbacklight -inc 5")
         -- }}}
         -- bar 

@@ -86,6 +86,7 @@ snippet tex_lstset "setings of lstlisting" b
     title=\lstname                   % show the filename of files included with \lstinputlisting; also try caption instead of title
 }
 endsnippet
+
 snippet tex_theorems "Theorems related envorioment" b
 \newtheorem{theorem}{Theorem}[section]
 \newtheorem{lemma}[theorem]{Lemma}
@@ -99,3 +100,43 @@ snippet tex_theorems "Theorems related envorioment" b
 \newenvironment{remark}[1][Remark]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 endsnippet
+
+snippet tex_beamer_start "Tamplate for latex beamer Presentation" b
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\hypersetup{pdfpagemode=FullScreen}
+\usetheme{${1:Dresden}}
+\usecolortheme{${2:beetle}}
+\setbeamertemplate{itemize items}[ball]
+
+\title {$3} \subtitle{$4}
+\author[Gabriel Henriques Siqueira] {}
+\institute[Unicamp] {}
+\date
+{}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+    \frame{\titlepage}
+
+    \begin{frame}
+    \frametitle{}
+    \tableofcontents
+    \end{frame}
+
+\section[$5]{$5}
+    \begin{frame}
+        \frametitle{$6}
+		$7
+    \end{frame}
+
+\end{document}
+endsnippet	
