@@ -204,6 +204,7 @@ syntax on
 set ai               " Auto indent
 set si               " Smart indent
 set noexpandtab      " Do not replace tabs with spaces
+autocmd Filetype haskell setlocal expandtab
 set shiftround       " always indent by multiple of shiftwidth
 set shiftwidth=4
 set softtabstop=4

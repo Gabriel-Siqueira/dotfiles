@@ -195,6 +195,7 @@ syntax on
 set ai               " Auto indent
 set si               " Smart indent
 set noexpandtab      " Do not replace tabs with spaces
+autocmd Filetype haskell setlocal expandtab
 set shiftround       " always indent by multiple of shiftwidth
 set shiftwidth=4
 set softtabstop=4
@@ -331,6 +332,8 @@ let g:airline#extensions#tmuxline#enabled = 0
 " Neocomplete {{{
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
+" Neocomplete does not complete automaticaly
+let g:neocomplete#disable_auto_complete = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 
