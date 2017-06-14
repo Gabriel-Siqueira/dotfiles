@@ -195,6 +195,7 @@ syntax on
 set ai               " Auto indent
 set si               " Smart indent
 set noexpandtab      " Do not replace tabs with spaces
+autocmd Filetype haskell setlocal expandtab
 set shiftround       " always indent by multiple of shiftwidth
 set shiftwidth=4
 set softtabstop=4
@@ -331,6 +332,8 @@ let g:airline#extensions#tmuxline#enabled = 0
 " Neocomplete {{{
 " Use smartcase.
 let g:neocomplete#enable_smart_case = 1
+" Neocomplete does not complete automaticaly
+let g:neocomplete#disable_auto_complete = 1
 " Set minimum syntax keyword length.
 let g:neocomplete#sources#syntax#min_keyword_length = 3
 
@@ -359,13 +362,13 @@ autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 
 " Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+" if !exists('g:neocomplete#sources#omni#input_patterns')
+"   let g:neocomplete#sources#omni#input_patterns = {}
+" endif
+" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 "}}}
 " ultisnips {{{
 let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
