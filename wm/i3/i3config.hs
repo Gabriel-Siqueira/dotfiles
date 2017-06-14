@@ -399,9 +399,9 @@ fixWorkspaces = concat $ (zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ 
                 -- dev
                 , ["Emacs"]
                 -- auxD
-                , ["Chromium","vivaldi-stable"]
+                , ["Firefox","vivaldi-stable"]
                 -- default
-                , ["Firefox","google-chrome"]
+                , ["Chromium","google-chrome"]
                 -- vm
                 , ["VirtualBox"]
                 -- midia
