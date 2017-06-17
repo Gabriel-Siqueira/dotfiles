@@ -168,6 +168,10 @@ Plug 'tomasr/molokai'
 Plug 'tpope/vim-vividchalk'
 Plug 'vim-scripts/ChocolateLiquor'
 ""}}}
+"{{{ Erlang
+Plug 'vim-erlang/vim-erlang-runtime'           " Erlang syntax and indentetion
+Plug 'vim-erlang/vim-erlang-compiler'          " Erlang compiler and syntax checking
+" }}}
 "{{{ Haskell
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
