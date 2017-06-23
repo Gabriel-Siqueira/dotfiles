@@ -187,6 +187,7 @@ Plug 'codegram/vim-todo'                      " for todo files
 Plug 'justmao945/vim-clang'                   " for c,cpp files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
+Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
 " }}}
 call plug#end()
 "}}}
@@ -384,7 +385,6 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 " }}}
 " Others {{{
 let g:table_mode_corner="|"            " Table modeline
-let g:instant_markdown_autostart = 0   " instant don't open browser on startup
 let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
 "}}}

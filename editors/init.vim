@@ -194,6 +194,7 @@ Plug 'justmao945/vim-clang'                   " for c,cpp files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'poppyschmo/deoplete-latex'              " [NV] for python (deoplete)
 Plug 'rust-lang/rust.vim'                     " for rust
+Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
 Plug 'zchee/deoplete-jedi'                    " [NV] for latex (deoplete)
 Plug 'zchee/deoplete-zsh'                     " [NV] for zsh (deoplete)
 " }}}
