@@ -151,7 +151,6 @@ Plug 'tpope/vim-tbone'                        " commands for tmux on vim
 Plug 'tpope/vim-unimpaired'                   " complementary pairs of mappings
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
-Plug 'vim-scripts/Smart-Tabs'                 " tabs only on begin of line
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
@@ -211,8 +210,8 @@ set ai               " Auto indent
 set si               " Smart indent
 set noexpandtab      " Do not replace tabs with spaces
 autocmd Filetype haskell setlocal expandtab
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=4     " When using >> <<
+set tabstop=4        " Size if tab character
 "}}}
 "{{{ numbers
 set number            " Line number
