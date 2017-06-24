@@ -208,7 +208,7 @@ syntax on
 " ----------------- Sets -----------------  {{{
 "{{{ indentation
 set ai               " Auto indent
-" set si               " Smart indent
+set si               " Smart indent
 set noexpandtab      " Do not replace tabs with spaces
 autocmd Filetype haskell setlocal expandtab
 set shiftwidth=4
