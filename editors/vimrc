@@ -323,6 +323,7 @@ filetype plugin on   " allow file types plugins to run when opening file
 let g:echodoc_enable_at_startup = 1
 let g:neocomplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " }}}
 " airline {{{
 let g:airline_powerline_fonts = 1

@@ -336,6 +336,7 @@ let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
 let g:echodoc_enable_at_startup = 1
 let g:deoplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0
+autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " }}}
 " airline {{{
 let g:airline_powerline_fonts = 1
