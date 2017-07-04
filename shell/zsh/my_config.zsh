@@ -4,6 +4,8 @@ PATH=$PATH:/sbin
 PATH=$PATH:$HOME/.local/bin
 # Cabal path
 PATH=$PATH:$HOME/.cabal/bin
+PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
+PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
