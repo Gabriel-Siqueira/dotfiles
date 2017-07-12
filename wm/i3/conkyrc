@@ -22,17 +22,17 @@ TEXT
 {"full_text":"${cpu cpu3}%,","color":"\#AAAA00","separator":false,"separator_block_width":6},\
 {"full_text":"${cpu cpu4}%] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
 {"full_text":" ⇑","color":"\#FF6200","separator":false,"separator_block_width":6},\
-{"full_text":"[${exec /usr/lib/update-notifier/apt-check --human-readable  | sed -n '1,1p' | cut -d ' ' -f 1}] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
-{"full_text":" ☎","color":${if_existing /proc/net/route wlp1s0}"\#00FF00"$else"\#FF0000" ${endif},"separator":false,"separator_block_width":6},\
-{"full_text":"[${wireless_link_qual_perc wlp1s0}% - ${wireless_bitrate wlp1s0}]","color":"\#AAAA00","separator":false,"separator_block_width":6},\
-{"full_text":${if_existing /proc/net/route enp2s0f5}"- [${wireless_bitrate enp2s0f5}] "$else" "${endif},"color":"\#AAAA00","separator":true,"separator_block_width":6},\
+{"full_text":"[${exec checkupdates | wc -l}] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
+{"full_text":" ☎","color":${if_existing /proc/net/route wlp2s0}"\#00FF00"$else"\#FF0000" ${endif},"separator":false,"separator_block_width":6},\
+{"full_text":"[${wireless_link_qual_perc wlp2s0}% - ${wireless_bitrate wlp2s0}]","color":"\#AAAA00","separator":false,"separator_block_width":6},\
+{"full_text":${if_existing /proc/net/route p2p1}"- [${wireless_bitrate p2p1}] "$else" "${endif},"color":"\#AAAA00","separator":true,"separator_block_width":6},\
 {"full_text":" ♫","color":"\#FFFF00","separator":false,"separator_block_width":6},\
 {"full_text":"${exec amixer -c 1 get Master | grep Mono: | cut -d " " -f6} ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
 {"full_text":" ☀","color":"\#FFFF00","separator":false,"separator_block_width":6},\
 {"full_text":"[${exec xbacklight| awk '{printf("%d
 ",$1 + 0.5)}'}%] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
-{"full_text":" ⚡","color":${if_match ${battery_percent BAT0} >= 20 }"\#00FF00"$else"\#FF0000" ${endif},"separator":false,"separator_block_width":6},\
-{"full_text":"[${battery_percent BAT0}%] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
+{"full_text":" ⚡","color":${if_match ${battery_percent BAT1} >= 20 }"\#00FF00"$else"\#FF0000" ${endif},"separator":false,"separator_block_width":6},\
+{"full_text":"[${battery_percent BAT1}%] ","color":"\#AAAA00","separator":true,"separator_block_width":6},\
 {"full_text":" <","color":"\#2E9AFE","separator":false,"separator_block_width":6},\
 {"full_text":"${time %a %b %d}","color":"\#AAAA00","separator":true},\
 {"full_text":"${time %H:%M:%S}","color":"\#AAAA00","separator":false},\

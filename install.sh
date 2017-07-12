@@ -29,7 +29,7 @@
 # rm -i ~/.vimrc
 # ln -s ~/MEGA/dotfiles/editors/vimrc                ~/.vimrc
 # rm -i ~/.config/nvim/init.vim
-# ln -s ~/MEGA/dotfiles/editors/init.vim             ~/.config/nvim/init.vim
+# ln -s ~/MEGA/dotfiles/editors/vimrc                ~/.config/nvim/init.vim
 # rm -i ~/.vim/UltiSnips
 # ln -s ~/MEGA/dotfiles/editors/mysnippets       ~/.vim/UltiSnips
 # rm -i ~/.config/nvim/UltiSnips

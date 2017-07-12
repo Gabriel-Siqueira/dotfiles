@@ -35,7 +35,7 @@ myTerminal         =  case pc of
                         _         -> "i3-sensible-terminal"
 mySterminal        = "terminology"
 myCterminal        = "terminator --profile=Fish"
-myScreenShot       = "xfce4-screenshot"
+myScreenShot       = "gnome-screenshot"
 
 -- }}}
 -- colors {{{
@@ -93,7 +93,7 @@ basic =
         -- Use Mouse+$mod to drag floating windows to their wanted position
         , "floating_modifier $mod"
         --keyboard layout
-        , "setxkbmap br"
+        , "exec setxkbmap br"
         -- no bar on single windom
         , "new_window pixel"
         -- hide border on screen edge
@@ -392,12 +392,14 @@ i3bar =
 fixWorkspaces = concat $ (zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) workspaces fix) ++
     (zipWith (\w -> map (\c -> "for_window [class=\"^" ++ c ++ "$\"] move to workspace " ++ w)) workspacesWin fixWin)
         where
-        workspaces = ["mail","dev","auxD","default","vm","midia","game","docs"]
+        workspaces = ["mail","dev","auxE","auxD","default","vm","midia","game","docs"]
         fix =
                 -- mail
                 [ ["thunderbird","TelegramDesktop","Franz"]
                 -- dev
                 , ["Emacs"]
+                -- auxE
+                , ["Terminator","Gnome-terminal","Xfce4-terminal"]
                 -- auxD
                 , ["Firefox","vivaldi-stable"]
                 -- default
@@ -428,6 +430,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         "GOLi"    -> "dropbox" 
                         "ic"      -> "~/.dropbox-dist/dropboxd"
                         _         -> ""
+                , myTerminal
                 , "megasync"
                 , "--no-startup-id ~/bin/random_wallpaper.sh"
                 , "redshift-gtk"
@@ -436,10 +439,14 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         "GOLi"    -> "/home/gabriel/application/franz/Franz"
                         "ic"      -> ""
                         _         -> ""
-                , "wicd-client" --tray
+                , "wicd-client --tray"
                 -- , "dunst"
                 , "twmnd"
-                , "google-chrome-stable"
+                , case pc of
+                        "GAMa"    -> "chromium"
+                        "GOLi"    -> "google-chrome-stable"
+                        "ic"      -> "google-chrome-stable"
+                        _         -> "google-chrome-stable"
                 ]
 
 -- }}}

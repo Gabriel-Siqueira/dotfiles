@@ -25,9 +25,9 @@ function ic_term(){
 # }}}
 # Alias {{{
 # programs {{{
-alias betty="~/application/betty/main.rb"
-if type "nvim" > /dev/null; then
+if type "thefuck" > /dev/null; then
 	eval $(thefuck --alias)
+	alias f='fuck'
 fi
 # }}}
 # exeptions to auto-correction {{{
@@ -137,7 +137,7 @@ if [ -n "$INSIDE_EMACS" ]; then
   bindkey -e
 fi
 
-if type "nvim" > /dev/null; then
+if type "neofetch" > /dev/null; then
 	neofetch # neofetch (begin)
 else
 	echo "Novo zsh"

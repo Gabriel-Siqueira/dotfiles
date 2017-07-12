@@ -69,30 +69,55 @@ let g:UltiSnipsExpandTrigger = "<c-y>"
 let g:UltiSnipsJumpForwardTrigger = "<c-f>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
 "}}}
-" neocomplete {{{
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-endfunction
-" For smart TAB completion.
-inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ neocomplete#start_manual_complete()
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-        \ <SID>check_back_space() ? "\<TAB>" :
-        \ neocomplete#start_manual_complete()
-function! s:check_back_space()
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-endfunction
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+" deoplete/neocomplete {{{
+if has('nvim')
+	" <C-h>, <BS>: close popup and delete backword char.
+	inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
+	inoremap <expr><BS>  deoplete#smart_close_popup()."\<C-h>"
+
+	" <CR>: close popup and save indent.
+	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+	function! s:my_cr_function() abort
+	  return deoplete#close_popup() . "\<CR>"
+	endfunction
+
+	inoremap <silent><expr> <TAB>
+	  \ pumvisible() ? "\<C-n>" :
+	  \ <SID>check_back_space() ? "\<TAB>" :
+	  \ deoplete#mappings#manual_complete()
+	inoremap <silent><expr> <S-TAB>
+	  \ pumvisible() ? "\<C-p>" :
+	  \ <SID>check_back_space() ? "\<TAB>" :
+	  \ deoplete#mappings#manual_complete()
+	  function! s:check_back_space() abort "{{{
+	  let col = col('.') - 1
+	  return !col || getline('.')[col - 1]  =~ '\s'
+	endfunction"}}}
+else
+	inoremap <expr><C-g>     neocomplete#undo_completion()
+	inoremap <expr><C-l>     neocomplete#complete_common_string()
+	" <CR>: close popup and save indent.
+	inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+	function! s:my_cr_function()
+	  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+	endfunction
+	" For smart TAB completion.
+	inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" :
+			\ <SID>check_back_space() ? "\<TAB>" :
+			\ neocomplete#start_manual_complete()
+	inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
+			\ <SID>check_back_space() ? "\<TAB>" :
+			\ neocomplete#start_manual_complete()
+	function! s:check_back_space()
+		let col = col('.') - 1
+		return !col || getline('.')[col - 1]  =~ '\s'
+	endfunction
+	" <C-h>, <BS>: close popup and delete backword char.
+	inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+	inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+	" Close popup by <Space>.
+	inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+endif
 "}}}
 "}}}
 " {{{ Accept habits
@@ -105,16 +130,22 @@ noremap <leader>m @
 "{{{ ===================== Plugins ==========================
 call plug#begin('~/.local/share/nvim/plugged')
 " Others {{{
+if has('nvim')
+	Plug 'Shougo/deol.nvim'                       " terminal
+	Plug 'Shougo/deoplete.nvim'                   " auto-completition
+else
+	Plug 'Shougo/neocomplete.vim'                 " auto-completition
+	Plug 'Shougo/vimshell.vim'                    " shell
+	Plug 'wincent/terminus'                       " integration with terminal
+endif
 Plug 'AndrewRadev/splitjoin.vim'              " split and join expressions
 Plug 'Konfekt/FastFold'                       " speed up folds by updating
 Plug 'Lokaltog/vim-easymotion'                " move following leters
 Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
-Plug 'Shougo/neocomplete.vim'                 " [V] auto-completition
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
 Plug 'Shougo/vimfiler.vim'                    " tree of files
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
-Plug 'Shougo/vimshell.vim'                    " [V] shell
 Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
 Plug 'christoomey/vim-tmux-navigator'         " same navegation vim and tmux
@@ -148,7 +179,13 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wikitopian/hardmode'                    " make vim harder
 Plug 'wincent/loupe'                          " same changes to search commands
-Plug 'wincent/terminus'                       " [V] integration with terminal
+" }}}
+" Nyaovim {{{
+" if has('nvim')
+" 	Plug 'rhysd/nyaovim-markdown-preview' " preview markdown files
+" 	Plug 'rhysd/nyaovim-mini-browser'     " browser for nyaovim
+" 	Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip
+" endif
 " }}}
 ""{{{ Colors
 Plug 'KeitaNakamura/neodark.vim'
@@ -183,6 +220,11 @@ Plug 'justmao945/vim-clang'                   " for c,cpp files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
+if has('nvim')
+	Plug 'poppyschmo/deoplete-latex'              " for python (deoplete)
+	Plug 'zchee/deoplete-jedi'                    " for latex (deoplete)
+	Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
+endif
 " }}}
 call plug#end()
 "}}}
@@ -312,11 +354,21 @@ endif
 set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
 filetype plugin on   " allow file types plugins to run when opening file
 "}}}
+" {{{ nvim specific
+if has('nvim')
+	set gcr=a:blinkon0
+	let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+endif
+" }}}
 "}}}
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
 let g:echodoc_enable_at_startup = 1
-let g:neocomplete#enable_at_startup = 1
+if has('nvim')
+	let g:deoplete#enable_at_startup = 1
+else
+	let g:neocomplete#enable_at_startup = 1
+endif
 let g:acp_enableAtStartup = 0
 autocmd VimEnter,BufNewFile,BufReadPost * silent! call HardMode()
 " }}}
@@ -328,63 +380,80 @@ let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 "}}}
-" Neocomplete {{{
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Neocomplete does not complete automaticaly
-let g:neocomplete#disable_auto_complete = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
+if has('nvim')
+	" deoplete {{{
+	" Use smartcase.
+	let g:deoplete#enable_smart_case = 1
+	" Deoplete does not complete automaticaly
+	let g:deoplete#disable_auto_complete = 1
+	" }}}
+	" ultisnips {{{
+	let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
+	let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
+	let g:UltiSnipsEditSplit="context"
+	" }}}
+else
+	" Neocomplete {{{
+	" Use smartcase.
+	let g:neocomplete#enable_smart_case = 1
+	" Neocomplete does not complete automaticaly
+	let g:neocomplete#disable_auto_complete = 1
+	" Set minimum syntax keyword length.
+	let g:neocomplete#sources#syntax#min_keyword_length = 3
 
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
+	" Define dictionary.
+	let g:neocomplete#sources#dictionary#dictionaries = {
+		\ 'default' : '',
+		\ 'vimshell' : $HOME.'/.vimshell_hist',
+		\ 'scheme' : $HOME.'/.gosh_completions'
+			\ }
 
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
+	" Define keyword.
+	if !exists('g:neocomplete#keyword_patterns')
+		let g:neocomplete#keyword_patterns = {}
+	endif
+	let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+	" Shell like behavior(not recommended).
+	set completeopt+=longest
+	let g:neocomplete#enable_auto_select = 0
+
+	" Enable omni completion.
+	autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+	autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+	autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+	autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+	autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+	" Enable heavy omni completion.
+	" if !exists('g:neocomplete#sources#omni#input_patterns')
+	"   let g:neocomplete#sources#omni#input_patterns = {}
+	" endif
+	" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+	" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+	" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+	" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+	"}}}
+	" ultisnips {{{
+	let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
+	let g:UltiSnipsEditSplit="context"
+	" }}}
 endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Shell like behavior(not recommended).
-set completeopt+=longest
-let g:neocomplete#enable_auto_select = 0
-
-" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-" Enable heavy omni completion.
-" if !exists('g:neocomplete#sources#omni#input_patterns')
-"   let g:neocomplete#sources#omni#input_patterns = {}
-" endif
-" let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-" let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-"}}}
-" ultisnips {{{
-let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
-let g:UltiSnipsEditSplit="context"
-" }}}
 " vim2hs {{{
 let g:haskell_conceal = 0 " disable all prity haskell symbols
 " let g:haskell_conceal_wide = 1 " enable all prity haskell symbols
 " }}}
 " Others {{{
 let g:table_mode_corner="|"            " Table modeline
-let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
+" let g:vimwiki_ext2syntax = {'.md': 'markdown', '.markdown': 'markdown', '.mdown': 'markdown'} " vimwiki markdown support
 " }}}
 "}}}
 "{{{ color
 set background=dark
-color atom-dark-256
-" hi CursorLine   cterm=NONE ctermbg=black ctermfg=gray guibg=black guifg=gray
+if has('nvim')
+	color atom-dark-256
+else
+	color molokai
+endif
 "}}}
 "}}}
