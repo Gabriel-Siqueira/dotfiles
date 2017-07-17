@@ -29,6 +29,10 @@ if type "thefuck" > /dev/null; then
 	eval $(thefuck --alias)
 	alias f='fuck'
 fi
+if type "nvim" > /dev/null; then
+	alias vim-old vim
+	alias vim nvim
+fi
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'
@@ -84,6 +88,7 @@ alias du='du -h'
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 LS_COLORS='di=1;33';export LS_COLORS
+VISUAL="vim"
 if ! type "nvim" > /dev/null; then
 	EDITOR="vim"
 else

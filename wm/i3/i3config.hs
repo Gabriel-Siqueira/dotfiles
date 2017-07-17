@@ -22,9 +22,11 @@ statusCommand    = case pc of
 startupWorkspace = "default"
 -- applications {{{
 
+myrofi = "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee' \""
+
 myMenu             = case pc of
-                        "GAMa"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
-                        "GOLi"    -> "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee'\""
+                        "GAMa"    -> myrofi
+                        "GOLi"    -> myrofi
                         "ic"      -> "dmenu_run"
                         _         -> "dmenu_run"
 mySmenu            = "dmenu_run"
@@ -92,8 +94,10 @@ basic =
         [ "font pango:DejaVu Sans Mono 8"
         -- Use Mouse+$mod to drag floating windows to their wanted position
         , "floating_modifier $mod"
-        --keyboard layout
+        -- keyboard layout
         , "exec setxkbmap br"
+        -- load keyboard changes
+        , "exec_always --no-startup-id xmodmap ~/.Xmodmap"
         -- no bar on single windom
         , "new_window pixel"
         -- hide border on screen edge
