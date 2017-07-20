@@ -220,9 +220,10 @@ Plug 'justmao945/vim-clang'                   " for c,cpp files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
+Plug 'python-mode/python-mode'                " for python
 if has('nvim')
-	Plug 'poppyschmo/deoplete-latex'              " for python (deoplete)
-	Plug 'zchee/deoplete-jedi'                    " for latex (deoplete)
+	Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
+	Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
 	Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
 endif
 " }}}
