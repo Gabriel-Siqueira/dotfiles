@@ -8,9 +8,7 @@ PATH=$PATH:$HOME/.cabal/bin
 PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
 PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
 # go path
-PATH=$PATH:$(go env GOPATH)/bin
-# npm path
-PATH=$PATH:$(npm config get prefix)/bin
+PATH=$PATH:$HOME/.go/bin
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
@@ -35,8 +33,8 @@ if type "thefuck" > /dev/null; then
 	alias f='fuck'
 fi
 if type "nvim" > /dev/null; then
-	alias vim-old=vim
-	alias vim=nvim
+	alias vim-old='vim'
+	alias vim='nvim'
 fi
 # }}}
 # exeptions to auto-correction {{{
