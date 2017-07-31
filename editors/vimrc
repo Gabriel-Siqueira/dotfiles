@@ -117,6 +117,7 @@ endif
 
 " Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 " Plug 'tpope/vim-tbone'                        " commands for tmux on vim
+" Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 " Plug 'wikitopian/hardmode'                    " make vim harder
 Plug 'Konfekt/FastFold'                       " fold/unfold on right times
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
@@ -136,7 +137,6 @@ Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
-Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 Plug 'wincent/loupe'                          " same changes to search commands
 
 " }}}
@@ -502,7 +502,7 @@ else
     let g:neocomplete#enable_at_startup = 1
 endif
 let g:acp_enableAtStartup = 0    " vim autocomplete
-let g:hardtime_default_on = 1
+let g:hardtime_default_on = 0
 
 " }}}
 " airline {{{
