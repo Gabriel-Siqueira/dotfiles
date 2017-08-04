@@ -4,6 +4,13 @@ if has('nvim')
 else
     call plug#begin('~/.vim/plugged')
 endif
+" Shipped with vim {{{
+
+if !has('nvim')
+    packadd! matchit
+endif
+
+" }}}
 " Improve vim language {{{
 
 " objects {{{
@@ -61,12 +68,12 @@ Plug 'vim-erlang/vim-erlang-compiler'          " Erlang compiler and syntax chec
 " }}}
 "{{{ Haskell
 
+" Plug 'mpickering/hlint-refactor-vim'           " use hlint
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
 Plug 'dag/vim2hs'                              " lots of help with haskell
 Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 Plug 'eagletmt/neco-ghc'                       " Omni completion
-Plug 'mpickering/hlint-refactor-vim'           " use hlint
 
 "}}}
 " {{{ Other languages and file types
@@ -100,9 +107,9 @@ endif
 " Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
 Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'honza/vim-snippets'                     " more snippets
-Plug 'kana/vim-smartinput'                    " add pairs automatically and is smart about it
+Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
 Plug 'rhysd/vim-grammarous'                   " grammar checking
-Plug 'scrooloose/syntastic'                   " syntax Highlight (errors, etc)
+Plug 'w0rp/ale'                               " use linter while typing
 
 " }}}
 " Interface {{{

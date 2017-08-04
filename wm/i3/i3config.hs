@@ -443,7 +443,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         "GOLi"    -> "/home/gabriel/application/franz/Franz"
                         "ic"      -> ""
                         _         -> ""
-                , "wicd-client --tray"
+                , "nm-applet"
                 -- , "dunst"
                 , "twmnd"
                 , case pc of
