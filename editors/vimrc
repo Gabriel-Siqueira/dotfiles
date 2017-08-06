@@ -126,6 +126,7 @@ endif
 " Plug 'tpope/vim-tbone'                        " commands for tmux on vim
 " Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
 " Plug 'wikitopian/hardmode'                    " make vim harder
+" Plug 'wincent/loupe'                          " same changes to search commands
 Plug 'Konfekt/FastFold'                       " fold/unfold on right times
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
@@ -144,7 +145,6 @@ Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
-Plug 'wincent/loupe'                          " same changes to search commands
 
 " }}}
 " Applications interface {{{
@@ -213,12 +213,17 @@ let mapleader = 'ç'
 set tm=2000 " time to leader became ç
 
 " }}}
+" search {{{
+
+nmap <leader>n :noh<cr>
+
+" }}}
 " tabs {{{
 
-map <leader>tn :tabnew<cr>
-map <leader>to :tabonly<cr>
-map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
+nmap <leader>tn :tabnew<cr>
+nmap <leader>to :tabonly<cr>
+nmap <leader>tc :tabclose<cr>
+nmap <leader>tm :tabmove
 
 " }}}
 " spell checking {{{
