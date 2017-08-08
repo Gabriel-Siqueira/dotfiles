@@ -257,56 +257,6 @@ let g:UltiSnipsJumpForwardTrigger = "<c-f>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
 
 "}}}
-" deoplete/neocomplete {{{
-
-if has('nvim')
-    " <C-h>: close popup and delete backword char.
-    inoremap <expr><C-h> deoplete#smart_close_popup()."\<C-h>"
-
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function() abort
-      return deoplete#close_popup() . "\<CR>"
-    endfunction
-
-    inoremap <silent><expr> <TAB>
-      \ pumvisible() ? "\<C-n>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
-    inoremap <silent><expr> <S-TAB>
-      \ pumvisible() ? "\<C-p>" :
-      \ <SID>check_back_space() ? "\<TAB>" :
-      \ deoplete#mappings#manual_complete()
-      function! s:check_back_space() abort "{{{
-      let col = col('.') - 1
-      return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction"}}}
-else
-    inoremap <expr><C-g>     neocomplete#undo_completion()
-    inoremap <expr><C-l>     neocomplete#complete_common_string()
-    " <CR>: close popup and save indent.
-    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-    function! s:my_cr_function()
-      return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-    endfunction
-    " For smart TAB completion.
-    inoremap <expr><S-TAB>  pumvisible() ? "\<C-p>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ neocomplete#start_manual_complete()
-    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" :
-            \ <SID>check_back_space() ? "\<TAB>" :
-            \ neocomplete#start_manual_complete()
-    function! s:check_back_space()
-        let col = col('.') - 1
-        return !col || getline('.')[col - 1]  =~ '\s'
-    endfunction
-    " <C-h>: close popup and delete backword char.
-    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-    " Close popup by <Space>.
-    inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-endif
-
-"}}}
 " smartwords and camelcasemotion {{{
 
 map w  <Plug>(smartword-w)
@@ -517,11 +467,6 @@ endif
 " Enable/disable on startup {{{
 
 let g:echodoc_enable_at_startup = 1
-if has('nvim')
-    let g:deoplete#enable_at_startup = 1
-else
-    let g:neocomplete#enable_at_startup = 1
-endif
 let g:acp_enableAtStartup = 0    " vim autocomplete
 let g:hardtime_default_on = 0
 
@@ -536,73 +481,15 @@ let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 
 "}}}
+" ultisnips {{{
+
 if has('nvim')
-    " deoplete {{{
-
-    " Use smartcase.
-    let g:deoplete#enable_smart_case = 1
-    " Deoplete does not complete automaticaly
-    let g:deoplete#disable_auto_complete = 1
-
-    " }}}
-    " ultisnips {{{
-
     let g:UltiSnipsSnippetsDir = "~/.config/nvim/UltiSnips"
-    let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
-    let g:UltiSnipsEditSplit="context"
-
-    " }}}
-else
-    " Neocomplete {{{
-
-    " Use smartcase.
-    let g:neocomplete#enable_smart_case = 1
-    " Neocomplete does not complete automaticaly
-    let g:neocomplete#disable_auto_complete = 1
-    " Set minimum syntax keyword length.
-    let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-    " Define dictionary.
-    let g:neocomplete#sources#dictionary#dictionaries = {
-        \ 'default' : '',
-        \ 'vimshell' : $HOME.'/.vimshell_hist',
-        \ 'scheme' : $HOME.'/.gosh_completions'
-            \ }
-
-    " Define keyword.
-    if !exists('g:neocomplete#keyword_patterns')
-        let g:neocomplete#keyword_patterns = {}
-    endif
-    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-    " Shell like behavior(not recommended).
-    set completeopt+=longest
-    let g:neocomplete#enable_auto_select = 0
-
-    " Enable omni completion.
-    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-    " Enable heavy omni completion.
-    " if !exists('g:neocomplete#sources#omni#input_patterns')
-    "   let g:neocomplete#sources#omni#input_patterns = {}
-    " endif
-    " let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-    " let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-    " let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-    " let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
-
-    "}}}
-    " ultisnips {{{
-
-    let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
-    let g:UltiSnipsEditSplit="context"
-
-    " }}}
 endif
+let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
+let g:UltiSnipsEditSplit="context"
+
+" }}}
 " hardtime {{{
 
 let g:hardtime_ignore_buffer_patterns = ["help"]
