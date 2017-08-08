@@ -98,14 +98,15 @@ endif
 " }}}
 " Other editing/syntax {{{
 
-if has('nvim')
-    Plug 'Shougo/deoplete.nvim'                   " auto-completion
-else
-    Plug 'Shougo/neocomplete.vim'                 " auto-completion
-endif
+" if has('nvim')
+"     Plug 'Shougo/deoplete.nvim'                   " auto-completion
+" else
+"     Plug 'Shougo/neocomplete.vim'                 " auto-completion
+" endif
 
 " Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
 Plug 'SirVer/ultisnips'                       " use snippets
+Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
 Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
 Plug 'rhysd/vim-grammarous'                   " grammar checking
@@ -131,8 +132,6 @@ Plug 'Konfekt/FastFold'                       " fold/unfold on right times
 Plug 'Shougo/echodoc.vim'                     " Signatures in command line
 Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
 Plug 'Shougo/vimfiler.vim'                    " tree of files
-Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
-Plug 'christoomey/vim-tmux-runner'            " send comands/code from vim to tmux
 Plug 'juanpabloaj/help.vim'                   " better navigation in help
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                       " fuzzy finder on vim
@@ -141,7 +140,6 @@ Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'takac/vim-hardtime'                     " avoid repetitions
 Plug 'tpope/vim-capslock'                     " software caps lock
-Plug 'tpope/vim-fugitive'                     " work with git
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
@@ -149,7 +147,16 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 " }}}
 " Applications interface {{{
 
-Plug 'blindFS/vim-taskwarrior'                " interface for taskwarrior
+Plug 'blindFS/vim-taskwarrior'                " work with taskwarrior
+Plug 'tpope/vim-fugitive'                     " work with git
+
+if !has('nvim')
+    Plug 'tmux-plugins/vim-tmux-focus-events' " for vim-tmux-clipboard
+endif
+
+Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
+Plug 'christoomey/vim-tmux-runner'            " send comands/code from vim to tmux
+Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
 
 " }}}
 " Nyaovim {{{
@@ -189,6 +196,7 @@ command! -nargs=0 Clean   :set nonu norelativenumber nolist foldcolumn=0
 command! -nargs=0 Unclean :set nu relativenumber list foldcolumn=1
 command! -nargs=0 Envim   :e ~/.config/nvim/init.vim
 command! -nargs=0 Evim    :e ~/.vimrc
+command! -nargs=0 So      :so $MYVIMRC | set foldmethod=marker | set foldlevel=0
 
 "}}}
 "{{{ ====================== Functions ======================
@@ -450,9 +458,10 @@ if exists('$SUDO_USER')
 endif
 
 "}}}
-"{{{ spell and language
+"{{{ spell, language and complete
 
-set complete+=kspell " Extends dictionary
+set infercase
+set complete+=k      " Completion uses dictionary
 set encoding=utf8    " Set utf8 as standard encoding
 
 "}}}
