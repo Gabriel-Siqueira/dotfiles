@@ -62,13 +62,13 @@ Plug 'tpope/vim-repeat'                       " extend use of .
 " Languages/file types {{{
 "{{{ Erlang
 
-Plug 'vim-erlang/vim-erlang-runtime'           " Erlang syntax and indentation
-Plug 'vim-erlang/vim-erlang-compiler'          " Erlang compiler and syntax checking
+" Plug 'vim-erlang/erlang-motions.vim'           " motion and text objects
+" Plug 'vim-erlang/vim-erlang-compiler'          " compiler and syntax checking
+" Plug 'vim-erlang/vim-erlang-omnicomplete'      " omnicompletion
 
 " }}}
 "{{{ Haskell
 
-" Plug 'mpickering/hlint-refactor-vim'           " use hlint
 Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
 Plug 'dag/vim2hs'                              " lots of help with haskell
@@ -78,8 +78,6 @@ Plug 'eagletmt/neco-ghc'                       " Omni completion
 "}}}
 " {{{ Other languages and file types
 
-" Plug 'LumenAstralis/lilypond-vim'             " for lilypond files
-" Plug 'codegram/vim-todo'                      " for todo files
 " Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 Plug 'justmao945/vim-clang'                   " for c,cpp files
@@ -88,11 +86,11 @@ Plug 'plasticboy/vim-markdown'                " for markdown
 Plug 'python-mode/python-mode'                " for python
 Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
 
-if has('nvim')
-    Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
-    Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
-    Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
-endif
+" if has('nvim')
+"     Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
+"     Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
+"     Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
+" endif
 
 " }}}
 " }}}
