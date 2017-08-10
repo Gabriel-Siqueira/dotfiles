@@ -12,14 +12,11 @@ PATH=$PATH:$HOME/.go/bin
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
-function tmux_save(){
-    rm ~/.tmuxp/default.yaml
-    rm ~/MEGA/backup/tmuxp/default.yaml
-    tmuxp freeze default
-    mv ~/.tmuxp/default.yaml ~/MEGA/backup/tmuxp/default.yaml
+function tmux_ic(){
+    sed -i -e 's/\/home\/gabriel/\/home\/ec2014\/ra155446/g' ~/Dropbox/backup/tmux/last
 }
-function tmux_load(){
-    tmuxp load ~/MEGA/backup/tmuxp/default.yaml
+function tmux_casa(){
+    sed -i -e 's/\/home\/ec2014\/ra155446/\/home\/gabriel/g' ~/Dropbox/backup/tmux/last
 }
 # Use ssh on ic
 function ic_term(){
@@ -151,3 +148,4 @@ else
 	echo "Novo zsh"
 fi
 # }}}
+# vim: foldmethod=marker foldlevel=0 
