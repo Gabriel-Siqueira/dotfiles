@@ -436,7 +436,12 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         _         -> ""
                 , myTerminal
                 , "megasync"
-                , "--no-startup-id ~/bin/random_wallpaper.sh"
+                , ""
+                , case pc of
+                        "GAMa"    -> "" 
+                        "GOLi"    -> "--no-startup-id ~/bin/random_wallpaper.sh" 
+                        "ic"      -> "--no-startup-id ~/bin/random_wallpaper.sh"
+                        _         -> ""
                 , "redshift-gtk"
                 , case pc of
                         "GAMa"    -> "/opt/franz-bin/Franz"
