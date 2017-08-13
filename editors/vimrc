@@ -183,7 +183,7 @@ Plug 'tomasr/molokai'
 ""}}}
 " Others {{{
 
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution (for ghc-mode)
 
 " }}}
 call plug#end()

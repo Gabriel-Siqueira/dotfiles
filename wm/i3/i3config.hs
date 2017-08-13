@@ -405,9 +405,9 @@ fixWorkspaces = concat $ (zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ 
                 -- auxE
                 , ["Terminator","Gnome-terminal","Xfce4-terminal"]
                 -- auxD
-                , ["Firefox","vivaldi-stable"]
+                , ["Chromium","google-chrome","vivaldi-stable"]
                 -- default
-                , ["Chromium","google-chrome"]
+                , ["Firefox"]
                 -- vm
                 , ["VirtualBox"]
                 -- midia
@@ -447,10 +447,10 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 -- , "dunst"
                 , "twmnd"
                 , case pc of
-                        "GAMa"    -> "chromium"
-                        "GOLi"    -> "google-chrome-stable"
-                        "ic"      -> "google-chrome-stable"
-                        _         -> "google-chrome-stable"
+                        "GAMa"    -> "firefox"
+                        "GOLi"    -> "firefox"
+                        "ic"      -> "firefox"
+                        _         -> "firefox"
                 ]
 
 -- }}}
