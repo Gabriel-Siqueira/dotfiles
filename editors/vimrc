@@ -148,10 +148,6 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'blindFS/vim-taskwarrior'                " work with taskwarrior
 Plug 'tpope/vim-fugitive'                     " work with git
 
-if !has('nvim')
-    Plug 'tmux-plugins/vim-tmux-focus-events' " for vim-tmux-clipboard
-endif
-
 Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
 Plug 'christoomey/vim-tmux-runner'            " send comands/code from vim to tmux
 Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
