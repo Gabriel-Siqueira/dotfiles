@@ -3,23 +3,34 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "ic"
+
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
                         _         -> "/home/ec2014/ra155446/.i3/config"
+
 conkyFile        = case pc of
                         "GAMa"    -> "/home/gabriel/.conkyrc" 
                         "GOLi"    -> "/home/gabriel/.conkyrc" 
                         "ic"      -> ""
                         _         -> ""
+
 statusCommand    = case pc of
                         "GAMa"    -> "$HOME/bin/conky-i3bar"
                         "GOLi"    -> "$HOME/bin/conky-i3bar"
                         "ic"      -> "i3status"
                         _         -> "i3status"
+
+myWallpaper = case pc of
+                        "GAMa"    -> "bubbles.jpg"
+                        "GOLi"    -> "flower.jpg"
+                        "ic"      -> "wood.jpg"
+                        _         -> "clover.jpg"
+
 startupWorkspace = "default"
+
 -- applications {{{
 
 myrofi = "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee' \""
@@ -437,11 +448,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , myTerminal
                 , "megasync"
                 , ""
-                , case pc of
-                        "GAMa"    -> "" 
-                        "GOLi"    -> "--no-startup-id ~/bin/random_wallpaper.sh" 
-                        "ic"      -> "--no-startup-id ~/bin/random_wallpaper.sh"
-                        _         -> ""
+                , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
                 , "redshift-gtk"
                 , case pc of
                         "GAMa"    -> "/opt/franz-bin/Franz"
