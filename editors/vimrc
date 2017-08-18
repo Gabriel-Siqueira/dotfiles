@@ -138,6 +138,7 @@ Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'takac/vim-hardtime'                     " avoid repetitions
 Plug 'tpope/vim-capslock'                     " software caps lock
+Plug 'tpope/vim-eunuch'                       " wrapper for files commands
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'vim-scripts/ZoomWin'                    " make pane full screen
