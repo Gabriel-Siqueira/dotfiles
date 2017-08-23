@@ -296,6 +296,8 @@ nnoremap <leader>h <Esc>:call HardTimeToggle()<CR> " Toggle Hard time
 cnoreabbrev Q q
 cnoreabbrev WQ wq
 cnoreabbrev Wq q
+cnoreabbrev X x
+cnoreabbrev xx X
 
 " }}}
 "}}}
@@ -406,7 +408,6 @@ endif
 "{{{ spell, language and complete
 
 set infercase
-set complete+=k      " Completion uses dictionary
 set encoding=utf8    " Set utf8 as standard encoding
 
 "}}}
