@@ -10,12 +10,9 @@ local color3="white"
 MODE_INDICATOR="%{$fg_bold[red]%}"
 
 local theme_precmd () {
-    local git_status=$(git status --short | wc -l | awk '{$1=$1};1')
-    # if [[ $_elapsed[-1] -ne 0 ]]; then
-    #     local prt_time="%{$fg[magenta]%}$_elapsed[-1]%{$reset_color%}"
-    # else
-    #     local prt_time=''
-    # fi
+    if git rev-parse --is-inside-work-tree 2> /dev/null | grep -q 'true' ; then
+        local git_status=$(git status --short | wc -l | awk '{$1=$1};1')
+    fi
     local with_sudo=$(sudo -n uptime 2>&1|grep "load"|wc -l)
     if [ ${with_sudo} -gt 0 ]; then
         local sudo=",%{$fg[red]%}#%{$reset_color%}"
