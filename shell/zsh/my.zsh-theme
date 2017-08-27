@@ -43,7 +43,7 @@ ZSH_THEME_SVN_PROMPT_DIRTY=" %{$fg[red]%}✗"
 
 # Other info
 
-PROMPT+='%F{$color3}╾╼%f%F{$color1} [%f'
+PROMPT+='%F{$color3} ╾╼%f%F{$color1} [%f'
 
 # Number of jobs
 PROMPT+='%{$fg[blue]%}%j%{$reset_color%}'
