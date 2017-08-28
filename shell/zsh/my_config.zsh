@@ -75,6 +75,7 @@ alias lh="ls -lh"
 alias ltr="ls -ltr"
 alias cd..='cd ..'
 alias rm='rm -i'
+alias del='gio trash'
 alias cp='cp -ai'
 alias .='pwd'
 alias ..='cd ..'
@@ -106,6 +107,7 @@ hash -d meg=~/MEGA
 hash -d dro=~/Dropbox
 hash -d dri=~/MEGA/Drive
 hash -d ran=~/random
+hash -d trash=~/.local/share/Trash/files/
 # }}}
 # Settings {{{
 setopt autocd  # auto use cd on files names and nomatch

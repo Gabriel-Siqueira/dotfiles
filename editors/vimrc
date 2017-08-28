@@ -335,11 +335,12 @@ set incsearch     " Show result while typing
 "{{{ line and column
 
 set cursorline         " Highlight cursor line
-set colorcolumn=+1     " Highlight textwith column
-set textwidth=77       " Last column
+set colorcolumn=80     " Highlight textwith column
+set textwidth=0        " Do not break lines
 if has('linebreak')
-  set linebreak        " wrap long lines at characters in 'breakat'
-  let &showbreak='⤷ '  " character for line break (U+2937, UTF-8: E2 A4 B7)
+    set wrap             " make virtual lines
+    set linebreak        " wrap long lines at characters in 'breakat'
+    let &showbreak='⤷ '  " character for line break (U+2937, UTF-8: E2 A4 B7)
 endif
 
 "}}}
