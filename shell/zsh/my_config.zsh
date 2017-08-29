@@ -9,11 +9,14 @@ PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
 PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
 # go path
 PATH=$PATH:$HOME/.go/bin
+# conda path
+PATH=$PATH:/home/gabriel/bin/miniconda3/bin
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
 function tmux_ic(){
     sed -i -e 's/\/home\/gabriel/\/home\/ec2014\/ra155446/g' ~/Dropbox/backup/tmux/last
+    sed -i -e 's/\/MEGA\/unicamp/\/Dropbox/g' ~/Dropbox/backup/tmux/last
 }
 function tmux_casa(){
     sed -i -e 's/\/home\/ec2014\/ra155446/\/home\/gabriel/g' ~/Dropbox/backup/tmux/last
