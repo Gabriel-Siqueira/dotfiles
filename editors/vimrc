@@ -36,7 +36,7 @@ Plug 'kana/vim-operator-user'                 " help define user operators
 
 Plug 'AndrewRadev/splitjoin.vim'              " split and join expressions
 Plug 'christoomey/vim-sort-motion'            " sort
-Plug 'christoomey/vim-titlecase'              " title case
+Plug 'tpope/tpope-vim-abolish'                " Abbreviate, Substitute and Coerce
 Plug 'tpope/vim-commentary'                   " comment in and out
 Plug 'tpope/vim-speeddating'                  " fast way of change date
 Plug 'tpope/vim-unimpaired'                   " complementary pairs of mappings
@@ -149,6 +149,7 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 Plug 'blindFS/vim-taskwarrior'                " work with taskwarrior
 Plug 'tpope/vim-fugitive'                     " work with git
 
+" Tmux
 Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
 Plug 'christoomey/vim-tmux-runner'            " send comands/code from vim to tmux
 Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
