@@ -167,7 +167,6 @@ Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
 ""{{{ Colors
 
 " Plug 'KeitaNakamura/neodark.vim'
-" Plug 'altercation/vim-colors-solarized'
 " Plug 'dylanaraps/crayon'
 " Plug 'jacoborus/tender.vim'
 " Plug 'liuchengxu/space-vim-dark'
@@ -175,6 +174,7 @@ Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
 " Plug 'tokers/magellan'
 " Plug 'tpope/vim-vividchalk'
 " Plug 'vim-scripts/ChocolateLiquor'
+Plug 'lifepillar/vim-solarized8'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tomasr/molokai'
 
@@ -238,7 +238,7 @@ nmap <leader>sc :call SwitchSpellLang()<CR>
 " }}}
 " <Fx> {{{
 
-noremap <F1> :help 
+noremap <F1> :help
 set pastetoggle=<F2>               " Change between insert and Paste
 noremap <F3> :GundoToggle<CR>      " toggle graphic undo tree
 noremap <F4> :VimFilerExplorer<CR> " Toggle File Explorer
@@ -472,11 +472,18 @@ let g:hardtime_default_on = 0
 " airline {{{
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='jellybeans'
+let g:airline_theme='term'
 let g:airline#extensions#capslock#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#vimtex#enabled = 1
+let g:airline#extensions#ale#enabled = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline#extensions#tabline#left_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = ''
 
 "}}}
 " ultisnips {{{
@@ -518,9 +525,9 @@ let g:VtrAppendNewline = 1
 
 set background=dark
 if has('nvim')
-    color atom-dark-256
+    color solarized8_dark
 else
-    color molokai
+    color atom-dark-256
 endif
 
 "}}}

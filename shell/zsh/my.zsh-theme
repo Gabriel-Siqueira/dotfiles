@@ -1,23 +1,32 @@
 if [ ${EUID} != 0 ] ; then
-	local color1="yellow"
-	local color2="green"
+    local color1="yellow"
+    local color2="green"
 else
-	local color1="red"
-	local color2="white"
+    local color1="red"
+    local color2="white"
 fi
 local color3="white"
 
 MODE_INDICATOR="%{$fg_bold[red]%}"
 
 local theme_precmd () {
+    # Git number of changes
     if git rev-parse --is-inside-work-tree 2> /dev/null | grep -q 'true' ; then
         local git_status=$(git status --short | wc -l | awk '{$1=$1};1')
     fi
+    # Check if has sudo
     local with_sudo=$(sudo -n uptime 2>&1|grep "load"|wc -l)
     if [ ${with_sudo} -gt 0 ]; then
         local sudo=",%{$fg[red]%}#%{$reset_color%}"
     else
         local sudo=''
+    fi
+    # Check if is in a virtualenv
+    local in_venv=$(echo $VIRTUAL_ENV)
+    if [ "${in_venv}" = "" ]; then
+        local venv=""
+    else
+        local venv=",%{$fg[magenta]%}$(basename $VIRTUAL_ENV)%{$reset_color%}"
     fi
 
     # Begin
@@ -60,6 +69,8 @@ local theme_precmd () {
 
     # Number of jobs
     PROMPT+='%{$fg[blue]%}%j%{$reset_color%}'
+    # Virtualenv
+    PROMPT+="$venv"
     # Status code
     PROMPT+='%(?..,%{$fg[red]%}%?%{$reset_color%})'
     # Sudo
