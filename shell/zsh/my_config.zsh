@@ -11,6 +11,8 @@ PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
 PATH=$PATH:$HOME/.go/bin
 # conda path
 PATH=$PATH:/home/gabriel/bin/miniconda3/bin
+# npm path
+PATH=$PATH:/home/gabriel/.npm_global/bin/
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
@@ -21,12 +23,12 @@ function tmux_ic(){
 function tmux_casa(){
     sed -i -e 's/\/home\/ec2014\/ra155446/\/home\/gabriel/g' ~/Dropbox/backup/tmux/last
 }
-# Use ssh on ic
-function ic_term(){
-	ssh ra155446@ssh.students.ic.unicamp.br
-}
 # }}}
 # Alias {{{
+# ic ssh {{{
+alias ic_ssh='ssh ra155446@ssh.students.ic.unicamp.br'
+alias ic_term='terminator -p ic'
+# }}}
 # programs {{{
 if type "thefuck" > /dev/null; then
 	eval $(thefuck --alias)

@@ -3,7 +3,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "ic"
+pc = "GAMa"
 
 i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
@@ -29,7 +29,13 @@ myWallpaper = case pc of
                         "ic"      -> "wood.jpg"
                         _         -> "clover.jpg"
 
-startupWorkspace = "default"
+ws = [
+    "game",
+    "midi",   "VirM",  "docs",
+    "auxE",   "deft",  "auxD",
+    "read",   "deve",  "mail",
+    "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+startupWorkspace = "deft"
 
 -- applications {{{
 
@@ -224,80 +230,21 @@ move =
         ]
 -- }}}
 -- {{{
--- {{{
---  .     dev      mail
--- auxE    default  auxD
--- midia  vm       docs
--- game
--- }}}
 workspaces =
-        -- switch to workspace
-        -- {{{
-        [ ("$mod+Mod2+KP_0",    "workspace game")
-        , ("$mod+Mod2+KP_1",    "workspace midia")
-        , ("$mod+Mod2+KP_2",    "workspace vm")
-        , ("$mod+Mod2+KP_3",    "workspace docs")
-        , ("$mod+Mod2+KP_4",    "workspace auxE")
-        , ("$mod+Mod2+KP_5",    "workspace default")
-        , ("$mod+Mod2+KP_6",    "workspace auxD")
-        , ("$mod+Mod2+KP_7",    "workspace .")
-        , ("$mod+Mod2+KP_8",    "workspace dev")
-        , ("$mod+Mod2+KP_9",    "workspace mail")
-        , ("$mod+KP_Insert",    "workspace game")
-        , ("$mod+KP_End",       "workspace midia")
-        , ("$mod+KP_Down",      "workspace vm")
-        , ("$mod+KP_Page_Down", "workspace docs")
-        , ("$mod+KP_Left",      "workspace auxE")
-        , ("$mod+KP_Begin",     "workspace default")
-        , ("$mod+KP_Right",     "workspace auxD")
-        , ("$mod+KP_Home",      "workspace .")
-        , ("$mod+KP_Up",        "workspace dev")
-        , ("$mod+KP_Page_Up",   "workspace mail")
-        , ("$mod+0",            "workspace 0")
-        , ("$mod+1",            "workspace 1")
-        , ("$mod+2",            "workspace 2")
-        , ("$mod+3",            "workspace 3")
-        , ("$mod+4",            "workspace 4")
-        , ("$mod+5",            "workspace 5")
-        , ("$mod+6",            "workspace 6")
-        , ("$mod+7",            "workspace 7")
-        , ("$mod+8",            "workspace 8")
-        , ("$mod+9",            "workspace 9")
-        -- }}}
-        -- move focused container to workspace
-        -- {{{
-        , ("$mod+Shift+Mod2+KP_Insert","move container to workspace game")
-        , ("$mod+Shift+Mod2+KP_End",  "move container to workspace midia")
-        , ("$mod+Shift+Mod2+KP_Down", "move container to workspace vm")
-        , ("$mod+Shift+Mod2+KP_Page_Down","move container to workspace docs")
-        , ("$mod+Shift+Mod2+KP_Left", "move container to workspace auxE")
-        , ("$mod+Shift+Mod2+KP_Begin","move container to workspace default")
-        , ("$mod+Shift+Mod2+KP_Right","move container to workspace auxD")
-        , ("$mod+Shift+Mod2+KP_Home", "move container to workspace .")
-        , ("$mod+Shift+Mod2+KP_Up",   "move container to workspace dev")
-        , ("$mod+Shift+Mod2+KP_Page_Up","move container to workspace mail")
-        , ("$mod+Shift+KP_Insert",    "move container to workspace game")
-        , ("$mod+Shift+KP_End",       "move container to workspace  midia")
-        , ("$mod+Shift+KP_Down",      "move container to workspace vm")
-        , ("$mod+Shift+KP_Page_Down", "move container to workspace docs")
-        , ("$mod+Shift+KP_Left",      "move container to workspace auxE")
-        , ("$mod+Shift+KP_Begin",     "move container to workspace default")
-        , ("$mod+Shift+KP_Right",     "move container to workspace auxD")
-        , ("$mod+Shift+KP_Home",      "move container to workspace .")
-        , ("$mod+Shift+KP_Up",        "move container to workspace dev")
-        , ("$mod+Shift+KP_Page_Up",   "move container to workspace mail")
-        , ("$mod+Shift+1",            "move container to workspace 1")
-        , ("$mod+Shift+2",            "move container to workspace 2")
-        , ("$mod+Shift+3",            "move container to workspace 3")
-        , ("$mod+Shift+4",            "move container to workspace 4")
-        , ("$mod+Shift+5",            "move container to workspace 5")
-        , ("$mod+Shift+6",            "move container to workspace 6")
-        , ("$mod+Shift+7",            "move container to workspace 7")
-        , ("$mod+Shift+8",            "move container to workspace 8")
-        , ("$mod+Shift+9",            "move container to workspace 9")
-        , ("$mod+Shift+0",            "move container to workspace 10")
-        -- }}}
-        ]
+    -- switch to workspace
+    zip ws_key_sw    ( map ("workspace " ++ ) ws ) ++
+    zip ws_key_sw_nl ( map ("workspace " ++ ) $ take 10 ws ) ++
+    -- move focused container to workspace
+    zip ws_key_mv    ( map ("move container to workspace " ++ ) ws ) ++
+    zip ws_key_mv_nl ( map ("move container to workspace " ++ ) $ take 10 ws )
+    where
+        ws_key_sw =    ["$mod+Mod2+KP_"    ++ show x | x <- [0..9]] ++ 
+                       ["$mod+"             ++ show x | x <- [0..9]]
+        ws_key_sw_nl = ["$mod+KP_"         ++ x      | x <- kp_nl]
+        ws_key_mv =    ["$mod+Shift+Mod2+KP_" ++ x      | x <- kp_nl] ++ 
+                       ["$mod+Shift+"      ++ show x | x <- [0..9]]
+        ws_key_mv_nl = ["$mod+Shift+KP_"      ++ x      | x <- kp_nl]
+        kp_nl = ["Insert", "End", "Down", "Page_Down", "Left", "Begin", "Right", "Home", "Up", "Page_Up"]
 -- }}}
 
 -- }}}
@@ -404,31 +351,33 @@ i3bar =
 -- }}}
 -- Fix workspaces {{{
 
-fixWorkspaces = concat $ (zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) workspaces fix) ++
-    (zipWith (\w -> map (\c -> "for_window [class=\"^" ++ c ++ "$\"] move to workspace " ++ w)) workspacesWin fixWin)
+fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "$\"] → " ++ w)) ws fix ++ 
+                zipWith (\w -> map (\c -> "for_window [class=\"^" ++ c ++ "$\"] move to workspace " ++ w)) workspacesWin fixWin
         where
         workspaces = ["mail","dev","auxE","auxD","default","vm","midia","game","docs"]
         fix =
-                -- mail
-                [ ["thunderbird","TelegramDesktop","Franz"]
-                -- dev
-                , ["Emacs"]
-                -- auxE
-                , ["Terminator","Gnome-terminal","Xfce4-terminal"]
-                -- auxD
-                , ["Chromium","google-chrome","vivaldi-stable"]
-                -- default
-                , ["Firefox"]
-                -- vm
-                , ["VirtualBox"]
+                -- game
+                [ ["Steam","Mainwindow.py","Minetest"]
                 -- midia
                 , ["Vlc"]
-                -- game
-                , ["Steam","Mainwindow.py","Minetest"]
+                -- vm
+                , ["VirtualBox"]
                 -- docs
                 , ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"]
+                -- auxE
+                , ["Terminator","Gnome-terminal","Xfce4-terminal"]
+                -- default
+                , ["Firefox"]
+                -- auxD
+                , ["Chromium","google-chrome","vivaldi-stable"]
+                -- read
+                , ["calibre"]
+                -- dev
+                , ["Emacs"]
+                -- mail
+                , ["thunderbird","TelegramDesktop","Franz"]
                 ]
-        workspacesWin = ["midia"]
+        workspacesWin = [ws !! 1]
         fixWin =
                 -- midia
                 [ ["Kodi","Spotify"]
