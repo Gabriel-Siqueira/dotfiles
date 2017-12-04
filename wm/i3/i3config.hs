@@ -186,9 +186,9 @@ general =
         , ("$mod+F6", "exec amixer set Master 5%-")
         , ("XF86AudioLowerVolume", "exec amixer set Master 5%-")
         --brightness
-        , ("XF86MonBrightnessDown","exec xbacklight -dec 1")
+        , ("XF86MonBrightnessDown","exec xbacklight -dec 5")
         , ("$mod+F7","exec xbacklight -dec 5")
-        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 1")
+        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 5")
         , ("$mod+F8",  "exec xbacklight -inc 5")
         -- }}}
         -- bar 
@@ -407,6 +407,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "nm-applet"
                 -- , "dunst"
                 , "twmnd"
+                , "~/bin/bat.sh"
                 , case pc of
                         "GAMa"    -> "firefox"
                         "GOLi"    -> "firefox"
@@ -527,7 +528,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 -- }}}
--- Pacman
+-- Package manager (Pacman, apt, ...)
                 -- {{{
                 [ ("\"full_text\""  ,"\" ⇑\"")
                 , ("\"color\""      ,"\"\\#FF6200\"")
@@ -567,7 +568,7 @@ text' = [
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
-                [ ("\"full_text\""  ,"\"${exec amixer -c 1 get Master | grep Mono: | cut -d \" \" -f6} \"")
+                [ ("\"full_text\""  ,"\"${exec amixer -c 0 get Master | grep Mono: | cut -d \" \" -f6} \"")
                 , ("\"color\""      ,"\"\\#AAAA00\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")],
@@ -579,7 +580,7 @@ text' = [
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
-                [ ("\"full_text\""  ,"\"[${exec xbacklight| awk '{printf(\"%d\n\",$1 + 0.5)}'}%] \"")
+                [ ("\"full_text\""  ,"\"[${exec xbacklight | cut -d \".\" -f 1}%] \"")
                 , ("\"color\""      ,"\"\\#AAAA00\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")

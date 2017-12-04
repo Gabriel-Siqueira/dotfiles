@@ -174,7 +174,7 @@ Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
 " Plug 'tokers/magellan'
 " Plug 'tpope/vim-vividchalk'
 " Plug 'vim-scripts/ChocolateLiquor'
-Plug 'lifepillar/vim-solarized8'
+Plug 'icymind/NeoSolarized'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tomasr/molokai'
 
@@ -527,7 +527,7 @@ let g:VtrAppendNewline = 1
 
 set background=dark
 if has('nvim')
-    color solarized8_dark
+    color NeoSolarized
 else
     color atom-dark-256
 endif
