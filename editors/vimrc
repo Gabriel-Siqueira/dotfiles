@@ -151,8 +151,9 @@ Plug 'tpope/vim-fugitive'                     " work with git
 
 " Tmux
 Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
-Plug 'christoomey/vim-tmux-runner'            " send comands/code from vim to tmux
-Plug 'roxma/vim-tmux-clipboard'               " same clipbord vim and tmux
+Plug 'christoomey/vim-tmux-runner'            " send commands/code from vim to tmux
+Plug 'roxma/vim-tmux-clipboard'               " same clipboard vim and tmux
+Plug 'szw/vim-tags'                           " automatic generate tags on save
 
 " }}}
 " Nyaovim {{{
@@ -227,7 +228,12 @@ nmap <leader>n :noh<cr>
 nmap <leader>tn :tabnew<cr>
 nmap <leader>to :tabonly<cr>
 nmap <leader>tc :tabclose<cr>
-nmap <leader>tm :tabmove
+nmap <leader>tm :tabmove<cr>
+
+" }}}
+" tags {{{
+
+nmap <leader>tg :!ctags -R .<cr>
 
 " }}}
 " spell checking {{{
@@ -314,7 +320,6 @@ filetype plugin on    " allow file types plugins to run when opening file
 set ai               " Auto indent
 set si               " Smart indent
 set expandtab        " Replace tabs with spaces
-autocmd Filetype haskell setlocal expandtab
 set shiftwidth=4     " When using >> <<
 set tabstop=4        " Size of tab character
 
@@ -409,7 +414,7 @@ endif
 "}}}
 "{{{ spell, language and complete
 
-set infercase
+set infercase        " when using upper case complete only with upper case
 set encoding=utf8    " Set utf8 as standard encoding
 
 "}}}
@@ -428,11 +433,6 @@ if has('folding')
 endif
 
 "}}}
-" file types {{{
-
-let g:tex_flavor = "latex"
-
-" }}}
 " {{{ nvim specific
 
 if has('nvim')
@@ -455,12 +455,19 @@ if has('wildmenu')
   set wildmenu        " show options as list when switching buffers etc
 endif
 set wildmode=longest:full,full " shell-like autocomplete to unambiguous portion
+set path+=**           " look for files in all levels of subdirectories
 if has('windows')
     set fillchars=vert:┃
 endif
 
 "}}}
 "}}}
+" ----------------- File Specific --------------- {{{
+
+let g:tex_flavor = "latex"
+autocmd Filetype haskell setlocal expandtab " always use spaces on haskell
+
+" }}}
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
 
@@ -514,6 +521,21 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 let g:VtrStripLeadingWhitespace = 0
 let g:VtrClearEmptyLines = 0
 let g:VtrAppendNewline = 1
+
+" }}}
+" netrw {{{
+
+let g:netrw_banner=0        " disable annoying banner
+let g:netrw_browse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+let g:netrw_list_hide=netrw_gitignore#Hide() " do not show git ignored
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
+" }}}
+" vimfiler {{{
+
+let g:vimfiler_as_default_explorer = 1
 
 " }}}
 " Others {{{
