@@ -400,7 +400,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
                 , "redshift-gtk"
                 , case pc of
-                        "GAMa"    -> "/opt/franz-bin/Franz"
+                        "GAMa"    -> "franz"
                         "GOLi"    -> "/home/gabriel/application/franz/Franz"
                         "ic"      -> ""
                         _         -> ""
