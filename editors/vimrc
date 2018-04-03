@@ -60,6 +60,7 @@ Plug 'tpope/vim-repeat'                       " extend use of .
 
 " }}}
 " Languages/file types {{{
+
 "{{{ Erlang
 
 " Plug 'vim-erlang/erlang-motions.vim'           " motion and text objects
@@ -73,7 +74,6 @@ Plug 'Twinside/vim-haskellFold'                " fold for haskell
 Plug 'Twinside/vim-hoogle'                     " search on hoogle
 Plug 'dag/vim2hs'                              " lots of help with haskell
 Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
-Plug 'eagletmt/neco-ghc'                       " Omni completion
 
 "}}}
 " {{{ Other languages and file types
@@ -83,29 +83,37 @@ Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 Plug 'justmao945/vim-clang'                   " for c,cpp files
 Plug 'lervag/vimtex'                          " for edit latex
 Plug 'plasticboy/vim-markdown'                " for markdown
-Plug 'python-mode/python-mode'                " for python
+" Plug 'python-mode/python-mode'                " for python
 Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
-
-" if has('nvim')
-"     Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
-"     Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
-"     Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
-" endif
+Plug 'the-lambda-church/coquille'             " for coq
 
 " }}}
+
+" }}}
+" Autocomplete and snippets {{{
+
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
+
+Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
+Plug 'zchee/deoplete-clang'                   " for  C/C++ (deoplete) 
+Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
+Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
+Plug 'eagletmt/neco-ghc'                      " for haskell (deoplete)
+
+Plug 'SirVer/ultisnips'                       " use snippets
+Plug 'honza/vim-snippets'                     " more snippets
+
 " }}}
 " Other editing/syntax {{{
 
-" if has('nvim')
-"     Plug 'Shougo/deoplete.nvim'                   " auto-completion
-" else
-"     Plug 'Shougo/neocomplete.vim'                 " auto-completion
-" endif
-
 " Plug 'dhruvasagar/vim-table-mode'             " create and edit tables
-Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
-Plug 'honza/vim-snippets'                     " more snippets
 Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
 Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'w0rp/ale'                               " use linter while typing
@@ -146,14 +154,18 @@ Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 " }}}
 " Applications interface {{{
 
-Plug 'blindFS/vim-taskwarrior'                " work with taskwarrior
-Plug 'tpope/vim-fugitive'                     " work with git
+if has('nvim')
+    Plug 'hkupty/iron.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+
+Plug 'blindFS/vim-taskwarrior'           " work with taskwarrior
+Plug 'tpope/vim-fugitive'                " work with git
+Plug 'szw/vim-tags'                      " automatic generate tags on save
 
 " Tmux
-Plug 'christoomey/vim-tmux-navigator'         " same navigation vim and tmux
-Plug 'christoomey/vim-tmux-runner'            " send commands/code from vim to tmux
-Plug 'roxma/vim-tmux-clipboard'               " same clipboard vim and tmux
-Plug 'szw/vim-tags'                           " automatic generate tags on save
+Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
+Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
+Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 
 " }}}
 " Nyaovim {{{
@@ -183,6 +195,7 @@ Plug 'tomasr/molokai'
 " Others {{{
 
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution (for ghc-mode)
+Plug 'let-def/vimbufsync'                     " coquille uses it
 
 " }}}
 call plug#end()
@@ -200,7 +213,7 @@ command! -nargs=0 So      :so $MYVIMRC | set foldmethod=marker | set foldlevel=0
 "{{{ SwitchSpellLang
 
 let g:myLang = 0
-let g:myLangList = ['de_de', 'pt_br', 'en']
+let g:myLangList = ['pt_br', 'de_de', 'en']
 function! SwitchSpellLang()
   "loop through languages
   let &l:spelllang = g:myLangList[g:myLang] | setlocal spell
@@ -216,6 +229,20 @@ endfunction
 
 let mapleader = 'ç'
 set tm=2000 " time to leader became ç
+
+" }}}
+" move {{{
+
+
+noremap  k gk
+noremap  j gj
+noremap  0 g0
+noremap  $ g$
+noremap  gk k
+noremap  gj j
+noremap  g0 0
+noremap  g$ $
+
 
 " }}}
 " search {{{
@@ -252,6 +279,18 @@ noremap <F4> :VimFilerExplorer<CR> " Toggle File Explorer
 " }}}
 " {{{ plugins
 
+" deoplete {{{
+
+inoremap <silent><expr> <TAB>
+\ pumvisible() ? "\<C-n>" :
+\ <SID>check_back_space() ? "\<TAB>" :
+\ deoplete#mappings#manual_complete()
+function! s:check_back_space() abort "{{{
+let col = col('.') - 1
+return !col || getline('.')[col - 1]  =~ '\s'
+endfunction"}}}
+
+" }}}
 " ultisnips {{{
 
 let g:UltiSnipsExpandTrigger = "<c-y>"
@@ -471,8 +510,9 @@ autocmd Filetype haskell setlocal expandtab " always use spaces on haskell
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
 
-let g:echodoc_enable_at_startup = 1
 let g:acp_enableAtStartup = 0    " vim autocomplete
+let g:deoplete#enable_at_startup = 1
+let g:echodoc_enable_at_startup = 1
 let g:hardtime_default_on = 0
 
 " }}}
@@ -493,6 +533,11 @@ let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = ''
 
 "}}}
+" deoplete {{{
+
+let g:deoplete#disable_auto_complete = 1
+
+" }}}
 " ultisnips {{{
 
 if has('nvim')

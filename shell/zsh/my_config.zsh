@@ -9,10 +9,10 @@ PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
 PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
 # go path
 PATH=$PATH:$HOME/.go/bin
-# conda path
-PATH=$PATH:/home/gabriel/bin/miniconda3/bin
 # npm path
 PATH=$PATH:/home/gabriel/.npm_global/bin/
+# conda path
+PATH=$PATH:/home/gabriel/bin/anaconda3/bin
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp

@@ -369,7 +369,7 @@ fixWorkspaces = concat $ zipWith (\w -> map (\c -> "assign [class=\"^" ++ c ++ "
                 -- default
                 , ["Firefox"]
                 -- auxD
-                , ["Chromium","google-chrome","vivaldi-stable"]
+                , ["Chromium","google-chrome","vivaldi-stable", "Opera"]
                 -- read
                 , ["calibre"]
                 -- dev

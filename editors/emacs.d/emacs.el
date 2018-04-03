@@ -24,7 +24,6 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)                ;; if you use :diminish
 (require 'bind-key)
 
 ;; update packages
@@ -74,12 +73,9 @@
         (require-package 'smart-mode-line)
         ;; (require-package 'smartparens)
         (require-package 'smex)
-                                      (require-package 'use-package)
+        (require-package 'use-package)
         (require-package 'yasnippet)
         ))
-
-;; full screen
-(set-frame-parameter nil 'fullscreen 'fullboth)
 
 (blink-cursor-mode -1)          ; cursor does not blink
 (tool-bar-mode -1)              ; no tool bar
@@ -102,33 +98,12 @@
               (load-theme 'misterioso-blue) 
               (load-theme 'misterioso))
 
-(if (file-exists-p "~/.emacs.d/el_files/powerline") 
-(and (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
-(use-package spaceline
+(use-package smart-mode-line
    :ensure t
-   :config 
-    (require 'powerline)
-    (require 'spaceline-config)
-    (spaceline-helm-mode)
-    (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-    (setq spaceline-evil-state-faces 
-          '((normal . powerline-evil-normal-face) 
-          (insert . powerline-evil-insert-face) 
-          (emacs . powerline-evil-emacs-face) 
-          (replace . spaceline-evil-visual)
-          (visual . powerline-evil-visual-face) 
-          (motion . powerline-evil-motion-face)))
-                      (set-face-background 'mode-line "black")
-                      (set-face-background 'powerline-active1 "#660066")
-                      (setq powerline-height 18)
-    (setq powerline-default-separator 'contour)
-                      (setq spaceline-workspace-numbers-unicode t)
-    (spaceline-spacemacs-theme))
-) nil )
+   :config (sml/setup))
 
 (use-package anzu 
          :ensure t
-         :diminish anzu-mode
          :init (global-anzu-mode +1))
 
 (use-package pretty-mode
@@ -355,6 +330,18 @@
                               (define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
                               (global-fci-mode 1))
 
+(use-package flycheck
+  :ensure t
+  :init (global-flycheck-mode)
+  :config
+                      (set-face-attribute
+                              'flycheck-error nil :foreground "red" :underline "red")
+                      (set-face-attribute
+                              'flycheck-warning nil :foreground "yellow" :underline "yellow")
+                      (set-face-attribute
+                              'flycheck-info nil :foreground "blue" :underline "blue")
+)
+
 (use-package folding
    :ensure t
                :config
@@ -379,7 +366,6 @@
 
 (use-package indent-guide
    :ensure t
-               :diminish indent-guide-mode 
                :config
                               (indent-guide-global-mode))
 
@@ -435,6 +421,8 @@
    :config
                          (global-origami-mode)
 )
+
+(load "~/.emacs.d/lisp/PG/generic/proof-site")
 
 (use-package linum-relative
    :ensure t

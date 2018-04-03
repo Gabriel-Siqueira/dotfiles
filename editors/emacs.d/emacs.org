@@ -53,7 +53,6 @@ Some general settings related to packages
 
   (eval-when-compile
     (require 'use-package))
-  (require 'diminish)                ;; if you use :diminish
   (require 'bind-key) 
 
 #+END_SRC
@@ -125,7 +124,7 @@ Some general settings related to packages
           (require-package 'smart-mode-line)
           ;; (require-package 'smartparens)
           (require-package 'smex)
-					(require-package 'use-package)
+          (require-package 'use-package)
           (require-package 'yasnippet)
           ))
 
@@ -135,9 +134,6 @@ Some general settings related to packages
  Some configuration on how emacs look like.
 
 #+begin_src emacs-lisp :tangle yes
-
-    ;; full screen
-    (set-frame-parameter nil 'fullscreen 'fullboth)
 
     (blink-cursor-mode -1)          ; cursor does not blink
     (tool-bar-mode -1)              ; no tool bar
@@ -185,7 +181,7 @@ Powerline as mode-line, not installed with package.
 *** Smart-mode-line
 Smart-mode-line as mode-line.
 
-#+begin_src emacs-lisp :tangle no
+#+begin_src emacs-lisp :tangle yes
 
   (use-package smart-mode-line
      :ensure t
@@ -194,9 +190,9 @@ Smart-mode-line as mode-line.
 #+END_SRC
 
 *** Spaceline
-Spaceline os mode-line
+Spaceline as mode-line
 
-#+begin_src emacs-lisp :tangle yes 
+#+begin_src emacs-lisp :tangle no 
 
   (if (file-exists-p "~/.emacs.d/el_files/powerline") 
   (and (add-to-list 'load-path "~/.emacs.d/el_files/powerline")
@@ -232,7 +228,6 @@ Spaceline os mode-line
 
 			(use-package anzu 
 				 :ensure t
-				 :diminish anzu-mode
 				 :init (global-anzu-mode +1))
 
 		#+END_SRC
@@ -778,6 +773,15 @@ Winner Mode is a global minor mode. When activated, it allows you to “undo”
 
 #+END_SRC
 
+*** Emacs-w3m
+		Web browser
+
+#+begin_src emacs-lisp :tangle no
+
+  (use-package w3m :ensure t)
+
+#+END_SRC
+
 *** Fill column
 	Colorful column on the width limit.
 	
@@ -880,7 +884,6 @@ check-syntax:
 
   (use-package indent-guide
      :ensure t
-		 :diminish indent-guide-mode 
 		 :config
 				(indent-guide-global-mode))
 
@@ -1017,6 +1020,25 @@ In order to work these configurations are necessary:
 
 #+END_SRC
 	
+*** Proof General	
+Proof general, for work like coqIDE
+
+To install
+
+#+begin_src zsh :tangle no
+
+git clone https://github.com/ProofGeneral/PG ~/.emacs.d/lisp/PG
+cd ~/.emacs.d/lisp/PG
+make
+
+#+END_SRC
+
+#+begin_src emacs-lisp :tangle yes
+
+	(load "~/.emacs.d/lisp/PG/generic/proof-site")
+
+#+END_SRC
+
 *** Relative line numbers
 	Change line numbers in order to make them relative to the current line.
 
@@ -1039,15 +1061,6 @@ In order to work these configurations are necessary:
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-timestamps t)
   (setq undo-tree-visualizer-diff t)
-
-#+END_SRC
-
-*** Emacs-w3m
-		Web browser
-
-#+begin_src emacs-lisp :tangle no
-
-  (use-package w3m :ensure t)
 
 #+END_SRC
 
