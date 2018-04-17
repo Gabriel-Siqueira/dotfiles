@@ -61,6 +61,7 @@ Plug 'tpope/vim-repeat'                       " extend use of .
 " }}}
 " Languages/file types {{{
 
+Plug 'sheerun/vim-polyglot'
 "{{{ Erlang
 
 " Plug 'vim-erlang/erlang-motions.vim'           " motion and text objects
@@ -231,6 +232,9 @@ let mapleader = 'ç'
 set tm=2000 " time to leader became ç
 
 " }}}
+" do stuff quickly {{{
+noremap <leader>u :update<CR>
+" }}}
 " move {{{
 
 
@@ -333,6 +337,8 @@ vnoremap <leader>rl  :VtrSendLinesToRunner<cr>
 
 " hard time
 nnoremap <leader>h <Esc>:call HardTimeToggle()<CR> " Toggle Hard time
+" fzf
+nnoremap <C-p>  :FZF<cr>
 
 " }}}
 
@@ -344,6 +350,7 @@ cnoreabbrev WQ wq
 cnoreabbrev Wq q
 cnoreabbrev X x
 cnoreabbrev xx X
+nnoremap Y y$
 
 " }}}
 "}}}
@@ -536,6 +543,8 @@ let g:airline#extensions#tabline#left_alt_sep = ''
 " deoplete {{{
 
 let g:deoplete#disable_auto_complete = 1
+call deoplete#custom#source('_',
+\ 'matchers', ['matcher_full_fuzzy'])
 
 " }}}
 " ultisnips {{{

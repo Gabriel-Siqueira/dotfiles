@@ -60,39 +60,39 @@ myScreenShot       = "gnome-screenshot"
 -- colors {{{
 
 focusedWorkspaceBackgroud   = case pc of
-                                "GAMa"    -> "#0000ee"
-                                "GOLi"    -> "#6f0582"
-                                "ic"      -> "#4B0000#"
-                                _         -> "#00aa00"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111"
+                                _         -> "#111111"
 activeWorkspaceBackground   = case pc of
-                                "GAMa"    -> "#0000ee"
-                                "GOLi"    -> "#6f0582"
-                                "ic"      -> "#4B0000#"
-                                _         -> "#00aa00"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111#"
+                                _         -> "#111111"
 inactiveWorkspaceBackground = case pc of
-                                "GAMa"    -> "#000066"
-                                "GOLi"    -> "#2d0235"
-                                "ic"      -> "#290000#"
-                                _         -> "#008800"
-urgentWorkspaceBackground   = "#ff0000"
-barBackground               = "#333333"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111#"
+                                _         -> "#111111"
+urgentWorkspaceBackground   = "#111111"
+barBackground               = "#111111"
 focusedWorkspaceBorder      = case pc of
-                                "GAMa"    -> "#00ff00"
-                                "GOLi"    -> "#fc7b02"
-                                "ic"      -> "#00ff00"
-                                _         -> "#ffffff"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111"
+                                _         -> "#111111"
 activeWorkspaceBorder       = case pc of
-                                "GAMa"    -> "#000000"
-                                "GOLi"    -> "#000000"
-                                "ic"      -> "#000000"
-                                _         -> "#000000"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111"
+                                _         -> "#111111"
 inactiveWorkspaceBorder     = case pc of
-                                "GAMa"    -> "#000000"
-                                "GOLi"    -> "#000000"
-                                "ic"      -> "#000000"
+                                "GAMa"    -> "#111111"
+                                "GOLi"    -> "#111111"
+                                "ic"      -> "#111111"
                                 _         -> ""
-urgentWorkspaceBorder      = "#000000"
-barBorder                  = "#333333"
+urgentWorkspaceBorder      = "#111111"
+barBorder                  = "#111111"
 -- }}}
 
 -- }}}
@@ -316,11 +316,11 @@ modes = [ "mode \"resize\" {"] ++
 
 colors =
 --         class              border  backgr. text    indicator child_border
-        [ "client.focused     #222222 #222222 #00ff00 #2e9ef4   #117899"
-        , "client.focused_inactive  #333333 #5f676a #ffffff #484e50"
-        , "client.unfocused   #333333 #222222 #888888 #292d2e   #333333"
-        , "client.urgent      #2f343a #900000 #ffffff #900000"
-        , "client.placeholder #000000 #0c0c0c #ffffff #000000"
+        [ "client.focused     #111111 #111111 #00ff00 #111111 #111111"
+        , "client.unfocused   #111111 #111111 #888888 #111111 #111111"
+        , "client.urgent      #111111 #111111 #ff0000 #111111 #111111"
+        , "client.placeholder #111111 #111111 #ffffff #111111 #111111"
+        , "client.focused_inactive  #111111 #111111 #ffffff #111111 #111111"
         , "client.background  #ffffff"
         ]
 
@@ -342,7 +342,7 @@ i3bar =
         , "        focused_workspace  " ++ focusedWorkspaceBorder  ++ " " ++ focusedWorkspaceBackgroud   ++ "    #ffff00"
         , "        active_workspace   " ++ activeWorkspaceBorder   ++ " " ++ activeWorkspaceBackground   ++ "    #ffff00"
         , "        inactive_workspace " ++ inactiveWorkspaceBorder ++ " " ++ inactiveWorkspaceBackground ++ "    #bbbb00"
-        , "        urgent_workspace   " ++ urgentWorkspaceBorder   ++ " " ++ urgentWorkspaceBackground   ++ "    #ffff00"
+        , "        urgent_workspace   " ++ urgentWorkspaceBorder   ++ " " ++ urgentWorkspaceBackground   ++ "    #ff0000"
         , "        binding_mode       " ++ barBorder               ++ " " ++ barBackground               ++ "    #ff5500"
         , "    }"
         , "}"
@@ -420,6 +420,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
 
 conky = base ++ text 
 -- Settings {{{
+conky_text_color = "#BBBBBB"
 
 updateComand = case pc of
                         "GAMa"    -> "checkupdates | wc -l" 
@@ -482,7 +483,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[$fs_used/$fs_size] \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -495,7 +496,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[$mem/$memmax] \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -508,22 +509,22 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[${cpu cpu1}%,\"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"${cpu cpu2}%,\"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"${cpu cpu3}%,\"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"${cpu cpu4}%] \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -536,7 +537,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[${exec " ++ updateComand ++ "}] \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -548,7 +549,7 @@ text' = [
                 , ("\"separator\""  ,"false"),("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[${wireless_link_qual_perc " ++ wifi ++ "}% - ${wireless_bitrate " ++ wifi ++ "}]\"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"false")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -556,7 +557,7 @@ text' = [
 -- Net
                 -- {{{
                 [ ("\"full_text\""  ,"${if_existing /proc/net/route " ++ eth ++ "}\"- [${wireless_bitrate " ++ eth ++ "}] \"$else\" \"${endif}")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -569,7 +570,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"${exec amixer -c 0 get Master | grep Mono: | cut -d \" \" -f6} \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")],
                 -- }}}
@@ -581,7 +582,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\""  ,"\"[${exec xbacklight | cut -d \".\" -f 1}%] \"")
-                , ("\"color\""      ,"\"\\#AAAA00\"")
+                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\""  ,"true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -594,7 +595,7 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\"","\"[${battery_percent " ++ bat ++ "}%] \"")
-                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\"","true")
                 , ("\"separator_block_width\"","6")
                 ],
@@ -607,14 +608,14 @@ text' = [
                 , ("\"separator_block_width\"","6")
                 ],
                 [ ("\"full_text\"","\"${time %a %b %d}\"")
-                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\"","true")
                 ],
                 -- }}}
 -- Time
                 -- {{{
                 [ ("\"full_text\"","\"${time %H:%M:%S}\"")
-                , ("\"color\"","\"\\#AAAA00\"")
+                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
                 , ("\"separator\"","false")
                 ],
                 [ ("\"full_text\"","\">\"")
