@@ -55,17 +55,22 @@ ws = [
 -- }}}
 -- applications {{{
 
-myTerminal = "termite"
-mySTerminal = myMainTerminal
 -- {{{
-myMainTerminal         =  case pc of
+myMainTerminal     =  case pc of
                         "GAMa"    -> "termite -e tmux --name=tmux"
                         "GOLi"    -> "gnome-terminal"
                         "ic"      -> "xfce4-terminal"
                         _         -> "i3-sensible-terminal"
 -- }}}
 -- {{{
-myrofi = "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee' \""
+myTerminal         =  case pc of
+                        "GAMa"    -> "termite"
+                        "GOLi"    -> "termite"
+                        "ic"      -> "urxvt"
+                        _         -> "i3-sensible-terminal"
+-- }}}
+-- {{{
+myrofi             = "\"rofi -matching fuzzy -show run -font 'Michroma 15' -location 1 -columns 5 -lines 1 -width 100 -color-enable -color-window '#222222,#222222,#00ff00' -opacity '100' -separator-style 'solid' -color-normal '#222222, #eeeeee,#222222,#444444,#eeeeee' \""
 --}}}
 --{{{
 myMenu             = case pc of
@@ -74,6 +79,7 @@ myMenu             = case pc of
                         "ic"       -> "dmenu_run"
                         _          -> "dmenu_run"
 --}}}
+mySTerminal = myMainTerminal
 mySmenu            = "dmenu_run"
 myScreenShot       = "gnome-screenshot -a"
 
@@ -488,10 +494,15 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "twmnd"
                 , "~/bin/bat.sh"
                 , "firefox"
-                , "termite --name=math -e ghci"
-                , "termite --name=file -e ranger"
-                , "termite --name=note -e sncli"
+                , term_lauch ++ "math -e ghci"
+                , term_lauch ++ "file -e ranger"
+                , term_lauch ++ "note -e sncli"
                 ]
+        term_lauch = case pc of
+                    "GAMa"    -> "termite --name="
+                    "GOLi"    -> "termite --name="
+                    "ic"      -> "urxvt -name="
+                    _         -> "urxvt -name="
 
 -- }}}
 -- Startup workspace {{{

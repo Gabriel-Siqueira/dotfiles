@@ -54,8 +54,8 @@
 # rm -i ~/.stalonetrayrc
 # ln -s ~/MEGA/dotfiles/stalonetrayrc    ~/.stalonetrayrc
 
-# rm -i ~/.config/termite/conf
-# ln -s ~/MEGA/dotfiles/terminals/termite.cfg         ~/.config/termite/conf
+# rm -i ~/.config/termite/config
+# ln -s ~/MEGA/dotfiles/terminals/termite.cfg         ~/.config/termite/config
 # rm -i ~/.Xresources
 # ln -s ~/MEGA/dotfiles/terminals/Xresources          ~/.Xresources
 # rm -i ~/.tmux.conf
