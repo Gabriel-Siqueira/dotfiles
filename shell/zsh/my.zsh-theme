@@ -31,13 +31,15 @@ local theme_precmd () {
 
     # Begin
     PROMPT='%F{$color3}┌╼%f'
-    PROMPT+='%F{$color1} ⬖ -(%f'
+
+    # Host name
+    PROMPT+='%F{$color1} (%f%F{$color2}%m%f%F{$color1}) %f'
 
     # Path
-    PROMPT+='%F{$color2}%~%f%F{$color1})-⬗ %f'
+    PROMPT+='%F{$color3}╾╼%f%F{$color1} (%f%F{$color2}%~%f%F{$color1}) %f'
 
     # Date time
-    PROMPT+='%F{$color3}╾╼%f%F{$color1} %D{%d/%m/%y}(%f%F{$color2}%T%f%F{$color1})%f'
+    PROMPT+='%F{$color3}╾╼%f%F{$color1} (%f%F{$color2}%T%f%F{$color1})%f'
 
     # GIT
     PROMPT+='$(git_prompt_info)'
@@ -83,7 +85,7 @@ local theme_precmd () {
 %F{$color3}└╼ %f%F{$color1}%n%f'
 
     # End
-    PROMPT+='%{$fg_bold[$color3]%}$( vi_mode_prompt_info ):%(!.#.➤) $reset_color '
+    PROMPT+='%{$fg_bold[$color3]%}$( vi_mode_prompt_info )%(!.#.:) $reset_color '
 }
 
 autoload -U add-zsh-hook

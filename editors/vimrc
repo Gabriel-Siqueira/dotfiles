@@ -234,6 +234,7 @@ set tm=2000 " time to leader became ç
 " }}}
 " do stuff quickly {{{
 noremap <leader>u :update<CR>
+noremap <C-c> <C-a>
 " }}}
 " move {{{
 
@@ -320,16 +321,16 @@ call camelcasemotion#CreateMotionMappings('<leader>c')
 " {{{ vim-tmux-runner
 
 nnoremap <leader>rr  :VtrResizeRunner<cr>
-nnoremap <leader>rro :VtrReorientRunner<cr>
-nnoremap <leader>rsc :VtrSendCommandToRunner<cr>
+nnoremap <leader>rt  :VtrReorientRunner<cr>
+nnoremap <leader>rs  :VtrSendCommandToRunner<cr>
 nnoremap <leader>rl  :VtrSendLinesToRunner<cr>
 nnoremap <leader>ro  :VtrOpenRunner<cr>
 nnoremap <leader>rk  :VtrKillRunner<cr>
 nnoremap <leader>rf  :VtrFocusRunner<cr>
 nnoremap <leader>rd  :VtrDetachRunner<cr>
 nnoremap <leader>ra  :VtrReattachRunner<cr>
-nnoremap <leader>rcl :VtrClearRunner<cr>
-nnoremap <leader>rfc :VtrFlushCommand<cr>
+nnoremap <leader>re  :VtrClearRunner<cr>
+nnoremap <leader>rf  :VtrFlushCommand<cr>
 vnoremap <leader>rl  :VtrSendLinesToRunner<cr>
 
 " }}}
@@ -575,6 +576,8 @@ let g:haskell_conceal = 0 " disable all prity haskell symbols
 let g:VtrStripLeadingWhitespace = 0
 let g:VtrClearEmptyLines = 0
 let g:VtrAppendNewline = 1
+let g:VtrOrientation = "h"
+let g:VtrPercentage = 50
 
 " }}}
 " netrw {{{

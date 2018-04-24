@@ -13,6 +13,8 @@ PATH=$PATH:$HOME/.go/bin
 PATH=$PATH:/home/gabriel/.npm_global/bin/
 # conda path
 PATH=$PATH:/home/gabriel/bin/anaconda3/bin
+# Spark
+PATH=$PATH:/home/gabriel/bin/spark-2.3.0-bin-hadoop2.7/bin
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
@@ -100,6 +102,8 @@ if ! type "nvim" > /dev/null; then
 else
 	EDITOR="nvim"
 fi
+# spark
+export PYSPARK_DRIVER_PYTHON=ipython
 # }}}
 # Settings on history {{{
 HISTFILE=~/.histfile
@@ -149,10 +153,12 @@ if [ -n "$INSIDE_EMACS" ]; then
   bindkey -e
 fi
 
-if type "neofetch" > /dev/null; then
-	neofetch # neofetch (begin)
+if [ $(date +"%H") -ge 18 ]; then
+    echo "Boa noite :o"
+elif [ $(date +"%H") -ge 12 ]; then
+    echo "Boa tarde :]"
 else
-	echo "Novo zsh"
+    echo "Bom dia :)"
 fi
 # }}}
 # vim: foldmethod=marker foldlevel=0 
