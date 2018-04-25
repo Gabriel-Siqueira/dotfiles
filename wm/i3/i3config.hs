@@ -11,7 +11,7 @@ i3File           = case pc of
                         "GAMa"    -> "/home/gabriel/.config/i3/config" 
                         "GOLi"    -> "/home/gabriel/.config/i3/config" 
                         "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
-                        _         -> "/home/ec2014/ra155446/.i3/config"
+                        _         -> "/home/ec2014/ra155446/.config/i3/config"
 -- }}}
 -- {{{
 conkyFile        = case pc of
@@ -451,7 +451,7 @@ fixPlace = concat $ fixWp ++ scratchpad
             , (wcl, "midi", ["Kodi","Spotify"])
             , (ass, "virM", ["VirtualBox"])
             , (ass, "docs", ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"])
-            , (ass, "auxE", ["Gnome-terminal","Xfce5-terminal"])
+            , (ass, "auxE", ["Gnome-terminal","Xfce4-terminal"])
             , (win, "auxE", ["tmux"])
             , (ass, "deft", ["Firefox"])
             , (ass, "auxD", ["Chromium","google-chrome","vivaldi-stable", "Opera"])
@@ -501,8 +501,8 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
         term_lauch = case pc of
                     "GAMa"    -> "termite --name="
                     "GOLi"    -> "termite --name="
-                    "ic"      -> "urxvt -name="
-                    _         -> "urxvt -name="
+                    "ic"      -> "urxvt -name "
+                    _         -> "urxvt -name "
 
 -- }}}
 -- Startup workspace {{{
