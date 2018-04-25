@@ -6,10 +6,9 @@ BAT_NOW=$BATPATH/charge_now
 while true; do
     bf=$(cat $BAT_FULL)
     bn=$(cat $BAT_NOW)
-    if [ $(( 100 * $bn / $bf )) -lt 10 ]
+    if [ $(( 100 * $bn / $bf )) -lt 15 ]
     then
-         twmnc -s 50 --bg 'red' --fg 'yellow' -c "
-    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> low battery  <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<"
+         twmnc --bg 'red' --fg 'yellow' -c "               low battery               "
         sleep 1m
     else
         sleep 5m
