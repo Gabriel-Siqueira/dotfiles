@@ -15,6 +15,9 @@ PATH=$PATH:/home/gabriel/.npm_global/bin/
 PATH=$PATH:/home/gabriel/bin/anaconda3/bin
 # Spark
 PATH=$PATH:/home/gabriel/bin/spark-2.3.0-bin-hadoop2.7/bin
+# Hadoop
+PATH=$PATH:/home/gabriel/bin/hadoop-2.9.0/bin/
+# Hadoop
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
@@ -39,6 +42,9 @@ fi
 if type "nvim" > /dev/null; then
 	alias vim-old='vim'
 	alias vim='nvim'
+fi
+if type "nvr" > /dev/null; then
+	alias e='nvr'
 fi
 # }}}
 # exeptions to auto-correction {{{
@@ -96,11 +102,18 @@ alias du='du -h'
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 LS_COLORS='di=1;33';export LS_COLORS
-VISUAL="vim"
 if ! type "nvim" > /dev/null; then
 	EDITOR="vim"
+    VISUAL="vim"
 else
 	EDITOR="nvim"
+    VISUAL="nvim"
+fi
+# manpage on nvim
+if ! type "nvim" > /dev/null; then
+    export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+else
+    export MANPAGER="nvim +set\ filetype=man -"
 fi
 # spark
 export PYSPARK_DRIVER_PYTHON=ipython

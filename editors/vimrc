@@ -77,12 +77,17 @@ Plug 'dag/vim2hs'                              " lots of help with haskell
 Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 
 "}}}
+" Latex {{{
+
+Plug 'lervag/vimtex'                          " for edit latex
+Plug 'donRaphaco/neotex', { 'for': 'tex' }    " latex live previw
+
+" }}}
 " {{{ Other languages and file types
 
 " Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 Plug 'justmao945/vim-clang'                   " for c,cpp files
-Plug 'lervag/vimtex'                          " for edit latex
 Plug 'plasticboy/vim-markdown'                " for markdown
 " Plug 'python-mode/python-mode'                " for python
 Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
@@ -101,11 +106,11 @@ else
   Plug 'roxma/vim-hug-neovim-rpc'
 endif
 
+Plug 'eagletmt/neco-ghc'                      " for haskell (deoplete)
 Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
 Plug 'zchee/deoplete-clang'                   " for  C/C++ (deoplete) 
 Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
 Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
-Plug 'eagletmt/neco-ghc'                      " for haskell (deoplete)
 
 Plug 'SirVer/ultisnips'                       " use snippets
 Plug 'honza/vim-snippets'                     " more snippets
@@ -122,35 +127,24 @@ Plug 'w0rp/ale'                               " use linter while typing
 " }}}
 " Interface {{{
 
-if has('nvim')
-    " Plug 'Shougo/deol.nvim'                       " terminal
-else
-    " Plug 'Shougo/vimshell.vim'                    " shell
-    " Plug 'wincent/terminus'                       " integration with terminal
+if !has('nvim')
     Plug 'vim-utils/vim-man'                      " view man pages
+    Plug 'osyo-manga/vim-over'                    " highlight substitute pattern
 endif
 
-" Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
-" Plug 'tpope/vim-tbone'                        " commands for tmux on vim
-" Plug 'vimwiki/vimwiki'                        " make files in a personal wiki
-" Plug 'wikitopian/hardmode'                    " make vim harder
-" Plug 'wincent/loupe'                          " same changes to search commands
+" Plug 'Shougo/defx.nvim'                       " tree of files
 Plug 'Konfekt/FastFold'                       " fold/unfold on right times
-Plug 'Shougo/echodoc.vim'                     " Signatures in command line
-Plug 'Shougo/unite.vim'                       " search/display info (file, buf)
-Plug 'Shougo/vimfiler.vim'                    " tree of files
+Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 Plug 'juanpabloaj/help.vim'                   " better navigation in help
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                       " fuzzy finder on vim
-Plug 'osyo-manga/vim-over'                    " highlight substitute pattern
+Plug 'kassio/neoterm'                         " send commands to repl
+Plug 'scrooloose/nerdtree'                    " tree of files
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
-Plug 'takac/vim-hardtime'                     " avoid repetitions
-Plug 'tpope/vim-capslock'                     " software caps lock
-Plug 'tpope/vim-eunuch'                       " wrapper for files commands
+Plug 'troydm/zoomwintab.vim'                  " make pane full screen
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
-Plug 'vim-scripts/ZoomWin'                    " make pane full screen
 
 " }}}
 " Applications interface {{{
@@ -169,34 +163,18 @@ Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
 Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 
 " }}}
-" Nyaovim {{{
-
-" if has('nvim')
-"     Plug 'rhysd/nyaovim-markdown-preview' " preview markdown files
-"     Plug 'rhysd/nyaovim-mini-browser'     " browser for nyaovim
-"     Plug 'rhysd/nyaovim-popup-tooltip'    " Image popup tooltip
-" endif
-
-" }}}
 ""{{{ Colors
 
-" Plug 'KeitaNakamura/neodark.vim'
-" Plug 'dylanaraps/crayon'
-" Plug 'jacoborus/tender.vim'
-" Plug 'liuchengxu/space-vim-dark'
-" Plug 'sickill/vim-monokai'
-" Plug 'tokers/magellan'
-" Plug 'tpope/vim-vividchalk'
-" Plug 'vim-scripts/ChocolateLiquor'
-Plug 'icymind/NeoSolarized'
+Plug 'lifepillar/vim-solarized8'
 Plug 'gosukiwi/vim-atom-dark'
 Plug 'tomasr/molokai'
 
 ""}}}
 " Others {{{
 
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}    " Interactive command execution (for ghc-mode)
-Plug 'let-def/vimbufsync'                     " coquille uses it
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}     " Interactive command execution (for ghc-mode)
+Plug 'let-def/vimbufsync'                      " coquille uses it
+Plug 'tpope/vim-obsession'                     " Automatic save session
 
 " }}}
 call plug#end()
@@ -230,6 +208,26 @@ endfunction
 
 let mapleader = 'ç'
 set tm=2000 " time to leader became ç
+
+" }}}
+" terminal {{{
+
+if has('nvim')
+    tnoremap <C-\> <C-\><C-n>
+    tnoremap <C-h> <C-\><C-n><C-w>h
+    tnoremap <C-j> <C-\><C-n><C-w>j
+    tnoremap <C-k> <C-\><C-n><C-w>k
+    tnoremap <C-l> <C-\><C-n><C-w>l
+
+    " terminal in a new tab
+    noremap  <Leader>cc :term<CR>
+    " terminal in a vertical split
+    noremap  <Leader>cv :vsp<CR><C-w><C-w>:term<CR>
+    " terminal in a horizontal split
+    noremap  <Leader>cs :sp<CR><C-w><C-w>:term<CR>
+    " paste from register
+    tnoremap <expr> <A-r> '<C-\><C-N>"'.nr2char(getchar()).'pi'
+endif
 
 " }}}
 " do stuff quickly {{{
@@ -279,7 +277,7 @@ nmap <leader>sc :call SwitchSpellLang()<CR>
 noremap <F1> :help
 set pastetoggle=<F2>               " Change between insert and Paste
 noremap <F3> :GundoToggle<CR>      " toggle graphic undo tree
-noremap <F4> :VimFilerExplorer<CR> " Toggle File Explorer
+noremap <F4> :NERDTreeToggle<CR>   " Toggle File Explorer
 
 " }}}
 " {{{ plugins
@@ -334,19 +332,27 @@ nnoremap <leader>rf  :VtrFlushCommand<cr>
 vnoremap <leader>rl  :VtrSendLinesToRunner<cr>
 
 " }}}
-" others {{{
+" FZF {{{
 
-" hard time
-nnoremap <leader>h <Esc>:call HardTimeToggle()<CR> " Toggle Hard time
-" fzf
+noremap  <C-b> :Buffers<CR>
 nnoremap <C-p>  :FZF<cr>
+tnoremap <C-p>  <C-\><C-n>:FZF<cr>
+tnoremap <C-b>  <C-\><C-n>:Buffers<cr>
 
+" }}}
+" zoomwintab {{{
+nnoremap <leader>z :ZoomWinTabToggle<CR>
+" }}}
+" Neoterm {{{
+    nmap gx <Plug>(neoterm-repl-send)
+    xmap gx <Plug>(neoterm-repl-send)
 " }}}
 
 "}}}
 " {{{ accept habits
 
 cnoreabbrev Q q
+cnoreabbrev W w
 cnoreabbrev WQ wq
 cnoreabbrev Wq q
 cnoreabbrev X x
@@ -409,9 +415,10 @@ set showmatch                   " Show matching brackets when text indicator is 
 "{{{ play nice
 
 set backspace=indent,start,eol  " Backspace deletes like most programs in insert mode
-set viminfo^=%                  " Remember info about open buffers on close
+" set viminfo^=%                  " Remember info about open buffers on close
 set formatoptions+=j            " remove comment leader when joining comment lines
 set hidden                      " Do not need to save buffers to open others
+set termguicolors
 
 "}}}
 "{{{ files (save, read, ...)
@@ -482,9 +489,8 @@ endif
 "}}}
 " {{{ nvim specific
 
-if has('nvim')
-    set gcr=a:blinkon0
-    let $NVIM_TUI_ENABLE_CURSOR_SHAPE=1
+if exists('&inccommand')
+  set inccommand=split
 endif
 
 " }}}
@@ -513,32 +519,36 @@ endif
 
 let g:tex_flavor = "latex"
 autocmd Filetype haskell setlocal expandtab " always use spaces on haskell
+:au BufEnter * if &buftype == 'terminal' | :startinsert | endif
 
 " }}}
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
 
+" let g:deoplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0    " vim autocomplete
-let g:deoplete#enable_at_startup = 1
 let g:echodoc_enable_at_startup = 1
-let g:hardtime_default_on = 0
+let g:neotex_enabled = 2
 
 " }}}
 " airline {{{
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='term'
+let g:airline_theme='jet'
 let g:airline#extensions#capslock#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
 let g:airline#extensions#tmuxline#enabled = 0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#vimtex#enabled = 1
 let g:airline#extensions#ale#enabled = 1
-let g:airline_left_sep=''
-let g:airline_right_sep=''
+" let g:airline_left_sep=''
+" let g:airline_right_sep=''
 let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
+let g:airline#extensions#tabline#left_alt_sep = '|'
+" let g:airline#extensions#tabline#right_sep = ''
+" let g:airline#extensions#tabline#right_alt_sep = '|'
 
 "}}}
 " deoplete {{{
@@ -557,12 +567,6 @@ else
 endif
 let g:UltiSnipsSnippetDirectories=["UltiSnips","vim-snippets"]
 let g:UltiSnipsEditSplit="context"
-
-" }}}
-" hardtime {{{
-
-let g:hardtime_ignore_buffer_patterns = ["help"]
-let g:hardtime_showmsg = 1
 
 " }}}
 " vim2hs {{{
@@ -595,6 +599,9 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 let g:vimfiler_as_default_explorer = 1
 
 " }}}
+" vimpolyglot {{{
+let g:polyglot_disabled = ['latex','python','c','c++']
+" }}}
 " Others {{{
 
 " let g:table_mode_corner="|"            " Table modeline
@@ -606,7 +613,7 @@ let g:vimfiler_as_default_explorer = 1
 
 set background=dark
 if has('nvim')
-    color NeoSolarized
+    color solarized8_dark
 else
     color atom-dark-256
 endif

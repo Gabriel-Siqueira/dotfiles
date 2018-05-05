@@ -1,3 +1,43 @@
+snippet tex_beamer_start "Tamplate for latex beamer Presentation" b
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\hypersetup{pdfpagemode=FullScreen}
+\usetheme{${1:Dresden}}
+\usecolortheme{${2:beetle}}
+\setbeamertemplate{itemize items}[ball]
+
+\title {$3} \subtitle{$4}
+\author[Gabriel Henriques Siqueira] {}
+\institute[Unicamp] {}
+\date
+{}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+    \frame{\titlepage}
+
+    \begin{frame}
+    \frametitle{}
+    \tableofcontents
+    \end{frame}
+
+\section[$5]{$5}
+    \begin{frame}
+        \frametitle{$6}
+		$7
+    \end{frame}
+
+\end{document}
+endsnippet
+
 snippet tex_math_start "latex math body" b
 \documentclass[11pt,a4pape]{${1:article}}
 
@@ -25,13 +65,16 @@ snippet tex_start "latex math body" b
 \usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\graphicspath{ {${2:images/}} }
 \hypersetup{
     linktoc=all,
 }
 
 \begin{document}
 
-$2
+$3
 
 \end{document}
 endsnippet
@@ -106,46 +149,6 @@ snippet tex_theorems "Theorems related envorioment" b
 \newenvironment{remark}[1][${7:Remark}]{\begin{trivlist}
 \item[\hskip \labelsep {\bfseries #1}]}{\end{trivlist}}
 endsnippet
-
-snippet tex_beamer_start "Tamplate for latex beamer Presentation" b
-\documentclass{beamer}
-\usepackage[utf8]{inputenc}
-
-\hypersetup{pdfpagemode=FullScreen}
-\usetheme{${1:Dresden}}
-\usecolortheme{${2:beetle}}
-\setbeamertemplate{itemize items}[ball]
-
-\title {$3} \subtitle{$4}
-\author[Gabriel Henriques Siqueira] {}
-\institute[Unicamp] {}
-\date
-{}
-
-\AtBeginSection[]
-{
-  \begin{frame}
-    \frametitle{}
-    \tableofcontents[currentsection]
-  \end{frame}
-}
-
-\begin{document}
-    \frame{\titlepage}
-
-    \begin{frame}
-    \frametitle{}
-    \tableofcontents
-    \end{frame}
-
-\section[$5]{$5}
-    \begin{frame}
-        \frametitle{$6}
-		$7
-    \end{frame}
-
-\end{document}
-endsnippet	
 
 snippet align "align equations" b
 \begin{align} 

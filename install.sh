@@ -56,9 +56,13 @@
 # rm -i ~/.xmobarrc
 # ln -s ~/MEGA/dotfiles/wm/xmonad/xmobarrc   ~/.xmobarrc
 
-#$ i3 status conf
+## i3 status conf
 # rm -i ~/.i3status.conf
 # ln -s ~/MEGA/dotfiles/wm/i3/i3status.conf   ~/.i3status.conf
+
+## i3 - polibar
+rm -i ~/.config/polybar/config
+ln -s ~/MEGA/dotfiles/wm/i3/polybar.conf ~/.config/polybar/config
 
 ## stalonetrayrc 
 # rm -i ~/.stalonetrayrc
@@ -85,3 +89,6 @@
 # rm -i ~/bin/conky-i3bar
 # ln -s ~/MEGA/dotfiles/bin/conky-i3bar ~/bin/conky-i3bar
 # chmod +x ~/bin/conky-i3bar
+# rm -i ~/bin/polybar.sh
+# ln -s ~/MEGA/dotfiles/bin/polybar.sh ~/bin/polybar.sh
+# chmod +x ~/bin/polybar.sh
