@@ -1,0 +1,66 @@
+# Genneral {{{
+source "gpg -dq $HOME/.config/neomutt/pass.gpg |" # source password
+set editor = "nvim"
+set delete = yes # dont ask confirmation
+unset confirmappend # dont ask confirmation
+source mutt-colors-solarized-dark-16.muttrc
+# }}}
+# Gmail {{{
+set folder    = imaps://imap.gmail.com/
+set spoolfile = +INBOX
+set record = "+[Gmail]/Sent Mail"
+unset record # when using SMTP
+set postponed = "+[Gmail]/Drafts"
+set trash="imaps://imap.gmail.com/[Gmail]/Trash"
+mailboxes     = +INBOX
+unset mbox # Leave read messages in the inbox.
+# }}}
+# IMAP {{{
+set imap_user = gabriel.gabrielhs@gmail.com
+set imap_pass = $my_pass
+set header_cache = "~/.cache/mutt"
+set message_cachedir = "~/.cache/mutt"
+unset imap_passive
+set imap_keepalive = 300
+set mail_check = 120
+# }}}
+# SMTP {{{
+set realname = 'Gabriel Henriques Siqueira'
+set from = gabriel.gabrielhs@gmail.com
+set use_from = yes
+set smtp_url = 'smtps://gabriel.gabrielhs@smtp.gmail.com'
+set smtp_pass = $my_pass
+set ssl_force_tls = yes
+# }}}
+# Keys {{{
+bind pager j next-line
+bind pager k previous-line
+bind attach,index,pager \CD next-page
+bind attach,index,pager \CU previous-page
+bind pager g noop
+bind pager gg top
+bind pager G bottom
+bind attach,index g noop
+bind attach,index gg first-entry
+bind attach,index G last-entry
+bind editor <space> noop
+# move message {{{
+macro index,pager s "<save-message>=[Gmail]/All Mail<enter><enter>" "Archive"
+macro index,pager d "<save-message>=[Gmail]/Trash<enter><enter>" "Trash"
+# }}}
+# go to folder {{{
+macro index gi "<change-folder>=INBOX<enter>" "Go to inbox"
+macro index ga "<change-folder>=[Gmail]/All Mail<enter>" "Go to all mail (save/done)"
+macro index gd "<change-folder>=[Gmail]/Drafts<enter>" "Go to drafts"
+macro index gs "<change-folder>=[Gmail]/Sent Mail<enter>" "Go to sent mail"
+macro index gp "<change-folder>=[Gmail]/Spam<enter>" "Go to spam"
+macro index gt "<change-folder>=[Gmail]/Trash<enter>" "Go to trash"
+macro index gf "<change-folder>=[Gmail]/Forums<enter>" "Go to forums"
+# }}}
+# snooze {{{
+macro index,pager 1 "<tag-thread><tag-prefix><save-message>=Snooze-1<enter>" "Snooze 1 day"
+macro index,pager 7 "<tag-thread><tag-prefix><save-message>=Snooze-7<enter>" "Snooze 7 days"
+# }}}
+# }}}
+
+# vim:foldmethod=marker foldlevel=0

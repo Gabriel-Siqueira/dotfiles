@@ -77,21 +77,16 @@ Plug 'dag/vim2hs'                              " lots of help with haskell
 Plug 'eagletmt/ghcmod-vim', {'do' : 'cabal install ghc-mode'} " type checker
 
 "}}}
-" Latex {{{
-
-Plug 'lervag/vimtex'                          " for edit latex
-Plug 'donRaphaco/neotex', { 'for': 'tex' }    " latex live previw
-
-" }}}
 " {{{ Other languages and file types
 
+" Plug 'python-mode/python-mode'                " for python
 " Plug 'rust-lang/rust.vim'                     " for rust
 Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
 Plug 'justmao945/vim-clang'                   " for c,cpp files
+Plug 'lervag/vimtex'                          " for edit latex
 Plug 'plasticboy/vim-markdown'                " for markdown
-" Plug 'python-mode/python-mode'                " for python
-Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
 Plug 'the-lambda-church/coquille'             " for coq
+Plug 'tmux-plugins/vim-tmux'                  " for tmux.conf
 
 " }}}
 
@@ -138,7 +133,7 @@ Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 Plug 'juanpabloaj/help.vim'                   " better navigation in help
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'                       " fuzzy finder on vim
-Plug 'kassio/neoterm'                         " send commands to repl
+Plug 'hkupty/iron.nvim'                       " send commands to repl
 Plug 'scrooloose/nerdtree'                    " tree of files
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
@@ -165,8 +160,9 @@ Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 " }}}
 ""{{{ Colors
 
-Plug 'lifepillar/vim-solarized8'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'gosukiwi/vim-atom-dark'
+Plug 'lifepillar/vim-solarized8'
 Plug 'tomasr/molokai'
 
 ""}}}
@@ -218,6 +214,7 @@ if has('nvim')
     tnoremap <C-j> <C-\><C-n><C-w>j
     tnoremap <C-k> <C-\><C-n><C-w>k
     tnoremap <C-l> <C-\><C-n><C-w>l
+    tnoremap <C-space> <C-\><C-n>:b#<CR>
 
     " terminal in a new tab
     noremap  <Leader>cc :term<CR>
@@ -232,7 +229,7 @@ endif
 " }}}
 " do stuff quickly {{{
 noremap <leader>u :update<CR>
-noremap <C-c> <C-a>
+noremap <C-space> :b#<CR>
 " }}}
 " move {{{
 
@@ -301,6 +298,12 @@ let g:UltiSnipsJumpForwardTrigger = "<c-f>"
 let g:UltiSnipsJumpBackwardTrigger = "<c-b>"
 
 "}}}
+" Iron {{{
+nmap <leader>i <Plug>(iron-send-motion)
+vmap <leader>i <Plug>(iron-send-motion)
+nmap <leader>is :IronRepl<CR>
+nmap <leader>ir <Plug>(iron-repeat-cmd)
+" }}}
 " smartwords and camelcasemotion {{{
 
 map w  <Plug>(smartword-w)
@@ -342,10 +345,6 @@ tnoremap <C-b>  <C-\><C-n>:Buffers<cr>
 " }}}
 " zoomwintab {{{
 nnoremap <leader>z :ZoomWinTabToggle<CR>
-" }}}
-" Neoterm {{{
-    nmap gx <Plug>(neoterm-repl-send)
-    xmap gx <Plug>(neoterm-repl-send)
 " }}}
 
 "}}}
@@ -496,6 +495,7 @@ endif
 " }}}
 "{{{ others
 
+set splitright
 set noshowmode        " remove text insert from command line
 set virtualedit=block " better block selection
 set fileformats=unix,dos,mac " order of file format
@@ -525,10 +525,9 @@ autocmd Filetype haskell setlocal expandtab " always use spaces on haskell
 " ----------------- Plugins --------------- {{{
 " Enable/disable on startup {{{
 
-" let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_at_startup = 1
 let g:acp_enableAtStartup = 0    " vim autocomplete
 let g:echodoc_enable_at_startup = 1
-let g:neotex_enabled = 2
 
 " }}}
 " airline {{{
@@ -557,6 +556,9 @@ let g:deoplete#disable_auto_complete = 1
 call deoplete#custom#source('_',
 \ 'matchers', ['matcher_full_fuzzy'])
 
+" }}}
+" iron {{{
+let g:iron_repl_open_cmd = "vsplit"
 " }}}
 " ultisnips {{{
 

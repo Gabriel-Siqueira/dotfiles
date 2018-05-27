@@ -39,7 +39,7 @@ snippet tex_beamer_start "Tamplate for latex beamer Presentation" b
 endsnippet
 
 snippet tex_math_start "latex math body" b
-\documentclass[11pt,a4pape]{${1:article}}
+\documentclass[11pt,a4pape]{article}
 
 \usepackage[portuguese]{babel}
 \usepackage{amsthm}
@@ -54,27 +54,27 @@ snippet tex_math_start "latex math body" b
 
 \begin{document}
 
-$2
+$1
 
 \end{document}
 endsnippet
 
 snippet tex_start "latex math body" b
-\documentclass[11pt,a4pape]{${1:article}}
+\documentclass[11pt,a4pape]{article}
 
 \usepackage[portuguese]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage[hidelinks]{hyperref}
 \usepackage{enumitem}
 \usepackage{graphicx}
-\graphicspath{ {${2:images/}} }
+\graphicspath{{images/}}
 \hypersetup{
     linktoc=all,
 }
 
 \begin{document}
 
-$3
+$1
 
 \end{document}
 endsnippet

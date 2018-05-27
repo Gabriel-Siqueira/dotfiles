@@ -13,11 +13,8 @@ PATH=$PATH:$HOME/.go/bin
 PATH=$PATH:/home/gabriel/.npm_global/bin/
 # conda path
 PATH=$PATH:/home/gabriel/bin/anaconda3/bin
-# Spark
-PATH=$PATH:/home/gabriel/bin/spark-2.3.0-bin-hadoop2.7/bin
 # Hadoop
-PATH=$PATH:/home/gabriel/bin/hadoop-2.9.0/bin/
-# Hadoop
+# PATH=$PATH:/home/gabriel/bin/hadoop-2.9.0/bin/
 # }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
@@ -45,6 +42,9 @@ if type "nvim" > /dev/null; then
 fi
 if type "nvr" > /dev/null; then
 	alias e='nvr'
+fi
+if type "xdg-open" > /dev/null; then
+	alias o='xdg-open'
 fi
 # }}}
 # exeptions to auto-correction {{{
@@ -173,5 +173,9 @@ elif [ $(date +"%H") -ge 12 ]; then
 else
     echo "Bom dia :)"
 fi
+
+# work nice with neovim
+[ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
+
 # }}}
 # vim: foldmethod=marker foldlevel=0 

@@ -1,13 +1,4 @@
-!! intall: urxvt, urxvt-perls, urxvt-fullscreen, urxvt-resize-font-git
-
-urxvt.font: xft:xos4 Terminus:size=11:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False,xft:Monospace:size=9:antialias=true:hinting=true
-urxvt.boldFont: xft:xos4 Terminus:size=11:bold:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
-urxvt.italicFont: xft:xos4 Terminus:size=11:italic:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
-urxvt.boldItalicFont: xft:xos4 Terminus:size=11:bold:italic:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt*letterSpace: 0
-
-urxvt.transparent: false
-urxvt*shading: 90
+!! colors {{{
 
 *background: #002b36
 *foreground: #657b83
@@ -36,6 +27,19 @@ urxvt*shading: 90
 *color7: #eee8d5
 *color15: #fdf6e3
 
+!! }}}
+!! urxvt {{{
+!! intall: urxvt, urxvt-perls, urxvt-fullscreen, urxvt-resize-font-git
+
+urxvt.font: xft:xos4 Terminus:size=11:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False,xft:Monospace:size=9:antialias=true:hinting=true
+urxvt.boldFont: xft:xos4 Terminus:size=11:bold:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
+urxvt.italicFont: xft:xos4 Terminus:size=11:italic:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
+urxvt.boldItalicFont: xft:xos4 Terminus:size=11:bold:italic:minspace=False,xft:DejaVu Sans:pixelsize=18,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt*letterSpace: 0
+
+urxvt.transparent: false
+urxvt*shading: 90
+
 URxvt.internalBorder:      0
 URxvt.externalBorder:      0
 
@@ -61,3 +65,22 @@ URxvt.iso14755_52: false
 
 !! fullscreen
 URxvt.keysym.F11:          perl:fullscreen:switch
+!! }}}
+!! rofi {{{
+
+rofi.matching: fuzzy
+rofi.modi: drun,run
+rofi.font: Michroma 15
+rofi.location: 1
+rofi.columns: 5
+rofi.lines: 1
+rofi.width: 100
+rofi.color-window: #222222,#222222,#00ff00
+rofi.opacity: 100
+rofi.separator-style: solid
+rofi.color-normal: #222222,#eeeeee,#222222,#444444,#eeeeee
+rofi.kb-mode-next: Tab,Shift+Right
+rofi.kb-row-tab: Ctrl+Tab
+
+!!}}}
+!! vim: foldmethod=marker foldlevel=0
