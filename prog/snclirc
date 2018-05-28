@@ -1,0 +1,10 @@
+[sncli]
+cfg_sn_username = gabriel.gabrielhs@gmail.com
+cfg_sn_password_eval = gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.sncli-pass.gpg
+
+# if this editor config value is not provided, the $EDITOR env var will be used instead
+cfg_editor = nvim
+
+# keys
+kb_down = down
+kb_up = up

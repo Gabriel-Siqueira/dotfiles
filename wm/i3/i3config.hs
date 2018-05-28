@@ -486,7 +486,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "twmnd"
                 , "~/bin/bat.sh"
                 , "qutebrowser"
-                , term_lauch ++ "math -e ghci"
+                , term_lauch ++ "math -e ipython"
                 , term_lauch ++ "file -e ranger"
                 , term_lauch ++ "note -e sncli"
                 -- , term_lauch ++ "mail -e neomutt"

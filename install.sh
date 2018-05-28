@@ -53,6 +53,8 @@
 # rm -i ~/.config/ranger/rifle.conf
 # ln -s ~/MEGA/dotfiles/prog/ranger/rifle.conf ~/.config/ranger/rifle.conf
 ## }}}
+# rm -i ~/.config/.snclirc
+# ln -s ~/MEGA/dotfiles/prog/snclirc ~/.snclirc
 # rm -i ~/.config/neomutt/neomuttrc
 # ln -s ~/MEGA/dotfiles/prog/neomuttrc ~/.config/neomutt/neomuttrc
 # rm -i ~/.config/zathura/zathurarc
