@@ -234,7 +234,7 @@ Spaceline as mode-line
 
 ** Nice characters
 	Same changes to use nicer symbols
-
+	
 #+begin_src emacs-lisp :tangle yes
 
 (use-package pretty-mode
@@ -542,7 +542,7 @@ related with them.
 
 ** Completion
 	Packages related with auto completion.
-
+	
 *** When using auto-complete
 **** Auto-complete
 

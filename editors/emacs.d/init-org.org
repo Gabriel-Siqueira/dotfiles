@@ -1,0 +1,834 @@
+#+TITLE: Emacs configuration file
+
+* Set up
+** Auto tangle
+
+The following function tangles and compiles this configurations, also use a hook to run when the file is saved.
+
+#+begin_src emacs-lisp :tangle yes
+(defun my/tangle-init ()
+   "Tangle code for this file"
+   (when (equal (buffer-file-name)
+                (expand-file-name (concat user-emacs-directory "init-org.org")))
+    (find-file (concat user-emacs-directory "init-org.org"))
+    (org-babel-tangle)
+    (load-file (concat user-emacs-directory "init-org.el"))
+    (byte-compile-file (concat user-emacs-directory "init-org.el"))
+))
+
+(add-hook 'after-save-hook 'my/tangle-init)
+#+end_src
+
+** packages
+
+Add package archives and initialize package
+
+#+begin_src emacs-lisp :tangle yes
+(require 'package)
+(push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
+(package-initialize)
+#+end_src
+
+Install use package to ensure that packages are installed when required
+
+#+begin_src emacs-lisp :tangle yes
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(eval-when-compile
+    (require 'use-package))
+#+end_src
+
+Hide and abbreviate modes from the mode line, place on the start to be used
+with use-package.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package diminish
+	:ensure t
+)
+
+#+END_SRC
+
+Other lisp files not in packages
+
+#+begin_src emacs-lisp :tangle yes
+
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+#+end_src
+
+* Notes
+
+- To use spell-check dowload aspell dictionaries (use the system package manager).
+
+* General Configurations
+
+#+begin_src emacs-lisp :tangle yes
+
+;; Start emacs server
+(server-start)
+
+;; start maximized
+(toggle-frame-maximized)
+
+;; no message on scratchpad
+(setq initial-scratch-message nil)
+
+;; yes is y and no is n
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;; Isolate kill ring
+(setq interprogram-cut-function nil)
+(setq interprogram-paste-function nil)
+
+#+end_src
+
+** Visual of the buffer
+
+#+begin_src emacs-lisp :tangle yes
+
+(setq-default tab-width 4)        ; Indentation 4 spaces
+(setq c-basic-offset 4)
+(show-paren-mode 1)               ; match parents, breckets, etc
+(setq show-trailing-whitespace t) ; mark trailing-whitespaces
+(setq-default fill-column 80)     ; line size
+(global-visual-line-mode 1)       ; wrap long lines
+
+#+end_src
+
+** Persistence
+
+*** Settings to backup files
+	
+#+begin_src emacs-lisp :tangle yes
+
+;; Directory to save beckup files
+(setq backup-directory-alist `(("." . "~/Documents/swap_files")))
+(setq version-control t    ; Use version numbers for backups
+	delete-old-versions t  ; don't ask if can delet old versions
+	kept-new-versions 8)   ; Number of newest versions to keep
+
+#+end_src
+
+*** Undo
+
+#+begin_src emacs-lisp :tangle yes
+
+(setq undo-tree-auto-save-history t)
+
+#+end_src
+
+*** Places
+	
+#+begin_src emacs-lisp :tangle yes
+
+(require 'saveplace)
+(setq-default save-place t)
+
+#+end_src
+
+** Settings on history
+
+#+begin_src emacs-lisp :tangle yes
+
+(savehist-mode 1)
+(setq history-length t)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history 1)
+(setq savehist-additional-variables
+      '(kill-ring
+        search-ring
+        regexp-search-ring))
+#+END_SRC
+
+*** desktop
+
+Save current emacs when quit.
+	
+#+begin_src emacs-lisp :tangle yes
+
+(desktop-save-mode 1)
+
+#+end_src
+
+* UI settings
+
+Some configuration on how emacs look like.
+
+#+begin_src emacs-lisp :tangle yes
+
+(blink-cursor-mode -1)          ; cursor does not blink
+(tool-bar-mode -1)              ; no tool bar
+(menu-bar-mode -1)              ; remove menu bar
+(scroll-bar-mode -1)            ; remove scrool bar
+(set 'inhibit-startup-screen t) ; no startup screen
+(set 'global-prettify-symbols-mode t) ;pretty-symbols
+
+(custom-set-faces
+    `(default ((t (:family "Terminus" :foundry "xos4" :slant normal :weight normal :height 105 :width normal))))
+)
+
+#+end_src
+
+** theme
+
+Install and select theme.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package solarized-theme
+    :ensure t
+    :config
+	(setq solarized-use-variable-pitch nil)
+	(setq solarized-scale-org-headlines nil)
+	(setq solarized-high-contrast-mode-line t)
+	(load-theme 'solarized-dark t)
+)
+
+#+end_src
+** smart-mode-line
+Smart-mode-line as mode-line.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package smart-mode-line
+	:ensure t
+	:config
+		(setq sml/no-confirm-load-theme t)
+		(setq sml/theme 'dark)
+		(sml/setup)
+)
+
+#+END_SRC
+
+* Org mode
+  
+Organozation, todo, notes and much more.
+
+** activation
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-cc" 'org-capture)
+(global-set-key "\C-cb" 'org-switchb)
+
+#+end_src
+
+** compatibility
+   
+Settings to make org compatible with odder modes.
+
+#+begin_src emacs-lisp :tangle yes
+
+(add-hook 'org-mode-hook (lambda () (setq-local yas/trigger-key [tab]) (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
+
+#+end_src
+
+** agenda
+
+Use agenda with ~C-c a~ and set files for the agenda.
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key "\C-ca" 'org-agenda)
+(setq org-agenda-files (list "~/Dropbox/org/lists.org"))
+
+#+end_src
+
+* Evil mode
+
+Vim implementation in emacs lisp, lets give emacs a good text editor.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil
+    :ensure t
+	:init
+		(setq evil-want-integration nil)
+		(setq evil-want-Y-yank-to-eol t)
+		;; first start evil leader
+		(use-package evil-leader
+			:ensure t
+			:config
+				(global-evil-leader-mode)
+				(evil-leader/set-leader "ç")
+		)
+    :config
+		(setq evil-shift-width 4)
+		(evil-mode 1)
+)
+
+;; require for evil folding
+(add-hook 'prog-mode-hook 'hs-minor-mode)
+#+end_src
+
+** Cursors for different states
+  Each state have its on cursor.
+
+#+begin_src emacs-lisp :tangle yes
+
+(setq evil-emacs-state-cursor '("orange" box))
+(setq evil-normal-state-cursor '("white" box))
+(setq evil-visual-state-cursor '("yellow" box))
+(setq evil-insert-state-cursor '("white" bar))
+(setq evil-replace-state-cursor '("red" box))
+(setq evil-operator-state-cursor '("white" hollow))
+
+#+END_SRC
+	
+** Plugins
+*** evil-args
+
+Arguments as text object.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-args
+	:ensure t
+	:config
+		(define-key evil-inner-text-objects-map "," 'evil-inner-arg)
+		(define-key evil-outer-text-objects-map "," 'evil-outer-arg)
+)
+
+#+end_src
+
+*** evil-commentary
+
+Fast way to comment and uncomment code
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-commentary
+	:ensure t
+	:config (evil-commentary-mode)
+	:diminish
+)
+
+#+end_src
+
+*** evil-extra-operator
+
+A bunch of extra operators.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-extra-operator
+	:ensure t
+	:config
+	    (define-key evil-motion-state-map "ge" 'evil-operator-eval)
+		(define-key evil-motion-state-map "gt" 'evil-operator-google-translate)
+		(define-key evil-motion-state-map "gG" 'evil-operator-google-search)
+		(define-key evil-motion-state-map "gh" 'evil-operator-highlight)
+		(define-key evil-motion-state-map "go" 'evil-operator-org-capture)
+		(define-key evil-motion-state-map "gR" 'evil-operator-remember)
+)
+
+#+end_src
+
+*** evil-magit
+
+Evil keys for magit.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-magit
+	:ensure t
+)
+
+#+end_src
+
+*** evil-matchit
+
+Extende use of %
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package evil-matchit
+	:ensure t
+	:config
+		(global-evil-matchit-mode 1)
+)
+
+#+end_src
+
+*** evil-numbers
+
+Increase and decrease numbers.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-numbers
+	:ensure t
+	:config
+	(evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
+	(evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
+)
+
+#+end_src
+
+*** evil-org
+
+Evil bindings for org-mode
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
+)
+
+#+end_src
+
+*** evil-plugins
+
+Plugins from evil-plugins. Manually put then in the lisp file.
+
+#+begin_src emacs-lisp :tangle yes
+
+(require 'evil-textobj-between)
+(require 'evil-ex-registers)
+(define-key evil-ex-completion-map (kbd "C-r") #'evil-ex-paste-from-register)
+
+#+end_src
+	
+*** evil-replace-with-register
+
+Operation to replace with register content.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-replace-with-register
+	:ensure t
+	:config
+		(setq evil-replace-with-register-key (kbd "gr"))
+		(evil-replace-with-register-install)
+)
+
+#+end_src
+	
+*** evil-smartparens	
+
+Works with [[smartparens]] and improve its usage in evil-mode.
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package evil-smartparens
+	:ensure t
+	:config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
+
+#+end_src
+
+*** evil-snipe
+
+Improve f and F motions
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-snipe
+	:ensure t
+	:config
+		(evil-snipe-override-mode 1)
+		(set 'evil-snipe-scope 'buffer)
+		(set 'evil-snipe-repeat-scope 'buffer)
+)
+
+#+end_src
+
+*** evil-surround
+
+Works like vim surround.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-surround
+	:ensure t
+	:config (global-evil-surround-mode 1)
+)
+
+#+end_src
+
+*** evil-visualstar
+
+Extend # and * to visual selection.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package evil-visualstar
+	:ensure t
+	:config (global-evil-visualstar-mode)
+)
+
+#+end_src
+
+** keys
+
+Bindings specific to evil mode.
+
+*** Spell
+#+begin_src emacs-lisp :tangle yes
+
+(evil-leader/set-key "ss" 'flyspell-mode) ;; init spell
+(evil-leader/set-key "sc" 'my/change-dictionary) ;; change dictionary
+
+#+END_SRC
+
+*** buffer
+
+Switch buffer
+
+#+begin_src emacs-lisp :tangle yes
+
+(define-key evil-insert-state-map (kbd "C-b") 'switch-to-buffer)
+(define-key evil-normal-state-map (kbd "C-b") 'switch-to-buffer)
+(define-key evil-visual-state-map (kbd "C-b") 'switch-to-buffer)
+(define-key evil-insert-state-map (kbd "C-SPC") 'mode-line-other-buffer)
+(define-key evil-normal-state-map (kbd "C-SPC") 'mode-line-other-buffer)
+(define-key evil-visual-state-map (kbd "C-SPC") 'mode-line-other-buffer)
+
+#+end_src
+
+** Ex comands
+
+New ex commands definitions.
+
+#+begin_src emacs-lisp :tangle yes
+
+(evil-ex-define-cmd "W" "w")
+(evil-ex-define-cmd "Q" "q")
+(evil-ex-define-cmd "WQ" "wq")
+(evil-ex-define-cmd "Wq" "q")
+(evil-ex-define-cmd "X" "x")
+
+#+END_SRC
+
+* Other Packages
+** company
+
+Auto complete words (alternative to auto-complete-mode)
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package company
+	:ensure t
+	:config
+		(add-hook 'after-init-hook 'global-company-mode)
+	:diminish
+)
+
+#+end_src
+
+** eyebrowse
+
+Like tabs for emacs.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package eyebrowse
+	:ensure t
+	:config
+		(setq eyebrowse-new-workspace t)
+		(eyebrowse-setup-opinionated-keys)
+		(evil-leader/set-key "tc" 'eyebrowse-close-window-config)
+		(evil-leader/set-key "tn" 'eyebrowse-create-window-config)
+		(eyebrowse-mode t)
+	:diminish
+)
+
+#+end_src
+
+** fill-column-indicator
+
+Show a column to limit file lenght
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package fill-column-indicator
+	:ensure t
+	:config
+		(define-globalized-minor-mode global-fci-mode fci-mode (lambda () (fci-mode 1)))
+		(global-fci-mode 1)
+)
+
+#+end_src
+
+** flycheck
+
+Syntax checker to multiple languages.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package flycheck
+	:ensure t
+	:config
+		(global-flycheck-mode)
+	:diminish
+)
+
+#+end_src
+
+** helm
+
+Emacs incremental completion and selection narrowing framework.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package helm
+	:ensure t
+	:config
+		(helm-mode 1)
+		(set 'helm-mode-fuzzy-match t)
+		(set 'helm-completion-in-region-fuzzy-match t)
+		(set 'helm-candidate-number-limit 100)
+	:diminish
+)
+
+#+end_src
+
+** magit
+
+Interface with git.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package magit
+	:ensure t
+	:config
+		(global-set-key (kbd "C-x g") 'magit-status)
+	:diminish
+)
+
+#+end_src
+
+** multi-term
+
+Handle better multiple terminals.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package multi-term
+	:ensure t
+	:config
+		(setq multi-term-program "/bin/zsh")
+	:diminish
+)
+
+#+end_src
+
+** pdf-tools
+
+Better pdf reader.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package pdf-tools
+	:ensure t
+	:config (pdf-tools-install)
+)
+
+#+end_src
+
+** projectile
+
+Manage projects.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package projectile
+	:ensure t
+	:config (projectile-mode)
+	:diminish
+)
+
+#+end_src
+
+Integration with helm.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package helm-projectile
+	:ensure t
+	:after helm
+	:config (helm-projectile-on)
+)
+
+#+end_src
+
+** ranger
+
+Use ranger inside emacs.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package ranger
+	:ensure t
+	:config (ranger-override-dired-mode t)
+)
+
+#+end_src
+
+** smart-tab
+
+Tabs for indentation, spaces for alignment.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package smart-tab
+	:ensure t
+	:config (global-smart-tab-mode 1)
+	:diminish
+)
+
+#+end_src
+
+** smex
+
+Better M-x.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package smex
+	:ensure t
+	:config
+		(global-set-key (kbd "M-x") 'smex)
+		(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+		(smex-initialize)
+	:diminish
+)
+
+#+end_src
+
+** which-key
+
+Show passibly key bindgs while typing.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package which-key
+	:ensure t
+	:init (which-key-mode)
+	:diminish
+)
+
+#+end_src
+
+** yasnippet
+
+A snippet package for Emacs.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package yasnippet
+	:ensure t
+	:config
+		(setq yas-snippet-dirs '("~/.emacs.d/mysnippets"))
+		(yas-global-mode 1)
+	:diminish yas-minor-mode
+)
+
+#+end_src
+
+A package with a bunch of snippets for yasnippet
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package yasnippet-snippets
+	:ensure t
+	:after yasnippet
+	:config (yas-reload-all)
+)
+
+#+end_src
+
+* Other Keys
+** zoom
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key (kbd "C-+") 'text-scale-increase)
+(global-set-key (kbd "C--") 'text-scale-decrease)
+
+#+end_src
+
+** window
+
+Move between windows, C-arrows or C-hjkl.
+
+#+begin_src emacs-lisp :tangle yes
+
+(windmove-default-keybindings 'control)
+(global-set-key [(control j)]  'windmove-down)
+(global-set-key [(control k)]  'windmove-up)
+(global-set-key [(control h)]  'windmove-left)
+(global-set-key [(control l)]  'windmove-right)
+
+#+end_src
+
+** ESC
+
+Escape exits things.
+
+#+begin_src emacs-lisp :tangle yes
+
+(define-key key-translation-map (kbd "ESC") (kbd "C-g"))
+
+#+end_src
+
+** buffer
+
+Switch buffer
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key (kbd "C-b") 'switch-to-buffer)
+(global-set-key (kbd "C-SPC") 'mode-line-other-buffer)
+
+#+end_src
+
+* Functions
+** Change dictionary
+Easier way of change dictionary and enable flyspell.
+
+#+begin_src emacs-lisp :tangle yes
+
+  (defun my/change-dictionary ()
+  " change dictionary."
+	  (interactive)
+	  (print
+		  (cond
+		  ((string= ispell-dictionary "en_US") (setq ispell-dictionary "pt_BR"))
+		  ;; ((string= ispell-dictionary "pt_BR") (setq ispell-dictionary "de_DE"))
+		  (t (setq ispell-dictionary "en_US"))
+  )))
+
+#+end_src
+* End Conf
+
+Specific configurations to be run in the end.
+
+#+begin_src emacs-lisp :tangle yes
+
+(diminish 'undo-tree-mode)
+(diminish 'visual-line-mode)
+
+#+END_SRC
+
+* Local file
+
+Read local file if exists
+
+#+begin_src emacs-lisp :tangle yes
+
+(when (file-exists-p (concat user-emacs-directory "local.el"))
+	(load-file (concat user-emacs-directory "local.el")))
+
+#+END_SRC

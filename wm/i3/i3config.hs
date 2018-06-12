@@ -43,7 +43,7 @@ bar              = case pc of
 --}}}
 --{{{
 myWallpaper      = case pc of
-                        "GAMa"    -> "bubbles.jpg"
+                        "GAMa"    -> "blue_circle.jpg"
                         "GOLi"    -> "flower.jpg"
                         "ic"      -> "wood.jpg"
                         _         -> "clover.jpg"
@@ -260,7 +260,8 @@ focus =
         , ("$mod+Up",   "focus up")
         , ("$mod+Right","focus right")
         , ("$mod+p",    "focus parent")
-        , ("$mod+Shift+p",    "focus child")
+        , ("$mod+Shift+p", "focus child")
+        , ("$mod+u", "[urgent=latest] focus")
         ]
 -- }}}
 -- {{{
@@ -279,6 +280,7 @@ move =
 workspaces =
     -- back and forth
     [("$mod+space", "workspace back_and_forth")] ++
+    [("$mod+x", "move workspace to output right")] ++
     -- switch to workspace
     zip ws_key_sw    ( map ("workspace " ++ ) ws ) ++
     zip ws_key_sw_nl ( map ("workspace " ++ ) $ take 10 ws ) ++

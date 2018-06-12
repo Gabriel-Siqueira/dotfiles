@@ -2,10 +2,10 @@
 
 ## editors {{{
 ## emacs {{{
-# rm -i ~/.emacs.d/emacs.org
-# ln -s ~/MEGA/dotfiles/editors/emacs.d/emacs.org  ~/.emacs.d/emacs.org
-# rm -i ~/.emacs.d/init.el
-# ln -s ~/MEGA/dotfiles/editors/emacs.d/init.el    ~/.emacs.d/init.el
+rm -i ~/.emacs.d/init-org.org
+ln -s ~/MEGA/dotfiles/editors/emacs.d/init-org.org  ~/.emacs.d/init-org.org
+rm -i ~/.emacs.d/init.el
+cp ~/MEGA/dotfiles/editors/emacs.d/init.el    ~/.emacs.d/init.el
 # rm -i ~/.emacs.d/mysnippets
 # ln -s ~/MEGA/dotfiles/editors/emacs.d/mysnippets ~/.emacs.d/mysnippets
 ## }}}

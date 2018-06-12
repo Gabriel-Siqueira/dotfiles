@@ -1,6 +1,6 @@
 # -*- mode: snippet; require-final-newline: nil -*-
 # name: my gmail
-# key: myemail
+# key: email
 # binding: direct-keybinding
 # --
 gabriel.gabrielhs@gmail.com
