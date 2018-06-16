@@ -551,6 +551,20 @@ New ex commands definitions.
 
 #+END_SRC
 
+* Languages
+  
+Configurations for specific programing languages.
+
+** haskell
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package haskell-mode
+	:ensure t
+)
+
+#+end_src
+
 * Other Packages
 ** company
 
@@ -563,6 +577,18 @@ Auto complete words (alternative to auto-complete-mode)
 	:config
 		(add-hook 'after-init-hook 'global-company-mode)
 	:diminish
+)
+
+#+end_src
+
+** dash
+
+A list api used in origami.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package dash
+	:ensure t
 )
 
 #+end_src
@@ -630,6 +656,21 @@ Emacs incremental completion and selection narrowing framework.
 		(set 'helm-completion-in-region-fuzzy-match t)
 		(set 'helm-candidate-number-limit 100)
 	:diminish
+)
+
+#+end_src
+
+** origami
+
+Fold blocks of code
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package origami
+	:ensure t
+	:after dash s
+	:config
+		(global-origami-mode)
 )
 
 #+end_src
@@ -732,6 +773,18 @@ Use ranger inside emacs.
 (use-package ranger
 	:ensure t
 	:config (ranger-override-dired-mode t)
+)
+
+#+end_src
+
+** s
+
+A string manipulation library used in origami.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package s
+	:ensure t
 )
 
 #+end_src

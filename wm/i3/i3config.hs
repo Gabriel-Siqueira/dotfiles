@@ -298,9 +298,9 @@ workspaces =
 -- }}}
 -- {{{
 scratchpad =
-        [ ("$mod+c", "[instance=\"math\"] scratchpad show; [instance=\"math\"] move position center; mode \"sp-math\"")
+        [ ("$mod+f", "[instance=\"file\"] scratchpad show; [instance=\"file\"] move position center; mode \"sp-file\"")
+        -- , ("$mod+c", "[instance=\"math\"] scratchpad show; [instance=\"math\"] move position center; mode \"sp-math\"")
         -- , ("$mod+n", "[instance=\"note\"] scratchpad show; [instance=\"note\"] move position center; mode \"sp-note\"")
-        , ("$mod+f", "[instance=\"file\"] scratchpad show; [instance=\"file\"] move position center; mode \"sp-file\"")
         -- , ("$mod+m", "[instance=\"mail\"] scratchpad show; [instance=\"mail\"] move position center; mode \"sp-mail\"")
         ]
 -- }}}
@@ -308,16 +308,11 @@ scratchpad =
 -- }}}
 -- Modes {{{
 
-modes = [ "mode \"reshape\" {"] ++ addKeys reshape
-        ++ addKeys focus ++ addKeys move ++ ["}"] ++
-        ["mode \"sp-math\" {"] ++ addKeys spMath
-        ++ addKeys scratchpad' ++["}"] ++
-        -- ["mode \"sp-note\" {"]  ++ addKeys spNote
-        -- ++ addKeys scratchpad' ++ ["}"] ++
-        ["mode \"sp-file\" {"] ++ addKeys spFile
-        ++ addKeys scratchpad' ++ ["}"] ++
-        ["mode \"sp-mail\" {"] ++ addKeys spMail
-        ++ addKeys scratchpad' ++ ["}"]
+modes = [ "mode \"reshape\" {"] ++ addKeys reshape ++ addKeys focus ++ addKeys move ++ ["}"] ++
+        -- ["mode \"sp-math\" {"] ++ addKeys spMath ++ addKeys scratchpad' ++["}"] ++
+        -- ["mode \"sp-note\" {"]  ++ addKeys spNote ++ addKeys scratchpad' ++ ["}"] ++
+        ["mode \"sp-file\" {"] ++ addKeys spFile ++ addKeys scratchpad' ++ ["}"] ++
+        ["mode \"sp-mail\" {"] ++ addKeys spMail ++ addKeys scratchpad' ++ ["}"]
         where
         -- {{{
         reshape =
@@ -455,7 +450,7 @@ fixPlace = concat $ fixWp ++ scratchpad
 -- {{{
         sp = [ ("file", ["move scratchpad","floating enable","resize set 1100 600"])
              -- , ("note", ["move scratchpad","floating enable","resize set 1200 700"])
-             , ("math", ["move scratchpad","floating enable","resize set 800  300"])
+             -- , ("math", ["move scratchpad","floating enable","resize set 800  300"])
              , ("mail", ["move scratchpad","floating enable","resize set 1200 700"])
              ]
 -- }}}
@@ -488,7 +483,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "twmnd"
                 , "~/bin/bat.sh"
                 , "qutebrowser"
-                , term_lauch ++ "math -e ipython"
+                -- , term_lauch ++ "math -e ipython"
                 , term_lauch ++ "file -e ranger"
                 -- , term_lauch ++ "note -e sncli"
                 -- , term_lauch ++ "mail -e neomutt"
@@ -720,4 +715,7 @@ text' = [
 -- }}}
 
 -- }}}
--- vim: foldmethod=marker foldlevel=0
+-- Local Variables:
+-- origami-fold-style: triple-braces
+-- eval: (setq hs-minor-mode nil)
+-- End:
