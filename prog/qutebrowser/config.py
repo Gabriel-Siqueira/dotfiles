@@ -6,7 +6,7 @@ c.aliases = {'w': 'session-save',
             }
 # c.auto_save.interval = 15000
 c.auto_save.session = True
-# c.backend = 'webengine'
+c.backend = 'webkit'
 # c.bindings.key_mappings = {'<Ctrl-[>': '<Escape>', '<Ctrl-6>': '<Ctrl-^>', '<Ctrl-M>': '<Return>', '<Ctrl-J>': '<Return>', '<Shift-Return>': '<Return>', '<Enter>': '<Return>', '<Shift-Enter>': '<Return>', '<Ctrl-Enter>': '<Ctrl-Return>'}
 # c.confirm_quit = ['never']
 # c.history_gap_interval = 30

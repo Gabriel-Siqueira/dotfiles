@@ -1,4 +1,5 @@
 #+TITLE: Emacs configuration file
+#+STARTUP: hideblocks
 
 * Set up
 ** Auto tangle
@@ -60,13 +61,15 @@ Other lisp files not in packages
 #+end_src
 
 * Notes
-  
+
 - Manually put in the lisp files:
-  - evil-plugins
+  - evil-plugins.
 - To use spell-check download aspell dictionaries (use the system package manager).
 - To use langtool download languagetool (use the system package manager) and verify the path in the configuration.
 
 * General Configurations
+  
+Activate and configure features already available.
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -102,9 +105,8 @@ Other lisp files not in packages
 #+end_src
 
 ** Persistence
+*** backup files
 
-*** Settings to backup files
-	
 #+begin_src emacs-lisp :tangle yes
 
 ;; Directory to save beckup files
@@ -115,16 +117,10 @@ Other lisp files not in packages
 
 #+end_src
 
-*** Undo
-
-#+begin_src emacs-lisp :tangle yes
-
-(setq undo-tree-auto-save-history t)
-
-#+end_src
-
 *** Places
-	
+
+Save cursor position.
+
 #+begin_src emacs-lisp :tangle yes
 
 (require 'saveplace)
@@ -132,7 +128,26 @@ Other lisp files not in packages
 
 #+end_src
 
-** Settings on history
+*** desktop
+
+Save current emacs when quit. <<desktop>>
+
+#+begin_src emacs-lisp :tangle yes
+
+(desktop-save-mode 1)
+
+#+end_src
+
+*** undo
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-undo-tree-mode)
+(setq undo-tree-auto-save-history t)
+
+#+end_src
+
+*** history
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -145,16 +160,6 @@ Other lisp files not in packages
         search-ring
         regexp-search-ring))
 #+END_SRC
-
-*** desktop
-
-Save current emacs when quit.
-	
-#+begin_src emacs-lisp :tangle yes
-
-(desktop-save-mode 1)
-
-#+end_src
 
 * UI settings
 
@@ -191,15 +196,17 @@ Install and select theme.
 )
 
 #+end_src
+
 ** mode-line
 
 Choose one to load.
 
-** smart-mode-line
+*** smart-mode-line
    
 Smart-mode-line as mode-line.
+[[https://github.com/Malabarba/smart-mode-line]]
 
-#+begin_src emacs-lisp :tangle no
+ #+begin_src emacs-lisp :tangle yes
 
 (use-package smart-mode-line
 	:ensure t
@@ -209,26 +216,28 @@ Smart-mode-line as mode-line.
 		(sml/setup)
 )
 
-#+end_src
+ #+end_src
 
-** space-line
+*** space-line
    
 Spaceline as mode-line.
+[[https://github.com/TheBB/spaceline]]
 
-#+begin_src emacs-lisp :tangle yes
+ #+begin_src emacs-lisp :tangle no
 
-(use-package spaceline
-	:ensure t
-	:config
-		(require 'spaceline-config)
-		(spaceline-spacemacs-theme)
-)
+ (use-package spaceline
+	 :ensure t
+	 :config
+		 (require 'spaceline-config)
+		 (spaceline-spacemacs-theme)
+ )
 
-#+end_src
+ #+end_src
 
 * Org mode
   
-Organozation, todo, notes and much more.
+Organization, todo, notes and much more.
+https://orgmode.org/
 
 ** activation
 
@@ -252,18 +261,28 @@ Settings to make org compatible with odder modes.
 
 ** agenda
 
-Use agenda with ~C-c a~ and set files for the agenda.
+Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 
 #+begin_src emacs-lisp :tangle yes
 
 (global-set-key "\C-ca" 'org-agenda)
 (setq org-agenda-files (list "~/Dropbox/org/lists.org"))
+(setq org-agenda-start-on-weekday 0) ; week starts on sunday
+
+#+end_src
+
+** other settings
+   
+#+begin_src emacs-lisp :tangle yes
+
+(setq org-checkbox-hierarchical-statistics nil)
 
 #+end_src
 
 * Evil mode
 
 Vim implementation in emacs lisp, lets give emacs a good text editor.
+https://github.com/emacs-evil/evil
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -284,8 +303,6 @@ Vim implementation in emacs lisp, lets give emacs a good text editor.
 		(evil-mode 1)
 )
 
-;; require for evil folding
-(add-hook 'prog-mode-hook 'hs-minor-mode)
 #+end_src
 
 ** Cursors for different states
@@ -306,6 +323,7 @@ Vim implementation in emacs lisp, lets give emacs a good text editor.
 *** evil-args
 
 Arguments as text object.
+https://github.com/wcsmith/evil-args
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -321,6 +339,7 @@ Arguments as text object.
 *** evil-commentary
 
 Fast way to comment and uncomment code
+https://github.com/linktohack/evil-commentary
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -332,28 +351,10 @@ Fast way to comment and uncomment code
 
 #+end_src
 
-*** evil-extra-operator
-
-A bunch of extra operators.
-
-#+begin_src emacs-lisp :tangle yes
-
-(use-package evil-extra-operator
-	:ensure t
-	:config
-	    (define-key evil-motion-state-map "ge" 'evil-operator-eval)
-		(define-key evil-motion-state-map "gt" 'evil-operator-google-translate)
-		(define-key evil-motion-state-map "gG" 'evil-operator-google-search)
-		(define-key evil-motion-state-map "gh" 'evil-operator-highlight)
-		(define-key evil-motion-state-map "go" 'evil-operator-org-capture)
-		(define-key evil-motion-state-map "gR" 'evil-operator-remember)
-)
-
-#+end_src
-
 *** evil-magit
 
 Evil keys for magit.
+https://github.com/emacs-evil/evil-magit
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -365,7 +366,8 @@ Evil keys for magit.
 
 *** evil-matchit
 
-Extende use of %
+Extends the use of %.
+https://github.com/redguardtoo/evil-matchit
 
 #+begin_src emacs-lisp :tangle no
 
@@ -380,6 +382,7 @@ Extende use of %
 *** evil-numbers
 
 Increase and decrease numbers.
+https://github.com/cofi/evil-numbers
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -395,6 +398,7 @@ Increase and decrease numbers.
 *** evil-org
 
 Evil bindings for org-mode
+https://github.com/Somelauw/evil-org-mode
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -408,6 +412,7 @@ Evil bindings for org-mode
               (evil-org-set-key-theme)))
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
+  :diminish
 )
 
 #+end_src
@@ -415,6 +420,7 @@ Evil bindings for org-mode
 *** evil-plugins
 
 Plugins from evil-plugins.
+https://github.com/tarao/evil-plugins
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -427,6 +433,7 @@ Plugins from evil-plugins.
 *** evil-replace-with-register
 
 Operation to replace with register content.
+https://github.com/emacsmirror/evil-replace-with-register
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -439,21 +446,10 @@ Operation to replace with register content.
 
 #+end_src
 	
-*** evil-smartparens	
-
-Works with [[smartparens]] and improve its usage in evil-mode.
-
-#+begin_src emacs-lisp :tangle no
-
-(use-package evil-smartparens
-	:ensure t
-	:config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode))
-
-#+end_src
-
 *** evil-snipe
 
 Improve f and F motions
+https://github.com/hlissner/evil-snipe
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -470,6 +466,7 @@ Improve f and F motions
 *** evil-surround
 
 Works like vim surround.
+https://github.com/emacs-evil/evil-surround
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -483,6 +480,7 @@ Works like vim surround.
 *** evil-visualstar
 
 Extend # and * to visual selection.
+https://github.com/bling/evil-visualstar
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -492,6 +490,49 @@ Extend # and * to visual selection.
 )
 
 #+end_src
+
+*** not installed
+
+Some interesting plugins that i am not currently using.
+
+**** evil-extra-operator
+
+A bunch of extra operators.
+https://github.com/Dewdrops/evil-extra-operator
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package evil-extra-operator
+	:ensure t
+	:config
+		(define-key evil-motion-state-map "ge" 'evil-operator-eval)
+		(define-key evil-motion-state-map "gt" 'evil-operator-google-translate)
+		(define-key evil-motion-state-map "gG" 'evil-operator-google-search)
+		(define-key evil-motion-state-map "gh" 'evil-operator-highlight)
+		(define-key evil-motion-state-map "go" 'evil-operator-org-capture)
+		(define-key evil-motion-state-map "gR" 'evil-operator-remember)
+)
+
+#+end_src
+
+**** targets
+	 
+https://github.com/noctuid/targets.el
+
+**** evil-smartparens	
+
+Works with [[smartparens]] and improve its usage in evil-mode when in smartparens-strict-mode.
+https://github.com/expez/evil-smartparens
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package evil-smartparens
+	:ensure t
+	:after smartparens
+	:config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+)
+
+ #+end_src
 
 ** keys
 
@@ -533,10 +574,25 @@ Replace line moviments to use visual lines.
 
 #+END_SRC
 
+*** window
+
+Move between windows, C-arrows or C-hjkl.
+<<evil-window-key>>
+[[window-key]]
+
+#+begin_src emacs-lisp :tangle yes
+
+(define-key evil-normal-state-map (kbd "C-j") 'windmove-down)
+(define-key evil-normal-state-map (kbd "C-k") 'windmove-up)
+(define-key evil-normal-state-map (kbd "C-h") 'windmove-left)
+(define-key evil-normal-state-map (kbd "C-l") 'windmove-right)
+
+#+end_src
+
 *** Other
-	
+
 - [[langtool]]
- 
+
 ** Ex comands
 
 New ex commands definitions.
@@ -557,6 +613,8 @@ Configurations for specific programing languages.
 
 ** haskell
 
+https://github.com/haskell/haskell-mode
+
 #+begin_src emacs-lisp :tangle yes
 
 (use-package haskell-mode
@@ -565,10 +623,28 @@ Configurations for specific programing languages.
 
 #+end_src
 
+** python
+
+Auto competition using [[company]]
+https://github.com/syohex/emacs-company-jedi
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package company-jedi
+	:ensure t
+	:after company
+	:config
+		(add-to-list 'company-backends 'company-jedi)
+)
+
+#+end_src
+
 * Other Packages
 ** company
 
-Auto complete words (alternative to auto-complete-mode)
+Auto complete.
+http://company-mode.github.io/
+<<company>>
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -584,6 +660,7 @@ Auto complete words (alternative to auto-complete-mode)
 ** dash
 
 A list api used in origami.
+https://github.com/magnars/dash.el
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -596,17 +673,18 @@ A list api used in origami.
 ** eyebrowse
 
 Like tabs for emacs.
+https://github.com/wasamasa/eyebrowse
 
 #+begin_src emacs-lisp :tangle yes
 
 (use-package eyebrowse
 	:ensure t
 	:config
-		(setq eyebrowse-new-workspace t)
 		(eyebrowse-setup-opinionated-keys)
 		(evil-leader/set-key "tc" 'eyebrowse-close-window-config)
 		(evil-leader/set-key "tn" 'eyebrowse-create-window-config)
 		(eyebrowse-mode t)
+		(setq eyebrowse-new-workspace t)
 	:diminish
 )
 
@@ -614,7 +692,8 @@ Like tabs for emacs.
 
 ** fill-column-indicator
 
-Show a column to limit file lenght
+Show a column to limit file length.
+https://www.emacswiki.org/emacs/FillColumnIndicator
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -630,6 +709,7 @@ Show a column to limit file lenght
 ** flycheck
 
 Syntax checker to multiple languages.
+http://www.flycheck.org/en/latest/
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -645,6 +725,7 @@ Syntax checker to multiple languages.
 ** helm
 
 Emacs incremental completion and selection narrowing framework.
+https://github.com/emacs-helm/helm
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -662,7 +743,8 @@ Emacs incremental completion and selection narrowing framework.
 
 ** origami
 
-Fold blocks of code
+Fold blocks of code.
+https://github.com/gregsexton/origami.el
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -679,6 +761,7 @@ Fold blocks of code
    
 For grammar checking.
 <<langtool>>
+https://github.com/mhayashi1120/Emacs-langtool
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -696,6 +779,7 @@ For grammar checking.
 ** magit
 
 Interface with git.
+https://magit.vc/
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -711,6 +795,8 @@ Interface with git.
 ** multi-term
 
 Handle better multiple terminals.
+https://www.emacswiki.org/emacs/MultiTerm
+<<multi-term>>
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -718,6 +804,11 @@ Handle better multiple terminals.
 	:ensure t
 	:config
 		(setq multi-term-program "/bin/zsh")
+		(setq multi-term-dedicated-select-after-open-p t) ; focus when opening dedicate
+		(global-set-key "\C-cto" 'multi-term)
+		(global-set-key "\C-ctn" 'multi-term-next)
+		(global-set-key "\C-ctp" 'multi-term-prev)
+		(global-set-key "\C-ctt" 'multi-term-dedicated-toggle)
 	:diminish
 )
 
@@ -726,6 +817,7 @@ Handle better multiple terminals.
 ** pdf-tools
 
 Better pdf reader.
+https://github.com/politza/pdf-tools
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -741,6 +833,7 @@ Better pdf reader.
 ** projectile
 
 Manage projects.
+https://github.com/bbatsov/projectile
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -753,6 +846,7 @@ Manage projects.
 #+end_src
 
 Integration with helm.
+https://github.com/bbatsov/helm-projectile
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -766,7 +860,8 @@ Integration with helm.
 
 ** ranger
 
-Use ranger inside emacs.
+Simulate ranger inside emacs.
+https://github.com/ralesi/ranger.el
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -780,6 +875,7 @@ Use ranger inside emacs.
 ** s
 
 A string manipulation library used in origami.
+https://github.com/magnars/s.el
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -792,6 +888,7 @@ A string manipulation library used in origami.
 ** smart-tab
 
 Tabs for indentation, spaces for alignment.
+https://www.emacswiki.org/emacs/SmartTabs
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -803,9 +900,27 @@ Tabs for indentation, spaces for alignment.
 
 #+end_src
 
+** smartparens
+
+Automatically close parens in a smart way.
+https://github.com/Fuco1/smartparens
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package smartparens
+	:ensure t
+	:config
+		(require 'smartparens-config)
+		(add-hook 'js-mode-hook #'smartparens-mode)
+	:diminish
+)
+
+#+end_src
+
 ** smex
 
 Better M-x.
+https://github.com/nonsequitur/smex
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -823,6 +938,7 @@ Better M-x.
 ** which-key
 
 Show passibly key bindgs while typing.
+https://github.com/justbur/emacs-which-key
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -837,6 +953,7 @@ Show passibly key bindgs while typing.
 ** yasnippet
 
 A snippet package for Emacs.
+https://github.com/joaotavora/yasnippet
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -862,6 +979,27 @@ A package with a bunch of snippets for yasnippet
 
 #+end_src
 
+** not installed
+
+Some interesting plugins that i am not currently using.
+
+*** perspective
+
+Functionality similar to workspaces, the way i manage "sessions".
+https://github.com/nex3/perspective-el
+similar package: https://github.com/Bad-ptr/persp-mode.el
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package perspective
+	:ensure t
+	:config
+		(persp-mode)
+	:diminish
+)
+
+#+end_src
+
 * Other Keys
 ** zoom
 
@@ -875,6 +1013,8 @@ A package with a bunch of snippets for yasnippet
 ** window
 
 Move between windows, C-arrows or C-hjkl.
+<<window-key>>
+[[evil-window-key]]
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -937,7 +1077,7 @@ Specific configurations to be run in the end.
 
 * Local file
 
-Read local file if exists
+Read local file if exists.
 
 #+begin_src emacs-lisp :tangle yes
 

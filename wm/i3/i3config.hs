@@ -429,21 +429,18 @@ fixPlace = concat $ fixWp ++ scratchpad
         scratchpad = map (\(ins, coms) -> map (\com -> "for_window " ++ win ++ ins ++ "$\"] " ++ com) coms) sp
 
         ass = "[class=\"^"
-        wcl = "[class=\"^"
         win = "[instance=\"^"
 -- {{{
         fix =
             [ (ass, "game",  ["Steam","Mainwindow.py","Minetest"])
-            , (ass, "midi", ["Vlc"])
-            , (wcl, "midi", ["Kodi","Spotify"])
+            , (ass, "midi", ["Vlc","Kodi","Spotify"])
             , (ass, "virM", ["VirtualBox"])
             , (ass, "docs", ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"])
-            , (ass, "auxE", ["Gnome-terminal","Xfce4-terminal"])
-            , (win, "auxE", ["tmux"])
+            , (ass, "auxE", ["Emacs"])
             , (ass, "deft", ["Firefox","qutebrowser"])
             , (ass, "auxD", ["Chromium","google-chrome","vivaldi-stable", "Opera"])
             , (ass, "read", ["calibre"])
-            , (ass, "deve", ["Emacs"])
+            , (ass, "deve", ["Eclipse"])
             , (ass, "mail", ["thunderbird","TelegramDesktop","Franz","Inboxer"])
             ]
 -- }}}
@@ -472,7 +469,8 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 --         "GOLi"    -> "inboxer"
                 --         "ic"      -> ""
                 --         _         -> ""
-                , myMainTerminal
+                -- , myMainTerminal
+                , "emacs"
                 , "compton"
                 , "megasync"
                 , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
@@ -715,7 +713,7 @@ text' = [
 -- }}}
 
 -- }}}
+-- vim: foldmethod=marker foldlevel=0 
 -- Local Variables:
 -- origami-fold-style: triple-braces
--- eval: (setq hs-minor-mode nil)
 -- End:

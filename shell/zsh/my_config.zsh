@@ -154,16 +154,18 @@ autoload -Uz compinit
 compinit
 # End of lines added by compinstall
 # }}}
-# Others {{{
+# keys {{{
 bindkey -v # vim keys
-
+bindkey -s ^] '\e' # new escape
+bindkey -a "!" sudo-command-line # add sudo on line
+# }}}
+# Others {{{
 # work nice with emacs
 if [ -n "$INSIDE_EMACS" ]; then
   chpwd() { print -P "\033AnSiTc %d" }
   print -P "\033AnSiTu %n"
   print -P "\033AnSiTc %d"
   export ATHAME_ENABLED=0
-  bindkey -e
 fi
 
 if [ $(date +"%H") -ge 18 ]; then
@@ -179,3 +181,6 @@ fi
 
 # }}}
 # vim: foldmethod=marker foldlevel=0 
+# Local Variables:
+# origami-fold-style: triple-braces
+# End:
