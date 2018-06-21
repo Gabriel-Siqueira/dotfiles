@@ -40,8 +40,8 @@ if type "nvim" > /dev/null; then
 	alias vim-old='vim'
 	alias vim='nvim'
 fi
-if type "nvr" > /dev/null; then
-	alias e='nvr'
+if type "emacsclient" > /dev/null; then
+	alias e='emacsclient'
 fi
 if type "xdg-open" > /dev/null; then
 	alias o='xdg-open'
