@@ -63,12 +63,12 @@ Other lisp files not in packages
 * Notes
 
 - Manually put in the lisp files:
-  - evil-plugins.
+  - evil-plugins (copy the ones you are going to use)
 - To use spell-check download aspell dictionaries (use the system package manager).
 - To use langtool download languagetool (use the system package manager) and verify the path in the configuration.
 
 * General Configurations
-  
+
 Activate and configure features already available.
 
 #+begin_src emacs-lisp :tangle yes
@@ -138,15 +138,6 @@ Save current emacs when quit. <<desktop>>
 
 #+end_src
 
-*** undo
-
-#+begin_src emacs-lisp :tangle yes
-
-(global-undo-tree-mode)
-(setq undo-tree-auto-save-history t)
-
-#+end_src
-
 *** history
 
 #+begin_src emacs-lisp :tangle yes
@@ -202,7 +193,7 @@ Install and select theme.
 Choose one to load.
 
 *** smart-mode-line
-   
+
 Smart-mode-line as mode-line.
 [[https://github.com/Malabarba/smart-mode-line]]
 
@@ -219,7 +210,7 @@ Smart-mode-line as mode-line.
  #+end_src
 
 *** space-line
-   
+
 Spaceline as mode-line.
 [[https://github.com/TheBB/spaceline]]
 
@@ -235,7 +226,7 @@ Spaceline as mode-line.
  #+end_src
 
 * Org mode
-  
+
 Organization, todo, notes and much more.
 https://orgmode.org/
 
@@ -318,7 +309,16 @@ https://github.com/emacs-evil/evil
 (setq evil-operator-state-cursor '("white" hollow))
 
 #+END_SRC
-	
+
+** undo
+
+#+begin_src emacs-lisp :tangle yes
+
+(global-undo-tree-mode)
+(setq undo-tree-auto-save-history t)
+
+#+end_src
+
 ** Plugins
 *** evil-args
 
@@ -809,6 +809,8 @@ https://www.emacswiki.org/emacs/MultiTerm
 		(global-set-key "\C-ctn" 'multi-term-next)
 		(global-set-key "\C-ctp" 'multi-term-prev)
 		(global-set-key "\C-ctt" 'multi-term-dedicated-toggle)
+		(global-set-key "\C-ctl" 'term-line-mode)
+		(global-set-key "\C-ctc" 'term-char-mode)
 	:diminish
 )
 

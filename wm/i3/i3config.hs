@@ -110,7 +110,7 @@ focusedWorkspaceBorder      = case pc of
 activeWorkspaceBackground   = case pc of
                                 "GAMa"    -> "#111111"
                                 "GOLi"    -> "#111111"
-                                "ic"      -> "#111111#"
+                                "ic"      -> "#111111"
                                 _         -> "#111111"
 --}}}
 --{{{
@@ -124,7 +124,7 @@ activeWorkspaceBorder       = case pc of
 inactiveWorkspaceBackground = case pc of
                                 "GAMa"    -> "#111111"
                                 "GOLi"    -> "#111111"
-                                "ic"      -> "#111111#"
+                                "ic"      -> "#111111"
                                 _         -> "#111111"
 --}}}
 --{{{
@@ -413,7 +413,7 @@ i3bar =
           --       <colorclass>            <border>                       <background>                        <text>
         , "        focused_workspace  " ++ focusedWorkspaceBorder  ++ " " ++ focusedWorkspaceBackgroud   ++ "    #ffff00"
         , "        active_workspace   " ++ activeWorkspaceBorder   ++ " " ++ activeWorkspaceBackground   ++ "    #ffff00"
-        , "        inactive_workspace " ++ inactiveWorkspaceBorder ++ " " ++ inactiveWorkspaceBackground ++ "    #bbbb00"
+        , "        inactive_workspace " ++ inactiveWorkspaceBorder ++ " " ++ inactiveWorkspaceBackground ++ "    #999900"
         , "        urgent_workspace   " ++ urgentWorkspaceBorder   ++ " " ++ urgentWorkspaceBackground   ++ "    #ff0000"
         , "        binding_mode       " ++ barBorder               ++ " " ++ barBackground               ++ "    #ff5500"
         , "    }"
