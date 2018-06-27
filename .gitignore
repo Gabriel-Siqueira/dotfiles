@@ -1,2 +1,3 @@
 editors/.emacs.d/emacs.el
 editors/.emacs.d/mysnippets/mysnippets
+*.~undo-tree~

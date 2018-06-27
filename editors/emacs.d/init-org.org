@@ -230,13 +230,18 @@ Spaceline as mode-line.
 Organization, todo, notes and much more.
 https://orgmode.org/
 
-** activation
+** packages
+*** ox
 
+Different ways of export org files.
+
+**** ox-html5slide
+	 
 #+begin_src emacs-lisp :tangle yes
 
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-switchb)
+(use-package ox-html5slide
+	:ensure t
+)
 
 #+end_src
 
@@ -256,9 +261,19 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 
 #+begin_src emacs-lisp :tangle yes
 
-(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-coa" 'org-agenda)
 (setq org-agenda-files (list "~/Dropbox/org/lists.org"))
 (setq org-agenda-start-on-weekday 0) ; week starts on sunday
+
+#+end_src
+
+** other keys
+   
+#+begin_src emacs-lisp :tangle yes
+
+(global-set-key "\C-col" 'org-store-link)
+(global-set-key "\C-coc" 'org-capture)
+(global-set-key "\C-cob" 'org-switchb)
 
 #+end_src
 
@@ -279,10 +294,11 @@ https://github.com/emacs-evil/evil
 
 (use-package evil
     :ensure t
+	:custom
+		(evil-want-Y-yank-to-eol t "Y acts like D for yank")
+		(evil-shift-width 4 "Set >> and << size")
 	:init
-		(setq evil-want-integration nil)
-		(setq evil-want-Y-yank-to-eol t)
-		;; first start evil leader
+		;; first start evil leader, not working with after
 		(use-package evil-leader
 			:ensure t
 			:config
@@ -290,7 +306,6 @@ https://github.com/emacs-evil/evil
 				(evil-leader/set-leader "ç")
 		)
     :config
-		(setq evil-shift-width 4)
 		(evil-mode 1)
 )
 
@@ -607,8 +622,8 @@ New ex commands definitions.
 
 #+END_SRC
 
-* Languages
-  
+* Languages and file types
+
 Configurations for specific programing languages.
 
 ** haskell
@@ -635,6 +650,20 @@ https://github.com/syohex/emacs-company-jedi
 	:after company
 	:config
 		(add-to-list 'company-backends 'company-jedi)
+)
+
+#+end_src
+
+** latex
+
+Preview as pdf when editing latex.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package latex-preview-pane
+	:ensure t
+	:config
+		(define-key latex-mode-map (kbd "C-c v") 'latex-preview-pane-mode)
 )
 
 #+end_src
