@@ -188,7 +188,7 @@ addKeys = map (\k -> "bindsym " ++ fst k ++ " " ++ snd k)
 keys = addKeys keys'
         where
         keys' = general ++ close ++ focus ++ move ++ workspaces ++ scratchpad
--- {{{
+-- general {{{
 general =
         -- start a terminal
         -- {{{
@@ -223,19 +223,25 @@ general =
         -- }}}
         -- Special keys
         -- {{{
-        --Print screen
+        -- Print screen
         , ("Print","exec " ++ myScreenShot)
-        --volume
-        , ("$mod+F5", "exec amixer set Master 5%+")
+        -- volume
+        , ("$mod+F5",              "exec amixer set Master 5%+")
         , ("XF86AudioRaiseVolume", "exec amixer set Master 5%+")
-        , ("$mod+F6", "exec amixer set Master 5%-")
+        , ("$mod+F6",              "exec amixer set Master 5%-")
         , ("XF86AudioLowerVolume", "exec amixer set Master 5%-")
-        , ("XF86AudioMute",  "exec amixer set Master toggle")
-        --brightness
+        , ("XF86AudioMute",        "exec amixer set Master toggle")
+        -- brightness
         , ("XF86MonBrightnessDown","exec xbacklight -dec 1")
-        , ("$mod+F7","exec xbacklight -dec 1")
+        , ("$mod+F7",              "exec xbacklight -dec 1")
         , ("XF86MonBrightnessUp",  "exec xbacklight -inc 1")
-        , ("$mod+F8",  "exec xbacklight -inc 1")
+        , ("$mod+F8",              "exec xbacklight -inc 1")
+        -- media
+        , ("XF86AudioPlay",  "exec playerctl play")
+        , ("XF86AudioPause", "exec playerctl pause")
+        , ("XF86AudioNext",  "exec playerctl next")
+        , ("XF86AudioPrev",  "exec playerctl previous")
+        , ("XF86AudioStop",  "exec playerctl stop")
         -- }}}
         -- bar 
         -- {{{
@@ -244,12 +250,12 @@ general =
         -- }}}
         ]
 -- }}}
--- {{{
+-- close {{{
 close =
         [ ("$mod+BackSpace","kill")
         ]
 -- }}}
--- {{{
+-- focus {{{
 focus =
         [ ("$mod+h",    "focus left")
         , ("$mod+j",    "focus down")
@@ -264,7 +270,7 @@ focus =
         , ("$mod+u", "[urgent=latest] focus")
         ]
 -- }}}
--- {{{
+-- move {{{
 move =
         [ ("$mod+Shift+h",    "move left")
         , ("$mod+Shift+j",    "move down")
@@ -276,7 +282,7 @@ move =
         , ("$mod+Shift+Right","move right")
         ]
 -- }}}
--- {{{
+-- workspaces {{{
 workspaces =
     -- back and forth
     [("$mod+space", "workspace back_and_forth")] ++
@@ -296,7 +302,7 @@ workspaces =
         ws_key_mv_nl = ["$mod+Shift+KP_"      ++ x      | x <- kp_nl]
         kp_nl = ["Insert", "End", "Down", "Page_Down", "Left", "Begin", "Right", "Home", "Up", "Page_Up"]
 -- }}}
--- {{{
+-- scratchpad {{{
 scratchpad =
         [ ("$mod+f", "[instance=\"file\"] scratchpad show; [instance=\"file\"] move position center; mode \"sp-file\"")
         -- , ("$mod+c", "[instance=\"math\"] scratchpad show; [instance=\"math\"] move position center; mode \"sp-math\"")
@@ -475,8 +481,8 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "megasync"
                 , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
                 , "redshift-gtk"
-                -- , "nm-applet"
-                , "wicd-client --tray"
+                , "nm-applet"
+                -- , "wicd-client --tray"
                 -- , "dunst"
                 , "twmnd"
                 , "~/bin/bat.sh"

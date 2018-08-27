@@ -27,10 +27,12 @@ Add package archives and initialize package
 #+begin_src emacs-lisp :tangle yes
 (require 'package)
 (push '("melpa" . "http://melpa.milkbox.net/packages/") package-archives)
+(push '("marmalade" . "http://marmalade-repo.org/packages/") package-archives)
 (package-initialize)
 #+end_src
 
 Install use package to ensure that packages are installed when required
+https://jwiegley.github.io/use-package/
 
 #+begin_src emacs-lisp :tangle yes
 (unless (package-installed-p 'use-package)
@@ -38,7 +40,9 @@ Install use package to ensure that packages are installed when required
   (package-install 'use-package))
 
 (eval-when-compile
-    (require 'use-package))
+    (require 'use-package)
+	(require 'bind-key)
+)
 #+end_src
 
 Hide and abbreviate modes from the mode line, place on the start to be used
@@ -62,7 +66,7 @@ Other lisp files not in packages
 
 * Notes
 
-- Manually put in the lisp files:
+- Manually put in the .emacs.d/lisp/ files:
   - evil-plugins (copy the ones you are going to use)
 - To use spell-check download aspell dictionaries (use the system package manager).
 - To use langtool download languagetool (use the system package manager) and verify the path in the configuration.
@@ -79,6 +83,10 @@ Activate and configure features already available.
 ;; start maximized
 (toggle-frame-maximized)
 
+;; engine to regexp
+(require 're-builder)
+(setq reb-re-syntax 'string)
+
 ;; no message on scratchpad
 (setq initial-scratch-message nil)
 
@@ -88,6 +96,41 @@ Activate and configure features already available.
 ;; Isolate kill ring
 (setq interprogram-cut-function nil)
 (setq interprogram-paste-function nil)
+
+#+end_src
+
+** Dired-x
+
+Enhance the dired functionality.
+
+#+begin_src emacs-lisp :tangle yes
+
+  (add-hook 'dired-load-hook
+	  (lambda ()
+		  (load "dired-x")
+			  ;; Set dired-x global variables here.
+			  ))
+  (add-hook 'dired-mode-hook
+	  (lambda ()
+		  ;; Set dired-x buffer-local variables here.
+		  (dired-omit-mode 1)
+		  ))
+
+#+end_src
+
+** Ctags
+
+In order to create tags file withing emacs.  
+ 
+#+begin_src emacs-lisp :tangle yes
+
+(setq path-to-ctags "/usr/bin/ctags")
+(defun create-tags (dir-name)
+    "Create tags file."
+    (interactive "DDirectory: ")
+    (shell-command
+    (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
+)
 
 #+end_src
 
@@ -179,10 +222,11 @@ Install and select theme.
 
 (use-package solarized-theme
     :ensure t
+	:custom
+		(solarized-use-variable-pitch nil)
+		(solarized-scale-org-headlines nil)
+		(solarized-high-contrast-mode-line t)
     :config
-	(setq solarized-use-variable-pitch nil)
-	(setq solarized-scale-org-headlines nil)
-	(setq solarized-high-contrast-mode-line t)
 	(load-theme 'solarized-dark t)
 )
 
@@ -201,10 +245,20 @@ Smart-mode-line as mode-line.
 
 (use-package smart-mode-line
 	:ensure t
+	:custom
+		(sml/no-confirm-load-theme t)
+		(sml/theme 'dark)
+		(sml/show-client t "indicate when using emacsclient")
+		(sml/position-percentage-format nil "indicatior of buffer position")
 	:config
-		(setq sml/no-confirm-load-theme t)
-		(setq sml/theme 'dark)
 		(sml/setup)
+		(set-face-attribute 'mode-line nil
+					:background "#444444"
+                    :box 'nil)
+		(set-face-background 'mode-line-inactive "#002b36")
+		;; Abbreviate
+		(add-to-list 'sml/replacer-regexp-list '("^~/MEGA/" ":MEG:") t)	
+		(add-to-list 'sml/replacer-regexp-list '("^:MEG:unicamp/" ":uni:") t)	
 )
 
  #+end_src
@@ -245,13 +299,25 @@ Different ways of export org files.
 
 #+end_src
 
+*** journal
+	
+#+begin_src emacs-lisp :tangle yes
+
+(use-package org-journal
+	:ensure t
+	:config
+		(setq org-journal-dir "~/Dropbox/org/journal")
+)
+
+#+end_src
+
 ** compatibility
    
 Settings to make org compatible with odder modes.
 
 #+begin_src emacs-lisp :tangle yes
 
-(add-hook 'org-mode-hook (lambda () (setq-local yas/trigger-key [tab]) (define-key yas/keymap [tab] 'yas/next-field-or-maybe-expand)))
+(add-hook 'org-mode-hook (lambda () (setq-local yas/trigger-key [tab]) (define-key yas-keymap [tab] 'yas/next-field-or-maybe-expand)))
 
 #+end_src
 
@@ -262,7 +328,7 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 #+begin_src emacs-lisp :tangle yes
 
 (global-set-key "\C-coa" 'org-agenda)
-(setq org-agenda-files (list "~/Dropbox/org/lists.org"))
+(setq org-agenda-files (list "~/Dropbox/org/"))
 (setq org-agenda-start-on-weekday 0) ; week starts on sunday
 
 #+end_src
@@ -274,6 +340,7 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 (global-set-key "\C-col" 'org-store-link)
 (global-set-key "\C-coc" 'org-capture)
 (global-set-key "\C-cob" 'org-switchb)
+(global-set-key "\C-coj" 'org-journal-new-entry)
 
 #+end_src
 
@@ -282,6 +349,7 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 #+begin_src emacs-lisp :tangle yes
 
 (setq org-checkbox-hierarchical-statistics nil)
+(setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 
 #+end_src
 
@@ -388,8 +456,7 @@ https://github.com/redguardtoo/evil-matchit
 
 (use-package evil-matchit
 	:ensure t
-	:config
-		(global-evil-matchit-mode 1)
+	:config (global-evil-matchit-mode 1)
 )
 
 #+end_src
@@ -404,8 +471,8 @@ https://github.com/cofi/evil-numbers
 (use-package evil-numbers
 	:ensure t
 	:config
-	(evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
-	(evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
+		(evil-leader/set-key "+" 'evil-numbers/inc-at-pt)
+		(evil-leader/set-key "-" 'evil-numbers/dec-at-pt)
 )
 
 #+end_src
@@ -419,14 +486,12 @@ https://github.com/Somelauw/evil-org-mode
 
 (use-package evil-org
   :ensure t
-  :after org
+  :after (evil org)
+  :hook ((org-mode . evil-org-mode)
+		 (evil-org-mode . (lambda () (evil-org-set-key-theme))))
   :config
-  (add-hook 'org-mode-hook 'evil-org-mode)
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
+	(require 'evil-org-agenda)
+	(evil-org-agenda-set-keys)
   :diminish
 )
 
@@ -444,7 +509,7 @@ https://github.com/tarao/evil-plugins
 (define-key evil-ex-completion-map (kbd "C-r") #'evil-ex-paste-from-register)
 
 #+end_src
-	
+
 *** evil-replace-with-register
 
 Operation to replace with register content.
@@ -470,10 +535,11 @@ https://github.com/hlissner/evil-snipe
 
 (use-package evil-snipe
 	:ensure t
+	:custom
+		(evil-snipe-scope 'buffer "extend f to all the buffer")
+		(evil-snipe-repeat-scope 'buffer  "extend n,N to all the buffer")
 	:config
 		(evil-snipe-override-mode 1)
-		(set 'evil-snipe-scope 'buffer)
-		(set 'evil-snipe-repeat-scope 'buffer)
 )
 
 #+end_src
@@ -543,8 +609,9 @@ https://github.com/expez/evil-smartparens
 
 (use-package evil-smartparens
 	:ensure t
+	:hook (smartparens-enabled . evil-smartparens-mode)
 	:after smartparens
-	:config (add-hook 'smartparens-enabled-hook #'evil-smartparens-mode)
+	:config 
 )
 
  #+end_src
@@ -557,6 +624,7 @@ Bindings specific to evil mode.
 #+begin_src emacs-lisp :tangle yes
 
 (evil-leader/set-key "ss" 'flyspell-mode) ;; init spell
+(evil-leader/set-key "sp" 'flyspell-prog-mode) ;; init spell for programs
 (evil-leader/set-key "sc" 'my/change-dictionary) ;; change dictionary
 
 #+END_SRC
@@ -619,6 +687,7 @@ New ex commands definitions.
 (evil-ex-define-cmd "WQ" "wq")
 (evil-ex-define-cmd "Wq" "q")
 (evil-ex-define-cmd "X" "x")
+(evil-ex-define-cmd "ee" "e *dummy*")
 
 #+END_SRC
 
@@ -634,6 +703,20 @@ https://github.com/haskell/haskell-mode
 
 (use-package haskell-mode
 	:ensure t
+	:interpreter ("haskell" . haskell-mode)
+)
+
+#+end_src
+
+** latex
+
+Preview as pdf when editing latex.
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package latex-preview-pane
+	:ensure t
+	:config (latex-preview-pane-enable)
 )
 
 #+end_src
@@ -654,16 +737,24 @@ https://github.com/syohex/emacs-company-jedi
 
 #+end_src
 
-** latex
-
-Preview as pdf when editing latex.
+Ipython as python shell
 
 #+begin_src emacs-lisp :tangle yes
 
-(use-package latex-preview-pane
+(setq python-shell-interpreter "~/bin/anaconda3/bin/ipython"
+	python-shell-interpreter-args "--simple-prompt -i")
+		
+#+end_src
+
+** scala
+   
+http://ensime.github.io/editors/emacs/scala-mode/
+
+#+begin_src emacs-lisp :tangle yes
+
+(use-package scala-mode
 	:ensure t
-	:config
-		(define-key latex-mode-map (kbd "C-c v") 'latex-preview-pane-mode)
+	:interpreter ("scala" . scala-mode)
 )
 
 #+end_src
@@ -679,8 +770,7 @@ http://company-mode.github.io/
 
 (use-package company
 	:ensure t
-	:config
-		(add-hook 'after-init-hook 'global-company-mode)
+	:config (global-company-mode)
 	:diminish
 )
 
@@ -708,12 +798,19 @@ https://github.com/wasamasa/eyebrowse
 
 (use-package eyebrowse
 	:ensure t
+    :custom (eyebrowse-new-workspace t "in new workspace open on scratchpad")
 	:config
-		(eyebrowse-setup-opinionated-keys)
-		(evil-leader/set-key "tc" 'eyebrowse-close-window-config)
-		(evil-leader/set-key "tn" 'eyebrowse-create-window-config)
+		(global-set-key (kbd "M-0") 'eyebrowse-switch-to-window-config-0)
+		(global-set-key (kbd "M-1") 'eyebrowse-switch-to-window-config-1)
+		(global-set-key (kbd "M-2") 'eyebrowse-switch-to-window-config-2)
+		(global-set-key (kbd "M-3") 'eyebrowse-switch-to-window-config-3)
+		(global-set-key (kbd "M-4") 'eyebrowse-switch-to-window-config-4)
+		(global-set-key (kbd "M-5") 'eyebrowse-switch-to-window-config-5)
+		(global-set-key (kbd "M-6") 'eyebrowse-switch-to-window-config-6)
+		(global-set-key (kbd "M-7") 'eyebrowse-switch-to-window-config-7)
+		(global-set-key (kbd "M-8") 'eyebrowse-switch-to-window-config-8)
+		(global-set-key (kbd "M-9") 'eyebrowse-switch-to-window-config-9)
 		(eyebrowse-mode t)
-		(setq eyebrowse-new-workspace t)
 	:diminish
 )
 
@@ -760,11 +857,12 @@ https://github.com/emacs-helm/helm
 
 (use-package helm
 	:ensure t
+	:custom 
+		(helm-mode-fuzzy-match t)
+		(helm-completion-in-region-fuzzy-match t)
+		(helm-candidate-number-limit 100)
 	:config
 		(helm-mode 1)
-		(set 'helm-mode-fuzzy-match t)
-		(set 'helm-completion-in-region-fuzzy-match t)
-		(set 'helm-candidate-number-limit 100)
 	:diminish
 )
 
@@ -796,9 +894,9 @@ https://github.com/mhayashi1120/Emacs-langtool
 
 (use-package langtool
 	:ensure t
-	:init
-		(setq langtool-java-classpath
+	:custom (langtool-java-classpath
 			"/usr/share/languagetool:/usr/share/java/languagetool/*")
+	:init
 		(evil-leader/set-key "sg" 'langtool-check)
 		(evil-leader/set-key "sG" 'langtool-check-done)
 )
@@ -815,7 +913,7 @@ https://magit.vc/
 (use-package magit
 	:ensure t
 	:config
-		(global-set-key (kbd "C-x g") 'magit-status)
+		(global-set-key "\C-xg" 'magit-status)
 	:diminish
 )
 
@@ -831,9 +929,10 @@ https://www.emacswiki.org/emacs/MultiTerm
 
 (use-package multi-term
 	:ensure t
+	:custom
+		(multi-term-program "/bin/zsh")
+		(multi-term-dedicated-select-after-open-p t "focus when opening dedicate")
 	:config
-		(setq multi-term-program "/bin/zsh")
-		(setq multi-term-dedicated-select-after-open-p t) ; focus when opening dedicate
 		(global-set-key "\C-cto" 'multi-term)
 		(global-set-key "\C-ctn" 'multi-term-next)
 		(global-set-key "\C-ctp" 'multi-term-prev)
@@ -854,9 +953,9 @@ https://github.com/politza/pdf-tools
 
 (use-package pdf-tools
 	:ensure t
+	:custom (pdf-view-resize-factor 1.1 "amount of zoom")
 	:config
 		(pdf-tools-install)
-		(setq pdf-view-resize-factor 1.1)
 )
 
 #+end_src
@@ -885,20 +984,6 @@ https://github.com/bbatsov/helm-projectile
 	:ensure t
 	:after helm
 	:config (helm-projectile-on)
-)
-
-#+end_src
-
-** ranger
-
-Simulate ranger inside emacs.
-https://github.com/ralesi/ranger.el
-
-#+begin_src emacs-lisp :tangle yes
-
-(use-package ranger
-	:ensure t
-	:config (ranger-override-dired-mode t)
 )
 
 #+end_src
@@ -940,9 +1025,9 @@ https://github.com/Fuco1/smartparens
 
 (use-package smartparens
 	:ensure t
+	:hook (prog-mode . smartparens-mode)
 	:config
 		(require 'smartparens-config)
-		(add-hook 'js-mode-hook #'smartparens-mode)
 	:diminish
 )
 
@@ -958,8 +1043,8 @@ https://github.com/nonsequitur/smex
 (use-package smex
 	:ensure t
 	:config
-		(global-set-key (kbd "M-x") 'smex)
-		(global-set-key (kbd "M-X") 'smex-major-mode-commands)
+		(global-set-key "\M-x" 'smex)
+		(global-set-key "\M-X" 'smex-major-mode-commands)
 		(smex-initialize)
 	:diminish
 )
@@ -990,8 +1075,8 @@ https://github.com/joaotavora/yasnippet
 
 (use-package yasnippet
 	:ensure t
+	:custom (yas-snippet-dirs '("~/.emacs.d/mysnippets"))
 	:config
-		(setq yas-snippet-dirs '("~/.emacs.d/mysnippets"))
 		(yas-global-mode 1)
 	:diminish yas-minor-mode
 )
@@ -1027,6 +1112,20 @@ similar package: https://github.com/Bad-ptr/persp-mode.el
 	:config
 		(persp-mode)
 	:diminish
+)
+
+#+end_src
+
+*** ranger
+
+Simulate ranger inside emacs.
+https://github.com/ralesi/ranger.el
+
+#+begin_src emacs-lisp :tangle no
+
+(use-package ranger
+	:ensure t
+	:config (ranger-override-dired-mode t)
 )
 
 #+end_src

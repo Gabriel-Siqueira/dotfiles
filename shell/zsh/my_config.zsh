@@ -64,16 +64,12 @@ alias nfzsh="nvim ~/.oh-my-zsh/custom/my_config.zsh"
 alias nftmux="nvim ~/.tmux.conf"
 alias nfxmonad="nvim ~/.xmonad/xmonad.hs"
 alias nfi3="nvim ~/MEGA/dotfiles/wm/i3/i3config.hs"
-# }}}
-# fun {{{
-alias oi="echo 'oi, tenha um bom dia'"
-alias tudoerrado="echo 'não desista as coisas vão dar certo'"
-alias culpasua="echo 'não é a maquina que comete erros é o programador'"
-alias socorro="echo 'continue a nadar'"
-alias resposta="echo '42'"
-alias answer="echo '42'"
-alias frase="echo 'We live in a world of possibilities'"
-alias programingtime="echo 'let´s have some fun'"
+alias evim="emacsclient ~/.vimrc"
+alias envim="emacsclient ~/.config/nvim/init.vim"
+alias ezsh="emacsclient ~/.oh-my-zsh/custom/my_config.zsh"
+alias etmux="emacsclient ~/.tmux.conf"
+alias exmonad="emacsclient ~/.xmonad/xmonad.hs"
+alias ei3="emacsclient ~/MEGA/dotfiles/wm/i3/i3config.hs"
 # }}}
 # usefull {{{
 alias clr='clear'
@@ -102,12 +98,12 @@ alias du='du -h'
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 LS_COLORS='di=1;33';export LS_COLORS
-if ! type "nvim" > /dev/null; then
+if ! type "emacsclient" > /dev/null; then
 	EDITOR="vim"
     VISUAL="vim"
 else
-	EDITOR="nvim"
-    VISUAL="nvim"
+	EDITOR="emacsclient"
+    VISUAL="emacsclient"
 fi
 # manpage on nvim
 if ! type "nvim" > /dev/null; then
@@ -128,6 +124,7 @@ setopt hist_ignore_all_dups
 hash -d meg=~/MEGA
 hash -d dro=~/Dropbox
 hash -d dri=~/MEGA/Drive
+hash -d sem10=~/MEGA/unicamp/sem10
 hash -d ran=~/random
 hash -d trash=~/.local/share/Trash/files/
 # }}}

@@ -19,7 +19,7 @@ local theme_precmd () {
     if [ ${with_sudo} -gt 0 ]; then
         local sudo=",%{$fg[red]%}#%{$reset_color%}"
     else
-        local sudo=''
+        local sudo=""
     fi
     # Check if is in a virtualenv
     local in_venv=$(echo $VIRTUAL_ENV)
@@ -30,21 +30,22 @@ local theme_precmd () {
     fi
 
     # Begin
-    PROMPT='%F{$color3}┌╼%f'
+    local begin="%F{$color3}┌╼%f"
 
     # Host name
-    PROMPT+='%F{$color1} (%f%F{$color2}%m%f%F{$color1}) %f'
+    local host="%F{$color1} (%f%F{$color2}%m%f%F{$color1}) %f%F{$color3}╾╼%f"
 
     # Path
-    PROMPT+='%F{$color3}╾╼%f%F{$color1} (%f%F{$color2}%~%f%F{$color1}) %f'
+    local path="%F{$color1} (%f%F{$color2}%~%f%F{$color1}) %f%F{$color3}╾╼%f"
 
     # Date time
-    PROMPT+='%F{$color3}╾╼%f%F{$color1} (%f%F{$color2}%T%f%F{$color1})%f'
+    local date="%F{$color1} (%f%F{$color2}%T%f%F{$color1}) %f%F{$color3}╾╼%f"
 
     # GIT
-    PROMPT+='$(git_prompt_info)'
+    local git='$(git_prompt_info)'
 
-    ZSH_THEME_GIT_PROMPT_PREFIX="%F{$color3} ╾╼ %F{$color1}git(%F{gray}$git_status%f:%F{$color2}"
+    ZSH_THEME_GIT_PROMPT_PREFIX="
+%F{$color3}┝ %f%F{$color1}git(%F{gray}$git_status%f:%F{$color2}"
     ZSH_THEME_GIT_PROMPT_SUFFIX="%F{$color1})"
     ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
     ZSH_THEME_GIT_PROMPT_BRANCH=" %{$fg[magenta]%}"
@@ -58,34 +59,69 @@ local theme_precmd () {
     ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}✗"
 
     # SVN
-    PROMPT+='$(svn_prompt_info)'
+    local svn='$(svn_prompt_info)'
 
-    ZSH_THEME_SVN_PROMPT_PREFIX="%F{$color3} ╾╼ %F{$color1}svn(%F{$color2}"
+    ZSH_THEME_SVN_PROMPT_PREFIX="
+%F{$color3}┝ %f%F{$color1}svn(%F{$color2}"
     ZSH_THEME_SVN_PROMPT_SUFFIX="%F{$color1})"
     ZSH_THEME_SVN_PROMPT_CLEAN=" %{$fg[green]%}%{✔%G%}%f"
     ZSH_THEME_SVN_PROMPT_DIRTY=" %{$fg[red]%}✗"
 
     # Other info
 
-    PROMPT+='%F{$color3} ╾╼%f%F{$color1} [%f'
+    local other="%F{$color1} [%f"
 
     # Number of jobs
-    PROMPT+='%{$fg[blue]%}%j%{$reset_color%}'
+    other+="%{$fg[blue]%}%j%{$reset_color%}"
     # Virtualenv
-    PROMPT+="$venv"
+    other+="$venv"
     # Status code
-    PROMPT+='%(?..,%{$fg[red]%}%?%{$reset_color%})'
+    other+="%(?..,%{$fg[red]%}%?%{$reset_color%})"
     # Sudo
-    PROMPT+="$sudo"
+    other+="$sudo"
 
-    PROMPT+='%F{$color1}]%f'
+    other+="%F{$color1}]%f"
+
+	# New line
+	local new_line="
+%F{$color3}└╼ %f"
 
     # name
-    PROMPT+='
-%F{$color3}└╼ %f%F{$color1}%n%f'
+    local name="%F{$color1}%n%f"
 
     # End
-    PROMPT+='%{$fg_bold[$color3]%}$( vi_mode_prompt_info )%(!.#.:) $reset_color '
+    local end='%{$fg_bold[$color3]%}$( vi_mode_prompt_info )%(!.#.$) $reset_color'
+
+	# PROMPT
+	local zero='%([BSUbfksu]|([FK]|){*})' # patter to be removed when calculating size
+    local top="$begin$host$path$date$other"
+	local size=${#${(S%%)top//$~zero/}} 
+    if [ $size -gt $COLUMNS ]; then
+		local top="$begin$path$date$other"
+		local size=${#${(S%%)top//$~zero/}} 
+		if [ $size -gt $COLUMNS ]; then
+			local top="$begin$date$other"
+			local size=${#${(S%%)top//$~zero/}} 
+			if [ $size -gt $COLUMNS ]; then
+				local top="$begin$other"
+				local size=${#${(S%%)top//$~zero/}} 
+				if [ $size -gt $COLUMNS ]; then
+					local top=""
+					local new_line=""
+					local git=""
+					local svn=""
+				fi
+			fi
+		fi
+	fi
+    bottom="$new_line$name$end"
+	local size=${#${(S%%)bottom//$~zero/}} 
+	if [ $size -gt $COLUMNS ]; then
+		local bottom="$new_line$end"
+		local git=""
+		local svn=""
+	fi
+	PROMPT="$top$git$svn$bottom"
 }
 
 autoload -U add-zsh-hook
