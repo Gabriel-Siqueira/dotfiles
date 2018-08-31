@@ -106,11 +106,11 @@ else
     VISUAL="emacsclient"
 fi
 # manpage on nvim
-if ! type "nvim" > /dev/null; then
-    export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
-else
-    export MANPAGER="nvim +set\ filetype=man -"
-fi
+# if ! type "nvim" > /dev/null; then
+#     export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""
+# else
+#     export MANPAGER="nvim +set\ filetype=man -"
+# fi
 # spark
 export PYSPARK_DRIVER_PYTHON=ipython
 # }}}
