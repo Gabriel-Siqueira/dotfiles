@@ -1,5 +1,5 @@
 #+TITLE: Emacs configuration file
-#+STARTUP: hideblocks
+#+Author: Gabriel Henriques Siqueira
 
 * Set up
 ** Auto tangle
@@ -333,6 +333,16 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 
 #+end_src
 
+** template
+
+Easy template expansions.
+
+#+BEGIN_SRC emacs-lisp :tangle yes
+
+(add-to-list 'org-structure-template-alist '("se" "#+BEGIN_SRC emacs-lisp :tangle yes \n?\n#+END_SRC"))
+
+#+END_SRC
+
 ** other keys
    
 #+begin_src emacs-lisp :tangle yes
@@ -348,7 +358,13 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
    
 #+begin_src emacs-lisp :tangle yes
 
+; fold all blocks in the start
+(setq org-hide-block-startup t)
+; lists treated as low level headlines
+(setq org-cycle-include-plain-lists 'integrate)
+; status of chackbos include the whole hieratchy
 (setq org-checkbox-hierarchical-statistics nil)
+; chage size of latex formula's font
 (setq org-format-latex-options (plist-put org-format-latex-options :scale 1.5))
 
 #+end_src
@@ -674,8 +690,9 @@ Move between windows, C-arrows or C-hjkl.
 
 *** Other
 
-- [[langtool]]
-
+- [[langtool][langtool]]
+- [[yasnippet][yasnippet]]
+  
 ** Ex comands
 
 New ex commands definitions.
@@ -704,19 +721,6 @@ https://github.com/haskell/haskell-mode
 (use-package haskell-mode
 	:ensure t
 	:interpreter ("haskell" . haskell-mode)
-)
-
-#+end_src
-
-** latex
-
-Preview as pdf when editing latex.
-
-#+begin_src emacs-lisp :tangle yes
-
-(use-package latex-preview-pane
-	:ensure t
-	:config (latex-preview-pane-enable)
 )
 
 #+end_src
@@ -770,7 +774,10 @@ http://company-mode.github.io/
 
 (use-package company
 	:ensure t
-	:config (global-company-mode)
+	:config
+		(global-company-mode)
+		(define-key company-active-map (kbd "C-n") (lambda () (interactive) (company-complete-common-or-cycle  1)))
+		(define-key company-active-map (kbd "C-p") (lambda () (interactive) (company-complete-common-or-cycle -1)))
 	:diminish
 )
 
@@ -878,6 +885,7 @@ https://github.com/gregsexton/origami.el
 (use-package origami
 	:ensure t
 	:after dash s
+	:custom (origami-show-fold-header t "show header, stop with some visual problems")
 	:config
 		(global-origami-mode)
 )
@@ -933,29 +941,19 @@ https://www.emacswiki.org/emacs/MultiTerm
 		(multi-term-program "/bin/zsh")
 		(multi-term-dedicated-select-after-open-p t "focus when opening dedicate")
 	:config
+		(defun multi-term-ipython ()
+			"Make a multi-term buffer running ipyrhon."
+			(interactive)
+			(let ((multi-term-program "/home/gabriel/bin/anaconda3/bin/ipython"))
+			(multi-term)))
 		(global-set-key "\C-cto" 'multi-term)
 		(global-set-key "\C-ctn" 'multi-term-next)
 		(global-set-key "\C-ctp" 'multi-term-prev)
 		(global-set-key "\C-ctt" 'multi-term-dedicated-toggle)
+		(global-set-key "\C-cti" 'multi-term-ipython)
 		(global-set-key "\C-ctl" 'term-line-mode)
 		(global-set-key "\C-ctc" 'term-char-mode)
 	:diminish
-)
-
-#+end_src
-
-** pdf-tools
-
-Better pdf reader.
-https://github.com/politza/pdf-tools
-
-#+begin_src emacs-lisp :tangle yes
-
-(use-package pdf-tools
-	:ensure t
-	:custom (pdf-view-resize-factor 1.1 "amount of zoom")
-	:config
-		(pdf-tools-install)
 )
 
 #+end_src
@@ -1070,14 +1068,33 @@ https://github.com/justbur/emacs-which-key
 
 A snippet package for Emacs.
 https://github.com/joaotavora/yasnippet
+<<yasnippet>>
 
 #+begin_src emacs-lisp :tangle yes
 
 (use-package yasnippet
 	:ensure t
-	:custom (yas-snippet-dirs '("~/.emacs.d/mysnippets"))
+	:after yasnippet-snippets
+	:custom (yas-snippet-dirs '(
+		"~/.emacs.d/mysnippets"
+		yasnippet-snippets-dir
+		) "directories where to search for snippets")
+		(yas/indent-line nil "do not auto-indent")
 	:config
 		(yas-global-mode 1)
+		;; keys expacion
+		(define-key yas-minor-mode-map (kbd "<tab>") nil)
+		(define-key yas-minor-mode-map (kbd "TAB") nil)
+		(define-key yas-minor-mode-map (kbd "C-y") yas-maybe-expand)
+		(define-key evil-insert-state-map (kbd "C-y") yas-maybe-expand)
+		;; keys navegation
+		(define-key yas-keymap [tab]         nil)
+		(define-key yas-keymap (kbd "TAB")   nil)
+		(define-key yas-keymap [(shift tab)] nil)
+		(define-key yas-keymap [backtab]     nil)
+		(define-key yas-keymap (kbd "C-y") 'yas-next-field-or-maybe-expand)
+		(define-key yas-keymap (kbd "C-S-y") 'yas-prev-field)
+		(yas-reload-all)
 	:diminish yas-minor-mode
 )
 
@@ -1089,8 +1106,6 @@ A package with a bunch of snippets for yasnippet
 
 (use-package yasnippet-snippets
 	:ensure t
-	:after yasnippet
-	:config (yas-reload-all)
 )
 
 #+end_src
@@ -1129,6 +1144,35 @@ https://github.com/ralesi/ranger.el
 )
 
 #+end_src
+
+*** pdf-tools
+
+ Better pdf reader.
+ https://github.com/politza/pdf-tools
+
+ #+begin_src emacs-lisp :tangle no
+
+ (use-package pdf-tools
+	 :ensure t
+	 :custom (pdf-view-resize-factor 1.1 "amount of zoom")
+	 :config
+		 (pdf-tools-install)
+ )
+
+ #+end_src
+
+*** latex-preview-pane
+
+ Preview as pdf when editing latex.
+
+ #+begin_src emacs-lisp :tangle no
+
+ (use-package latex-preview-pane
+	 :ensure t
+	 :config (latex-preview-pane-enable)
+ )
+
+ #+end_src
 
 * Other Keys
 ** zoom
@@ -1183,17 +1227,18 @@ Easier way of change dictionary and enable flyspell.
 
 #+begin_src emacs-lisp :tangle yes
 
-  (defun my/change-dictionary ()
-  " change dictionary."
-	  (interactive)
-	  (print
-		  (cond
-		  ((string= ispell-dictionary "en_US") (setq ispell-dictionary "pt_BR"))
-		  ;; ((string= ispell-dictionary "pt_BR") (setq ispell-dictionary "de_DE"))
-		  (t (setq ispell-dictionary "en_US"))
-  )))
+(defun my/change-dictionary ()
+	" change dictionary."
+	(interactive)
+	(print
+		(cond
+		((string= ispell-dictionary "en_US") (setq ispell-dictionary "pt_BR"))
+		;; ((string= ispell-dictionary "pt_BR") (setq ispell-dictionary "de_DE"))
+		(t (setq ispell-dictionary "en_US"))
+)))
 
 #+end_src
+
 * End Conf
 
 Specific configurations to be run in the end.

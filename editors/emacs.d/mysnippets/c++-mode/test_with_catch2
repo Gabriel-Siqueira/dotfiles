@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: test with catch2
+# key: test
+# --
+
+TEST_CASE( "$1", "[$2]" ) {
+    REQUIRE( $0 );
+}
