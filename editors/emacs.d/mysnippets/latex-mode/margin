@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: margin
+# key: margin
+# --
+\begin{addmargin}[2em]{1em}
+    $0
+\end{addmargin}
