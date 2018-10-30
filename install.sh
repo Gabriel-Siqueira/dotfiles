@@ -34,6 +34,7 @@
 # ln -s ~/MEGA/dotfiles/shell/bash/bashrc       ~/.bashrc
 ## }}}
 ## zsh {{{
+# sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 # rm -i ~/.zshrc
 # ln -s ~/MEGA/dotfiles/shell/zsh/zshrc           ~/.zshrc
 # rm -i ~/.oh-my-zsh/themes/my.zsh-theme
@@ -48,6 +49,7 @@
 ## }}}
 ## prog {{{
 ## ranger {{{
+# mkdir ~/.config/ranger/
 # rm -i ~/.config/ranger/rc.conf
 # ln -s ~/MEGA/dotfiles/prog/ranger/rc.conf ~/.config/ranger/rc.conf
 # rm -i ~/.config/ranger/rifle.conf
@@ -59,6 +61,7 @@
 # ln -s ~/MEGA/dotfiles/prog/neomuttrc ~/.config/neomutt/neomuttrc
 # rm -i ~/.config/zathura/zathurarc
 # ln -s ~/MEGA/dotfiles/prog/zathurarc ~/.config/zathura/zathurarc
+# mkdir ~/.config/qutebrowser/
 # rm -i ~/.config/qutebrowser/config.py
 # ln -s ~/MEGA/dotfiles/prog/qutebrowser/config.py ~/.config/qutebrowser/config.py
 ## }}}
@@ -74,6 +77,7 @@
 # ln -s ~/MEGA/dotfiles/wm/i3/i3status.conf   ~/.i3status.conf
 # rm -i ~/.conkyrc
 # ln -s ~/MEGA/dotfiles/wm/i3/conkyrc   ~/.conkyrc
+# mkdir ~/.config/polybar/
 # rm -i ~/.config/polybar/config
 # ln -s ~/MEGA/dotfiles/wm/i3/polybar.conf ~/.config/polybar/config
 ## }}}
@@ -91,6 +95,7 @@
 # ln -s ~/MEGA/dotfiles/shell/tmux.conf     ~/.tmux.conf
 ## }}}
 ## bin {{{
+# mkdir ~/bin/
 ## low battery warning
 # rm -i ~/bin/bat.sh
 # ln -s ~/MEGA/dotfiles/bin/bat.sh ~/bin/bat.sh
