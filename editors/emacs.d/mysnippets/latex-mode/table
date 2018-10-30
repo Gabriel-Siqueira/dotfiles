@@ -1,0 +1,11 @@
+# key: table
+# name: table
+# --
+\begin{table}[${1:htpb}]
+    \center
+	\caption{$2}
+    \label{tab:$3}
+    \begin{tabular}{${4:l|c|r}}
+        $0
+    \end{tabular}
+\end{table}

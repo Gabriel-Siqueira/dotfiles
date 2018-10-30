@@ -1,0 +1,42 @@
+# -*- mode: snippet -*-
+# name: Base with beamer pt
+# key: base_beamer_pt
+# --
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+
+\hypersetup{pdfpagemode=FullScreen}
+\usetheme{Dresden}
+\usecolortheme{beetle}
+\setbeamertemplate{itemize items}[ball]
+
+\title {$1} \subtitle{$2}
+\author[Gabriel Henriques Siqueira] {}
+\institute[Unicamp] {}
+\date {\today}
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+
+\begin{document}
+    \frame{\titlepage}
+
+    \begin{frame}
+    \frametitle{}
+    \tableofcontents
+    \end{frame}
+
+\section[$3]{$3}
+    \begin{frame}
+        \frametitle{$4}
+		$0
+    \end{frame}
+
+\end{document}
+endsnippet

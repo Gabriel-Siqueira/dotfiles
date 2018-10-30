@@ -4,20 +4,19 @@
 * Set up
 ** Auto tangle
 
-The following function tangles and compiles this configurations, also use a hook to run when the file is saved.
+The following function tangles and compiles this configurations, also define a key to call this function.
 
 #+begin_src emacs-lisp :tangle yes
 (defun my/tangle-init ()
    "Tangle code for this file"
-   (when (equal (buffer-file-name)
-                (expand-file-name (concat user-emacs-directory "init-org.org")))
+	(interactive)
     (find-file (concat user-emacs-directory "init-org.org"))
     (org-babel-tangle)
     (load-file (concat user-emacs-directory "init-org.el"))
     (byte-compile-file (concat user-emacs-directory "init-org.el"))
-))
+)
 
-(add-hook 'after-save-hook 'my/tangle-init)
+(global-set-key "\C-cR" 'my/tangle-init)
 #+end_src
 
 ** packages
@@ -99,9 +98,9 @@ Activate and configure features already available.
 
 #+end_src
 
-** Dired-x
+** Dired
 
-Enhance the dired functionality.
+Enhance the dired functionality with dired-x.
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -116,6 +115,26 @@ Enhance the dired functionality.
 		  (dired-omit-mode 1)
 		  ))
 
+#+end_src
+
+Use dired like ranger.
+https://github.com/ralesi/ranger.el
+
+#+begin_src emacs-lisp :tangle yes
+(use-package ranger
+	:ensure t
+	:config
+		(ranger-override-dired-mode t)
+		(setq ranger-width-parents 0.01)
+		(setq ranger-width-preview 0.5)
+		(setq ranger-show-hidden nil)
+		(define-key ranger-mode-map (kbd "'") (lambda () (interactive) (ranger-create-mark ?') (ranger-goto-mark)))
+		(define-key ranger-mode-map (kbd "\C-rn") 'ranger-next-tab)
+		(define-key ranger-mode-map (kbd "\C-rp") 'ranger-prev-tab)
+		(define-key ranger-mode-map (kbd "\C-rc") 'ranger-new-tab)
+		(define-key ranger-mode-map (kbd "\C-rr") 'ranger-refresh)
+		(global-set-key "\C-cr" 'ranger)
+)
 #+end_src
 
 ** Ctags
@@ -148,6 +167,15 @@ In order to create tags file withing emacs.
 #+end_src
 
 ** Persistence
+*** auto save
+
+Emacs saves the file been edited in an other file, this setting ensure that the
+file is saved in the visited file instead.
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(setq auto-save-visited-file-name t)
+#+END_SRC
+
 *** backup files
 
 #+begin_src emacs-lisp :tangle yes
@@ -330,8 +358,41 @@ Use agenda with ~C-c a~, set files for the agenda and other agenda configs.
 (global-set-key "\C-coa" 'org-agenda)
 (setq org-agenda-files (list "~/Dropbox/org/"))
 (setq org-agenda-start-on-weekday 0) ; week starts on sunday
+(setq org-agenda-compact-blocks t)
+(setq org-agenda-custom-commands '(
+	("x" "main view" (
+		(tags "urgente|pin")
+		(agenda "" ((org-agenda-span 1)))
+		(todo "TODO|TODAY")
+	))
+))
 
 #+end_src
+
+Super agenda (agenda with itens organize by groups).
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(use-package org-super-agenda
+	:ensure t
+	:config 
+		(setq org-super-agenda-groups '(
+			(:name "Urgente" :tag "urgente" :deadline today :order 1
+				:face (:background "red" :foreground "yellow"))
+			(:name "Pin" :tag "pin" :order 2)
+			(:name "Today" :todo "TODAY"
+				:face (:background "black" :foreground "yellow") :order 3)
+			(:name "Grid" :and (:time-grid t :not (:todo "TODO")) 
+				:face (:foreground "RosyBrown1") :order 4)
+			(:name "Today" :date today :scheduled past
+				:face (:background "black" :foreground "yellow") :order 5)
+			(:name "Todo" :todo "TODO" :order 6)
+		))
+	  (setq org-deadline-warning-days 0)
+	:init (org-super-agenda-mode)
+	:diminish
+)
+
+#+END_SRC
 
 ** template
 
@@ -692,7 +753,7 @@ Move between windows, C-arrows or C-hjkl.
 
 - [[langtool][langtool]]
 - [[yasnippet][yasnippet]]
-  
+
 ** Ex comands
 
 New ex commands definitions.
@@ -875,6 +936,23 @@ https://github.com/emacs-helm/helm
 
 #+end_src
 
+** helm-bibtex
+   
+Use [[helm]] to consult bibtex references.
+https://github.com/tmalsburg/helm-bibtex
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(use-package helm-bibtex
+	:ensure t
+	:custom 
+		(bibtex-completion-bibliography '("~/MEGA/references/ref.bib") "file of bibtex entries")
+		(bibtex-completion-library-path '("~/MEGA/references/pdfs/") "path to pdfs")
+		(bibtex-completion-notes-path "~/MEGA/references/ref.org" "file of notes")
+		(bibtex-completion-additional-search-fields '(tags) "use tags when searching")
+	:diminish
+)
+#+END_SRC
+
 ** origami
 
 Fold blocks of code.
@@ -893,7 +971,7 @@ https://github.com/gregsexton/origami.el
 #+end_src
 
 ** langtool
-   
+
 For grammar checking.
 <<langtool>>
 https://github.com/mhayashi1120/Emacs-langtool
@@ -904,6 +982,9 @@ https://github.com/mhayashi1120/Emacs-langtool
 	:ensure t
 	:custom (langtool-java-classpath
 			"/usr/share/languagetool:/usr/share/java/languagetool/*")
+			(langtool-disabled-rules '(
+				"REPEATED_WORDS"
+			) "disable specific rules")
 	:init
 		(evil-leader/set-key "sg" 'langtool-check)
 		(evil-leader/set-key "sG" 'langtool-check-done)
@@ -946,6 +1027,10 @@ https://www.emacswiki.org/emacs/MultiTerm
 			(interactive)
 			(let ((multi-term-program "/home/gabriel/bin/anaconda3/bin/ipython"))
 			(multi-term)))
+		(defadvice term-send-raw (around rename-term-name activate)
+			(progn (rename-buffer (concat "term: " 
+				(shell-command-to-string "pwd | xargs basename |  tr -d '\n'") 
+			))) ad-do-it)
 		(global-set-key "\C-cto" 'multi-term)
 		(global-set-key "\C-ctn" 'multi-term-next)
 		(global-set-key "\C-ctp" 'multi-term-prev)
@@ -957,6 +1042,24 @@ https://www.emacswiki.org/emacs/MultiTerm
 )
 
 #+end_src
+
+** openwith
+
+Select how to open files.
+https://www.emacswiki.org/emacs/OpenWith
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(use-package openwith
+	:ensure t
+	:custom 
+	(openwith-associations '(
+		("\\.pdf\\'" "xdg-open" (file))
+	) "select how to open each file")
+	:init
+	(openwith-mode t)
+	:diminish
+)
+#+END_SRC
 
 ** projectile
 
@@ -1074,10 +1177,8 @@ https://github.com/joaotavora/yasnippet
 
 (use-package yasnippet
 	:ensure t
-	:after yasnippet-snippets
 	:custom (yas-snippet-dirs '(
 		"~/.emacs.d/mysnippets"
-		yasnippet-snippets-dir
 		) "directories where to search for snippets")
 		(yas/indent-line nil "do not auto-indent")
 	:config
@@ -1100,9 +1201,9 @@ https://github.com/joaotavora/yasnippet
 
 #+end_src
 
-A package with a bunch of snippets for yasnippet
+A package with a bunch of snippets for yasnippet (not using currently).
 
-#+begin_src emacs-lisp :tangle yes
+#+begin_src emacs-lisp :tangle no
 
 (use-package yasnippet-snippets
 	:ensure t
@@ -1127,20 +1228,6 @@ similar package: https://github.com/Bad-ptr/persp-mode.el
 	:config
 		(persp-mode)
 	:diminish
-)
-
-#+end_src
-
-*** ranger
-
-Simulate ranger inside emacs.
-https://github.com/ralesi/ranger.el
-
-#+begin_src emacs-lisp :tangle no
-
-(use-package ranger
-	:ensure t
-	:config (ranger-override-dired-mode t)
 )
 
 #+end_src

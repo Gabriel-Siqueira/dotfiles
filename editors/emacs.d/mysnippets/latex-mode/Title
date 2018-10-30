@@ -1,0 +1,7 @@
+# key: title
+# name: Title
+# --
+\title{$1}
+\date{${2:\today}}
+\author{Gabriel Henriques Siqueira}
+\maketitle
