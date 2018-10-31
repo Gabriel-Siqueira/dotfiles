@@ -381,6 +381,8 @@ Super agenda (agenda with itens organize by groups).
 			(:name "Pin" :tag "pin" :order 2)
 			(:name "Today" :todo "TODAY"
 				:face (:background "black" :foreground "yellow") :order 3)
+			(:name "Study" :tag "study" 
+				:face (:background "black" :foreground "yellow") :order 5)
 			(:name "Grid" :and (:time-grid t :not (:todo "TODO")) 
 				:face (:foreground "RosyBrown1") :order 4)
 			(:name "Today" :date today :scheduled past
