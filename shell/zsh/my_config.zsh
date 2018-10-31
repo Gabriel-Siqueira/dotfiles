@@ -156,6 +156,10 @@ bindkey -v # vim keys
 bindkey -s ^] '\e' # new escape
 bindkey -a "!" sudo-command-line # add sudo on line
 # }}}
+# key maps {{{
+setxkbmap -layout br,us -variant ,dvorak -option "grp:alt_space_toggle"
+xmodmap -e 'keycode 135 = Super_R'
+# }}}
 # Others {{{
 # work nice with emacs
 if [ -n "$INSIDE_EMACS" ]; then
