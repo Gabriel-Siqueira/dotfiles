@@ -157,7 +157,7 @@ bindkey -s ^] '\e' # new escape
 bindkey -a "!" sudo-command-line # add sudo on line
 # }}}
 # key maps {{{
-setxkbmap -layout br,us -variant ,dvorak -option "grp:alt_space_toggle"
+setxkbmap -layout br,us -variant ,dvorak-intl -option "grp:alt_space_toggle"
 xmodmap -e 'keycode 135 = Super_R'
 # }}}
 # Others {{{
@@ -167,6 +167,7 @@ if [ -n "$INSIDE_EMACS" ]; then
   print -P "\033AnSiTu %n"
   print -P "\033AnSiTc %d"
   export ATHAME_ENABLED=0
+  alias vim='emacsclient'
 fi
 
 if [ $(date +"%H") -ge 18 ]; then

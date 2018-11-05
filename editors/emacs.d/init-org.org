@@ -69,6 +69,7 @@ Other lisp files not in packages
   - evil-plugins (copy the ones you are going to use)
 - To use spell-check download aspell dictionaries (use the system package manager).
 - To use langtool download languagetool (use the system package manager) and verify the path in the configuration.
+- To use jdee install jdee-server in emacs.d/jdee-server/ https://github.com/jdee-emacs/jdee-server
 
 * General Configurations
 
@@ -416,6 +417,7 @@ Easy template expansions.
 (global-set-key "\C-coj" 'org-journal-new-entry)
 
 #+end_src
+[[evil-org-keys]]
 
 ** other settings
    
@@ -450,7 +452,7 @@ https://github.com/emacs-evil/evil
 			:ensure t
 			:config
 				(global-evil-leader-mode)
-				(evil-leader/set-leader "ç")
+				(evil-leader/set-leader "<SPC>")
 		)
     :config
 		(evil-mode 1)
@@ -751,6 +753,15 @@ Move between windows, C-arrows or C-hjkl.
 
 #+end_src
 
+*** org
+	
+<<evil-org-keys>>
+custum keys for orgmode in evil
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(evil-leader/set-key-for-mode 'org-mode "ol" 'org-toggle-latex-fragment)
+#+END_SRC
+
 *** Other
 
 - [[langtool][langtool]]
@@ -825,6 +836,19 @@ http://ensime.github.io/editors/emacs/scala-mode/
 )
 
 #+end_src
+
+** java
+
+https://github.com/jdee-emacs/jdee
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(use-package jdee
+	:ensure t
+	:config
+		(custom-set-variables '(jdee-server-dir "~/.emacs.d/jdee-server") )
+	:diminish
+)
+#+END_SRC
 
 * Other Packages
 ** company
