@@ -28,6 +28,7 @@ typedef set<num> sn;
 #define MEM(v, x) memset(v, x, sizeof(v))
 #define SIZE(a) (num)a.size()
 #define gcd(a,b) __gcd(a,b)
+#define REP(i,n) for(int i = 0; i < n; i++)
 
 #define MOD (1000000000 + 7)
 #define PI acos(-1.0)

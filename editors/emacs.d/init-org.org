@@ -701,12 +701,17 @@ https://github.com/expez/evil-smartparens
 
 Bindings specific to evil mode.
 
-*** Spell
+*** Spell/grammar
+<<evil-spell-keys>>
+
 #+begin_src emacs-lisp :tangle yes
 
-(evil-leader/set-key "ss" 'flyspell-mode) ;; init spell
+(evil-leader/set-key "ss" 'flyspell-mode) ;; toggle spell
 (evil-leader/set-key "sp" 'flyspell-prog-mode) ;; init spell for programs
+(evil-leader/set-key "sb" 'flyspell-buffer) ;; init spell for programs
 (evil-leader/set-key "sc" 'my/change-dictionary) ;; change dictionary
+(evil-leader/set-key "sg" 'langtool-check) ;; run langtool on buffer
+(evil-leader/set-key "sG" 'langtool-check-done) ;; clean langtool
 
 #+END_SRC
 
@@ -1001,6 +1006,7 @@ https://github.com/gregsexton/origami.el
 For grammar checking.
 <<langtool>>
 https://github.com/mhayashi1120/Emacs-langtool
+keys: [[evil-spell-keys]]
 
 #+begin_src emacs-lisp :tangle yes
 
@@ -1012,8 +1018,6 @@ https://github.com/mhayashi1120/Emacs-langtool
 				"REPEATED_WORDS"
 			) "disable specific rules")
 	:init
-		(evil-leader/set-key "sg" 'langtool-check)
-		(evil-leader/set-key "sG" 'langtool-check-done)
 )
 
 #+end_src
