@@ -63,17 +63,17 @@ ws = [
 -- applications {{{
 
 -- {{{
-myMainTerminal     =  case pc of
-                        "GAMa"    -> "termite -e 'tmux new-session -A -s generic' --name=tmux"
-                        "GOLi"    -> "gnome-terminal"
-                        "ic"      -> "xfce4-terminal"
-                        _         -> "i3-sensible-terminal"
--- }}}
--- {{{
 myTerminal         =  case pc of
                         "GAMa"    -> "termite"
                         "GOLi"    -> "termite"
                         "ic"      -> "urxvt"
+                        _         -> "i3-sensible-terminal"
+-- }}}
+-- {{{
+mySTerminal     =  case pc of
+                        "GAMa"    -> "terminator"
+                        "GOLi"    -> "gnome-terminal"
+                        "ic"      -> "xfce4-terminal"
                         _         -> "i3-sensible-terminal"
 -- }}}
 --{{{
@@ -83,7 +83,6 @@ myMenu             = case pc of
                         "ic"       -> "dmenu_run"
                         _          -> "dmenu_run"
 --}}}
-mySTerminal = myMainTerminal
 mySmenu            = "dmenu_run"
 myScreenShot       = "gnome-screenshot -a"
 
@@ -268,6 +267,8 @@ focus =
         , ("$mod+p",    "focus parent")
         , ("$mod+Shift+p", "focus child")
         , ("$mod+u", "[urgent=latest] focus")
+        , ("$mod+m", "mark swap")
+        , ("$mod+Shift+space", "[con_mark=\"swap\"] focus")
         ]
 -- }}}
 -- move {{{
@@ -306,7 +307,8 @@ workspaces =
 scratchpad =
         [ ("$mod+f", "[instance=\"file\"] scratchpad show; [instance=\"file\"] move position center; mode \"sp-file\"")
         -- , ("$mod+c", "[instance=\"math\"] scratchpad show; [instance=\"math\"] move position center; mode \"sp-math\"")
-        -- , ("$mod+n", "[instance=\"note\"] scratchpad show; [instance=\"note\"] move position center; mode \"sp-note\"")
+        , ("$mod+n", "[instance=\"simplenote\"] scratchpad show; [instance=\"simplenote\"] move position center; mode \"sp-note\"")
+        , ("$mod+t", "[instance=\"term\"] scratchpad show; [instance=\"term\"] move position center; mode \"sp-term\"")
         -- , ("$mod+m", "[instance=\"mail\"] scratchpad show; [instance=\"mail\"] move position center; mode \"sp-mail\"")
         ]
 -- }}}
@@ -315,12 +317,11 @@ scratchpad =
 -- Modes {{{
 
 modes = [ "mode \"reshape\" {"] ++ addKeys reshape ++ addKeys focus ++ addKeys move ++ ["}"] ++
-        -- ["mode \"sp-math\" {"] ++ addKeys spMath ++ addKeys scratchpad' ++["}"] ++
-        -- ["mode \"sp-note\" {"]  ++ addKeys spNote ++ addKeys scratchpad' ++ ["}"] ++
+        ["mode \"sp-note\" {"]  ++ addKeys spNote ++ addKeys scratchpad' ++ ["}"] ++
         ["mode \"sp-file\" {"] ++ addKeys spFile ++ addKeys scratchpad' ++ ["}"] ++
-        ["mode \"sp-mail\" {"] ++ addKeys spMail ++ addKeys scratchpad' ++ ["}"]
+        ["mode \"sp-term\" {"] ++ addKeys spTerm ++ addKeys scratchpad' ++ ["}"]
         where
-        -- {{{
+        -- reshape {{{
         reshape =
             [ ("h",     "resize shrink width  5 px or 5 ppt")
             , ("j",     "resize grow   height 5 px or 5 ppt")
@@ -349,31 +350,37 @@ modes = [ "mode \"reshape\" {"] ++ addKeys reshape ++ addKeys focus ++ addKeys m
             , ("Escape",  "mode \"default\"")
             ]
         -- }}}
-        -- {{{
+        -- spMath {{{
         spMath = 
             [ ("$mod+c", "[instance=\"math\"] focus; [instance=\"math\"] scratchpad show; mode \"default\"")
             , ("$mod+s", "[instance=\"math\"] focus") 
             ]
         -- }}}
-        -- {{{
+        -- spNote {{{
         spNote = 
-            [ ("$mod+n", "[instance=\"note\"] focus; [instance=\"note\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"note\"] focus") 
+            [ ("$mod+n", "[instance=\"simplenote\"] focus; [instance=\"simplenote\"] scratchpad show; mode \"default\"")
+            , ("$mod+s", "[instance=\"simplenote\"] focus") 
             ]
         -- }}}
-        -- {{{
+        -- spFile {{{
         spFile = 
             [ ("$mod+f", "[instance=\"file\"] focus; [instance=\"file\"] scratchpad show; mode \"default\"")
             , ("$mod+s", "[instance=\"file\"] focus") 
             ]
         -- }}}
-        -- {{{
+        -- spTerm {{{
+        spTerm = 
+            [ ("$mod+t", "[instance=\"term\"] focus; [instance=\"term\"] scratchpad show; mode \"default\"")
+            , ("$mod+s", "[instance=\"term\"] focus") 
+            ]
+        -- }}}
+        -- spMail {{{
         spMail = 
             [ ("$mod+m", "[instance=\"mail\"] focus; [instance=\"mail\"] scratchpad show; mode \"default\"")
             , ("$mod+s", "[instance=\"mail\"] focus") 
             ]
         -- }}}
-        -- {{{
+        -- scratchpad {{{
         scratchpad' =
             -- move
             [ ("$mod+h",        "move left 20px")
@@ -442,8 +449,8 @@ fixPlace = concat $ fixWp ++ scratchpad
             , (ass, "midi", ["Vlc","Kodi","Spotify"])
             , (ass, "virM", ["VirtualBox"])
             , (ass, "docs", ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"])
-            , (ass, "auxE", ["Emacs"])
-            , (ass, "deft", ["Firefox","qutebrowser"])
+            , (ass, "deft", ["Emacs"])
+            , (ass, "auxE", ["Firefox","qutebrowser"])
             , (ass, "auxD", ["Chromium","google-chrome","vivaldi-stable", "Opera"])
             , (ass, "read", ["calibre"])
             , (ass, "deve", ["Eclipse"])
@@ -452,9 +459,10 @@ fixPlace = concat $ fixWp ++ scratchpad
 -- }}}
 -- {{{
         sp = [ ("file", ["move scratchpad","floating enable","resize set 1100 600"])
-             -- , ("note", ["move scratchpad","floating enable","resize set 1200 700"])
+             , ("simplenote", ["move scratchpad","floating enable","resize set 1200 700"])
+             , ("term", ["move scratchpad","floating enable","resize set 1100 600"])
              -- , ("math", ["move scratchpad","floating enable","resize set 800  300"])
-             , ("mail", ["move scratchpad","floating enable","resize set 1200 700"])
+             -- , ("mail", ["move scratchpad","floating enable","resize set 1200 700"])
              ]
 -- }}}
 
@@ -470,27 +478,19 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         "GOLi"    -> "dropbox" 
                         "ic"      -> "~/.dropbox-dist/dropboxd"
                         _         -> ""
-                -- , case pc of
-                --         "GAMa"    -> "inboxer"
-                --         "GOLi"    -> "inboxer"
-                --         "ic"      -> ""
-                --         _         -> ""
-                -- , myMainTerminal
-                , "emacs"
-                , "compton"
                 , "megasync"
-                , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
                 , "redshift-gtk"
+                , "alarm-clock-applet"
                 , "nm-applet"
                 -- , "wicd-client --tray"
-                -- , "dunst"
                 , "twmnd"
                 , "~/bin/bat.sh"
+                , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
+                , "compton"
+                , "emacs"
                 , "qutebrowser"
-                -- , term_lauch ++ "math -e ipython"
+                , term_lauch ++ "term -e tmux"
                 , term_lauch ++ "file -e ranger"
-                -- , term_lauch ++ "note -e sncli"
-                -- , term_lauch ++ "mail -e neomutt"
                 ]
         term_lauch = case pc of
                     "GAMa"    -> "termite --name="
