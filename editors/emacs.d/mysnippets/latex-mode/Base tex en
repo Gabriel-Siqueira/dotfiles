@@ -15,6 +15,7 @@
 \usepackage{mathtools}
 \usepackage{float}
 \usepackage{cite}
+\usepackage[ruled,linesnumbered]{algorithm2e}
 
 \graphicspath{{images/}}
 hypersetup{linktoc=all,}

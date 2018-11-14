@@ -167,6 +167,25 @@ In order to create tags file withing emacs.
 
 #+end_src
 
+** Tetris
+
+Fix tetris keys.
+
+#+BEGIN_SRC emacs-lisp :tangle yes 
+(defvar tetris-mode-map
+  (make-sparse-keymap 'tetris-mode-map))
+
+(define-key tetris-mode-map "n"     'tetris-start-game)
+(define-key tetris-mode-map "q"     'tetris-end-game)
+(define-key tetris-mode-map "p"     'tetris-pause-game)
+(define-key tetris-mode-map " "     'tetris-move-bottom)
+(define-key tetris-mode-map "z"     'tetris-rotate-prev)
+(define-key tetris-mode-map "c"     'tetris-rotate-next)
+(define-key tetris-mode-map [left]  'tetris-move-left)
+(define-key tetris-mode-map [right] 'tetris-move-right)
+(define-key tetris-mode-map [down]  'tetris-move-down)
+#+END_SRC
+
 ** Persistence
 *** auto save
 
@@ -1349,9 +1368,15 @@ Easier way of change dictionary and enable flyspell.
 	(interactive)
 	(print
 		(cond
-		((string= ispell-dictionary "en_US") (setq ispell-dictionary "pt_BR"))
+		((string= ispell-dictionary "en_US") (setq
+			ispell-dictionary "pt_BR"
+			langtool-default-language "pt-BR"
+		))
 		;; ((string= ispell-dictionary "pt_BR") (setq ispell-dictionary "de_DE"))
-		(t (setq ispell-dictionary "en_US"))
+		(t (setq
+			ispell-dictionary "en_US"
+			langtool-default-language "en-US"
+		))
 )))
 
 #+end_src

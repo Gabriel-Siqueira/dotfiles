@@ -78,7 +78,7 @@ mySTerminal     =  case pc of
 -- }}}
 --{{{
 myMenu             = case pc of
-                        "GAMa"     -> "\"rofi -show run"
+                        "GAMa"     -> "\"rofi -show run\""
                         "GOLi"     -> "\"rofi -show run\""
                         "ic"       -> "dmenu_run"
                         _          -> "dmenu_run"
@@ -308,7 +308,7 @@ scratchpad =
         [ ("$mod+f", "[instance=\"file\"] scratchpad show; [instance=\"file\"] move position center; mode \"sp-file\"")
         -- , ("$mod+c", "[instance=\"math\"] scratchpad show; [instance=\"math\"] move position center; mode \"sp-math\"")
         , ("$mod+n", "[instance=\"simplenote\"] scratchpad show; [instance=\"simplenote\"] move position center; mode \"sp-note\"")
-        , ("$mod+t", "[instance=\"term\"] scratchpad show; [instance=\"term\"] move position center; mode \"sp-term\"")
+        , ("$mod+t", "[instance=\"ster\"] scratchpad show; [instance=\"ster\"] move position center; mode \"sp-term\"")
         -- , ("$mod+m", "[instance=\"mail\"] scratchpad show; [instance=\"mail\"] move position center; mode \"sp-mail\"")
         ]
 -- }}}
@@ -370,8 +370,8 @@ modes = [ "mode \"reshape\" {"] ++ addKeys reshape ++ addKeys focus ++ addKeys m
         -- }}}
         -- spTerm {{{
         spTerm = 
-            [ ("$mod+t", "[instance=\"term\"] focus; [instance=\"term\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"term\"] focus") 
+            [ ("$mod+t", "[instance=\"ster\"] focus; [instance=\"ster\"] scratchpad show; mode \"default\"")
+            , ("$mod+s", "[instance=\"ster\"] focus") 
             ]
         -- }}}
         -- spMail {{{
@@ -460,7 +460,7 @@ fixPlace = concat $ fixWp ++ scratchpad
 -- {{{
         sp = [ ("file", ["move scratchpad","floating enable","resize set 1100 600"])
              , ("simplenote", ["move scratchpad","floating enable","resize set 1200 700"])
-             , ("term", ["move scratchpad","floating enable","resize set 1100 600"])
+             , ("ster", ["move scratchpad","floating enable","resize set 1100 600"])
              -- , ("math", ["move scratchpad","floating enable","resize set 800  300"])
              -- , ("mail", ["move scratchpad","floating enable","resize set 1200 700"])
              ]
@@ -489,7 +489,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "compton"
                 , "emacs"
                 , "qutebrowser"
-                , term_lauch ++ "term -e tmux"
+                , term_lauch ++ "ster -e tmux"
                 , term_lauch ++ "file -e ranger"
                 ]
         term_lauch = case pc of
