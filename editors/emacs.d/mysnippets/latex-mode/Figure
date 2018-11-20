@@ -3,8 +3,8 @@
 # key: fig
 # --
 \begin{figure}[ht]
-    \label{img:$1}
     \centering
     \includegraphics[width=.4\linewidth]{$2}
     \caption{$3}
+    \label{fig:$1}
 \end{figure}
