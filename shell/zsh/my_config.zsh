@@ -157,8 +157,10 @@ bindkey -s ^] '\e' # new escape
 bindkey -a "!" sudo-command-line # add sudo on line
 # }}}
 # key maps {{{
-setxkbmap -layout br,us -variant ,dvorak-intl -option "grp:alt_space_toggle"
+setxkbmap -layout us,br -variant dvp, -option "grp:alt_space_toggle"
+setxkbmap -option compose:102
 xmodmap -e 'keycode 135 = Super_R'
+xmodmap -e 'keycode 97 = Control_R'
 # }}}
 # Others {{{
 # work nice with emacs
