@@ -1,4 +1,0 @@
-set regexp       " use regexp in find mode
-set smartcase    " case-insensitive find mode searches except when input contains a capital letter
-autohidecursor   " hide the mouse cursor when scrolling
-smoothscroll		 " use smooth scrolling

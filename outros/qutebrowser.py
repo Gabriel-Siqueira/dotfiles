@@ -254,7 +254,7 @@ c.hints.chars = 'qwertyuiopasdfghjklçzxcvbnm'
 # c.qt.highdpi = False
 # }}}
 # Scrolling {{{
-c.scrolling.bar = False
+c.scrolling.bar = "when-searching"
 c.scrolling.smooth = True
 # }}}
 # Search {{{
@@ -299,7 +299,7 @@ c.tabs.show = 'multiple'
 # }}}
 # URL {{{
 # c.url.auto_search = 'naive'
-c.url.default_page = 'https://everhelper.me/client/'
+c.url.default_page = 'https://booky.io/'
 # c.url.incdec_segments = ['path', 'query']
 c.url.searchengines = {'DEFAULT':'https://www.google.com/search?q={}',
                        'gg':'https://www.google.com/search?q={}',
@@ -586,7 +586,6 @@ config.bind('<Ctrl-b>', 'set-cmd-text -s :buffer')
 # }}}
 # Bindings for passthrough mode {{{
 config.bind('<Ctrl-\>', 'leave-mode', mode='passthrough')
-config.unbind('<Ctrl-v>', mode='passthrough')
 # }}}
 # Bindings for prompt mode {{{
 # config.bind('<Alt-B>', 'rl-backward-word', mode='prompt')

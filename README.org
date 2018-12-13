@@ -1,0 +1,13 @@
+#+title: My Configuration Files
+#+author: Gabriel Henriques Siqueira
+
+* Install Configurations
+
+- select files in install.sh
+- select machine in i3config
+
+#+BEGIN_SRC sh
+bash install.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+runhaskell ./wm/i3/i3config.hs
+#+END_SRC
