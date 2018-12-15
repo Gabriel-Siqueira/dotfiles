@@ -4,7 +4,7 @@ files=(
     polybar.sh
     # random_wallpaper.sh
     spacemacs
-    snippets
+    private
     vimrc
     nvimrc
     ranger
@@ -33,14 +33,14 @@ declare -A from=(
     [polybar.sh]="$PWD/bin/polybar.sh"
     [random_wallpaper.sh]="$PWD/bin/random_wallpaper.sh"
     [spacemacs]="$PWD/editors/spacemacs/spacemacs"
-    [snippets]="$PWD/editors/spacemacs/snippets"
+    [private]="$PWD/editors/spacemacs/private"
     [vimrc]="$PWD/editors/vim/vimrc"
     [nvimrc]="$PWD/editors/vim/vimrc"
     [ranger]="$PWD/outros/ranger/rc.conf"
     [rifle]="$PWD/outros/ranger/rifle.conf"
     [Xresources]="$PWD/outros/Xresources"
     [neomuttrc]="$PWD/outros/neomuttrc"
-    [qutebrowser]="$PWD/outros/qutebrowser"
+    [qutebrowser]="$PWD/outros/qutebrowser.py"
     [snclirc]="$PWD/outros/snclirc"
     [termite]="$PWD/outros/termite.cfg"
     [zathurarc]="$PWD/outros/zathurarc"
@@ -63,6 +63,7 @@ declare -A to=(
     [random_wallpaper.sh]="$HOME/bin/random_wallpaper.sh"
     [spacemacs]="$HOME/.spacemacs"
     [snippets]="$HOME/.emacs.d/private/snippets"
+    [private]="$HOME/.emacs.d/private"
     [vimrc]="$HOME/.vimrc"
     [nvimrc]="$HOME/.config/nvim/init.vim"
     [ranger]="$HOME/.config/ranger/rc.conf"

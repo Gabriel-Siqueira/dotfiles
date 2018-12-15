@@ -1,0 +1,25 @@
+#+TITLE: org_extra layer
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#install][Install]]
+- [[#key-bindings][Key bindings]]
+
+* Description
+
+Add and configure org related packages:
+  - better agenda with super agenda
+  - support for journal
+
+* Install
+
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =org_extra= to the existing =dotspacemacs-configuration-layers= list in this
+file.
+
+* Key bindings
+
+| Key Binding | Description      |
+|-------------+------------------|
+| ~SPC a o j~ | Add journal entry |

@@ -1,0 +1,16 @@
+#+TITLE: openwith layer
+
+# TOC links should be GitHub style anchors.
+* Table of Contents                                        :TOC_4_gh:noexport:
+- [[#description][Description]]
+- [[#install][Install]]
+
+* Description
+
+This layer uses [[https://www.emacswiki.org/emacs/OpenWith][openwith]] to open files in external applications.
+
+* Install
+
+To use this configuration layer, add it to your =~/.spacemacs=. You will need to
+add =openwith= to the existing =dotspacemacs-configuration-layers= list in this
+file.

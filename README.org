@@ -11,3 +11,9 @@ bash install.sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 runhaskell ./wm/i3/i3config.hs
 #+END_SRC
+
+* Emacs
+
+- to use spell-check download aspell dictionaries (use the system package manager)
+- to use langtool download languagetool (use the system package manager) and verify the path in the configuration
+- to use java layer install eclim

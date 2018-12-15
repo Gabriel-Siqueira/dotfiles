@@ -325,7 +325,7 @@ c.url.searchengines = {'DEFAULT':'https://www.google.com/search?q={}',
                        'ya':'https://answers.search.yahoo.com/search?p={}',
                        'lg':'http://gen.lib.rus.ec/search.php?req={}',
                         }
-c.url.start_pages = ['https://everhelper.me/client/']
+c.url.start_pages = ['https://booky.io/']
 # c.url.yank_ignored_parameters = ['ref', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
 # }}}
 # Window {{{ 
