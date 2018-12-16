@@ -1,21 +1,3 @@
-# Paths {{{
-PATH=$PATH:/bin
-PATH=$PATH:/sbin
-PATH=$PATH:$HOME/.local/bin
-# Cabal path
-PATH=$PATH:$HOME/.cabal/bin
-# Gem path
-PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
-PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
-# go path
-PATH=$PATH:$HOME/.go/bin
-# npm path
-PATH=$PATH:/home/gabriel/.npm_global/bin/
-# conda path
-PATH=$PATH:/home/gabriel/bin/anaconda3/bin
-# Hadoop
-# PATH=$PATH:/home/gabriel/bin/hadoop-2.9.0/bin/
-# }}}
 # Functions {{{
 # Save/Load tmux session with tmuxp
 function tmux_ic(){
@@ -156,12 +138,6 @@ bindkey -v # vim keys
 bindkey -s ^] '\e' # new escape
 bindkey -a "!" sudo-command-line # add sudo on line
 # }}}
-# key maps {{{
-setxkbmap -layout us,br -variant dvp, -option "grp:alt_space_toggle"
-setxkbmap -option compose:102
-xmodmap -e 'keycode 135 = Super_R'
-xmodmap -e 'keycode 97 = Control_R'
-# }}}
 # Others {{{
 # work nice with emacs
 if [ -n "$INSIDE_EMACS" ]; then
@@ -182,9 +158,8 @@ fi
 
 # work nice with neovim
 [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
-
 # }}}
-# vim: foldmethod=marker foldlevel=0 
+# vim: foldmethod=marker foldlevel=0
 # Local Variables:
 # origami-fold-style: triple-braces
 # End:

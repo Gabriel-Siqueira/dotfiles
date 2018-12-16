@@ -20,6 +20,7 @@ files=(
     zsh_theme
     zsh_config
     zshrc
+    zshenv
     # fish
     inputrc
     tmux
@@ -49,6 +50,7 @@ declare -A from=(
     [zsh_theme]="$PWD/shell/zsh/my.zsh-theme"
     [zsh_config]="$PWD/shell/zsh/my_config.zsh"
     [zshrc]="$PWD/shell/zsh/zshrc"
+    [zshenv]="$PWD/shell/zsh/zshenv"
     [fish]="$PWD/shell/config.fish"
     [inputrc]="$PWD/shell/inputrc"
     [tmux]="$PWD/shell/tmux.conf"
@@ -79,6 +81,7 @@ declare -A to=(
     [zsh_theme]="$HOME/.oh-my-zsh/themes/my.zsh-theme"
     [zsh_config]="$HOME/.oh-my-zsh/custom/my_config.zsh"
     [zshrc]="$HOME/.zshrc"
+    [zshenv]="$HOME/.zshenv"
     [fish]="$HOME/.config/fish/config.fish"
     [inputrc]="$HOME/.inputrc"
     [tmux]="$HOME/.tmux.conf"
