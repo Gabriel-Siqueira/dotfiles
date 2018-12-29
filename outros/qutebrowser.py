@@ -340,6 +340,7 @@ c.url.start_pages = ['https://booky.io/']
 # }}}
 
 # Bindings for normal mode {{{
+config.bind('zp', 'open -t https://getpocket.com/edit?url={url}')
 config.bind("e", 'session-save ;; set-cmd-text -s :session-load -c')
 # config.bind('<Escape>', 'clear-keychain ;; search ;; fullscreen --leave')
 # config.bind("'", 'enter-mode jump_mark')
