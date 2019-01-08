@@ -1,56 +1,21 @@
 import System.IO
+import System.Directory (doesDirectoryExist, getHomeDirectory)
+import System.FilePath (joinPath)
 import Control.Monad (when)
 
 -- Config {{{
 
--- basic {{{
-
 pc = "GAMa"
--- {{{
-i3File           = case pc of
-                        "GAMa"    -> "/home/gabriel/.config/i3/config" 
-                        "GOLi"    -> "/home/gabriel/.config/i3/config" 
-                        "ic"      -> "/home/ec2014/ra155446/.config/i3/config"
-                        _         -> "/home/ec2014/ra155446/.config/i3/config"
--- }}}
--- {{{
-conkyFile        = case pc of
-                        "GAMa"    -> "/home/gabriel/.conkyrc" 
-                        "GOLi"    -> "/home/gabriel/.conkyrc" 
-                        "ic"      -> ""
-                        _         -> ""
--- }}}
--- {{{
-polyFile         = case pc of
-                        "GAMa"    -> "/home/gabriel/.config/polybar/config" 
-                        "GOLi"    -> "/home/gabriel/.config/polybar/config" 
-                        "ic"      -> ""
-                        _         -> ""
--- }}}
----{{{
-statusCommand    = case pc of
-                        "GAMa"    -> "$HOME/bin/conky-i3bar"
-                        "GOLi"    -> "$HOME/bin/conky-i3bar"
-                        "ic"      -> "i3status"
-                        _         -> "i3status"
---}}}
----{{{
-bar              = case pc of
-                        "GAMa"    -> ["exec_always --no-startup-id $HOME/bin/polybar.sh"]
-                        "GOLi"    -> i3bar
-                        "ic"      -> i3bar
-                        _         -> i3bar
---}}}
---{{{
+-- wallpaper {{{
 myWallpaper      = case pc of
+                        "GENe"    -> "green_circle.jpg"
                         "GAMa"    -> "blue_circle.jpg"
                         "GOLi"    -> "flower.jpg"
                         "ic"      -> "wood.jpg"
                         _         -> "clover.jpg"
 --}}}
-
+-- workspaces {{{
 startupWorkspace = "deft"
---{{{
 ws = [
     "game",
     "midi",   "VirM",  "docs",
@@ -58,26 +23,27 @@ ws = [
     "read",   "deve",  "mail",
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 --}}}
-
--- }}}
 -- applications {{{
 
--- {{{
+-- terminal {{{
 myTerminal         =  case pc of
+                        "GENe"    -> "termite"
                         "GAMa"    -> "termite"
                         "GOLi"    -> "termite"
                         "ic"      -> "urxvt"
                         _         -> "i3-sensible-terminal"
 -- }}}
--- {{{
+-- shift terminal {{{
 mySTerminal     =  case pc of
+                        "GENe"    -> "terminator"
                         "GAMa"    -> "terminator"
                         "GOLi"    -> "gnome-terminal"
                         "ic"      -> "xfce4-terminal"
                         _         -> "i3-sensible-terminal"
 -- }}}
---{{{
+--menu {{{
 myMenu             = case pc of
+                        "GENe"     -> "\"rofi -show run\""
                         "GAMa"     -> "\"rofi -show run\""
                         "GOLi"     -> "\"rofi -show run\""
                         "ic"       -> "dmenu_run"
@@ -87,77 +53,24 @@ mySmenu            = "dmenu_run"
 myScreenShot       = "gnome-screenshot -a"
 
 -- }}}
--- colors {{{
-
-barBackground               = "#111111"
-barBorder                   = "#111111"
---{{{
-focusedWorkspaceBackgroud   = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
+-- bar {{{
+bar = case pc of
+    "GENe"    -> ["exec_always --no-startup-id $HOME/bin/polybar.sh"]
+    "GAMa"    -> ["exec_always --no-startup-id $HOME/bin/polybar.sh"]
+    "GOLi"    -> i3bar
+    "ic"      -> i3bar
+    _         -> i3bar
 --}}}
---{{{
-focusedWorkspaceBorder      = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
---}}}
---{{{
-activeWorkspaceBackground   = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
---}}}
---{{{
-activeWorkspaceBorder       = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
---}}}
---{{{
-inactiveWorkspaceBackground = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
---}}}
---{{{
-inactiveWorkspaceBorder     = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> ""
---}}}
---{{{
-urgentWorkspaceBackground   = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> "#111111"
---}}}
---{{{
-urgentWorkspaceBorder       = case pc of
-                                "GAMa"    -> "#111111"
-                                "GOLi"    -> "#111111"
-                                "ic"      -> "#111111"
-                                _         -> ""
---}}}
-
--- }}}
 
 -- }}}
 -- Main {{{
 
 main = do
-        when (i3File /= "")    $ writeFile i3File    . unlines $ all 
-        when (conkyFile /= "") $ writeFile conkyFile . unlines $ conky
+        home <- getHomeDirectory
+        writeFile (i3File home) . unlines $ all
         where
-                all = basic ++ keys ++ modes ++ colors ++ bar ++ fixPlace ++ autoStart ++ start
+            i3File h = joinPath [h, ".config/i3/config"]
+            all = basic ++ keys ++ modes ++ colors ++ bar ++ fixPlace ++ autoStart ++ start
 
 -- }}}
 -- Basic Config {{{
@@ -167,7 +80,7 @@ basic =
         -- Use Mouse+$mod to drag floating windows to their wanted position
         , "floating_modifier $mod"
         -- keyboard layout
-        , "exec setxkbmap br"
+        , "exec setxkbmap -layout us,br -variant dvp, -option \"grp:alt_space_toggle\""
         -- no bar on single windom
         , "new_window pixel"
         -- hide border on screen edge
@@ -242,7 +155,7 @@ general =
         , ("XF86AudioPrev",  "exec playerctl previous")
         , ("XF86AudioStop",  "exec playerctl stop")
         -- }}}
-        -- bar 
+        -- bar
         -- {{{
         -- bar toggle, hide or show
         , ("$mod+b","bar mode toggle")
@@ -295,10 +208,10 @@ workspaces =
     zip ws_key_mv    ( map ("move container to workspace " ++ ) ws ) ++
     zip ws_key_mv_nl ( map ("move container to workspace " ++ ) $ take 10 ws )
     where
-        ws_key_sw =    ["$mod+Mod2+KP_"    ++ show x | x <- [0..9]] ++ 
+        ws_key_sw =    ["$mod+Mod2+KP_"    ++ show x | x <- [0..9]] ++
                        ["$mod+"             ++ show x | x <- [0..9]]
         ws_key_sw_nl = ["$mod+KP_"         ++ x      | x <- kp_nl]
-        ws_key_mv =    ["$mod+Shift+Mod2+KP_" ++ x      | x <- kp_nl] ++ 
+        ws_key_mv =    ["$mod+Shift+Mod2+KP_" ++ x      | x <- kp_nl] ++
                        ["$mod+Shift+"      ++ show x | x <- [0..9]]
         ws_key_mv_nl = ["$mod+Shift+KP_"      ++ x      | x <- kp_nl]
         kp_nl = ["Insert", "End", "Down", "Page_Down", "Left", "Begin", "Right", "Home", "Up", "Page_Up"]
@@ -351,33 +264,33 @@ modes = [ "mode \"reshape\" {"] ++ addKeys reshape ++ addKeys focus ++ addKeys m
             ]
         -- }}}
         -- spMath {{{
-        spMath = 
+        spMath =
             [ ("$mod+c", "[instance=\"math\"] focus; [instance=\"math\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"math\"] focus") 
+            , ("$mod+s", "[instance=\"math\"] focus")
             ]
         -- }}}
         -- spNote {{{
-        spNote = 
+        spNote =
             [ ("$mod+n", "[instance=\"simplenote\"] focus; [instance=\"simplenote\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"simplenote\"] focus") 
+            , ("$mod+s", "[instance=\"simplenote\"] focus")
             ]
         -- }}}
         -- spFile {{{
-        spFile = 
+        spFile =
             [ ("$mod+f", "[instance=\"file\"] focus; [instance=\"file\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"file\"] focus") 
+            , ("$mod+s", "[instance=\"file\"] focus")
             ]
         -- }}}
         -- spTerm {{{
-        spTerm = 
+        spTerm =
             [ ("$mod+t", "[instance=\"ster\"] focus; [instance=\"ster\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"ster\"] focus") 
+            , ("$mod+s", "[instance=\"ster\"] focus")
             ]
         -- }}}
         -- spMail {{{
-        spMail = 
+        spMail =
             [ ("$mod+m", "[instance=\"mail\"] focus; [instance=\"mail\"] scratchpad show; mode \"default\"")
-            , ("$mod+s", "[instance=\"mail\"] focus") 
+            , ("$mod+s", "[instance=\"mail\"] focus")
             ]
         -- }}}
         -- scratchpad {{{
@@ -414,39 +327,37 @@ colors =
 
 i3bar =
         [ "bar {"
-        , "    status_command " ++ statusCommand
+        , "    status_command i3status"
         , "    position top"
         , "    workspace_buttons yes"
         , "    binding_mode_indicator yes"
         , "    font pango:Terminus 11px"
         , "    colors{"
-        , "        background " ++ barBackground
+        , "        background #111111"
         , "        statusline #eeeeee"
         , "        separator  #666666"
-          --       <colorclass>            <border>                       <background>                        <text>
-        , "        focused_workspace  " ++ focusedWorkspaceBorder  ++ " " ++ focusedWorkspaceBackgroud   ++ "    #ffff00"
-        , "        active_workspace   " ++ activeWorkspaceBorder   ++ " " ++ activeWorkspaceBackground   ++ "    #ffff00"
-        , "        inactive_workspace " ++ inactiveWorkspaceBorder ++ " " ++ inactiveWorkspaceBackground ++ "    #999900"
-        , "        urgent_workspace   " ++ urgentWorkspaceBorder   ++ " " ++ urgentWorkspaceBackground   ++ "    #ff0000"
-        , "        binding_mode       " ++ barBorder               ++ " " ++ barBackground               ++ "    #ff5500"
+          --       <colorclass>            <border>           <background>       <text>
+        , "        focused_workspace  " ++ "#111111" ++ " " ++ "#111111" ++ "    #ffff00"
+        , "        active_workspace   " ++ "#111111" ++ " " ++ "#111111" ++ "    #ffff00"
+        , "        inactive_workspace " ++ "#111111" ++ " " ++ "#111111" ++ "    #999900"
+        , "        urgent_workspace   " ++ "#111111" ++ " " ++ "#111111" ++ "    #ff0000"
+        , "        binding_mode       " ++ "#111111" ++ " " ++ "#111111" ++ "    #ff5500"
         , "    }"
         , "}"
         ]
 
 -- }}}
 -- Fix Place {{{
-
-fixPlace = concat $ fixWp ++ scratchpad
+fixPlace = concat $ fixWp ++ fixSp
         where
         fixWp = map (\(sel, wp, cs) -> map (\c -> "for_window " ++ sel ++ c ++ "$\"] move to workspace " ++ wp) cs) fix
-        scratchpad = map (\(ins, coms) -> map (\com -> "for_window " ++ win ++ ins ++ "$\"] " ++ com) coms) sp
-
+        fixSp = map (\(ins, coms) -> map (\com -> "for_window " ++ win ++ ins ++ "$\"] " ++ com) coms) sp
         ass = "[class=\"^"
         win = "[instance=\"^"
 -- {{{
         fix =
             [ (ass, "game",  ["Steam","Mainwindow.py","Minetest"])
-            , (ass, "midi", ["Vlc","Kodi","Spotify"])
+            , (ass, "midi", ["Vlc","Kodi","Spotify","Lollypop"])
             , (ass, "virM", ["VirtualBox"])
             , (ass, "docs", ["libreoffice","libreoffice-startcenter","libreoffice-writer","libreoffice-calc","libreoffice-impress","libreoffice-draw","libreoffice-math","libreoffice-base"])
             , (ass, "deft", ["Emacs"])
@@ -474,8 +385,9 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
         where
         autoStart' =
                 [ case pc of
-                        "GAMa"    -> "dropbox" 
-                        "GOLi"    -> "dropbox" 
+                        "GENe"    -> "dropbox"
+                        "GAMa"    -> "dropbox"
+                        "GOLi"    -> "dropbox"
                         "ic"      -> "~/.dropbox-dist/dropboxd"
                         _         -> ""
                 , "megasync"
@@ -493,6 +405,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , term_lauch ++ "file -e ranger"
                 ]
         term_lauch = case pc of
+                    "GENe"    -> "termite --name="
                     "GAMa"    -> "termite --name="
                     "GOLi"    -> "termite --name="
                     "ic"      -> "urxvt -name "
@@ -504,222 +417,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
 start = ["exec --no-startup-id i3-msg workspace " ++ startupWorkspace]
 
 -- }}}
--- Bars {{{
-
--- Settings {{{
-
-conky_text_color = "#BBBBBB"
-
-updateComand = case pc of
-                        "GAMa"    -> "checkupdates | wc -l" 
-                        "GOLi"    -> "/usr/lib/update-notifier/apt-check --human-readable  | sed -n '1,1p' | cut -d ' ' -f 1"
-                        "ic"      -> ""
-                        _         -> ""
-wifi = case pc of
-                        "GAMa"    -> "wlp2s0" 
-                        "GOLi"    -> "wlp1s0"
-                        "ic"      -> ""
-                        _         -> ""
-eth = case pc of
-                        "GAMa"    -> "p2p1" 
-                        "GOLi"    -> "enp2s0f5"
-                        "ic"      -> ""
-                        _         -> ""
-bat = case pc of
-                        "GAMa"    -> "BAT1" 
-                        "GOLi"    -> "BAT0"
-                        "ic"      -> ""
-                        _         -> ""
-
--- }}}
--- Conky {{{
-
-conky = base ++ text 
--- base {{{
-
-base =
-        [ "background no"
-        , "out_to_console yes"
-        , "out_to_x no"
-        , "max_text_width 0"
-        , "own_window no"
-        , "update_interval 0.5"
-        , "total_run_times 0"
-        , "short_units yes"
-        , "if_up_strictness address"
-        , "use_spacer right"
-        , "override_utf8_locale no"
-        , "cpu_avg_samples 2"
-        , "TEXT"
-        ]
-
--- }}}
--- text {{{
-
-text = ["["] ++ toJason text' ++ ["],"]
-toJason [t]    = ["{" ++ toJason' t ++ "}"]
-toJason (t:ts) = ("{" ++ toJason' t ++ "},\\") : toJason ts
-toJason' []         = ""
-toJason' [(h,t)]    = h ++ ":" ++ t
-toJason' ((h,t):xs) = h ++ ":" ++ t ++ "," ++ toJason' xs
-
-text' = [
--- Disk Space 
-                -- {{{
-                [ ("\"full_text\""  ,"\" ◙\"")
-                , ("\"color\""      ,"\"\\#B538AB\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[$fs_used/$fs_size] \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Memory
-                -- {{{
-                [ ("\"full_text\""  ,"\" ⚅\"")
-                , ("\"color\""      ,"\"\\#B538AB\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[$mem/$memmax] \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- CPU
-                -- {{{
-                [ ("\"full_text\""  ,"\" ⚛\"")
-                , ("\"color\""      ,"\"\\#FFFFFF\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[${cpu cpu1}%,\"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"${cpu cpu2}%,\"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"${cpu cpu3}%,\"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"${cpu cpu4}%] \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Package manager (Pacman, apt, ...)
-                -- {{{
-                [ ("\"full_text\""  ,"\" ⇑\"")
-                , ("\"color\""      ,"\"\\#FF6200\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[${exec " ++ updateComand ++ "}] \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Wifi
-                -- {{{
-                [ ("\"full_text\""  ,"\" ☎\"")
-                , ("\"color\""      ,"${if_existing /proc/net/route " ++ wifi ++ "}\"\\#00FF00\"$else\"\\#FF0000\" ${endif}")
-                , ("\"separator\""  ,"false"),("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[${wireless_link_qual_perc " ++ wifi ++ "}% - ${wireless_bitrate " ++ wifi ++ "}]\"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Net
-                -- {{{
-                [ ("\"full_text\""  ,"${if_existing /proc/net/route " ++ eth ++ "}\"- [${wireless_bitrate " ++ eth ++ "}] \"$else\" \"${endif}")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Volume
-                -- {{{
-                [ ("\"full_text\""  ,"\" ♫\"")
-                , ("\"color\""      ,"\"\\#FFFF00\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"${exec amixer -c 0 get Master | grep Mono: | cut -d \" \" -f6} \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")],
-                -- }}}
--- Brighness
-                -- {{{
-                [ ("\"full_text\""  ,"\" ☀\"")
-                , ("\"color\""      ,"\"\\#FFFF00\"")
-                , ("\"separator\""  ,"false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\""  ,"\"[${exec xbacklight | cut -d \".\" -f 1}%] \"")
-                , ("\"color\""      ,"\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\""  ,"true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Battery
-                -- {{{
-                [ ("\"full_text\"","\" ⚡\"")
-                , ("\"color\"","${if_match ${battery_percent " ++ bat ++ "} >= 20 }\"\\#00FF00\"$else\"\\#FF0000\" ${endif}") 
-                , ("\"separator\"","false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\"","\"[${battery_percent " ++ bat ++ "}%] \"")
-                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\"","true")
-                , ("\"separator_block_width\"","6")
-                ],
-                -- }}}
--- Calender
-                -- {{{
-                [ ("\"full_text\"","\" <\"")
-                , ("\"color\"","\"\\#2E9AFE\"")
-                , ("\"separator\"","false")
-                , ("\"separator_block_width\"","6")
-                ],
-                [ ("\"full_text\"","\"${time %a %b %d}\"")
-                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\"","true")
-                ],
-                -- }}}
--- Time
-                -- {{{
-                [ ("\"full_text\"","\"${time %H:%M:%S}\"")
-                , ("\"color\"","\"\\" ++ conky_text_color ++ "\"")
-                , ("\"separator\"","false")
-                ],
-                [ ("\"full_text\"","\">\"")
-                , ("\"color\"","\"\\#2E9AFE\"")
-                , ("\"separator\"","false")
-                , ("\"separator_block_width\"","6")
-                ]
-                -- }}}
-        ]
--- }}}
-
--- }}}
-
--- }}}
--- vim: foldmethod=marker foldlevel=0 
+-- vim: foldmethod=marker foldlevel=0
 -- Local Variables:
 -- origami-fold-style: triple-braces
 -- End:
