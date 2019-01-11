@@ -44,7 +44,7 @@
     :init
     (progn
       (spacemacs/declare-prefix "aoj" "org-journal")
-		  (setq org-journal-dir "~/Dropbox/org/journal")
+		  (setq org-journal-dir "~/Dropbox/Org/journal")
       (spacemacs/set-leader-keys
         "aojj" 'org-journal-new-entry
         "aojs" 'org-journal-search-forever)
@@ -65,7 +65,7 @@
         "p" 'org-journal-open-previous-entry))))
 
 (defun org_extra/post-init-org-agenda ()
-  (setq org-agenda-files (list "~/Dropbox/org/"))
+  (setq org-agenda-files (list "~/Dropbox/Org/"))
   (setq org-agenda-start-on-weekday 0) ; week starts on sunday
   (setq org-agenda-compact-blocks t)
   (setq org-agenda-custom-commands '(

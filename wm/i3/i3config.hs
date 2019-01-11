@@ -5,7 +5,7 @@ import Control.Monad (when)
 
 -- Config {{{
 
-pc = "GAMa"
+pc = "GENe"
 -- wallpaper {{{
 myWallpaper      = case pc of
                         "GENe"    -> "green_circle.jpg"
@@ -41,7 +41,7 @@ mySTerminal     =  case pc of
                         "ic"      -> "xfce4-terminal"
                         _         -> "i3-sensible-terminal"
 -- }}}
---menu {{{
+-- menu {{{
 myMenu             = case pc of
                         "GENe"     -> "\"rofi -show run\""
                         "GAMa"     -> "\"rofi -show run\""
@@ -49,7 +49,14 @@ myMenu             = case pc of
                         "ic"       -> "dmenu_run"
                         _          -> "dmenu_run"
 --}}}
-mySmenu            = "dmenu_run"
+-- smenu {{{
+mySmenu             = case pc of
+                        "GENe"     -> "morc_menu"
+                        "GAMa"     -> "dmenu_run"
+                        "GOLi"     -> "dmenu_run"
+                        "ic"       -> "dmenu_run"
+                        _          -> "dmenu_run"
+--}}}
 myScreenShot       = "gnome-screenshot -a"
 
 -- }}}
@@ -144,9 +151,9 @@ general =
         , ("XF86AudioLowerVolume", "exec amixer set Master 5%-")
         , ("XF86AudioMute",        "exec amixer set Master toggle")
         -- brightness
-        , ("XF86MonBrightnessDown","exec xbacklight -dec 1")
+        , ("XF86MonBrightnessDown","exec xbacklight -dec 5")
         , ("$mod+F7",              "exec xbacklight -dec 1")
-        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 1")
+        , ("XF86MonBrightnessUp",  "exec xbacklight -inc 5")
         , ("$mod+F8",              "exec xbacklight -inc 1")
         -- media
         , ("XF86AudioPlay",  "exec playerctl play")
@@ -181,7 +188,7 @@ focus =
         , ("$mod+Shift+p", "focus child")
         , ("$mod+u", "[urgent=latest] focus")
         , ("$mod+m", "mark swap")
-        , ("$mod+Shift+space", "[con_mark=\"swap\"] focus")
+        , ("$mod+Shift+tab", "[con_mark=\"swap\"] focus")
         ]
 -- }}}
 -- move {{{
@@ -199,7 +206,8 @@ move =
 -- workspaces {{{
 workspaces =
     -- back and forth
-    [("$mod+space", "workspace back_and_forth")] ++
+    [("$mod+tab", "workspace back_and_forth")] ++
+    -- move output
     [("$mod+x", "move workspace to output right")] ++
     -- switch to workspace
     zip ws_key_sw    ( map ("workspace " ++ ) ws ) ++
@@ -347,11 +355,12 @@ i3bar =
         ]
 
 -- }}}
--- Fix Place {{{
-fixPlace = concat $ fixWp ++ fixSp
+-- Fix Place/Float {{{
+fixPlace = concat $ fixWp ++ fixSp ++ fixFl
         where
         fixWp = map (\(sel, wp, cs) -> map (\c -> "for_window " ++ sel ++ c ++ "$\"] move to workspace " ++ wp) cs) fix
         fixSp = map (\(ins, coms) -> map (\com -> "for_window " ++ win ++ ins ++ "$\"] " ++ com) coms) sp
+        fixFl = map (\(sel, cs) -> map (\c -> "for_window " ++ sel ++ c ++ "$\"] foating enable") cs) float
         ass = "[class=\"^"
         win = "[instance=\"^"
 -- {{{
@@ -376,6 +385,11 @@ fixPlace = concat $ fixWp ++ fixSp
              -- , ("mail", ["move scratchpad","floating enable","resize set 1200 700"])
              ]
 -- }}}
+-- {{{
+        float =
+          [ (ass, ["Pavucontrol"])
+          ]
+-- }}}
 
 
 -- }}}
@@ -390,17 +404,17 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                         "GOLi"    -> "dropbox"
                         "ic"      -> "~/.dropbox-dist/dropboxd"
                         _         -> ""
-                , "megasync"
+                -- , "megasync"
                 , "redshift-gtk"
-                , "alarm-clock-applet"
+                , "alarm-clock-applet --hidden"
                 , "nm-applet"
-                -- , "wicd-client --tray"
+                , "xfce4-power-manager"
                 , "twmnd"
-                , "~/bin/bat.sh"
                 , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper
                 , "compton"
                 , "emacs"
                 , "qutebrowser"
+                , "chromium"
                 , term_lauch ++ "ster -e tmux"
                 , term_lauch ++ "file -e ranger"
                 ]

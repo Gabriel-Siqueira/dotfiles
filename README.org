@@ -7,8 +7,9 @@
 - select machine in i3config
 
 #+BEGIN_SRC sh
-bash install.sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+bash install.sh
 runhaskell ./wm/i3/i3config.hs
 #+END_SRC
 
