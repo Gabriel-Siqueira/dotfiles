@@ -188,7 +188,7 @@ focus =
         , ("$mod+Shift+p", "focus child")
         , ("$mod+u", "[urgent=latest] focus")
         , ("$mod+m", "mark swap")
-        , ("$mod+Shift+tab", "[con_mark=\"swap\"] focus")
+        , ("$mod+Shift+Tab", "[con_mark=\"swap\"] focus")
         ]
 -- }}}
 -- move {{{
@@ -206,7 +206,7 @@ move =
 -- workspaces {{{
 workspaces =
     -- back and forth
-    [("$mod+tab", "workspace back_and_forth")] ++
+    [("$mod+Tab", "workspace back_and_forth")] ++
     -- move output
     [("$mod+x", "move workspace to output right")] ++
     -- switch to workspace
@@ -415,6 +415,7 @@ autoStart = map (\x -> if x == "" then "" else "exec " ++ x) autoStart'
                 , "emacs"
                 , "qutebrowser"
                 , "chromium"
+                , "simplenote"
                 , term_lauch ++ "ster -e tmux"
                 , term_lauch ++ "file -e ranger"
                 ]

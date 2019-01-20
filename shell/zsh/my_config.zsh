@@ -28,6 +28,9 @@ fi
 if type "xdg-open" > /dev/null; then
 	alias o='xdg-open'
 fi
+if type "trizen" > /dev/null; then
+  alias t='trizen'
+fi
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'

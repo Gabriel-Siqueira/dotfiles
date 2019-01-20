@@ -1,9 +1,8 @@
-;;; packages.el --- %LAYER_NAME% layer packages file for Spacemacs.
+;;; packages.el --- lang layer packages file for Spacemacs.
 ;;
 ;; Copyright (c) 2012-2017 Sylvain Benner & Contributors
 ;;
-;; Author: %USER_FULL_NAME% <%USER_MAIL_ADDRESS%>
-;; URL: https://github.com/syl20bnr/spacemacs
+;; Author: Gabriel Siqueira
 ;;
 ;; This file is not part of GNU Emacs.
 ;;
@@ -11,12 +10,13 @@
 
 ;;; Code:
 
-(defconst langtool-packages
+(defconst lang-packages
   '(
     langtool
+    flyspell
     ))
 
-(defun langtool/init-langtool ()
+(defun lang/init-langtool ()
   (use-package langtool
 	  :defer t
 	  :custom
@@ -25,11 +25,17 @@
 		(langtool-disabled-rules '(
         "REPEATED_WORDS"
         ) "disable specific rules")
-	  :config
+	  :init
     (spacemacs/set-leader-keys
       "Sg" 'langtool-check
       "SG" 'langtool-check-done
     )
   ))
+
+(defun lang/post-init-flyspell ()
+  (spacemacs/set-leader-keys
+    "SD" 'lang/change-dictionary
+    )
+  )
 
 ;;; packages.el ends here

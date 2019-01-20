@@ -18,3 +18,7 @@ runhaskell ./wm/i3/i3config.hs
 - to use spell-check download aspell dictionaries (use the system package manager)
 - to use langtool download languagetool (use the system package manager) and verify the path in the configuration
 - to use java layer install eclim
+
+* Zsh
+
+- install: zsh-syntax-highlighting, zsh-autosuggestions

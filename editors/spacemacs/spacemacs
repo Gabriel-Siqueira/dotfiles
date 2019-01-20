@@ -37,7 +37,7 @@ values."
      ranger
      ;; local
      (org_extra :location local)
-     (langtool :location local)
+     (lang :location local)
      (openwith :location local)
      )
    dotspacemacs-additional-packages
@@ -100,7 +100,7 @@ values."
    dotspacemacs-helm-position 'bottom
    dotspacemacs-helm-use-fuzzy 'always
    dotspacemacs-enable-paste-transient-state t
-   dotspacemacs-which-key-delay 0.8
+   dotspacemacs-which-key-delay 1.5
    dotspacemacs-which-key-position 'bottom
    dotspacemacs-loading-progress-bar t
    dotspacemacs-fullscreen-at-startup nil
@@ -145,9 +145,9 @@ you should place your code here."
   ;; change mode line separators
   (setq powerline-default-separator 'bar)
   ;; bibtex paths
-  (setq org-ref-default-bibliography '("~/Dropbox/Ref/ref.bib")
-        org-ref-pdf-directory "~/Dropbox/Ref/pdfs/"
-        org-ref-bibliography-notes "~/Dropbox/Ref/ref.org")
+  (setq bibtex-completion-bibliography '("~/Dropbox/Ref/ref.bib")
+        bibtex-completion-library-path '("~/Dropbox/Ref/pdfs/")
+        bibtex-completion-notes-path "~/Dropbox/Ref/ref.org")
   ;; bibtex search in tag field
   (setq bibtex-completion-additional-search-fields '(tags))
   ;; visual lines
