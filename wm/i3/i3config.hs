@@ -15,12 +15,22 @@ myWallpaper      = case pc of
                         _         -> "clover.jpg"
 --}}}
 -- workspaces {{{
-startupWorkspace = "deft"
+startupWorkspace = w_d
+w_g  = "game"
+w_mi = "midi"
+w_v  = "VirM"
+w_do = "docs"
+w_ae = "auxE"
+w_d  = "deft"
+w_ad = "auxD"
+w_r  = "read"
+w_de = "deve"
+w_ma = "mail"
 ws = [
-    "game",
-    "midi",   "VirM",  "docs",
-    "auxE",   "deft",  "auxD",
-    "read",   "deve",  "mail",
+    w_g,
+    w_mi,w_v,w_do,
+    w_ae,w_d,w_ad,
+    w_r,w_de,w_ma,
     "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 --}}}
 -- applications {{{
@@ -49,7 +59,7 @@ myMenu             = case pc of
                         "ic"       -> "dmenu_run"
                         _          -> "dmenu_run"
 --}}}
--- smenu {{{
+-- shift menu {{{
 mySmenu             = case pc of
                         "GENe"     -> "morc_menu"
                         "GAMa"     -> "dmenu_run"
@@ -118,6 +128,9 @@ general =
         -- {{{
         , ("$mod+d",      "exec " ++ myMenu)
         , ("$mod+Shift+d","exec " ++ mySmenu)
+        , ("$mod+a",      "exec \"rofi -show drun\"")
+        , ("$mod+o",      "exec \"locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open\"")
+        , ("$mod+w",      "exec \"rofi -lines 0 -dmenu -i -p \'url\' | xargs -r -0 qutebrowser\"; workspace " ++ w_ae)
         -- }}}
         -- reshape
         -- {{{

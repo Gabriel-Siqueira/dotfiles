@@ -124,7 +124,7 @@ values."
    ))
 
 (defun dotspacemacs/user-init ()
-  "Initialization function for user code.
+    "Initialization function for user code.
 It is called immediately after `dotspacemacs/init', before layer configuration
 executes.
  This function is mostly useful for variables that need to be set
@@ -133,27 +133,33 @@ before packages are loaded. If you are unsure, you should try in setting them in
   )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function for user code.
+    "Configuration function for user code.
 This function is called at the very end of Spacemacs initialization after
 layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; Isolate kill ring
-  (setq interprogram-cut-function nil)
-  (setq interprogram-paste-function nil)
-  ;; change mode line separators
-  (setq powerline-default-separator 'bar)
-  ;; bibtex paths
-  (setq bibtex-completion-bibliography '("~/Dropbox/Ref/ref.bib")
-        bibtex-completion-library-path '("~/Dropbox/Ref/pdfs/")
-        bibtex-completion-notes-path "~/Dropbox/Ref/ref.org")
-  ;; bibtex search in tag field
-  (setq bibtex-completion-additional-search-fields '(tags))
-  ;; visual lines
-  (global-visual-line-mode 1)
-  (evil-define-minor-mode-key 'motion 'visual-line-mode "j" 'evil-next-visual-line)
-  (evil-define-minor-mode-key 'motion 'visual-line-mode "k" 'evil-previous-visual-line)
+	;; Isolate kill ring
+	(setq interprogram-cut-function nil)
+	(setq interprogram-paste-function nil)
+	;; change mode line separators
+	(setq powerline-default-separator 'bar)
+	;; bibtex paths
+	(setq bibtex-completion-bibliography '("~/Dropbox/Ref/ref.bib")
+		bibtex-completion-library-path '("~/Dropbox/Ref/pdfs/")
+		bibtex-completion-notes-path "~/Dropbox/Ref/ref.org")
+	;; bibtex search in tag field
+	(setq bibtex-completion-additional-search-fields '(tags))
+	;; visual lines
+	(global-visual-line-mode 1)
+	(evil-define-minor-mode-key 'motion 'visual-line-mode "j" 'evil-next-visual-line)
+	(evil-define-minor-mode-key 'motion 'visual-line-mode "k" 'evil-previous-visual-line)
+	;; indent with tabs
+	(setq indent-tabs-mode t)
+    ;; size of tab
+    (setq-default tab-width 4)
+    (setq evil-shift-width 4)
+    (setq c-basic-offset 4)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will

@@ -72,15 +72,19 @@ rofi.matching: fuzzy
 rofi.modi: drun,run
 rofi.font: Michroma 15
 rofi.location: 1
-rofi.columns: 5
-rofi.lines: 1
+rofi.columns: 1
+rofi.lines: 10
 rofi.width: 100
 rofi.color-window: #222222,#222222,#00ff00
-rofi.opacity: 100
+rofi.opacity: 50
 rofi.separator-style: solid
-rofi.color-normal: #222222,#eeeeee,#222222,#444444,#eeeeee
+rofi.color-normal: #222222,#eeeeee,#444444,#000000,#00ff00
 rofi.kb-mode-next: Tab,Shift+Right
 rofi.kb-row-tab: Ctrl+Tab
+rofi.hide-scrollbar: 1
 
 !!}}}
 !! vim: foldmethod=marker foldlevel=0
+!! Local Variables:
+!! origami-fold-style: triple-braces
+!! End:

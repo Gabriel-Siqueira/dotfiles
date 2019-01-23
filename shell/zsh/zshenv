@@ -1,18 +1,12 @@
 # Paths
-PATH=$PATH:/bin
-PATH=$PATH:/sbin
-PATH=$PATH:$HOME/.local/bin
-# Cabal path
-PATH=$PATH:$HOME/.cabal/bin
-# Gem path
-PATH=$PATH:$HOME/.gem/ruby/2.3.0/bin/
-PATH=$PATH:$HOME/.gem/ruby/2.4.0/bin/
-# go path
-PATH=$PATH:$HOME/.go/bin
-# npm path
-PATH=$PATH:/home/gabriel/.npm_global/bin/
-# conda path
-PATH=$PATH:/home/gabriel/bin/anaconda3/bin
+typeset -U path
+path=(/bin /sbin ~/.local/bin ~/bin
+      ~/.cabal/bin
+      ~/.gem/ruby/2.6.0/bin
+      ~/.go/bin
+      ~/.npm_global/bin/
+      ~/bin/anaconda3/bin
+      $path)
 
 # key maps
 setxkbmap -layout us,br -variant dvp, -option "grp:alt_space_toggle"
