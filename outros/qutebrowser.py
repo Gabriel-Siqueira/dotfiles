@@ -68,10 +68,10 @@ c.colors.messages.info.fg = base05
 c.colors.messages.warning.bg = base0E
 c.colors.messages.warning.border = base0E
 c.colors.messages.warning.fg = base00
-c.colors.prompts.bg = base00 
-c.colors.prompts.border = base00 
-c.colors.prompts.fg = base05 
-c.colors.prompts.selected.bg = base0A 
+c.colors.prompts.bg = base00
+c.colors.prompts.border = base00
+c.colors.prompts.fg = base05
+c.colors.prompts.selected.bg = base0A
 c.colors.statusbar.caret.bg = base0E
 c.colors.statusbar.caret.fg = base00
 c.colors.statusbar.caret.selection.bg = base0D
@@ -93,7 +93,7 @@ c.colors.statusbar.url.error.fg = base08
 c.colors.statusbar.url.fg = base05
 c.colors.statusbar.url.hover.fg = base05
 c.colors.statusbar.url.success.http.fg = base0C
-c.colors.statusbar.url.success.https.fg =base0A 
+c.colors.statusbar.url.success.https.fg =base0A
 c.colors.statusbar.url.warn.fg = base0E
 c.colors.tabs.bar.bg = base00
 c.colors.tabs.even.bg = base00
@@ -180,7 +180,7 @@ c.colors.tabs.selected.odd.fg = base00
 # c.downloads.remove_finished = -1
 # }}}
 # editor {{{
-c.editor.command = ['terminator','-e nvim {}']
+c.editor.command = ["emacsclient", "{}"]
 # c.editor.encoding = 'utf-8'
 # }}}
 # Fonts {{{
@@ -328,11 +328,11 @@ c.url.searchengines = {'DEFAULT':'https://www.google.com/search?q={}',
 c.url.start_pages = ['https://booky.io/']
 # c.url.yank_ignored_parameters = ['ref', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
 # }}}
-# Window {{{ 
+# Window {{{
 # c.window.hide_wayland_decoration = False
 # c.window.title_format = '{perc}{title}{title_sep}qutebrowser'
 # }}}
-# Zoom {{{ 
+# Zoom {{{
 # c.zoom.default = '100%'
 # c.zoom.levels = ['25%', '33%', '50%', '67%', '75%', '90%', '100%', '110%', '125%', '150%', '175%', '200%', '250%', '300%', '400%', '500%']
 # c.zoom.mouse_divider = 512
@@ -626,3 +626,6 @@ config.bind('<Ctrl-\>', 'leave-mode', mode='passthrough')
 # }}}
 
 # vim:foldmethod=marker foldlevel=0
+# Local Variables:
+# origami-fold-style: triple-braces
+# End:

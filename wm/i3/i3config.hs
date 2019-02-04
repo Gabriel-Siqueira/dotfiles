@@ -96,8 +96,6 @@ basic =
         [ "font pango:DejaVu Sans Mono 0"
         -- Use Mouse+$mod to drag floating windows to their wanted position
         , "floating_modifier $mod"
-        -- keyboard layout
-        , "exec setxkbmap -layout us,br -variant dvp, -option \"grp:alt_space_toggle\""
         -- no bar on single windom
         , "new_window pixel"
         -- hide border on screen edge
