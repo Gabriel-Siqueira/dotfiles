@@ -1,3 +1,5 @@
+i3=true
+# i3=false
 files=(
     bat.sh
     # conky_i3bar.sh
@@ -121,4 +123,10 @@ fi
 if [ -f "~/bin/random_wallpaper.sh" ]
 then
     chmod +x ~/bin/random_wallpaper.sh
+fi
+
+# create i3 config file
+if $i3; then
+    echo "Generating i3 config"
+    python $PWD/wm/i3/i3config.py
 fi

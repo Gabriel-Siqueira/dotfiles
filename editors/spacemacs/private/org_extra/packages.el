@@ -36,17 +36,19 @@
   (setq org-export-allow-bind-keywords t)
   ; capture destination file
   (setq org-default-notes-file "~/Dropbox/Org/notes.org")
+  ; distace of tags
+  (setq org-tags-column 0)
   ; capture templates
   (setq org-capture-templates
         '(
           ("t" "Todo" entry (file+headline "" "Inbox")
-           "* TODO %?\n")
+           "* TODO %? [/]\n")
           ("T" "Todo on File" entry (file+headline "" "Inbox")
-          "* TODO %?\n  %i\n  %a")
+          "* TODO %? [/]\n  %i\n  %a")
           ("n" "Note" entry (file+headline "" "Inbox")
            "* %?\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/Org/journal.org")
-           "\n* Entered on %U\n\n- café da manha: %^{PROMPT} \n- almoço: %^{PROMPT} \n- janta: %^{PROMPT} \n- progresso: %^{PROMPT} \n- estudo: %^{PROMPT}%?\n")
+           "\n* Entered on %U\n\n- Meu café da manha: %^{PROMPT} \n- Meu almoço: %^{PROMPT} \n- Meu jantar: %^{PROMPT} \n- My snacks: %^{PROMPT} \n- Which wealth problems I had? %^{PROMPT|nenhum} \n- In which gear has I in? %^{PROMPT} \n- Am I doing my bast to be happy? %^{PROMPT} \n- Which triggers have I learn today? %^{PROMPT|none} \n- A good thing that happen today: %^{PROMPT} \n- A bad thing that happen today: %^{PROMPT} \n- Que progresso eu realizei hoje? %^{PROMPT|nenhum} \n- O que eu estudei hoje? %^{PROMPT|nada}%?\n")
           ))
   )
 
@@ -54,12 +56,14 @@
   (setq org-agenda-files (list "~/Dropbox/Org/activities.org"))
   (setq org-agenda-start-on-weekday 0) ; week starts on sunday
   (setq org-agenda-compact-blocks t)
+  (setq org-agenda-use-time-grid nil) ; don not use time-grid by default
+  (setq org-deadline-warning-days 3) ; warnig days before deadline
   (setq org-agenda-custom-commands '(
     ("x" "planing" (
-      (tags "urgente|pin")
+      (tags "urgent|pin")
       (agenda "" ((org-agenda-start-day "+1d") (org-agenda-span 1)))))
     ("o" "main view" (
-                      (tags "urgente|pin")
+                      (tags "urgent|pin")
                       (agenda "" ((org-agenda-span 1)))))
     )))
 
@@ -69,13 +73,19 @@
 	  :init (org-super-agenda-mode)
 	  :config
 		(setq org-super-agenda-groups '(
-      (:name "Urgente" :tag "urgente" :deadline today :order 1
-              :face (:background "red" :foreground "yellow"))
+      (:name "Urgent" :tag "urgent" :deadline today :order 1
+              :face (:foreground "yellow" :background "red"))
       (:name "Pin" :tag "pin" :order 2)
       (:name "Grid" :time-grid t
+              :transformer (--> it
+                    (replace-regexp-in-string "^.*:cal:.*$"
+                    (lambda (s) (propertize s 'face '(:foreground "orange red")))
+                    (replace-regexp-in-string "^.*:rem:.*$"
+                                              (lambda (s) (propertize s 'face '(:foreground "gold")))
+                                              it)
+                    ))
               :order 4)
       ))
-	  (setq org-deadline-warning-days 0)
     ))
 
 ;;; packages.el ends here

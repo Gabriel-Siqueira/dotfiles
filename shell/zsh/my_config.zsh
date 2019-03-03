@@ -9,10 +9,6 @@ function tmux_casa(){
 }
 # }}}
 # Alias {{{
-# ic ssh {{{
-alias ic_ssh='ssh ra155446@ssh.students.ic.unicamp.br'
-alias ic_term='terminator -p ic'
-# }}}
 # programs {{{
 if type "thefuck" > /dev/null; then
 	eval $(thefuck --alias)
@@ -106,12 +102,14 @@ SAVEHIST=100000
 setopt hist_ignore_all_dups
 # }}}
 # Hashs {{{
-hash -d meg=~/MEGA
+hash -d dow=~/Downloads
+hash -d doc=~/Documents
 hash -d dro=~/Dropbox
-hash -d dri=~/MEGA/Drive
-hash -d sem10=~/MEGA/unicamp/sem10
+hash -d dri=~/Drive
+hash -d ath=~/Dropbox/Projects/ath
+hash -d maze=~/Dropbox/Projects/maze
 hash -d ran=~/random
-hash -d trash=~/.local/share/Trash/files/
+hash -d trash=~/.local/share/Trash/files
 # }}}
 # Settings {{{
 setopt autocd  # auto use cd on files names and nomatch

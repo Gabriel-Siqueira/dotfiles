@@ -4,13 +4,19 @@
 * Install Configurations
 
 - select files in install.sh
-- select machine in i3config
+- necessary to install:
+  bash, python
+- depending on the config files choosen to install:
+  conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, peco
+- for i3:
+  feh, gnome-screenshot, amixer, xbacklight, playerctl
+- depending on the configuration of i3:
+  termite, terminator, rofi, morc_menu, polybar
 
 #+BEGIN_SRC sh
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 bash install.sh
-runhaskell ./wm/i3/i3config.hs
 #+END_SRC
 
 * Emacs
@@ -22,4 +28,4 @@ runhaskell ./wm/i3/i3config.hs
 
 * Zsh
 
-- install: zsh-syntax-highlighting, zsh-autosuggestions
+- install: zsh-syntax-highlighting, zsh-autosuggestions, zsh-peco-history
