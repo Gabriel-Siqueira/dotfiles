@@ -617,7 +617,7 @@ let g:vimfiler_as_default_explorer = 1
 
 set background=dark
 if has('nvim')
-    color solarized8_dark
+    color solarized8
 else
     color atom-dark-256
 endif

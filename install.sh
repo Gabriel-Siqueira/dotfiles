@@ -126,6 +126,7 @@ then
 fi
 
 # create i3 config file
+mkdir -p $HOME/.config/i3
 if $i3; then
     echo "Generating i3 config"
     python $PWD/wm/i3/i3config.py

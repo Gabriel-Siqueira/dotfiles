@@ -27,6 +27,11 @@ fi
 if type "trizen" > /dev/null; then
   alias t='trizen'
 fi
+if type "lsd" > /dev/null; then
+  alias ls='lsd'
+else
+  alias ls='ls --color=auto'
+fi
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'
@@ -57,10 +62,9 @@ alias clr='clear'
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
 alias emacsc='emacsclient'
 alias l="ls"
-alias ls='ls --color=auto'
 alias dot='ls .[a-zA-Z0-9_]*'
 alias ll='ls -l'
-alias la='ls -A'
+alias la='ls -a'
 alias lh="ls -lh"
 alias ltr="ls -ltr"
 alias cd..='cd ..'
