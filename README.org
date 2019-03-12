@@ -3,17 +3,11 @@
 
 * Install Configurations
 
-- select files in install.sh
+- verify install.sh
 - necessary to install:
   bash, python
 - depending on the config files choosen to install:
   conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, fzf
-
-#+BEGIN_SRC sh
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-bash install.sh
-#+END_SRC
 
 * I3
 
@@ -29,7 +23,3 @@ bash install.sh
 - to use langtool download languagetool (use the system package manager) and verify the path in the configuration
 - to use java layer install eclim
 - to use fasd download fasd
-
-* Zsh
-
-- install: zsh-syntax-highlighting, zsh-autosuggestions
