@@ -164,6 +164,9 @@ fi
 # work nice with neovim
 [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
 # }}}
+# Local {{{
+source local.zsh
+# }}}
 # vim: foldmethod=marker foldlevel=0
 # Local Variables:
 # origami-fold-style: triple-braces
