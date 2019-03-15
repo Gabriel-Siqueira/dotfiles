@@ -112,6 +112,7 @@ def k_focus_move():
         , ("$mod+Up",   "focus up")
         , ("$mod+Right","focus right")
         , ("$mod+u", "[urgent=latest] focus")
+        , ("$mod+space", "focus mode_toggle")
     ]
     move = [
           ("$mod+Shift+h",    "move left")
@@ -156,24 +157,21 @@ def k_scratchpad():
 
 def modes():
         reshape = [
-                  ("h",     "resize shrink width  5 px or 5 ppt")
-                , ("j",     "resize grow   height 5 px or 5 ppt")
-                , ("k",     "resize shrink height 5 px or 5 ppt")
-                , ("l",     "resize grow   width  5 px or 5 ppt")
-                , ("Left",  "resize shrink width  5 px or 5 ppt")
-                , ("Down",  "resize grow   height 5 px or 5 ppt")
-                , ("Up",    "resize shrink height 5 px or 5 ppt")
-                , ("Right", "resize grow   width  5 px or 5 ppt")
+                  ("minus",       "resize shrink width  5 px or 5 ppt")
+                , ("plus",        "resize grow   width  5 px or 5 ppt")
+                , ("Shift+minus", "resize shrink height 5 px or 5 ppt")
+                , ("Shift+plus",  "resize grow   height 5 px or 5 ppt")
                 , ("Escape","mode \"default\"")
                 , ("f",       "fullscreen")
                 , ("s",       "layout stacking")
                 , ("t",       "layout tabbed")
-                , ("r",       "layout toggle split")
+                , ("h",       "layout splith")
+                , ("v",       "layout splitv")
                 , ("Shift+f", "floating toggle")
-                , ("f",       "focus mode_toggle")
                 , ("p",       "focus parent")
-                , ("Shift+p",       "focus child")
+                , ("c",       "focus child")
                 , ("Escape",  "mode \"default\"")
+                , ("$mod+BackSpace","kill")
         ]
         def sp(k,i):
                 return [

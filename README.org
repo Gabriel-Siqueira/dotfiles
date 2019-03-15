@@ -5,7 +5,7 @@
 
 - verify install.sh
 - necessary to install:
-  bash, python
+  bash, python, stow
 - depending on the config files choosen to install:
   conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, fzf
 
