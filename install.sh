@@ -25,23 +25,11 @@ fi
 
 stow -v -R --ignore='.*~undo-tree~.*' -t ~ vim i3 other shell spacemacs
 
-# make shell scripts executable
-if [ -f "~/bin/bat.sh" ]
-then
-    chmod +x ~/bin/bat.sh
-fi
-if [ -f "~/bin/conky_i3bar.sh" ]
-then
-    chmod +x ~/bin/conky_i3bar.sh
-fi
-if [ -f "~/bin/polybar.sh" ]
-then
-    chmod +x ~/bin/polybar.sh
-fi
-if [ -f "~/bin/random_wallpaper.sh" ]
-then
-    chmod +x ~/bin/random_wallpaper.sh
-fi
+# make scripts executable
+for i in ~/bin/*
+do
+    chmod +x $i
+done
 
 # create i3 config file
 mkdir -p $HOME/.config/i3

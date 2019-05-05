@@ -19,6 +19,8 @@
     ))
 
 (defun org_extra/post-init-org ()
+  ; log chanches in state in LOGBOOK drawer
+  (setq org-log-into-drawer t)
   ; fold all blocks in the start
   (setq org-hide-block-startup t)
   ; lists treated as low level headlines
@@ -48,7 +50,7 @@
           ("n" "Note" entry (file+headline "" "Inbox")
            "* %?\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/Org/journal.org")
-           "\n* Entered on %U\n\n- Meu café da manha: %^{CAF} \n- Meu almoço: %^{ALM} \n- Meu jantar: %^{JAN} \n- My snacks: %^{SNA|nada} \n- Which health problems I had? %^{HEA|nenhum} \n- In which gear has I in? %^{GEA|4|3|5|2|1|6|0} \n- Am I doing my bast to be happy? %^{HAP|y|n} \n- Which triggers have I learn today? %^{TRI|none} \n- A good thing that happen today: %^{GOOD} \n- A bad thing that happen today: %^{BAD} \n- Que progresso eu realizei hoje? %^{PRO|nenhum} \n- O que eu estudei hoje? %^{EST|nada}%?\n")
+           "\n* Entered on %U\n\n- Meu café da manha: %^{CAF|nada} \n- Meu almoço: %^{ALM} \n- Meu jantar: %^{JAN} \n- My snacks: %^{SNA|nada} \n- Which health problems I had? %^{HEA|nenhum} \n- In which gear has I in? %^{GEA|4|3|5|2|1|6|0} \n- Am I doing my bast to be happy? %^{HAP|y|n} \n- Which triggers have I learn today? %^{TRI|none} \n- A good thing that happen today: %^{GOOD} \n- A bad thing that happen today: %^{BAD} \n- Que progresso eu realizei hoje? %^{PRO|nenhum} \n- O que eu estudei hoje? %^{EST|nada}%?\n")
           ))
   )
 

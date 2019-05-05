@@ -83,13 +83,6 @@ alias du='du -h'
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
 LS_COLORS='di=1;33';export LS_COLORS
-if ! type "emacsclient" > /dev/null; then
-	EDITOR="vim"
-    VISUAL="vim"
-else
-	EDITOR="emacsclient"
-    VISUAL="emacsclient"
-fi
 # manpage on nvim
 # if ! type "nvim" > /dev/null; then
 #     export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist noma' -\""

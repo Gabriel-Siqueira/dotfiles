@@ -62,7 +62,7 @@ def keys():
         , ("$mod+Shift+d","exec " + my_s_menu)
         , ("$mod+a",      'exec "rofi -show drun"')
         , ("$mod+o",      'exec "locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open"')
-        , ("$mod+w",      'exec "rofi -lines 0 -dmenu -i -p \'url\' | xargs -r -0 qutebrowser"; workspace ' + w_4)
+        , ("$mod+w",      'exec ~/bin/url.sh')
     ]
     reshape = [("$mod+r","mode \"reshape\"")]
     split_containers = [("$mod+v","split v")]
@@ -271,6 +271,8 @@ def auto_start():
                 , "emacs"
                 , "qutebrowser"
                 , "chromium"
+                # , "franz"
+                , "gdfs default ~/Drive"
                 , my_term_launch + "ster -e tmux"
                 , my_term_launch + "file -e ranger"
                 , my_term_launch + "top -e top"

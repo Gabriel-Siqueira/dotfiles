@@ -1,3 +1,5 @@
+# settings {{{
+c.tabs.title.format = "{audio}{index} {title}"
 c.aliases = {'w': 'session-save',
              'q': 'quit',
              'wq': 'quit --save',
@@ -39,6 +41,10 @@ c.url.searchengines = {'DEFAULT':'https://www.google.com/search?q={}',
                        'lg':'http://gen.lib.rus.ec/search.php?req={}',
                         }
 c.url.start_pages = ['https://booky.io/']
+c.content.autoplay = False
+c.input.insert_mode.leave_on_load = False
+c.url.open_base_url = True
+# }}}
 # color {{{
 base00 = "#1f2022"
 base01 = "#282828"
@@ -147,3 +153,7 @@ config.bind('H', 'tab-move -')
 config.bind('<Ctrl-b>', 'set-cmd-text -s :buffer')
 config.bind('<Ctrl-\>', 'leave-mode', mode='passthrough')
 # }}}
+
+# Local Variables:
+# origami-fold-style: triple-braces
+# End:
