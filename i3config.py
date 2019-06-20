@@ -265,7 +265,6 @@ def auto_start():
                 , "alarm-clock-applet --hidden"
                 , "nm-applet"
                 , "xfce4-power-manager"
-                , "twmnd"
                 , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" + my_wallpaper
                 , "compton"
                 , "emacs"

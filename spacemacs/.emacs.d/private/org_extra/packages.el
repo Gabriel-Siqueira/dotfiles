@@ -40,6 +40,11 @@
   (setq org-default-notes-file "~/Dropbox/Org/notes.org")
   ; distace of tags
   (setq org-tags-column 0)
+  ; faces for todo keywords
+  (setq org-todo-keyword-faces
+        '(("CANCEL" . (:foreground "red" :weight bold))
+          ("REC*" . (:foreground "yellow" :weight bold))
+          ("BLOCK" . (:foreground "white" :weight bold))))
   ; capture templates
   (setq org-capture-templates
         '(
@@ -50,7 +55,7 @@
           ("n" "Note" entry (file+headline "" "Inbox")
            "* %?\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/Org/journal.org")
-           "\n* Entered on %U\n\n- Meu café da manha: %^{CAF|nada} \n- Meu almoço: %^{ALM} \n- Meu jantar: %^{JAN} \n- My snacks: %^{SNA|nada} \n- Which health problems I had? %^{HEA|nenhum} \n- In which gear has I in? %^{GEA|4|3|5|2|1|6|0} \n- Am I doing my bast to be happy? %^{HAP|y|n} \n- Which triggers have I learn today? %^{TRI|none} \n- A good thing that happen today: %^{GOOD} \n- A bad thing that happen today: %^{BAD} \n- Que progresso eu realizei hoje? %^{PRO|nenhum} \n- O que eu estudei hoje? %^{EST|nada}%?\n")
+           "\n* Entered on %U\n\n- Meu almoço: %^{ALM} \n- Meu jantar: %^{JAN} \n- My snacks: %^{SNA|nada} \n- Which health problems I had? %^{HEA|nenhum} \n- A good thing that happen today: %^{GOOD} \n- A bad thing that happen today: %^{BAD} \n- Que progresso eu realizei hoje? %^{PRO|nenhum} \n- O que eu estudei hoje? %^{EST|nada}\n- Am I doing my bast to be happy? %^{HAP|y|n} \n- In which gear has I in? %^{GEA|4|3|5|2|1|6|0} \n- How many stars? %^{STA|0 -|1 *|2 **|3 ***|4 ****|5 *****|}\n%?")
           ))
   )
 

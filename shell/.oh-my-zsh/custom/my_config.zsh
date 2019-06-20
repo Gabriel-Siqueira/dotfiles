@@ -105,6 +105,7 @@ hash -d dro=~/Dropbox
 hash -d dri=~/Drive
 hash -d ath=~/Dropbox/Projects/ath
 hash -d maze=~/Dropbox/Projects/maze
+hash -d hep=~/Dropbox/Projects/hep
 hash -d ran=~/random
 hash -d trash=~/.local/share/Trash/files
 # }}}
@@ -137,6 +138,10 @@ bindkey -s ^] '\e' # new escape
 bindkey -a "!" sudo-command-line # add sudo on line
 # }}}
 # Others {{{
+# Pyenv virtualenv
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 # work nice with emacs
 if [ -n "$INSIDE_EMACS" ]; then
   chpwd() { print -P "\033AnSiTc %d" }
