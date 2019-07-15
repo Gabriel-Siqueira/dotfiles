@@ -11,6 +11,7 @@ values."
    dotspacemacs-configuration-layer-path '()
    dotspacemacs-configuration-layers
    '(
+     yaml
      sql
      vimscript
      html
@@ -165,14 +166,17 @@ you should place your code here."
     (setq evil-shift-width 4)
     (setq c-basic-offset 4)
     ;; backup file
-    (setq backup-directory-alist `(("." . "~/Documents/swap_files")))
+    (setq backup-directory-alist `(("." "~/random" "~/random/swap_files" "~/Documents/swap_files")))
     (setq version-control t    ; Use version numbers for backups
           delete-old-versions t  ; don't ask if can delet old versions
           kept-new-versions 8)   ; Number of newest versions to keepenable-undo-in-region nil)
+    ;; auto-fill-mode on text/tex buffers
+    (add-hook 'text-mode-hook #'spacemacs/toggle-auto-fill-mode-off)
+	(setq latex-enable-auto-fill nil)
 
-  ;; ------------------- Layer Specific Configs ---------------------------------
-  (setq-default dotspacemacs-configuration-layers
-                '((haskell :variables haskell-enable-hindent-style "johan-tibell")))
+    ;; ------------------- Layer Specific Configs ---------------------------------
+    (setq-default dotspacemacs-configuration-layers
+                  '((haskell :variables haskell-enable-hindent-style "johan-tibell")))
 
   )
 
@@ -183,16 +187,9 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ledger-reports
-   (quote
-    (("bal" "%(binary) -f %(ledger-file) bal")
-     ("reg" "%(binary) -f %(ledger-file) reg")
-     ("payee" "%(binary) -f %(ledger-file) reg @%(payee)")
-     ("account" "%(binary) -f %(ledger-file) reg %(account)"))))
  '(package-selected-packages
    (quote
-    (sql-indent spaceline-all-the-icons all-the-icons memoize vimrc-mode dactyl-mode web-mode tagedit slim-mode scss-mode sass-mode pug-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data mmt powerline spinner ht pdf-tools key-chord ivy tablist org-category-capture alert log4e gntp org-plus-contrib magit-popup hydra dash-functional htmlize parent-mode projectile request helm-bibtex parsebib ham-mode markdown-mode html-to-markdown gitignore-mode flyspell-correct pos-tip flycheck pkg-info epl flx highlight magit transient git-commit with-editor smartparens iedit anzu evil goto-chg undo-tree ghc haskell-mode company bind-map bind-key biblio biblio-core yasnippet packed auctex anaconda-mode pythonic f dash s helm avy helm-core async auto-complete popup ledger-mode flycheck-ledger yapfify xterm-color ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package typit toc-org sudoku spaceline smeargle shell-pop restart-emacs ranger rainbow-delimiters pyvenv pytest pyenv-mode py-isort popwin pip-requirements persp-mode pcre2el paradox pacmacs origami orgit org-super-agenda org-ref org-projectile org-present org-pomodoro org-mime org-download openwith open-junk-file neotree multi-term move-text monokai-theme mmm-mode markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint langtool intero indent-guide hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gtags helm-gitignore helm-flx helm-descbinds helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-haskell flx-ido fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-snipe evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus elisp-slime-nav edit-server dumb-jump disaster diminish define-word cython-mode company-statistics company-ghci company-ghc company-emoji company-cabal company-c-headers company-auctex company-anaconda column-enforce-mode cmm-mode cmake-mode clean-aindent-mode clang-format auto-yasnippet auto-highlight-symbol auto-compile auctex-latexmk aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line ac-ispell 2048-game)))
- '(safe-local-variable-values (quote ((origami-fold-style . triple-braces)))))
+    (sql-indent spinner mmm-mode evil-visualstar evil-visual-mark-mode evil-tutor evil-surround evil-snipe evil-mc evil-matchit evil-magit evil-lisp-state evil-indent-plus evil-iedit-state iedit evil-exchange evil-ediff evil-args evil-anzu anzu evil undo-tree auctex adaptive-wrap mmt powerline ht pdf-tools key-chord ivy tablist org-category-capture alert log4e gntp org-plus-contrib magit-popup magit hydra lv dash-functional htmlize parent-mode projectile request helm-bibtex parsebib haml-mode ham-mode markdown-mode html-to-markdown gitignore-mode flyspell-correct pos-tip flycheck pkg-info epl flx highlight transient git-commit with-editor web-completion-data ghc haskell-mode company bind-key biblio biblio-core yasnippet packed anaconda-mode pythonic f dash s helm avy helm-core async auto-complete popup paradox goto-chg company-auctex yapfify yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vimrc-mode vi-tilde-fringe uuidgen use-package typit toc-org tagedit sudoku spaceline smeargle smartparens slim-mode shell-pop scss-mode sass-mode restart-emacs ranger rainbow-delimiters pyvenv pytest pyenv-mode py-isort pug-mode popwin pip-requirements persp-mode pcre2el pacmacs origami orgit org-super-agenda org-ref org-projectile org-present org-pomodoro org-mime org-download openwith open-junk-file neotree multi-term move-text monokai-theme markdown-toc magit-gitflow macrostep lorem-ipsum live-py-mode linum-relative link-hint ledger-mode langtool intero indent-guide hy-mode hungry-delete hlint-refactor hl-todo hindent highlight-parentheses highlight-numbers highlight-indentation helm-themes helm-swoop helm-pydoc helm-projectile helm-mode-manager helm-make helm-hoogle helm-gtags helm-gitignore helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haskell-snippets google-translate golden-ratio gnuplot gmail-message-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md ggtags fuzzy flyspell-correct-helm flymd flycheck-pos-tip flycheck-ledger flycheck-haskell flx-ido fill-column-indicator fasd fancy-battery eyebrowse expand-region exec-path-from-shell evil-unimpaired evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-escape eval-sexp-fu eshell-z eshell-prompt-extras esh-help emoji-cheat-sheet-plus emmet-mode elisp-slime-nav edit-server dumb-jump disaster diminish define-word dactyl-mode cython-mode company-web company-statistics company-ghci company-ghc company-emoji company-cabal company-c-headers company-anaconda column-enforce-mode cmm-mode cmake-mode clean-aindent-mode clang-format bind-map auto-yasnippet auto-highlight-symbol auto-dictionary auto-compile aggressive-indent ace-window ace-link ace-jump-helm-line ac-ispell 2048-game))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

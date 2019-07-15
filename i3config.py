@@ -20,18 +20,18 @@ my_s_menu = choose("morc_menu","morc_menu","dmenu_run")
 my_screen_shot = choose("gnome-screenshot -a","gnome-screenshot -a","gnome-screenshot -a")
 my_bar = choose("polybar","polybar","i3bar")
 my_lock = "exec i3lock -t -i ~/Dropbox/Pictures/lock_und_dm/guide_to_the_galaxy.png"
-w_0  = "game"
-w_1 = "midi"
-w_2  = "VirM"
-w_3 = "docs"
-w_4 = "auxE"
-w_5  = "deft"
-w_6 = "auxD"
-w_7  = "read"
-w_8 = "deve"
-w_9 = "mail"
-startup_workspace = w_5
-kp_ws = [w_0, w_1, w_2, w_3, w_4, w_5, w_6, w_7, w_8, w_9]
+game = "game"
+midi = "midi"
+virM = "VirM"
+docs = "docs"
+auxE = "auxE"
+deft = "deft"
+auxD = "auxD"
+read = "read"
+deve = "deve"
+mail = "mail"
+startup_workspace = deft
+kp_ws = [game, virM, deve, mail,  auxE, deft, auxD, read, midi, docs]
 num_ws = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 ws = kp_ws + num_ws
 
@@ -137,15 +137,18 @@ def k_workspaces():
         , ("$mod+Shift+x", "move workspace to output left")
     ]
     kp = ["KP_Insert", "KP_End", "KP_Down", "KP_Page_Down", "KP_Left", "KP_Begin", "KP_Right", "KP_Home", "KP_Up", "KP_Page_Up"]
+    mech_keys = ["Insert", "Home", "Page_Up", "Delete", "End", "Page_Down"]
+    mech_wp = [midi,read,docs,auxE,deft,auxD]
     kp_nl = ["KP_0", "KP_1", "KP_2", "KP_3", "KP_4", "KP_5", "KP_6", "KP_7", "KP_8", "KP_9"]
     num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     switch_ws1 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(kp, kp_ws)]
+    switch_ws_mech = [("$mod+" + k, "workspace " + w) for (k,w) in zip(mech_keys, mech_wp)]
     switch_ws2 = [("$mod+Mod2+" + k, "workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
     switch_ws3 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(num, num_ws)]
     move_ws1 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
     move_ws2 = [("$mod+Shift+Mod2+" + k, "move container to workspace " + w) for (k,w) in zip(kp, kp_ws)]
     move_ws3 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(num, num_ws)]
-    return toggle + mult_screen + switch_ws1 + switch_ws2 + switch_ws3 + move_ws1 + move_ws2 + move_ws3
+    return toggle + mult_screen + switch_ws_mech + switch_ws1 + switch_ws2 + switch_ws3 + move_ws1 + move_ws2 + move_ws3
 
 def k_scratchpad():
         sp = [
@@ -234,16 +237,16 @@ def place():
     def inst(name):
             return '[instance="^' + name + '$"]'
     wp_list = [
-              (w_0, clas, ["Steam", "Mainwindow.py", "Minetest"])
-            , (w_1, clas, ["Vlc", "Kodi", "Spotify", "Lollypop"])
-            , (w_2, clas, ["VirtualBox"])
-            , (w_3, clas, ["libreoffice", "libreoffice-startcenter", "libreoffice-writer", "libreoffice-calc", "libreoffice-impress", "libreoffice-draw", "libreoffice-math", "libreoffice-base"])
-            , (w_4, clas, ["Firefox", "qutebrowser"])
-            , (w_5, clas, ["Emacs"])
-            , (w_6, clas, ["Chromium", "google-chrome", "vivaldi-stable", "Opera"])
-            , (w_7, clas, ["calibre"])
-            , (w_8, clas, ["Eclipse"])
-            , (w_9, clas, ["thunderbird", "TelegramDesktop", "Franz", "Inboxer"])
+              (game, clas, ["Steam", "Mainwindow.py", "Minetest"])
+            , (midi, clas, ["Vlc", "Kodi", "Spotify", "Lollypop"])
+            , (virM, clas, ["VirtualBox"])
+            , (docs, clas, ["libreoffice", "libreoffice-startcenter", "libreoffice-writer", "libreoffice-calc", "libreoffice-impress", "libreoffice-draw", "libreoffice-math", "libreoffice-base"])
+            , (auxE, clas, ["Firefox", "qutebrowser"])
+            , (deft, clas, ["Emacs"])
+            , (auxD, clas, ["Chromium", "google-chrome", "vivaldi-stable", "Opera"])
+            , (read, clas, ["calibre"])
+            , (deve, clas, ["Eclipse"])
+            , (mail, clas, ["thunderbird", "TelegramDesktop", "Franz", "Inboxer"])
     ]
     com_list = [
         ("file", inst, ["move scratchpad","floating enable","resize set 1100 600"])

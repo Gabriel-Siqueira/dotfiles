@@ -163,7 +163,9 @@ fi
 [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
 # }}}
 # Local {{{
-source local.zsh
+if [ -f "./local.zsh" ]; then
+    source local.zsh
+fi
 # }}}
 # vim: foldmethod=marker foldlevel=0
 # Local Variables:

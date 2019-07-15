@@ -19,7 +19,4 @@ else
 fi
 
 # Key Maps
-setxkbmap -layout us,br -variant dvp, -option "grp:shifts_toggle"
 setxkbmap -option compose:102
-xmodmap -e 'keycode 135 = Super_R'
-xmodmap -e 'keycode 97 = Control_R'
