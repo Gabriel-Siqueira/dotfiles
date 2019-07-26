@@ -95,7 +95,8 @@ def keys():
         , ("XF86AudioStop",  "exec playerctl stop")
     ]
     close = [("$mod+BackSpace","kill")]
-    l = terminals + menus + reshape + split_containers + quit_reload_lock + screen_shot + volume + brightness + media + close + k_focus_move() + k_workspaces() + k_scratchpad()
+    full_screen = [("$mod+Shift+f", "fullscreen")]
+    l = terminals + menus + reshape + split_containers + quit_reload_lock + screen_shot + volume + brightness + media + close + full_screen + k_focus_move() + k_workspaces() + k_scratchpad()
     return add_keys(l)
 
 def add_keys(l):
@@ -146,9 +147,10 @@ def k_workspaces():
     switch_ws2 = [("$mod+Mod2+" + k, "workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
     switch_ws3 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(num, num_ws)]
     move_ws1 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
+    move_ws_mech = [("$mod+Shift" + k, "move container to workspace " + w) for (k,w) in zip(mech_keys, mech_wp)]
     move_ws2 = [("$mod+Shift+Mod2+" + k, "move container to workspace " + w) for (k,w) in zip(kp, kp_ws)]
     move_ws3 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(num, num_ws)]
-    return toggle + mult_screen + switch_ws_mech + switch_ws1 + switch_ws2 + switch_ws3 + move_ws1 + move_ws2 + move_ws3
+    return toggle + mult_screen + switch_ws_mech + switch_ws1 + switch_ws2 + switch_ws3 + move_ws1 + move_ws_mech + move_ws2 + move_ws3
 
 def k_scratchpad():
         sp = [
@@ -273,6 +275,7 @@ def auto_start():
                 , "emacs"
                 , "qutebrowser"
                 , "chromium"
+                , "--no-startup-id dunst"
                 # , "franz"
                 , "gdfs default ~/Drive"
                 , my_term_launch + "ster -e tmux"

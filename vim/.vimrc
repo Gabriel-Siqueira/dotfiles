@@ -434,6 +434,8 @@ set backupdir=./vim_files/backup//
 set backupdir+=./vim_files//
 set backupdir+=~/Documents/vim_files/backup//
 set backupdir+=~/Documents/vim_files//
+set backupdir+=~/random/vim_files/backup//
+set backupdir+=~/random/vim_files//
 set backupdir+=~/random//
 set backupdir+=.
 
@@ -442,6 +444,8 @@ set directory=./vim_files/swap//
 set directory+=./vim_files//
 set directory+=~/Documents/vim_files/swap//
 set directory+=~/Documents/vim_files//
+set directory+=~/random/vim_files/swap//
+set directory+=~/random/vim_files//
 set directory+=~/random//
 set directory+=.
 
@@ -451,6 +455,8 @@ if has('persistent_undo')
     set undodir+=./vim_files//
     set undodir+=~/Documents/vim_files/undo//
     set undodir+=~/Documents/vim_files//
+    set undodir+=~/random/vim_files/undo//
+    set undodir+=~/random/vim_files//
     set undodir+=~/random//
     set undodir+=.
     set undofile                      " use undo files

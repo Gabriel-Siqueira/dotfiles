@@ -17,6 +17,3 @@ else
 	EDITOR="emacsclient"
     VISUAL="emacsclient"
 fi
-
-# Key Maps
-setxkbmap -option compose:102
