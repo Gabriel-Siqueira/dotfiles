@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# key: bolsa
+# name: bolsa
+# --
+`(format-time-string "%Y/%m/%d")` Bolsa
+assets:checking:reserve                           R\$500,00
+assets:checking:essentials                      = R\$600,00
+assets:checking:out                             = R\$400,00
+assets:checking:save
+income:cnpq                                     R\$-1500,00 $0

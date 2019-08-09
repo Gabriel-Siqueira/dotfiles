@@ -31,7 +31,7 @@ read = "read"
 deve = "deve"
 mail = "mail"
 startup_workspace = deft
-kp_ws = [game, virM, deve, mail,  auxE, deft, auxD, read, midi, docs]
+kp_ws = [game, virM, deve, mail, auxE, deft, auxD, midi, read, docs]
 num_ws = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
 ws = kp_ws + num_ws
 
@@ -280,7 +280,7 @@ def auto_start():
                 , "gdfs default ~/Drive"
                 , my_term_launch + "ster -e tmux"
                 , my_term_launch + "file -e ranger"
-                , my_term_launch + "top -e top"
+                , my_term_launch + "top -e htop"
                 ]
         return "\n".join(["exec " + app for app in apps])
 

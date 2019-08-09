@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: ru
+# key: ru
+# --
+
+`(format-time-string "%Y/%m/%d")` Gasto Semana RU
+    assets:ra                                         R$-$0
+    expenses:ru
