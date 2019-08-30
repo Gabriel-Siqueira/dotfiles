@@ -104,6 +104,7 @@ hash -d doc=~/Documents
 hash -d dro=~/Dropbox
 hash -d dri=~/Drive
 hash -d ath=~/Dropbox/Projects/ath
+hash -d chi=~/Dropbox/Projects/chi
 hash -d maze=~/Dropbox/Projects/maze
 hash -d hep=~/Dropbox/Projects/hep
 hash -d ran=~/random

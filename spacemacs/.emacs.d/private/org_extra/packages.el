@@ -27,9 +27,15 @@
   (setq org-cycle-include-plain-lists 'integrate)
   ; status of checkbox include the whole hierarchy
   (setq org-checkbox-hierarchical-statistics nil)
-  ; change size of latex formula's font
+  ; change size and color of latex formula's font
   (setq org-format-latex-options
         (plist-put org-format-latex-options :scale 1.5))
+  (setq org-format-latex-options
+        (plist-put org-format-latex-options :foreground 'auto))
+  ;; fix color handling in org-preview-latex-fragment
+  (let ((dvipng--plist (alist-get 'dvipng org-preview-latex-process-alist)))
+    (plist-put dvipng--plist :use-xcolor t)
+    (plist-put dvipng--plist :image-converter '("dvipng -D %D -T tight -o %O %f")))
   ; allow letter in lists
   (setq org-list-allow-alphabetical t)
   ; do not indent when demoting header

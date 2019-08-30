@@ -23,3 +23,4 @@
 - to use langtool download languagetool (use the system package manager) and verify the path in the configuration
 - to use java layer install eclim
 - to use fasd download fasd
+- to replace text on helm install rg, ag, pt or ack

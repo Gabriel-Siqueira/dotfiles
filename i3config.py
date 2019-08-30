@@ -30,6 +30,8 @@ auxD = "auxD"
 read = "read"
 deve = "deve"
 mail = "mail"
+role1 = "."
+role2 = ".."
 startup_workspace = deft
 kp_ws = [game, virM, deve, mail, auxE, deft, auxD, midi, read, docs]
 num_ws = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
@@ -138,8 +140,8 @@ def k_workspaces():
         , ("$mod+Shift+x", "move workspace to output left")
     ]
     kp = ["KP_Insert", "KP_End", "KP_Down", "KP_Page_Down", "KP_Left", "KP_Begin", "KP_Right", "KP_Home", "KP_Up", "KP_Page_Up"]
-    mech_keys = ["Insert", "Home", "Page_Up", "Delete", "End", "Page_Down"]
-    mech_wp = [midi,read,docs,auxE,deft,auxD]
+    mech_keys = ["Insert", "Home", "Page_Up", "Delete", "End", "Page_Down","Mod1+Insert","Mod1+Home","Mod1+Page_Up","Mod1+Delete","Mod1+End","Mod1+Page_Down"]
+    mech_wp = [midi,read,docs,auxE,deft,auxD,virM,deve,mail,role1,game,role2]
     kp_nl = ["KP_0", "KP_1", "KP_2", "KP_3", "KP_4", "KP_5", "KP_6", "KP_7", "KP_8", "KP_9"]
     num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     switch_ws1 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(kp, kp_ws)]
