@@ -12,7 +12,7 @@
 * I3
 
 - programs for i3:
-  feh, gnome-screenshot, alsa-utils, xbacklight, playerctl
+  feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, jq
 - depending on the configuration of i3:
   termite, terminator, rofi, morc_menu, dropbox, alarm-clock-applet, xfce4-power-manager, twmn, compton, redshift
 - install fonts for polybar: terminus, ttf-unifont, material icons

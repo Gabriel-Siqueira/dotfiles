@@ -4,16 +4,16 @@
 # --
 \documentclass{beamer}
 \usepackage[utf8]{inputenc}
-\usepackage[portuguese]{babel}
+\usepackage[brazilian]{babel}
 
 \hypersetup{pdfpagemode=FullScreen}
 \usetheme{Dresden}
-\usecolortheme{beetle}
+\usecolortheme{beaver}
 \setbeamertemplate{itemize items}[ball]
 
 \title {$1} \subtitle{$2}
-\author[Gabriel Henriques Siqueira] {}
-\institute[Unicamp] {}
+\author[Gabriel Henriques Siqueira] {Gabriel Henriques Siqueira}
+\institute[Unicamp] {Universidade Estadual de Campinas}
 \date {\today}
 
 \AtBeginSection[]
@@ -27,8 +27,7 @@
 \begin{document}
     \frame{\titlepage}
 
-    \begin{frame}
-    \frametitle{}
+    \begin{frame}{Roteiro}
     \tableofcontents
     \end{frame}
 

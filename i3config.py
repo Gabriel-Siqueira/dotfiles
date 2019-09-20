@@ -2,6 +2,8 @@ from sys import argv
 from pathlib import Path
 import socket
 
+# -----------------------------------------------------------------------------
+
 def choose(gene,gama,default):
     if pc == "GENe":
         return gene
@@ -20,6 +22,8 @@ my_s_menu = choose("morc_menu","morc_menu","dmenu_run")
 my_screen_shot = choose("gnome-screenshot -a","gnome-screenshot -a","gnome-screenshot -a")
 my_bar = choose("polybar","polybar","i3bar")
 my_lock = "exec i3lock -t -i ~/Dropbox/Pictures/lock_und_dm/guide_to_the_galaxy.png"
+scripts_path = Path.joinpath(Path.home(),choose("bin","bin","bin"))
+
 game = "game"
 midi = "midi"
 virM = "VirM"
@@ -32,10 +36,25 @@ deve = "deve"
 mail = "mail"
 role1 = "."
 role2 = ".."
+swap = "swap"
 startup_workspace = deft
+
 kp_ws = [game, virM, deve, mail, auxE, deft, auxD, midi, read, docs]
+kp_keys = ["KP_Insert", "KP_End", "KP_Down", "KP_Page_Down", "KP_Left", "KP_Begin", "KP_Right", "KP_Home", "KP_Up", "KP_Page_Up"]
+kp_keys_nl = ["KP_0", "KP_1", "KP_2", "KP_3", "KP_4", "KP_5", "KP_6", "KP_7", "KP_8", "KP_9"]
+
+mech_ws = [midi,read,docs,auxE,deft,auxD,virM,deve,mail,role1,game,role2]
+mech_keys = ["Insert", "Home", "Page_Up", "Delete", "End", "Page_Down","Mod1+Insert","Mod1+Home","Mod1+Page_Up","Mod1+Delete","Mod1+End","Mod1+Page_Down"]
+
 num_ws = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-ws = kp_ws + num_ws
+num_keys = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+# -----------------------------------------------------------------------------
+
+def add_keys(l):
+    return "\n".join(["bindsym " + key + " " + com for (key,com) in l])
+
+# -----------------------------------------------------------------------------
 
 def basic():
         s = ""
@@ -66,7 +85,8 @@ def keys():
         , ("$mod+o",      'exec "locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open"')
         , ("$mod+w",      'exec ~/bin/url.sh')
     ]
-    reshape = [("$mod+r","mode \"reshape\"")]
+    reshape_mode = [("$mod+r","mode \"reshape\"")]
+    swap_mode = [("$mod+s","mode \"swap\"")]
     split_containers = [("$mod+v","split v")]
     quit_reload_lock = [
           ("$mod+KP_Delete", my_lock)
@@ -98,11 +118,8 @@ def keys():
     ]
     close = [("$mod+BackSpace","kill")]
     full_screen = [("$mod+Shift+f", "fullscreen")]
-    l = terminals + menus + reshape + split_containers + quit_reload_lock + screen_shot + volume + brightness + media + close + full_screen + k_focus_move() + k_workspaces() + k_scratchpad()
+    l = terminals + menus + reshape_mode + swap_mode + split_containers + quit_reload_lock + screen_shot + volume + brightness + media + close + full_screen + k_focus_move() + k_workspaces() + k_scratchpad()
     return add_keys(l)
-
-def add_keys(l):
-    return "\n".join(["bindsym " + key + " " + com for (key,com) in l])
 
 def k_focus_move():
     focus = [
@@ -130,29 +147,26 @@ def k_focus_move():
     return focus + move
 
 def k_workspaces():
+
     toggle = [
           ("$mod+Tab", "workspace back_and_forth")
-        , ("$mod+m", "mark swap")
-        , ("$mod+Shift+Tab", "[con_mark=\"swap\"] focus")
+        , ("$mod+m", "mark alternative")
+        , ("$mod+Shift+Tab", "[con_mark=\"alternative\"] focus")
     ]
     mult_screen = [
           ("$mod+x", "move workspace to output right")
         , ("$mod+Shift+x", "move workspace to output left")
     ]
-    kp = ["KP_Insert", "KP_End", "KP_Down", "KP_Page_Down", "KP_Left", "KP_Begin", "KP_Right", "KP_Home", "KP_Up", "KP_Page_Up"]
-    mech_keys = ["Insert", "Home", "Page_Up", "Delete", "End", "Page_Down","Mod1+Insert","Mod1+Home","Mod1+Page_Up","Mod1+Delete","Mod1+End","Mod1+Page_Down"]
-    mech_wp = [midi,read,docs,auxE,deft,auxD,virM,deve,mail,role1,game,role2]
-    kp_nl = ["KP_0", "KP_1", "KP_2", "KP_3", "KP_4", "KP_5", "KP_6", "KP_7", "KP_8", "KP_9"]
-    num = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-    switch_ws1 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(kp, kp_ws)]
-    switch_ws_mech = [("$mod+" + k, "workspace " + w) for (k,w) in zip(mech_keys, mech_wp)]
-    switch_ws2 = [("$mod+Mod2+" + k, "workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
-    switch_ws3 = [("$mod+" + k, "workspace " + w) for (k,w) in zip(num, num_ws)]
-    move_ws1 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(kp_nl, kp_ws)]
-    move_ws_mech = [("$mod+Shift" + k, "move container to workspace " + w) for (k,w) in zip(mech_keys, mech_wp)]
-    move_ws2 = [("$mod+Shift+Mod2+" + k, "move container to workspace " + w) for (k,w) in zip(kp, kp_ws)]
-    move_ws3 = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(num, num_ws)]
-    return toggle + mult_screen + switch_ws_mech + switch_ws1 + switch_ws2 + switch_ws3 + move_ws1 + move_ws_mech + move_ws2 + move_ws3
+
+    switch_ws = [("$mod+" + k, "workspace " + w) for (k,w) in zip(mech_keys + num_keys, mech_ws + num_ws)]
+    switch_ws_kp = [("$mod+" + k, "workspace " + w) for (k,w) in zip(kp_keys, kp_ws)]
+    switch_ws_kp_nl = [("$mod+Mod2+" + k, "workspace " + w) for (k,w) in zip(kp_keys_nl, kp_ws)]
+
+    move_ws = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(mech_keys + num_keys, mech_ws + num_ws)]
+    move_ws_kp_nl = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(kp_keys_nl, kp_ws)]
+    move_ws_kp = [("$mod+Shift+Mod2+" + k, "move container to workspace " + w) for (k,w) in zip(kp_keys, kp_ws)]
+
+    return toggle + mult_screen + switch_ws + switch_ws_kp + switch_ws_kp_nl + move_ws + move_ws_kp + move_ws_kp_nl
 
 def k_scratchpad():
         sp = [
@@ -180,6 +194,8 @@ def modes():
                 , ("Escape",  "mode \"default\"")
                 , ("$mod+BackSpace","kill")
         ]
+        swap = [(k, "exec " + str(Path.joinpath(scripts_path,"swap.sh")) + " " + w) for (k,w) in zip(mech_keys + num_keys + kp_keys_nl + kp_keys, mech_ws + num_ws + kp_ws + kp_ws)] + [("Escape",  "mode \"default\"")]
+
         def sp(k,i):
                 return [
                           (k, '[instance="' + i + '"] focus; [instance="' + i + '"] scratchpad show; mode \"default\"')
@@ -198,7 +214,7 @@ def modes():
         sp_file = sp("$mod+f","file")
         sp_term = sp("$mod+t","ster")
         sp_top = sp("$mod+p","top")
-        mod = [("reshape",reshape + k_focus_move() + k_workspaces()), ("sp-file", sp_file), ("sp-term", sp_term), ("sp-top", sp_top)]
+        mod = [("reshape",reshape + k_focus_move() + k_workspaces()), ("swap", swap), ("sp-file", sp_file), ("sp-term", sp_term), ("sp-top", sp_top)]
         return "\n".join(['mode "' + m + '" {\n' + add_keys(l) + '\n}' for (m,l) in mod])
 
 def colors():
@@ -279,7 +295,7 @@ def auto_start():
                 , "chromium"
                 , "--no-startup-id dunst"
                 # , "franz"
-                , "gdfs default ~/Drive"
+                # , "gdfs default ~/Drive"
                 , my_term_launch + "ster -e tmux"
                 , my_term_launch + "file -e ranger"
                 , my_term_launch + "top -e htop"

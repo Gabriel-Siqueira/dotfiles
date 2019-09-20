@@ -8,12 +8,12 @@
 
 \hypersetup{pdfpagemode=FullScreen}
 \usetheme{Dresden}
-\usecolortheme{beetle}
+\usecolortheme{beaver}
 \setbeamertemplate{itemize items}[ball]
 
 \title {$1} \subtitle{$2}
-\author[Gabriel Henriques Siqueira] {}
-\institute[Unicamp] {}
+\author[Gabriel Henriques Siqueira] {Gabriel Henriques Siqueira}
+\institute[Unicamp] {University of Campinas}
 \date {\today}
 
 \AtBeginSection[]
@@ -27,8 +27,7 @@
 \begin{document}
     \frame{\titlepage}
 
-    \begin{frame}
-    \frametitle{}
+    \begin{frame}{Overview}
     \tableofcontents
     \end{frame}
 

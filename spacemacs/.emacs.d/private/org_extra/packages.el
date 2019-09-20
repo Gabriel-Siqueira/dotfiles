@@ -51,6 +51,8 @@
         '(("CANCEL" . (:foreground "red" :weight bold))
           ("REC*" . (:foreground "yellow" :weight bold))
           ("BLOCK" . (:foreground "white" :weight bold))))
+  ; faces for priorities
+  (setq org-priority-faces '((?A . (:foreground "yellow" :weight bold))))
   ; capture templates
   (setq org-capture-templates
         '(
@@ -61,7 +63,7 @@
           ("n" "Note" entry (file+headline "" "Inbox")
            "* %?\n")
           ("j" "Journal" entry (file+datetree "~/Dropbox/Org/journal.org")
-           "\n* Entered on %U\n\n- Meu almoço: %^{ALM} \n- Meu jantar: %^{JAN} \n- My snacks: %^{SNA|nada} \n- Which health problems I had? %^{HEA|nenhum} \n- A good thing that happen today: %^{GOOD} \n- A bad thing that happen today: %^{BAD} \n- Que progresso eu realizei hoje? %^{PRO|nenhum} \n- O que eu estudei hoje? %^{EST|nada}\n- Am I doing my bast to be happy? %^{HAP|y|n} \n- In which gear has I in? %^{GEA|4|3|5|2|1|6|0} \n- How many stars? %^{STA|0 -|1 *|2 **|3 ***|4 ****|5 *****|}\n%?")
+           "\n* Entered on %U\n\n- relevant events: %^{EVE} \n- food: %^{FOOD} \n- good thing: %^{GOOD|nada} \n- bad thing: %^{BAD|nada} \n- health problems: %^{HEA|nenhum} \n- Am I doing my bast to be happy? %^{HAP|y|n} \n- gear: %^{GEA|4|3|5|2|1|6|0} \n- stars: %^{STA|0 -|1 *|2 **|3 ***|4 ****|5 *****|6 ******|}\n%?")
           ))
   )
 

@@ -182,6 +182,15 @@ you should place your code here."
                   '((haskell :variables haskell-enable-hindent-style "johan-tibell")))
     (add-hook 'haskell-mode-hook 'turn-on-haskell-indentation)
     (add-to-list 'exec-path "~/.local/bin/")
+    (setq haskell-font-lock-symbols t)
+    (setq-default dotspacemacs-configuration-layers
+                  '(auto-completion
+                    (haskell :variables haskell-completion-backend 'intero)))
+
+    ;; ------------------- Latex ---------------------------------
+    (latex :variables latex-enable-magic t)
+    ;; use make to compile
+    ;; (add-to-list 'TeX-command-list '("Make" "make" TeX-run-compile nil t))
 
   )
 
