@@ -7,6 +7,16 @@ function tmux_ic(){
 function tmux_casa(){
     sed -i -e 's/\/home\/ec2014\/ra155446/\/home\/gabriel/g' ~/Dropbox/backup/tmux/last
 }
+# Use ranger to switch directories
+function rcd() {
+    tmp="$(mktemp)"
+    ranger --choosedir="$tmp" "$@"
+    if [ -f "$tmp" ]; then
+        dir="$(cat "$tmp")"
+        rm -f "$tmp"
+        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
+    fi
+}
 # }}}
 # Alias {{{
 # programs {{{
@@ -78,6 +88,7 @@ alias grep='grep --color=auto'
 alias df='df -h'
 alias df10='df -H'
 alias du='du -h'
+alias weather='curl http://wttr.in/'
 # }}}
 # }}}
 # Global variables {{{
@@ -162,6 +173,27 @@ fi
 
 # work nice with neovim
 [ -n "$NVIM_LISTEN_ADDRESS" ] && export FZF_DEFAULT_OPTS='--no-height'
+
+
+# Change cursor shape for different vi modes.
+function zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'block' ]]; then
+    echo -ne '\e[2 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'beam' ]]; then
+    echo -ne '\e[6 q'
+  fi
+}
+zle -N zle-keymap-select
+zle-line-init() {
+    echo -ne "\e[6 q"
+}
+zle -N zle-line-init
+echo -ne '\e[6 q' # Use beam shape cursor on startup.
+preexec() { echo -ne '\e[6 q' ;} # Use beam shape cursor for each new prompt.
 # }}}
 # Local {{{
 if [ -f "./local.zsh" ]; then

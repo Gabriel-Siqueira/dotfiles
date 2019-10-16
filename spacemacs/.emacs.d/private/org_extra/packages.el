@@ -68,7 +68,7 @@
   )
 
 (defun org_extra/post-init-org-agenda ()
-  (setq org-agenda-files (list "~/Dropbox/Org/activities.org"))
+  (setq org-agenda-files (list "~/Dropbox/Org"))
   (setq org-agenda-start-on-weekday 0) ; week starts on sunday
   (setq org-agenda-compact-blocks t)
   (setq org-agenda-use-time-grid nil) ; don not use time-grid by default
@@ -77,10 +77,17 @@
     ("x" "planing" (
       (tags "urgent|pin")
       (agenda "" ((org-agenda-start-day "+1d") (org-agenda-span 1)))))
-    ("o" "main view" (
+    ("O" "main view" (
                       (tags "urgent|pin")
                       (agenda "" ((org-agenda-span 1)))))
-    )))
+    ("A" "main view (A)" (
+                      (tags "urgent|pin")
+                      (agenda "" ((org-agenda-span 1) (org-agenda-skip-function '(and (not (equal "A" (org-entry-get nil "PRIORITY"))) (point-at-eol)))))))
+    ("o" "main view (-C)" (
+                          (tags "urgent|pin")
+                          (agenda "" ((org-agenda-span 1) (org-agenda-skip-function '(and (equal "C" (org-entry-get nil "PRIORITY")) (point-at-eol)))))))
+  ))
+)
 
 (defun org_extra/init-org-super-agenda ()
   (use-package org-super-agenda

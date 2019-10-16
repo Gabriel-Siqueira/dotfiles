@@ -160,7 +160,7 @@ format-background = ${colors.background-alt}
 [module/aur]
 type = custom/script
 interval = 360
-exec = yay -Qu 2> /dev/null | wc -l
+exec = yay -Qua 2> /dev/null | wc -l
 format = <label>
 format-foreground = #ffff00
 label = %output%*

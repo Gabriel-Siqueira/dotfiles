@@ -7,7 +7,7 @@
 - necessary to install:
   bash, python, stow
 - depending on the config files choosen to install:
-  conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, fzf
+  conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, fzf, atool (zip, unzip in ranger)
 
 * I3
 
@@ -16,7 +16,8 @@
 - depending on the configuration of i3:
   termite, terminator, rofi, morc_menu, dropbox, alarm-clock-applet, xfce4-power-manager, twmn, compton, redshift
 - install fonts for polybar: terminus, ttf-unifont, material icons
--
+- copy xmacros to .local/share/
+
 * Emacs
 
 - to use spell-check download aspell dictionaries (use the system package manager)

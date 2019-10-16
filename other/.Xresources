@@ -76,13 +76,13 @@ rofi.yoffset: 20
 rofi.columns: 1
 rofi.lines: 10
 rofi.width: 100
-rofi.color-window: #222222,#222222,#00ff00
-rofi.opacity: 50
+rofi.color-window: #aa222222,#aa222222,#aa00ff00
 rofi.separator-style: solid
-rofi.color-normal: #222222,#eeeeee,#444444,#000000,#00ff00
+! State:           ´bg´,     ´fg´,     ´bgalt´,  ´hlbg´,   ´hlfg´
+rofi.color-normal: #aa222222,#ffeeeeee,#aa222222,#aa000000,#ff00ff00
 rofi.kb-mode-next: Tab,Shift+Right
 rofi.kb-row-tab: Ctrl+Tab
-rofi.hide-scrollbar: 1
+rofi.hide-scrollbar: true
 
 !!}}}
 !! vim: foldmethod=marker foldlevel=0

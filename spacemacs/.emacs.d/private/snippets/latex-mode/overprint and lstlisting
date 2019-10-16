@@ -1,0 +1,9 @@
+# key: lst
+# name: overprint and lstlisting
+# --
+\begin{overprint}[.935\textwidth]
+\onslide<$1|handout:0>
+\begin{lstlisting}[escapechar=\@]
+$0
+\end{lstlisting}
+\end{overprint}

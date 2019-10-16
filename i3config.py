@@ -84,6 +84,7 @@ def keys():
         , ("$mod+a",      'exec "rofi -show drun"')
         , ("$mod+o",      'exec "locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open"')
         , ("$mod+w",      'exec ~/bin/url.sh')
+        , ("$mod+m",      'exec ~/bin/macros.sh')
     ]
     reshape_mode = [("$mod+r","mode \"reshape\"")]
     swap_mode = [("$mod+s","mode \"swap\"")]
@@ -143,15 +144,17 @@ def k_focus_move():
         , ("$mod+Shift+Down", "move down")
         , ("$mod+Shift+Up",   "move up")
         , ("$mod+Shift+Right","move right")
+        , ("$mod+Shift+space", "floating toggle")
     ]
     return focus + move
 
 def k_workspaces():
 
-    toggle = [
+    alternative = [
           ("$mod+Tab", "workspace back_and_forth")
-        , ("$mod+m", "mark alternative")
-        , ("$mod+Shift+Tab", "[con_mark=\"alternative\"] focus")
+        , ("$mod+Shift+m", "mark alternative")
+        , ("$mod+Mod1+Tab", "[con_mark=\"alternative\"] focus")
+        , ("$mod+Shift+Tab", "move container to workspace back_and_forth")
     ]
     mult_screen = [
           ("$mod+x", "move workspace to output right")
@@ -166,7 +169,7 @@ def k_workspaces():
     move_ws_kp_nl = [("$mod+Shift+" + k, "move container to workspace " + w) for (k,w) in zip(kp_keys_nl, kp_ws)]
     move_ws_kp = [("$mod+Shift+Mod2+" + k, "move container to workspace " + w) for (k,w) in zip(kp_keys, kp_ws)]
 
-    return toggle + mult_screen + switch_ws + switch_ws_kp + switch_ws_kp_nl + move_ws + move_ws_kp + move_ws_kp_nl
+    return alternative + mult_screen + switch_ws + switch_ws_kp + switch_ws_kp_nl + move_ws + move_ws_kp + move_ws_kp_nl
 
 def k_scratchpad():
         sp = [
@@ -183,12 +186,10 @@ def modes():
                 , ("Shift+minus", "resize shrink height 5 px or 5 ppt")
                 , ("Shift+plus",  "resize grow   height 5 px or 5 ppt")
                 , ("Escape","mode \"default\"")
-                , ("f",       "fullscreen")
                 , ("s",       "layout stacking")
                 , ("t",       "layout tabbed")
                 , ("h",       "layout splith")
                 , ("v",       "layout splitv")
-                , ("Shift+f", "floating toggle")
                 , ("p",       "focus parent")
                 , ("c",       "focus child")
                 , ("Escape",  "mode \"default\"")
@@ -256,8 +257,10 @@ def place():
             return '[class="^' + name + '$"]'
     def inst(name):
             return '[instance="^' + name + '$"]'
+    def role(name):
+            return '[window_role="^' + name + '$"]'
     wp_list = [
-              (game, clas, ["Steam", "Mainwindow.py", "Minetest"])
+              (game, clas, ["Steam", "Lutris", "Mainwindow.py", "Minetest"])
             , (midi, clas, ["Vlc", "Kodi", "Spotify", "Lollypop"])
             , (virM, clas, ["VirtualBox"])
             , (docs, clas, ["libreoffice", "libreoffice-startcenter", "libreoffice-writer", "libreoffice-calc", "libreoffice-impress", "libreoffice-draw", "libreoffice-math", "libreoffice-base"])
@@ -275,7 +278,9 @@ def place():
         , ("top", inst, ["move scratchpad","floating enable","resize set 1100 600"])
     ]
     float_list = [
-              ("pavucontrol", clas)
+                ("pavucontrol", clas)
+              , ("pop-up",role)
+              , ("task_dialog",role)
     ]
     fix = ["\n".join(["for_window " + criteria(name) + " move to workspace " + wp for name in names]) for (wp, criteria, names) in wp_list]
     comands = ["\n".join(["for_window " + criteria(name) + " " + com for com in coms]) for (name, criteria, coms) in com_list]
