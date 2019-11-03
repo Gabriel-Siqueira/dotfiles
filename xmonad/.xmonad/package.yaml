@@ -1,0 +1,8 @@
+name:                my-xmonad
+version:             0.1.0.0
+dependencies:
+- base >= 4.7 && < 5
+- xmonad
+- unix
+- xmonad-contrib
+- containers

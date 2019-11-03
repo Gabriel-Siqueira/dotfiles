@@ -53,6 +53,7 @@ values."
      evil-ledger
      color-theme-sanityinc-solarized
      light-soap-theme
+     (fira-code :location local)
      )
    dotspacemacs-frozen-packages '()
    dotspacemacs-excluded-packages '()

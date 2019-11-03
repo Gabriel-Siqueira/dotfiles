@@ -1,3 +1,4 @@
+editMode: Vi
 bind: ctrl-r : f z f return
 maxhistorysize: Just 1000
 historyDuplicates: IgnoreAll

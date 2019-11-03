@@ -18,6 +18,11 @@
 - install fonts for polybar: terminus, ttf-unifont, material icons
 - copy xmacros to .local/share/
 
+* Xmonad
+
+- programs for i3: feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, termite, rofi, dropbox, alarm-clock-applet, xfce4-power-manager, dunst, compton, redshift, xmobar, stalonetray, dmenu
+- copy xmacros to .local/share/
+
 * Emacs
 
 - to use spell-check download aspell dictionaries (use the system package manager)

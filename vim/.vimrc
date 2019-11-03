@@ -79,6 +79,7 @@ Plug 'sheerun/vim-polyglot'
 "}}}
 " {{{ Other languages and file types
 
+Plug 'jceb/vim-orgmode'                       " for org
 " Plug 'python-mode/python-mode'                " for python
 " Plug 'rust-lang/rust.vim'                     " for rust
 " Plug 'PotatoesMaster/i3-vim-syntax'           " for i3 config
@@ -103,7 +104,7 @@ Plug 'sheerun/vim-polyglot'
 
 " Plug 'eagletmt/neco-ghc'                      " for haskell (deoplete)
 " Plug 'poppyschmo/deoplete-latex'              " for latex (deoplete)
-" Plug 'zchee/deoplete-clang'                   " for  C/C++ (deoplete) 
+" Plug 'zchee/deoplete-clang'                   " for  C/C++ (deoplete)
 " Plug 'zchee/deoplete-jedi'                    " for python (deoplete)
 " Plug 'zchee/deoplete-zsh'                     " for zsh (deoplete)
 
@@ -430,7 +431,7 @@ set backup
 set writebackup
 
 " Where save backup
-set backupdir=./vim_files/backup//
+set backupdir=~/.cache/vim/backup//
 set backupdir+=./vim_files//
 set backupdir+=~/Documents/vim_files/backup//
 set backupdir+=~/Documents/vim_files//
@@ -440,7 +441,8 @@ set backupdir+=~/random//
 set backupdir+=.
 
 " Where place swap files
-set directory=./vim_files/swap//
+set directory=~/.cache/vim/swap//
+set directory+=./vim_files/swap//
 set directory+=./vim_files//
 set directory+=~/Documents/vim_files/swap//
 set directory+=~/Documents/vim_files//
@@ -451,7 +453,8 @@ set directory+=.
 
 " Place for undo files
 if has('persistent_undo')
-    set undodir=./vim_files/undo//
+    set undodir=~/.cache/vim/undo//
+    set undodir+=./vim_files/undo//
     set undodir+=./vim_files//
     set undodir+=~/Documents/vim_files/undo//
     set undodir+=~/Documents/vim_files//

@@ -26,7 +26,7 @@ then
          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
-stow -v -R --ignore='.*~undo-tree~.*' -t ~ vim i3 other shell spacemacs haskell
+stow -v -R --ignore='.*~undo-tree~.*' -t ~ vim other shell spacemacs haskell xmonad
 
 # make scripts executable
 for i in ~/bin/*

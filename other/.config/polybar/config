@@ -29,8 +29,9 @@ font-0 = mono:pixelsize=8;1
 font-1 = terminus:pixelsize=10;1
 font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-3 = Material Icons:fontformat=truetype:size=8:antialias=true;1
+font-4 = terminus:pixelsize=10;1
 modules-left = powermenu filesystem xkeyboard memory temperature cpu
-modules-center = i3
+modules-center = xmonad
 modules-right = pacman aur volume xbacklight battery date
 tray-position = right
 tray-padding = 0
@@ -62,6 +63,14 @@ label-visible-padding = 1
 label-urgent = %name%
 label-urgent-background = ${colors.alert}
 label-urgent-padding = 1
+# }}}
+# module/xmonad {{{
+[module/xmonad]
+type = custom/script
+exec = tail -F /tmp/xmonad-log
+exec-if = [ -p /tmp/xmonad-log ]
+label = %{T5}%output%%{T-}
+tail = true
 # }}}
 # module/xwindow {{{
 [module/xwindow]
@@ -369,8 +378,8 @@ screenchange-reload = true
 # }}}
 # global/wm {{{
 [global/wm]
-margin-top = 5
-margin-bottom = 5
+margin-top = 3
+margin-bottom = 1
 # }}}
 
 # vim:foldmethod=marker foldlevel=0

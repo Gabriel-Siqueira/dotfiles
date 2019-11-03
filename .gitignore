@@ -7,3 +7,7 @@ editors/.emacs.d/mysnippets/mysnippets
 /xmonad/.xmonad/xmonad-x86_64-linux
 /vim/.config/nvim/.netrwhist
 *.un~
+*/*/.stack-work
+/xmonad/.xmonad/my-xmonad.cabal
+*.lock
+/spacemacs/.emacs.d/private/custom.el
