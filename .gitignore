@@ -11,3 +11,6 @@ editors/.emacs.d/mysnippets/mysnippets
 /xmonad/.xmonad/my-xmonad.cabal
 *.lock
 /spacemacs/.emacs.d/private/custom.el
+/xmonad/.xmonad/myXmonad.cabal
+/spacemacs/.emacs.d/private/local/firacode.el
+/xmonad/.xmonad/dist-newstyle/*

@@ -20,7 +20,7 @@
 
 * Xmonad
 
-- programs for i3: feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, termite, rofi, dropbox, alarm-clock-applet, xfce4-power-manager, dunst, compton, redshift, xmobar, stalonetray, dmenu
+- install for xmonad: feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, termite, rofi, dropbox, alarm-clock-applet, xfce4-power-manager, dunst, compton, redshift, xmobar, stalonetray, dmenu, xorg-fonts-misc
 - copy xmacros to .local/share/
 
 * Emacs

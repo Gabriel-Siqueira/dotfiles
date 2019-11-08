@@ -12,11 +12,13 @@ import XMonad.Layout.SubLayouts (GroupMsg(UnMerge,MergeAll), pullGroup, onGroup,
 import XMonad.Layout.Simplest (Simplest(Simplest))
 import XMonad.Layout.WindowNavigation (windowNavigation)
 import XMonad.Layout.BoringWindows (boringWindows, focusUp, focusDown)
+import XMonad.Layout.TrackFloating (trackFloating, useTransientFor)
 import XMonad.Hooks.UrgencyHook (focusUrgent)
 import XMonad.Hooks.DynamicLog (PP(..), wrap, dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (docks, avoidStruts, ToggleStruts(ToggleStruts))
 import XMonad.Hooks.FadeWindows (fadeWindowsEventHook)
-import XMonad.Util.NamedScratchpad (NamedScratchpad(NS), defaultFloating, customFloating, namedScratchpadAction, namedScratchpadManageHook)
+import XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
+import XMonad.Util.NamedScratchpad (NamedScratchpad(NS), customFloating, namedScratchpadAction, namedScratchpadManageHook)
 import XMonad.Util.Dmenu (dmenu)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.SpawnOnce (spawnOnce)
@@ -110,7 +112,7 @@ main = do
   xmonad conf
 
 layoutkeys :: XConfig Layout -> M.Map (ButtonMask, KeySym) (X ())
-layoutkeys conf@(XConfig {XMonad.modMask = myModMask}) = M.fromList $ [((myModMask, xK_space ), sendMessage NextLayout) , ((myModMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)]
+layoutkeys conf@XConfig {XMonad.modMask = myModMask} = M.fromList [((myModMask, xK_space ), sendMessage NextLayout) , ((myModMask .|. shiftMask, xK_space ), setLayout $ XMonad.layoutHook conf)]
 
 keyMaps :: [(String, X ())]
 keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKeys ++ focusKeys ++ resizeKeys ++ moreLayoutKeys ++ workspacesKeys ++ miscKeys
@@ -157,7 +159,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-S-<Right>", windowSwap R False)
       , ("M-S-m", windows W.swapMaster)
       , ("M-S-n", windows W.swapUp)
-      , ("M-S-p", windows W.swapDown)]
+      , ("M-S-p", windows W.swapDown)
+      , ("M-M1-t", withFocused $ windows . W.sink)]
     focusKeys = [
         ("M-u", focusUrgent)
       , ("M-h", windowGo L False)
@@ -202,7 +205,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       s <- dmenu ["yes","no"]
       when (s == "yes") (io exitSuccess)
 
-myLayoutsHook = avoidStruts $ windowNavigation $ addTabs shrinkText tabTheme $ subLayout [] Simplest $ boringWindows $ fullscreenFull
+myLayoutsHook = avoidStruts . windowNavigation . trackFloating . useTransientFor . addTabs shrinkText tabTheme . subLayout [] Simplest . boringWindows . fullscreenFull $
   (Full ||| tiled ||| Mirror tiled ||| Full)
  where
      tiled   = ResizableTall nmaster delta ratio []
@@ -251,8 +254,9 @@ myHandleEventHook = handleEventHook def
                 <+> fullscreenEventHook
 
 myManageHook :: ManageHook
-myManageHook = namedScratchpadManageHook myScratchpads <+> (composeAll . concat $
-            [[ className =? "MPlayer"     --> doFloat]
+myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratchpads <+> (composeAll . concat $
+            [ []
+            , [ className =? "MPlayer"     --> doFloat]
             , [className =? "Gimp"        --> doFloat]
             , [className =? "VirtualBox"  --> doFloat]
             , [className =? "pavucontrol" --> doFloat]
@@ -284,7 +288,7 @@ myManageHook = namedScratchpadManageHook myScratchpads <+> (composeAll . concat 
 
 myScratchpads :: [NamedScratchpad]
 myScratchpads =
-    [ NS "spotify" "spotify" (className =? "Spotify") defaultFloating
+    [ NS "spotify" "spotify" (className =? "Spotify") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
     , NS "file" (term_launch ++ "file -e ranger") (appName =? "file") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
     , NS "ster" (term_launch ++ "ster -e tmux") (appName =? "ster") (customFloating $ W.RationalRect (1/4) (1/4) (1/2) (1/2))
     ]

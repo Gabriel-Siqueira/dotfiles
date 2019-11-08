@@ -1,4 +1,4 @@
-name:                my-xmonad
+name:                myXmonad
 version:             0.1.0.0
 dependencies:
 - base >= 4.7 && < 5
@@ -6,3 +6,15 @@ dependencies:
 - unix
 - xmonad-contrib
 - containers
+
+library:
+  source-dirs: .
+
+executables:
+  myXmonad:
+    main:                xmonad.hs
+    source-dirs:         .
+    ghc-options:
+    - -ilib
+    - -fforce-recomp
+    - -main-is main
