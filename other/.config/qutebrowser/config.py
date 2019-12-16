@@ -138,6 +138,7 @@ c.colors.tabs.selected.odd.bg = base05
 c.colors.tabs.selected.odd.fg = base00
 # }}}
 # bindings {{{
+config.bind("a", 'enter-mode insert')
 config.bind('zp', 'open -t https://getpocket.com/edit?url={url}')
 config.bind("e", 'session-save ;; set-cmd-text -s :session-load -c')
 config.bind('<Ctrl-L>', 'tab-next')
@@ -150,8 +151,6 @@ config.bind('J', 'back')
 config.bind('K', 'forward')
 config.bind('L', 'tab-move +')
 config.bind('H', 'tab-move -')
-config.bind('N', 'tab-move -')
-config.bind('P', 'tab-move -')
 config.bind('<Ctrl-b>', 'set-cmd-text -s :buffer')
 config.bind('<Ctrl-\>', 'leave-mode', mode='passthrough')
 # }}}

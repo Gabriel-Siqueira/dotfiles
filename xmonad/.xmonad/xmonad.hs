@@ -8,22 +8,23 @@ import XMonad.Actions.SwapWorkspaces (swapWithCurrent)
 import XMonad.Layout.ResizableTile (ResizableTall(..))
 import XMonad.Layout.Tabbed (shrinkText, Theme(..), addTabs)
 import XMonad.Layout.Fullscreen (fullscreenFull)
-import XMonad.Layout.SubLayouts (GroupMsg(UnMerge,MergeAll), pullGroup, onGroup, subLayout)
+import XMonad.Layout.SubLayouts (GroupMsg(UnMerge,MergeAll), pullGroup, onGroup, subLayout, toSubl)
 import XMonad.Layout.Simplest (Simplest(Simplest))
 import XMonad.Layout.WindowNavigation (windowNavigation)
 import XMonad.Layout.BoringWindows (boringWindows, focusUp, focusDown)
 import XMonad.Layout.TrackFloating (trackFloating, useTransientFor)
-import XMonad.Hooks.UrgencyHook (focusUrgent)
+import XMonad.Hooks.UrgencyHook (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
 import XMonad.Hooks.DynamicLog (PP(..), wrap, dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (docks, avoidStruts, ToggleStruts(ToggleStruts))
 import XMonad.Hooks.FadeWindows (fadeWindowsEventHook)
 import XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
+import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
+import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, refocusLastWhen, isFloat, toggleFocus)
 import XMonad.Util.NamedScratchpad (NamedScratchpad(NS), customFloating, namedScratchpadAction, namedScratchpadManageHook)
 import XMonad.Util.Dmenu (dmenu)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.Run (spawnPipe)
-import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
 ---------------------------
 import Data.Monoid (All)
 import Control.Monad (when)
@@ -93,8 +94,7 @@ main :: IO ()
 main = do
   host <- fmap nodeName getSystemID
   handle <- spawnPipe myStatusBar
-  let conf = docks (def {
-  -- xmonad =<< statusBar myStatusBar myPP toggleStrutsKey (def {
+  let conf = withUrgencyHook NoUrgencyHook . docks $ (def {
       terminal = "termite"
     , keys = layoutkeys
     , modMask = mod4Mask
@@ -120,15 +120,14 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
     programKeys = [
         ("M-<Return>", spawn myTerminal)
       , ("<Print>", spawn myScreenShot)
-      , ("M-m", namedScratchpadAction myScratchpads "spotify")
-      , ("M-f", namedScratchpadAction myScratchpads "file")
-      , ("M-t", namedScratchpadAction myScratchpads "ster") ]
+      , ("M-f", toggleScratchpad "file")
+      , ("M-t", toggleScratchpad "ster") ]
     menuKeys = [
         ("M-d", spawn myMenu)
       , ("M-a", spawn "rofi -show drun")
       , ("M-o", spawn "locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open")
       , ("M-w", spawn "~/bin/url.sh")
-      , ("M-M1-m", spawn "~/bin/macros.sh")
+      , ("M-m", spawn "~/bin/macros.sh")
       ]
     quitRealoadKeys = [
         ("M-M1-r", spawn "xmonad --restart")
@@ -192,7 +191,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-r <Left>", sendMessage $ pullGroup L)
       , ("M-r <Down>", sendMessage $ pullGroup D)
       , ("M-r <Up>", sendMessage $ pullGroup U)
-      , ("M-r <Right>", sendMessage $ pullGroup R)]
+      , ("M-r <Right>", sendMessage $ pullGroup R)
+      , ("M-r <Space>", toSubl NextLayout)]
     workspacesKeys = [
         ("M-" ++ s ++ k, windows $ f i)
         | (i, k) <- zip myWorkspaces (map show [0..9::Int] ++ ["<Insert>", "<Home>", "<Page_Up>", "<Delete>", "<End>", "<Page_Down>","M1-<Insert>","M1-<Home>","M1-<Page_Up>","M1-<Delete>","M1-<End>","M1-<Page_Down>"]) ++
@@ -204,9 +204,17 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
     quit = do
       s <- dmenu ["yes","no"]
       when (s == "yes") (io exitSuccess)
+    toggleScratchpad com = do
+      maybe_win <- gets (W.peek . windowset)
+      flt <- case maybe_win of
+        Nothing -> return False
+        Just win -> runQuery isFloat win
+      when flt toggleFocus
+      namedScratchpadAction myScratchpads com
 
-myLayoutsHook = avoidStruts . windowNavigation . trackFloating . useTransientFor . addTabs shrinkText tabTheme . subLayout [] Simplest . boringWindows . fullscreenFull $
-  (Full ||| tiled ||| Mirror tiled ||| Full)
+myLayoutsHook = refocusLastLayoutHook . avoidStruts . windowNavigation . trackFloating . useTransientFor .
+  addTabs shrinkText tabTheme . subLayout [0] (Simplest ||| tiled ||| Mirror tiled) .
+  boringWindows . fullscreenFull $ (Full ||| tiled ||| Mirror tiled)
  where
      tiled   = ResizableTall nmaster delta ratio []
      nmaster = 1
@@ -250,6 +258,7 @@ myStartupHook host = do
 
 myHandleEventHook :: Event -> X All
 myHandleEventHook = handleEventHook def
+                <+> refocusLastWhen isFloat
                 <+> fadeWindowsEventHook
                 <+> fullscreenEventHook
 
@@ -278,7 +287,7 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
                 cShiftMail = ["thunderbird","TelegramDesktop","Franz","Inboxer"]
                 cShiftDeft = ["Emacs"]
                 cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera"]
-                cShiftMidi = ["Kodi", "Vlc", "Kodi", "Spotify", "Lollypop"]
+                cShiftMidi = ["Kodi", "Vlc", "Spotify", "Kodi", "Lollypop"]
                 cShiftVirM = ["VirtualBox"]
                 cShiftGame = ["Steam","Mainwindow.py","Minetest", "Lutris"]
                 cShiftAuxE = ["Firefox", "qutebrowser"]
@@ -288,8 +297,7 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
 
 myScratchpads :: [NamedScratchpad]
 myScratchpads =
-    [ NS "spotify" "spotify" (className =? "Spotify") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
-    , NS "file" (term_launch ++ "file -e ranger") (appName =? "file") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
+    [ NS "file" (term_launch ++ "file -e ranger") (appName =? "file") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
     , NS "ster" (term_launch ++ "ster -e tmux") (appName =? "ster") (customFloating $ W.RationalRect (1/4) (1/4) (1/2) (1/2))
     ]
   where
@@ -305,7 +313,7 @@ myLogHook h = do
       , ppVisible = wrap "%{F#2E9AFE}[" "]%{F-}"
       , ppTitle = const ""
       , ppCurrent = wrap "%{F#fcba03}[" "]%{F-}"
-      , ppUrgent = wrap "%{F#ff3333}*" "*%{F-}"
+      , ppUrgent = wrap "%{F#ff3333}" "%{F-}"
       , ppLayout = wrap "%{F#ffffff}" "%{F-}" .
         (\ x -> case x of
             "BSP"                         -> "[T]"

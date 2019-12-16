@@ -4,8 +4,9 @@ dependencies:
 - base >= 4.7 && < 5
 - xmonad
 - unix
-- xmonad-contrib
+- xmonad-contrib >= 0.16
 - containers
+- mtl
 
 library:
   source-dirs: .
