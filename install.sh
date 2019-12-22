@@ -17,10 +17,10 @@ then
 fi
 
 # install spacevim
-if [ ! -f "$HOME/.SpaceVim" ]
+if [ ! -f "$HOME/.SpaceVim.d" ]
 then
     echo "Installing: spacevim"
-    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+    curl -sLf https://spacevim.org/install.sh | bash
     rm -f ~/.SpaceVim.d
 fi
 
