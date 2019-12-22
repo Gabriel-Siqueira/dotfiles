@@ -3,7 +3,7 @@
 import XMonad
 import XMonad.Util.EZConfig (additionalKeysP)
 import XMonad.Actions.Navigation2D (windowGo, Direction2D(..), windowSwap)
-import XMonad.Actions.CycleWS (toggleWS')
+import XMonad.Actions.CycleWS (toggleWS', swapNextScreen, nextScreen)
 import XMonad.Actions.SwapWorkspaces (swapWithCurrent)
 import XMonad.Layout.ResizableTile (ResizableTall(..))
 import XMonad.Layout.Tabbed (shrinkText, Theme(..), addTabs)
@@ -36,7 +36,10 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
 myTerminal :: String
-myTerminal = "termite"
+myTerminal = "kitty"
+
+termLaunch :: String -> String -> String
+termLaunch name prog = "kitty --name=" ++ name ++ " " ++ prog
 
 myMenu :: String
 myMenu = "rofi -show run"
@@ -148,6 +151,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       ]
     moveKeys = [
         ("M-<Backspace>", kill)
+      , ("M-S-x", swapNextScreen)
       , ("M-S-h", windowSwap L False)
       , ("M-S-j", windowSwap D False)
       , ("M-S-k", windowSwap U False)
@@ -162,6 +166,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-M1-t", withFocused $ windows . W.sink)]
     focusKeys = [
         ("M-u", focusUrgent)
+      , ("M-x", nextScreen)
       , ("M-h", windowGo L False)
       , ("M-j", windowGo D False)
       , ("M-k", windowGo U False)
@@ -197,7 +202,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
         ("M-" ++ s ++ k, windows $ f i)
         | (i, k) <- zip myWorkspaces (map show [0..9::Int] ++ ["<Insert>", "<Home>", "<Page_Up>", "<Delete>", "<End>", "<Page_Down>","M1-<Insert>","M1-<Home>","M1-<Page_Up>","M1-<Delete>","M1-<End>","M1-<Page_Down>"]) ++
                    zip myWorkspaces ["*","(",")","}","+","{","]","[","!","=","<KP_Home>","<KP_Up>","<KP_Page_Up>","<KP_Left>","<KP_Begin>","<KP_Right>","M1-<KP_Home>","M1-<KP_Up>","M1-<KP_Page_Up>","M1-<KP_Left>","M1-<KP_Begin>","M1-<KP_Right>"]
-        , (f, s) <- [(W.greedyView, ""), (W.shift, "S-"),(swapWithCurrent, "s ")]] ++
+        , (f, s) <- [(W.view, ""), (W.shift, "S-"),(swapWithCurrent, "s ")]] ++
       [ ("M-<Tab>", toggleWS' ["NSP"]) ]
     miscKeys = [
           ("M-b", sendMessage ToggleStruts) ]
@@ -242,13 +247,11 @@ myStartupHook host = do
             , "xfce4-power-manager"
             , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
             , "compton"
-            , "emacs"
+            -- , "emacs"
             , "qutebrowser"
             , "chromium"
             , "dunst"
-            -- , term_launch ++ "ster -e tmux"
-            -- , term_launch ++ "file -e ranger"
-            -- , term_launch ++ "top -e htop"
+            , termLaunch "main_term" "tmux new -A -s standard"
             ]
   windows $ W.greedyView startupWorkspace
   where
@@ -264,8 +267,8 @@ myHandleEventHook = handleEventHook def
 
 myManageHook :: ManageHook
 myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratchpads <+> (composeAll . concat $
-            [ []
-            , [ className =? "MPlayer"     --> doFloat]
+            [ [appName   =? "main_term"   --> doShift deft]
+            , [className =? "MPlayer"     --> doFloat]
             , [className =? "Gimp"        --> doFloat]
             , [className =? "VirtualBox"  --> doFloat]
             , [className =? "pavucontrol" --> doFloat]
@@ -297,11 +300,9 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
 
 myScratchpads :: [NamedScratchpad]
 myScratchpads =
-    [ NS "file" (term_launch ++ "file -e ranger") (appName =? "file") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
-    , NS "ster" (term_launch ++ "ster -e tmux") (appName =? "ster") (customFloating $ W.RationalRect (1/4) (1/4) (1/2) (1/2))
+    [ NS "file" (termLaunch "file" "ranger") (appName =? "file") (customFloating $ W.RationalRect (1/6) (1/6) (2/3) (2/3))
+    , NS "ster" (termLaunch "ster" "tmux new -A -s scratchpad") (appName =? "ster") (customFloating $ W.RationalRect (1/4) (1/4) (1/2) (1/2))
     ]
-  where
-    term_launch = "termite --name="
 
 myLogHook :: Handle -> X ()
 myLogHook h = do

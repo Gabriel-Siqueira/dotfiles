@@ -1,0 +1,202 @@
+# Options {{{
+[options]
+    bootstrap_before = "myspacevim#before"
+    bootstrap_after = "myspacevim#after"
+    statusline_separator = "nil"
+    statusline_inactive_separator = "nil"
+    buffer_index_type = 4
+    enable_tabline_filetype_icon = true
+    enable_statusline_mode = false
+    enable_vimfiler_welcome = false
+    windows_smartclose = ""
+# }}}
+
+# Autocomplete {{{
+[[layers]]
+name = 'autocomplete'
+auto-completion-return-key-behavior = "complete"
+auto-completion-tab-key-behavior = "smart"
+# }}}
+
+# Color {{{
+[[layers]]
+name = 'colorscheme'
+colorscheme = "gruvbox"
+colorscheme_bg = "dark"
+enable_guicolors = true
+# }}}
+
+# Objects/Motions {{{
+[[custom_plugins]]
+name = "chaoren/vim-wordmotion"
+merged = false
+[[custom_plugins]]
+name = "kana/vim-smartword"
+merged = false
+hook_add = '''
+map <leader>w <Plug>(smartword-w)
+map <leader>b <Plug>(smartword-b)
+map <leader>e <Plug>(smartword-e)
+map <leader>ge <Plug>(smartword-ge)
+'''
+[[custom_plugins]]
+name = "kana/vim-textobj-entire"
+merged = false
+[[custom_plugins]]
+name = "kana/vim-textobj-fold"
+merged = false
+[[custom_plugins]]
+name = "kana/vim-textobj-indent"
+merged = false
+[[custom_plugins]]
+name = "kana/vim-textobj-line"
+merged = false
+[[custom_plugins]]
+name = "lucapette/vim-textobj-underscore"
+merged = false
+[[custom_plugins]]
+name = "lucapette/vim-textobj-underscore"
+merged = false
+[[custom_plugins]]
+name = "sgur/vim-textobj-parameter"
+merged = false
+[[custom_plugins]]
+name = "thinca/vim-textobj-between"
+merged = false
+[[custom_plugins]]
+name = "tpope/vim-surround"
+merged = false
+[[custom_plugins]]
+name = "jeetsukumaran/vim-indentwise"
+merged = false
+# }}}
+
+# Operators {{{
+[[custom_plugins]]
+name = 'AndrewRadev/splitjoin.vim'
+merged = false
+[[custom_plugins]]
+name = 'christoomey/vim-sort-motion'
+merged = false
+[[custom_plugins]]
+name = 'tpope/vim-abolish'
+merged = false
+[[custom_plugins]]
+name = 'tpope/vim-speeddating'
+merged = false
+[[custom_plugins]]
+name = 'vim-scripts/ReplaceWithRegister'
+merged = false
+# }}}
+
+# Visual {{{
+[[custom_plugins]]
+name = 'kana/vim-niceblock'
+merged = false
+[[custom_plugins]]
+name = 'nelstrom/vim-visual-star-search'
+merged = false
+# }}}
+
+# Shell {{{
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+# }}}
+
+# Denite {{{
+[[layers]]
+name = 'denite'
+# }}}
+
+# Org {{{
+[[custom_plugins]]
+name = "jceb/vim-orgmode"
+merged = false
+hook_add = '''
+let g:org_agenda_files = ['~/Dropbox/Org/activities.org']
+'''
+# }}}
+
+# VC/Git {{{
+[[layers]]
+name = "VersionControl"
+[[layers]]
+name = "git"
+git-plugin = "fugitive"
+# }}}
+
+# Syntax Check {{{
+[[layers]]
+name = "checkers"
+# }}}
+
+# Grammar Check {{{
+[[custom_plugins]]
+name = "rhysd/vim-grammarous"
+# }}}
+
+# Debug {{{
+[[layers]]
+name = "debug"
+# }}}
+
+# Edit {{{
+[[layers]]
+name = "edit"
+# }}}
+
+# Gtags {{{
+[[layers]]
+name = "gtags"
+# }}}
+
+# Sudo {{{
+[[layers]]
+name = "sudo"
+# }}}
+
+# Test {{{
+[[layers]]
+name = "test"
+# }}}
+
+# Tmux {{{
+[[layers]]
+name = "tmux"
+# }}}
+
+# Languages {{{
+[[layers]]
+name = "lsp"
+filetypes = [
+  "c",
+  "rust",
+  "haskell",
+  "python",
+  "sh"
+]
+[[layers]]
+name = "lang#c"
+[[layers]]
+name = "lang#extra"
+[[layers]]
+name = "lang#haskell"
+[[layers]]
+name = "lang#latex"
+[[layers]]
+name = "lang#markdown"
+[[layers]]
+name = "lang#python"
+[[layers]]
+name = "lang#r"
+[[layers]]
+name = "lang#rust"
+[[layers]]
+name = "lang#sh"
+[[layers]]
+name = "lang#vim"
+# }}}
+
+# vim:foldmethod=marker foldlevel=0

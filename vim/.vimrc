@@ -169,9 +169,10 @@ Plug 'tomasr/molokai'
 ""}}}
 " Others {{{
 
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}     " Interactive command execution (for ghc-mode)
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}     " interactive command execution (for ghc-mode)
 Plug 'let-def/vimbufsync'                      " coquille uses it
-Plug 'tpope/vim-obsession'                     " Automatic save session
+Plug 'tpope/vim-obsession'                     " automatic save session
+Plug 'lambdalisue/suda.vim'                    " use sudo on comand line
 
 " }}}
 call plug#end()
@@ -203,7 +204,7 @@ endfunction
 "{{{ ====================== Mappings =======================
 " leader {{{
 
-let mapleader = 'ç'
+let mapleader = '\
 set tm=2000 " time to leader became ç
 
 " }}}
@@ -234,7 +235,6 @@ noremap <C-space> :b#<CR>
 " }}}
 " move {{{
 
-
 noremap  k gk
 noremap  j gj
 noremap  0 g0
@@ -243,7 +243,6 @@ noremap  gk k
 noremap  gj j
 noremap  g0 0
 noremap  g$ $
-
 
 " }}}
 " search {{{

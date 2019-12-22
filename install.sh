@@ -1,6 +1,4 @@
-i3=true
-
-# install spacemacs and oh-my-zsh
+# install oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh/" ]
 then
     echo "Installing: oh-my-zsh"
@@ -10,6 +8,7 @@ then
     rm -f ~/.zshrc
 fi
 
+# install spacemacs
 if [ ! -f "$HOME/.spacemacs" ]
 then
     echo "Installing: spacemacs"
@@ -17,26 +16,25 @@ then
     rm -f ~/.spacemacs
 fi
 
-if [ ! -f "$HOME/.vim/autoload/plug.vim" ]
+# install spacevim
+if [ ! -f "$HOME/.SpaceVim" ]
 then
-    echo "Installing: plug"
-    curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
-         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+    echo "Installing: spacevim"
+    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
+    rm -f ~/.SpaceVim.d
 fi
 
-stow -v -R --ignore='.*~undo-tree~.*' -t ~ vim other shell spacemacs haskell xmonad
+# install tmux plugin manager
+if [ ! -f "$HOME/.tmux/plugins/tpm" ]
+then
+    echo "Installing: tpm"
+    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+fi
+
+stow -v -R --ignore='.*~undo-tree~.*' -t ~ spacevim other shell spacemacs haskell xmonad
 
 # make scripts executable
 for i in ~/bin/*
 do
     chmod +x $i
 done
-
-# create i3 config file
-mkdir -p $HOME/.config/i3
-if $i3; then
-    echo "Generating i3 config"
-    python $PWD/i3config.py
-fi

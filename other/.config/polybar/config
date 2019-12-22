@@ -67,8 +67,8 @@ label-urgent-padding = 1
 # module/xmonad {{{
 [module/xmonad]
 type = custom/script
-exec = tail -F /tmp/xmonad-log
-exec-if = [ -p /tmp/xmonad-log ]
+exec = tail -F /tmp/xmonad-log-$MONITOR
+# exec-if = [ -p /tmp/xmonad-log-${monitor} ]
 label = %{T5}%output%%{T-}
 tail = true
 # }}}

@@ -8,10 +8,12 @@ while pgrep -x polybar >/dev/null; do sleep 1; done
 
 for m in $(polybar --list-monitors | cut -d":" -f1); do
     MONITOR=$m polybar main&
+    rm -f /tmp/xmonad-log-$m
+    mkfifo /tmp/xmonad-log-$m
 done
 
-rm -f /tmp/xmonad-log
-mkfifo /tmp/xmonad-log
 while IFS='$\n' read -r line; do
-    echo $line > /tmp/xmonad-log
+    for m in $(polybar --list-monitors | cut -d":" -f1); do
+        echo $line > /tmp/xmonad-log-$m
+    done
 done
