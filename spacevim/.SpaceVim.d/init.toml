@@ -9,6 +9,7 @@
     enable_statusline_mode = false
     enable_vimfiler_welcome = false
     windows_smartclose = ""
+    colorscheme = "gruvbox"
 # }}}
 
 # Autocomplete {{{
