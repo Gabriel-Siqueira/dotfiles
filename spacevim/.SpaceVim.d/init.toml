@@ -10,7 +10,6 @@
     enable_vimfiler_welcome = false
     windows_smartclose = ""
     colorscheme = "gruvbox"
-    background = "dark"
 # }}}
 
 # Autocomplete {{{

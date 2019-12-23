@@ -5,6 +5,7 @@ endfunction
 
 function! myspacevim#after() abort
 	set guicursor+=a:blinkon0
+  set background=dark
   " Mappings
   nmap <leader>sc :call SwitchSpellLang()<CR>
   nnoremap Y y$
