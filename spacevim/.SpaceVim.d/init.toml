@@ -10,6 +10,7 @@
     enable_vimfiler_welcome = false
     windows_smartclose = ""
     colorscheme = "gruvbox"
+    background = "dark"
 # }}}
 
 # Autocomplete {{{
@@ -166,6 +167,15 @@ name = "test"
 # Tmux {{{
 [[layers]]
 name = "tmux"
+# }}}
+
+# Gundo {{{
+[[custom_plugins]]
+name = "sjl/gundo.vim"
+merged = false
+hook_add = '''
+noremap <space>au :GundoToggle<CR>
+'''
 # }}}
 
 # Languages {{{

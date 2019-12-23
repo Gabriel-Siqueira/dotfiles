@@ -190,7 +190,7 @@ command! -nargs=0 So      :so $MYVIMRC | set foldmethod=marker | set foldlevel=0
 "{{{ SwitchSpellLang
 
 let g:myLang = 0
-let g:myLangList = ['pt_br', 'de_de', 'en']
+let g:myLangList = ['pt_br', 'en']
 function! SwitchSpellLang()
   "loop through languages
   let &l:spelllang = g:myLangList[g:myLang] | setlocal spell

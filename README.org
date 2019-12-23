@@ -31,6 +31,18 @@
 - to use fasd download fasd
 - to replace text on helm install rg, ag, pt or ack
 
-* Vim/NeoVim
+* SpaceVim
 
-- in NeaVim run checkhealth
+- run checkhealth
+- to use spell-check download aspell dictionaries (use the system package
+  manager) and copy files:
+#+begin_src sh
+aspell -l pt_BR dump master \
+   | aspell -l pt_BR expand | tr ' ' '\n' \
+   | aspell -l pt_BR expand | tr ' ' '\n' \
+   >/tmp/pt_br.words
+mkdir ~/.SpaceVim/spell/
+#+end_src
+#+begin_src vimL
+:mkspell pt_br lista_de_palavras.txt
+#+end_src
