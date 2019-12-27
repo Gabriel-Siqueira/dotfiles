@@ -1,39 +1,17 @@
-# install oh-my-zsh
-if [ ! -d "$HOME/.oh-my-zsh/" ]
-then
-    echo "Installing: oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-    rm -f ~/.zshrc
-fi
+#!/bin/bash
 
-# install spacemacs
-if [ ! -f "$HOME/.spacemacs" ]
-then
-    echo "Installing: spacemacs"
-    git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
-    rm -f ~/.spacemacs
-fi
+echo "Installnig oh-my-zsh" && bash installs/oh_my_zsh.sh
+echo "Installnig spacevim" && bash installs/spacevim.sh
+echo "Installnig tpm" && bash installs/tpm.sh
 
-# install spacevim
-if [ ! -f "$HOME/.SpaceVim.d" ]
-then
-    echo "Installing: spacevim"
-    curl -sLf https://spacevim.org/install.sh | bash
-    rm -f ~/.SpaceVim.d
-fi
+stow -v -R --ignore='.*~undo-tree~.*' -t ~ other shell spacemacs haskell
+mkdir -p ~/.xmonad && stow -v -R --ignore='.*~undo-tree~.*' -t ~/.xmonad xmonad
+mkdir -p ~/.SpaceVim.d && stow -v -R --ignore='.*~undo-tree~.*' -t ~/.SpaceVim.d spacevim
+mkdir -p ~/.config && stow -v -R --ignore='.*~undo-tree~.*' -t ~/.config config
+mkdir -p ~/bin && stow -v -R --ignore='.*~undo-tree~.*' -t ~/bin bin
 
-# install tmux plugin manager
-if [ ! -f "$HOME/.tmux/plugins/tpm" ]
-then
-    echo "Installing: tpm"
-    git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-fi
-
-stow -v -R --ignore='.*~undo-tree~.*' -t ~ spacevim other shell spacemacs haskell xmonad
-
-# make scripts executable
+echo "make scripts executable"
+chmod +x install.sh
 for i in ~/bin/*
 do
     chmod +x $i

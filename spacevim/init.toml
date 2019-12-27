@@ -126,7 +126,7 @@ name = 'denite'
 name = "VersionControl"
 [[layers]]
 name = "git"
-git-plugin = "gina"
+git-plugin = "fugitive"
 # }}}
 
 # Syntax Check {{{
