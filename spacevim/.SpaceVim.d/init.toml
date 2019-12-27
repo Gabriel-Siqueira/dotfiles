@@ -10,6 +10,10 @@
     enable_vimfiler_welcome = false
     windows_smartclose = ""
     colorscheme = "gruvbox"
+    colorscheme_bg = "dark"
+    enable_guicolors = true
+    relativenumber = false
+    terminal_cursor_shape = 1
 # }}}
 
 # Autocomplete {{{
@@ -22,9 +26,6 @@ auto-completion-tab-key-behavior = "smart"
 # Color {{{
 [[layers]]
 name = 'colorscheme'
-colorscheme = "gruvbox"
-colorscheme_bg = "dark"
-enable_guicolors = true
 # }}}
 
 # Objects/Motions {{{
@@ -99,6 +100,15 @@ name = 'nelstrom/vim-visual-star-search'
 merged = false
 # }}}
 
+# Folds {{{
+[[custom_plugins]]
+name = 'obreitwi/vim-sort-folds'
+merged = false
+hook_add = '''
+vmap <Leader>gs <Plug>SortFolds
+'''
+# }}}
+
 # Shell {{{
 [[layers]]
 name = 'shell'
@@ -111,21 +121,12 @@ default_height = 30
 name = 'denite'
 # }}}
 
-# Org {{{
-[[custom_plugins]]
-name = "jceb/vim-orgmode"
-merged = false
-hook_add = '''
-let g:org_agenda_files = ['~/Dropbox/Org/activities.org']
-'''
-# }}}
-
 # VC/Git {{{
 [[layers]]
 name = "VersionControl"
 [[layers]]
 name = "git"
-git-plugin = "fugitive"
+git-plugin = "gina"
 # }}}
 
 # Syntax Check {{{
@@ -136,6 +137,9 @@ name = "checkers"
 # Grammar Check {{{
 [[custom_plugins]]
 name = "rhysd/vim-grammarous"
+hook_add = '''
+nmap gG <Plug>(operator-grammarous)
+'''
 # }}}
 
 # Debug {{{
@@ -207,6 +211,40 @@ name = "lang#rust"
 name = "lang#sh"
 [[layers]]
 name = "lang#vim"
+# }}}
+
+# Other File Types {{{
+[[custom_plugins]]
+name = "jceb/vim-orgmode"
+merged = false
+on_ft = "org"
+hook_add = '''
+let g:org_agenda_files = ['~/Dropbox/Org/activities.org']
+'''
+[[custom_plugins]]
+name = "ledger/vim-ledger"
+merged = false
+on_ft = "ledger"
+hook_add = '''
+nmap <space>all :e ~/Dropbox/Personal/finance.ledger<CR>
+nmap <space>alb :Ledger bal<CR>
+'''
+# }}}
+
+# Wiki/Task {{{
+[[custom_plugins]]
+name = "vimwiki/vimwiki"
+merged = false
+hook_add = '''
+let g:vimwiki_folding='expr'
+let g:vimwiki_list = [{'path': '~/Dropbox/Wiki/'}]
+nmap <space>aww <Plug>VimwikiIndex
+nmap <space>awt <Plug>VimwikiTabIndex
+nmap <space>aws <Plug>VimwikiUISelect
+'''
+[[custom_plugins]]
+name = "blindFS/vim-taskwarrior"
+merged = false
 # }}}
 
 # vim:foldmethod=marker foldlevel=0

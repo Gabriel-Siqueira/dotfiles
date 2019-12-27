@@ -35,6 +35,7 @@
 
 - run checkhealth
 - to use spell-check download aspell dictionaries (use the system package
+- dowload tools for spacific languages
   manager) and copy files:
 #+begin_src sh
 aspell -l pt_BR dump master \
