@@ -247,4 +247,11 @@ name = "blindFS/vim-taskwarrior"
 merged = false
 # }}}
 
+# Wiki/Task {{{
+[[custom_plugins]]
+name = "glacambre/firenvim"
+merged = false
+hook_post_update = "firenvim#install(0)"
+# }}}
+
 # vim:foldmethod=marker foldlevel=0
