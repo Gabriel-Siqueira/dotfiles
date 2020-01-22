@@ -1,4 +1,4 @@
-# Paths
+# Bin Paths
 typeset -U path
 path=(/bin /sbin ~/.local/bin ~/bin
       ~/.ghcup/bin
@@ -12,3 +12,9 @@ path=(/bin /sbin ~/.local/bin ~/bin
 export FZF_BASE=~/.fzf.zsh
 EDITOR="nvim"
 VISUAL="nvim"
+
+# Paths Variables
+export MY_WIKI="~/Dropbox/Wiki/"
+export MY_LEDGER="~/Dropbox/Personal/finance.ledger"
+export MY_REFS="~/Dropbox/Ref/pdfs/"
+export MY_BIB="~/Dropbox/Ref/better-ref.bib"

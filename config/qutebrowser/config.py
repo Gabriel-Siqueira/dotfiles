@@ -1,4 +1,5 @@
 # settings {{{
+c.qt.force_software_rendering = 'software-opengl' # fix for getting stuck problem
 c.tabs.title.format = "{audio}{index} {current_title}"
 c.aliases = {'w': 'session-save',
              'q': 'quit',

@@ -1,31 +1,40 @@
 # Options {{{
 [options]
-    bootstrap_before = "myspacevim#before"
-    bootstrap_after = "myspacevim#after"
-    statusline_separator = "nil"
-    statusline_inactive_separator = "nil"
-    buffer_index_type = 4
-    enable_tabline_filetype_icon = true
-    enable_statusline_mode = false
-    enable_vimfiler_welcome = false
-    windows_smartclose = ""
-    colorscheme = "gruvbox"
-    colorscheme_bg = "dark"
-    enable_guicolors = true
-    relativenumber = false
-    terminal_cursor_shape = 1
+	bootstrap_before = "myspacevim#before"
+	bootstrap_after = "myspacevim#after"
+	statusline_separator = "nil"
+	statusline_inactive_separator = "nil"
+	buffer_index_type = 4
+	enable_tabline_filetype_icon = true
+	enable_statusline_mode = false
+	enable_vimfiler_welcome = false
+	windows_smartclose = ""
+	colorscheme = "gruvbox"
+	colorscheme_bg = "dark"
+	enable_guicolors = true
+	relativenumber = false
+	terminal_cursor_shape = 1
 # }}}
 
 # Autocomplete {{{
 [[layers]]
 name = 'autocomplete'
-auto-completion-return-key-behavior = "complete"
-auto-completion-tab-key-behavior = "smart"
+auto-completion-return-key-behavior = "smart"
+auto-completion-tab-key-behavior = "cycle"
+hook_add='''
+let g:neosnippet#snippets_directory = '~/.SpaceVim.d/snippets'
+'''
 # }}}
 
 # Color {{{
 [[layers]]
 name = 'colorscheme'
+# }}}
+
+# Edit {{{
+[[layers]]
+name = "edit"
+textobj = ['indent', 'line', 'entire']
 # }}}
 
 # Objects/Motions {{{
@@ -42,16 +51,7 @@ map <leader>e <Plug>(smartword-e)
 map <leader>ge <Plug>(smartword-ge)
 '''
 [[custom_plugins]]
-name = "kana/vim-textobj-entire"
-merged = false
-[[custom_plugins]]
 name = "kana/vim-textobj-fold"
-merged = false
-[[custom_plugins]]
-name = "kana/vim-textobj-indent"
-merged = false
-[[custom_plugins]]
-name = "kana/vim-textobj-line"
 merged = false
 [[custom_plugins]]
 name = "lucapette/vim-textobj-underscore"
@@ -64,9 +64,6 @@ name = "sgur/vim-textobj-parameter"
 merged = false
 [[custom_plugins]]
 name = "thinca/vim-textobj-between"
-merged = false
-[[custom_plugins]]
-name = "tpope/vim-surround"
 merged = false
 [[custom_plugins]]
 name = "jeetsukumaran/vim-indentwise"
@@ -88,6 +85,9 @@ name = 'tpope/vim-speeddating'
 merged = false
 [[custom_plugins]]
 name = 'vim-scripts/ReplaceWithRegister'
+merged = false
+[[custom_plugins]]
+name = 'tommcdo/vim-exchange'
 merged = false
 # }}}
 
@@ -147,11 +147,6 @@ nmap gG <Plug>(operator-grammarous)
 name = "debug"
 # }}}
 
-# Edit {{{
-[[layers]]
-name = "edit"
-# }}}
-
 # Gtags {{{
 [[layers]]
 name = "gtags"
@@ -185,11 +180,11 @@ noremap <space>au :GundoToggle<CR>
 [[layers]]
 name = "lsp"
 filetypes = [
-  "c",
-  "rust",
-  "haskell",
-  "python",
-  "sh"
+	"c",
+	"rust",
+	"haskell",
+	"python",
+	"sh"
 ]
 [[layers]]
 name = "lang#c"
@@ -197,10 +192,11 @@ name = "lang#c"
 name = "lang#extra"
 [[layers]]
 name = "lang#haskell"
+[[custom_plugins]]
+name = "Twinside/vim-haskellFold"
+merged = false
 [[layers]]
 name = "lang#latex"
-[[layers]]
-name = "lang#markdown"
 [[layers]]
 name = "lang#python"
 [[layers]]
@@ -226,8 +222,11 @@ name = "ledger/vim-ledger"
 merged = false
 on_ft = "ledger"
 hook_add = '''
-nmap <space>all :e ~/Dropbox/Personal/finance.ledger<CR>
-nmap <space>alb :Ledger bal<CR>
+call SpaceVim#custom#SPCGroupName(['a','l'], '+ladger')
+call SpaceVim#custom#SPC('nmap', ['a','l','l'], ':e $MY_LEDGER<CR>', 'open ledger file',1)
+call SpaceVim#custom#SPC('nmap', ['a','l','b'], 'Ledger bal', 'balance',1)
+nmap <space>all 
+nmap <space>alb 
 '''
 # }}}
 
@@ -236,22 +235,48 @@ nmap <space>alb :Ledger bal<CR>
 name = "vimwiki/vimwiki"
 merged = false
 hook_add = '''
-let g:vimwiki_folding='expr'
-let g:vimwiki_list = [{'path': '~/Dropbox/Wiki/'}]
-nmap <space>aww <Plug>VimwikiIndex
-nmap <space>awt <Plug>VimwikiTabIndex
-nmap <space>aws <Plug>VimwikiUISelect
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_url_maxsave = 0
+let g:vimwiki_list = [{'path': '$MY_WIKI', 'syntax': 'markdown', 'ext': '.md', 'auto_diary_index': 1, 'diary_rel_path': 'diary/'}]
+call SpaceVim#custom#SPCGroupName(['a','w'], '+wiki')
+call SpaceVim#custom#SPC('nmap', ['a','w','w'], '<Plug>VimwikiIndex', 'open index file', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','d'], '<Plug>VimwikiDiaryIndex', 'open diary index file', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','t'], '<Plug>VimwikiTabIndex', 'open index file in new tab', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','s'], '<Plug>VimwikiUISelect', 'select between multiple wikis', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','e'], '<Plug>VimwikiMakeDiaryNote', 'new diary entry', 0)
 '''
 [[custom_plugins]]
 name = "blindFS/vim-taskwarrior"
 merged = false
+hook_add = '''
+let g:task_default_prompt = ['description', 'due', 'scheduled', 'wait', 'priority', 'project']
+let g:task_report_command  = ['uncomplete','daily','planing', 'tomorrow']
+let g:task_report_name = 'planing'
+let g:task_rc_override = 'defaultwidth=0'
+call SpaceVim#custom#SPCGroupName(['a','t'], '+task')
+call SpaceVim#custom#SPC('nmap', ['a','t','p'], 'TW planing', 'open taskwarrior planing report',1)
+call SpaceVim#custom#SPC('nmap', ['a','t','t'], 'TW tomorrow', 'open taskwarrior report for tommorrow',1)
+call SpaceVim#custom#SPC('nmap', ['a','t','d'], 'TW daily', 'open taskwarrior report for today',1)
+'''
 # }}}
 
-# Wiki/Task {{{
+# Firenvim {{{
 [[custom_plugins]]
 name = "glacambre/firenvim"
 merged = false
 hook_post_update = "firenvim#install(0)"
+# }}}
+
+# Citations {{{
+[[custom_plugins]]
+name = "rafaqz/citation.vim"
+merged = false
+hook_add = '''
+let g:citation_vim_bibtex_file = $MY_BIB
+let g:citation_vim_mode = 'bibtex'
+let g:citation_vim_cache_path='~/.cache/SpaceVim/'
+call SpaceVim#custom#SPC('nnoremap', ['i','c'], '<C-u>Unite -buffer-name=citation-start-insert -default-action=append citation/key', 'citation', 1)
+'''
 # }}}
 
 # vim:foldmethod=marker foldlevel=0

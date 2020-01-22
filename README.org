@@ -33,10 +33,9 @@
 
 * SpaceVim
 
-- run checkhealth
-- to use spell-check download aspell dictionaries (use the system package
-- dowload tools for spacific languages
-  manager) and copy files:
++ run checkhealth
++ dowload tools for spacific programing languages
++ to use spell-check download aspell dictionaries (use the system package manager) and copy files:
 #+begin_src sh
 aspell -l pt_BR dump master \
    | aspell -l pt_BR expand | tr ' ' '\n' \
@@ -47,3 +46,5 @@ mkdir ~/.SpaceVim/spell/
 #+begin_src vimL
 :mkspell pt_br lista_de_palavras.txt
 #+end_src
++ other programs to install:
+      - [[https://pybtex.org/][pybtex]] for citation.vim

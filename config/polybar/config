@@ -365,8 +365,10 @@ menu-0-0 = exit
 menu-0-0-exec = i3-msg exit
 menu-0-1 = reboot
 menu-0-1-exec = reboot
-menu-0-2 = power off
-menu-0-2-exec = poweroff
+menu-0-2 = suspend
+menu-0-2-exec = systemctl suspend
+menu-0-3 = power off
+menu-0-3-exec = poweroff
 # }}}
 # settings {{{
 [settings]

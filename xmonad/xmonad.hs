@@ -25,13 +25,13 @@ import XMonad.Util.Dmenu (dmenu)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.Run (spawnPipe)
----------------------------
+
 import Data.Monoid (All)
 import Control.Monad (when)
 import System.Exit (exitSuccess)
 import System.Posix.Unistd (getSystemID, nodeName)
 import System.IO (Handle, hPutStrLn)
----------------------------
+
 import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
@@ -136,6 +136,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
         ("M-M1-r", spawn "xmonad --restart")
       , ("M-M1-e", quit)
       , ("M-M1-l", spawn myLock)
+      , ("M-M1-s", spawn "systemctl suspend")
       ]
     multiMediaKeys = [
         ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
@@ -243,7 +244,8 @@ myStartupHook host = do
   spawns [  "dropbox"
             , "redshift-gtk"
             , "alarm-clock-applet --hidden"
-            , "nm-applet"
+            -- , "nm-applet"
+				    , "wicd-gtk --tray"
             , "xfce4-power-manager"
             , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
             , "compton"
@@ -267,23 +269,24 @@ myHandleEventHook = handleEventHook def
 
 myManageHook :: ManageHook
 myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratchpads <+> (composeAll . concat $
-            [ [appName   =? "main_term"   --> doShift deft]
-            , [className =? "MPlayer"     --> doFloat]
-            , [className =? "Gimp"        --> doFloat]
-            , [className =? "VirtualBox"  --> doFloat]
-            , [className =? "pavucontrol" --> doFloat]
-            , [role      =? "task_dialog" --> doFloat]
-            , [role      =? "pop-up"      --> doFloat]
-            , [className =? x             --> doShift midi | x <- cShiftMidi]
-            , [className =? x             --> doShift virM | x <- cShiftVirM]
-            , [className =? x             --> doShift deft | x <- cShiftDeft]
-            , [className =? x             --> doShift auxD | x <- cShiftAuxD]
-            , [className =? x             --> doShift auxE | x <- cShiftAuxE]
-            , [className =? x             --> doShift book | x <- cShiftBook]
-            , [className =? x             --> doShift game | x <- cShiftGame]
-            , [className =? x             --> doShift docs | x <- cShiftDocs]
-            , [className =? x             --> doShift mail | x <- cShiftMail]
-            , [className =? x             --> doShift deve | x <- cShiftDeve]
+            [ [appName   =? "main_term"        --> doShift deft]
+            , [appName   =? "git-gui--askpass" --> doFloat]
+            , [className =? "MPlayer"          --> doFloat]
+            , [className =? "Gimp"             --> doFloat]
+            , [className =? "VirtualBox"       --> doFloat]
+            , [className =? "pavucontrol"      --> doFloat]
+            , [role      =? "task_dialog"      --> doFloat]
+            , [role      =? "pop-up"           --> doFloat]
+            , [className =? x                  --> doShift midi | x <- cShiftMidi]
+            , [className =? x                  --> doShift virM | x <- cShiftVirM]
+            , [className =? x                  --> doShift deft | x <- cShiftDeft]
+            , [className =? x                  --> doShift auxD | x <- cShiftAuxD]
+            , [className =? x                  --> doShift auxE | x <- cShiftAuxE]
+            , [className =? x                  --> doShift book | x <- cShiftBook]
+            , [className =? x                  --> doShift game | x <- cShiftGame]
+            , [className =? x                  --> doShift docs | x <- cShiftDocs]
+            , [className =? x                  --> doShift mail | x <- cShiftMail]
+            , [className =? x                  --> doShift deve | x <- cShiftDeve]
             ])
               where
                 cShiftDeve = ["Eclipse"]
