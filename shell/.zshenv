@@ -14,7 +14,9 @@ EDITOR="nvim"
 VISUAL="nvim"
 
 # Paths Variables
+export TASKDATA="~/Dropbox/Backup/pc/task/"
 export MY_WIKI="~/Dropbox/Wiki/"
 export MY_LEDGER="~/Dropbox/Personal/finance.ledger"
 export MY_REFS="~/Dropbox/Ref/pdfs/"
 export MY_BIB="~/Dropbox/Ref/better-ref.bib"
+export MY_MACROS="~/Dropbox/Backup/pc/xmacro/"

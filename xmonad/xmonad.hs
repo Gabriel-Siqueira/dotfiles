@@ -51,7 +51,7 @@ myStatusBar :: String
 myStatusBar = "~/bin/polybar.sh"
 
 myScreenShot :: String
-myScreenShot = "gnome-screenshot -a"
+myScreenShot = "import `date +%s.png`"
 
 myWorkspaces :: [String]
 myWorkspaces = numWorkspaces ++ otherWorkspaces
@@ -243,7 +243,7 @@ myStartupHook host = do
   setDefaultCursor xC_left_ptr
   spawns [  "dropbox"
             , "redshift-gtk"
-            , "alarm-clock-applet --hidden"
+            -- , "alarm-clock-applet --hidden"
             -- , "nm-applet"
 				    , "wicd-gtk --tray"
             , "xfce4-power-manager"
@@ -252,6 +252,7 @@ myStartupHook host = do
             -- , "emacs"
             , "qutebrowser"
             , "chromium"
+            -- , "brave"
             , "dunst"
             , termLaunch "main_term" "tmux new -A -s standard"
             ]
@@ -292,7 +293,7 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
                 cShiftDeve = ["Eclipse"]
                 cShiftMail = ["thunderbird","TelegramDesktop","Franz","Inboxer"]
                 cShiftDeft = ["Emacs"]
-                cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera"]
+                cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera", "Brave-browser"]
                 cShiftMidi = ["Kodi", "Vlc", "Spotify", "Kodi", "Lollypop"]
                 cShiftVirM = ["VirtualBox"]
                 cShiftGame = ["Steam","Mainwindow.py","Minetest", "Lutris"]

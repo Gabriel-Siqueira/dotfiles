@@ -14,6 +14,7 @@
 	enable_guicolors = true
 	relativenumber = false
 	terminal_cursor_shape = 1
+	autocomplete_method = "coc"
 # }}}
 
 # Autocomplete {{{

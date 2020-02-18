@@ -1,1 +1,2 @@
-set expandtab
+setlocal expandtab
+setlocal formatprg=hindent

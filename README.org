@@ -20,7 +20,7 @@
 
 * Xmonad
 
-- install for xmonad: feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, termite, rofi, dropbox, alarm-clock-applet, xfce4-power-manager, dunst, compton, redshift, xmobar, dmenu, xorg-fonts-misc
+- install for xmonad: feh, imageMagick, alsa-utils, xbacklight, playerctl, kitty, rofi, dropbox, xfce4-power-manager, dunst, compton, redshift, xmobar, dmenu, xorg-fonts-misc
 - copy xmacros to .local/share/
 
 * Emacs
