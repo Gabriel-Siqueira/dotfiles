@@ -14,3 +14,5 @@ editors/.emacs.d/mysnippets/mysnippets
 /xmonad/.xmonad/myXmonad.cabal
 /spacemacs/.emacs.d/private/local/firacode.el
 /xmonad/.xmonad/dist-newstyle/*
+/xmonad/.stack-work/
+/xmonad/myXmonad.cabal
