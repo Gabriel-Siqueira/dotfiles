@@ -131,6 +131,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-o", spawn "locate home | rofi -matching regex  -dmenu -i -p \'locate\' | xargs -r -0 xdg-open")
       , ("M-w", spawn "~/bin/url.sh")
       , ("M-m", spawn "~/bin/macros.sh")
+      , ("M-e", spawn "~/bin/emoji.sh")
       ]
     quitRealoadKeys = [
         ("M-M1-r", spawn "xmonad --restart")
