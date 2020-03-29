@@ -58,7 +58,7 @@ myWorkspaces = numWorkspaces ++ otherWorkspaces
 numWorkspaces :: [String]
 numWorkspaces = map show [0..9::Int]
 otherWorkspaces :: [String]
-otherWorkspaces = [midi, book, docs, auxE, deft, auxD, virM, deve, mail, free1, game, free2]
+otherWorkspaces = [midi, book, docs, auxE, deft, auxD, virM, deve, mail, free, game, call]
 midi :: String
 midi = "midi"
 book :: String
@@ -77,10 +77,10 @@ deve :: String
 deve = "deve"
 mail :: String
 mail = "mail"
-free1 :: String
-free1 = "."
-free2 :: String
-free2 = ".."
+free :: String
+free = "."
+call :: String
+call = "call"
 virM :: String
 virM = "virM"
 
@@ -289,9 +289,11 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
             , [className =? x                  --> doShift docs | x <- cShiftDocs]
             , [className =? x                  --> doShift mail | x <- cShiftMail]
             , [className =? x                  --> doShift deve | x <- cShiftDeve]
+            , [className =? x                  --> doShift call | x <- cShiftCall]
             ])
               where
                 cShiftDeve = ["Eclipse"]
+                cShiftCall = ["zoom"]
                 cShiftMail = ["thunderbird","TelegramDesktop","Franz","Inboxer"]
                 cShiftDeft = ["Emacs"]
                 cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera", "Brave-browser"]

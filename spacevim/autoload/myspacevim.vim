@@ -9,6 +9,9 @@ function! myspacevim#before() abort
   call SpaceVim#custom#SPCGroupName(['S'], '+Syntax')
   call SpaceVim#custom#SPC('nmap', ['S','c'], 'call My_SwitchSpellLang()', 'change dictionary', 1)
   call SpaceVim#custom#SPC('nmap', ['S','s'], 'setlocal spell!', 'toggle spell check', 1)
+  call SpaceVim#custom#SPCGroupName(['a','m'], '+Make')
+  call SpaceVim#custom#SPC('nmap', ['a','m','m'], 'make -C %:p:h', 'run make on file path', 1)
+  call SpaceVim#custom#SPC('nmap', ['a','m','c'], 'make clean -C %:p:h', 'run make clean on file path', 1)
 endfunction
 
 function! myspacevim#after() abort
