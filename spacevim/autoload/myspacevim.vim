@@ -1,3 +1,6 @@
+" Reserved registers
+" n - number register
+
 function! myspacevim#before() abort
   let s:myLang = 0
   let s:myLangList = ['pt', 'en']
@@ -12,6 +15,8 @@ function! myspacevim#before() abort
   call SpaceVim#custom#SPCGroupName(['a','m'], '+Make')
   call SpaceVim#custom#SPC('nmap', ['a','m','m'], 'make -C %:p:h', 'run make on file path', 1)
   call SpaceVim#custom#SPC('nmap', ['a','m','c'], 'make clean -C %:p:h', 'run make clean on file path', 1)
+  call SpaceVim#custom#SPC('nmap', ['n','s'], '<C-U> call My_setNum(v:count1)', 'set', 1)
+  call SpaceVim#custom#SPC('nmap', ['n','n'], 'call My_nextNum()', 'next', 1)
 endfunction
 
 function! myspacevim#after() abort
@@ -56,18 +61,31 @@ function! ClearPlugins()
 endfunction
 
 function! My_Daily()
-	" Opend daily rotine/activities
+	" Opend daily rotine/activities.
 	execute "tabe " . $MY_WIKI . "weekday.md"
 	execute "vsplit"
 	execute "TW daily"
 endfunction
 
 function! My_OpenBib()
-  " Opend file associated with reference under the cursor
+  " Opend file associated with reference under the cursor.
   let save_reg = @@
   execute "normal! yi["
   let file = $MY_REFS . split(@@,'@')[0] . ".pdf"
   echo file
   call system("xdg-open " . file . "&")
   let @@ = save_reg
+endfunction
+
+function! My_setNum(num)
+	" Set number in numer register.
+	let @n = a:num
+endfunction
+
+function! My_nextNum()
+	" Replace caracter with number of number register and incremente number
+	" register.
+	execute "normal a\<BS>\<ESC>\"np"
+	let num = @n
+	let @n = num + 1
 endfunction

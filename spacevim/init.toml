@@ -140,6 +140,11 @@ name = "checkers"
 name = "rhysd/vim-grammarous"
 hook_add = '''
 nmap gG <Plug>(operator-grammarous)
+call SpaceVim#custom#SPCGroupName(['S','g'], '+grammarous')
+call SpaceVim#custom#SPC('nmap', ['S','g','i'], '<Plug>(grammarous-open-info-window)', 'open info window', 0)
+let g:grammarous#disabled_rules = {
+            \ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X'],
+            \ }
 '''
 # }}}
 
