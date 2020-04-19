@@ -27,7 +27,7 @@ function! myspacevim#after() abort
   set breakindent
   set inccommand=split
   set redrawtime=500
-	set noexpandtab
+	set expandtab
   " Mappings
   nnoremap Y y$
   augroup TaskwarriorMapping
