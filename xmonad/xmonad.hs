@@ -245,8 +245,9 @@ myStartupHook host = do
   spawns [  "dropbox"
             , "redshift-gtk"
             -- , "alarm-clock-applet --hidden"
-            -- , "nm-applet"
-				    , "wicd-gtk --tray"
+            , "nm-applet"
+						-- , "wicd-gtk --tray"
+            -- , "netctl-tray"
             , "xfce4-power-manager"
             , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
             , "compton"
