@@ -1,5 +1,3 @@
-nmap <buffer> w 
-
 function! s:get_id()
 	let index = match(b:task_report_columns, '^uuid.*')
 	let id = taskwarrior#data#get_value_by_index('.', index)
@@ -19,4 +17,9 @@ function! TaskFile()
     let uuid = list[0]
   endif
   execute 'edit' $MY_WIKI . 'task/' . uuid . '.md'
+endfunction
+
+function! Tomorrow()
+	let id = s:get_id()
+  execute 'TW ' . id . ' modify schedule:tomorrow'
 endfunction

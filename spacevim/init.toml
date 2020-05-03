@@ -171,6 +171,11 @@ name = "test"
 # Tmux {{{
 [[layers]]
 name = "tmux"
+[[custom_plugins]]
+name = "benmills/vimux"
+merged = false
+hook_add = '''
+'''
 # }}}
 
 # Gundo {{{

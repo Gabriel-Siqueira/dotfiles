@@ -1,8 +1,8 @@
 #!/bin/bash
 
-echo "Installnig oh-my-zsh" && bash installs/oh_my_zsh.sh
-echo "Installnig spacevim" && bash installs/spacevim.sh
-echo "Installnig tpm" && bash installs/tpm.sh
+echo "Installing oh-my-zsh" && bash installs/oh_my_zsh.sh
+echo "Installing spacevim" && bash installs/spacevim.sh
+echo "Installing tpm" && bash installs/tpm.sh
 
 stow -v -R --ignore='.*~undo-tree~.*' -t ~ other shell spacemacs haskell
 mkdir -p ~/.xmonad && stow -v -R --ignore='.*~undo-tree~.*' -t ~/.xmonad xmonad

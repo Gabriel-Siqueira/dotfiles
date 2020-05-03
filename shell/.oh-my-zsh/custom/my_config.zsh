@@ -17,6 +17,10 @@ function rcd() {
         [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
     fi
 }
+# betterbib without abbrev
+bbib() {
+  betterbib-sync $1 | betterbib-format -b - $2
+}
 # }}}
 # Alias {{{
 # programs {{{
