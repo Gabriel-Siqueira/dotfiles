@@ -10,8 +10,9 @@ path=(/bin /sbin ~/.local/bin ~/bin
 
 # Variables
 export FZF_BASE=~/.fzf.zsh
-EDITOR="nvim"
-VISUAL="nvim"
+export EDITOR="nvim"
+export VISUAL="nvim"
+export MANPAGER="nvim -c 'set ft=man' -"
 
 # Paths Variables
 export TASKDATA="~/Dropbox/Backup/pc/task/"

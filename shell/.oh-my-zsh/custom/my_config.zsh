@@ -1,27 +1,3 @@
-# Functions {{{
-# Save/Load tmux session with tmuxp
-function tmux_ic(){
-    sed -i -e 's/\/home\/gabriel/\/home\/ec2014\/ra155446/g' ~/Dropbox/backup/tmux/last
-    sed -i -e 's/\/MEGA\/unicamp/\/Dropbox/g' ~/Dropbox/backup/tmux/last
-}
-function tmux_casa(){
-    sed -i -e 's/\/home\/ec2014\/ra155446/\/home\/gabriel/g' ~/Dropbox/backup/tmux/last
-}
-# Use ranger to switch directories
-function rcd() {
-    tmp="$(mktemp)"
-    ranger --choosedir="$tmp" "$@"
-    if [ -f "$tmp" ]; then
-        dir="$(cat "$tmp")"
-        rm -f "$tmp"
-        [ -d "$dir" ] && [ "$dir" != "$(pwd)" ] && cd "$dir"
-    fi
-}
-# betterbib without abbrev
-bbib() {
-  betterbib-sync $1 | betterbib-format -b - $2
-}
-# }}}
 # Alias {{{
 # programs {{{
 if type "thefuck" > /dev/null; then
@@ -94,6 +70,10 @@ alias df10='df -H'
 alias du='du -h'
 alias weather='curl http://wttr.in/'
 # }}}
+# scripts {{{
+alias st=$HOME/bin/set_task.sh
+alias ct="$HOME/bin/set_task.sh 0"
+# }}}
 # }}}
 # Global variables {{{
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=7'
@@ -142,7 +122,7 @@ zstyle ':completion:*' menu select=0
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*' verbose true
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
-zstyle :compinstall filename '/home/gabriel/.oh-my-zsh/custom/my_config.zsh'
+zstyle :compinstall filename "$HOME/.oh-my-zsh/custom/my_config.zsh"
 
 autoload -Uz compinit
 compinit

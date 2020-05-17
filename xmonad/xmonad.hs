@@ -7,7 +7,6 @@ import XMonad.Actions.CycleWS (toggleWS', swapNextScreen, nextScreen)
 import XMonad.Actions.SwapWorkspaces (swapWithCurrent)
 import XMonad.Layout.ResizableTile (ResizableTall(..))
 import XMonad.Layout.Tabbed (shrinkText, Theme(..), addTabs)
-import XMonad.Layout.Fullscreen (fullscreenFull)
 import XMonad.Layout.SubLayouts (GroupMsg(UnMerge,MergeAll), pullGroup, onGroup, subLayout, toSubl)
 import XMonad.Layout.Simplest (Simplest(Simplest))
 import XMonad.Layout.WindowNavigation (windowNavigation)
@@ -18,7 +17,6 @@ import XMonad.Hooks.DynamicLog (PP(..), wrap, dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (docks, avoidStruts, ToggleStruts(ToggleStruts))
 import XMonad.Hooks.FadeWindows (fadeWindowsEventHook)
 import XMonad.Hooks.InsertPosition (insertPosition, Position(..), Focus(..))
-import XMonad.Hooks.EwmhDesktops (fullscreenEventHook)
 import XMonad.Hooks.RefocusLast (refocusLastLayoutHook, refocusLastWhen, isFloat, toggleFocus)
 import XMonad.Util.NamedScratchpad (NamedScratchpad(NS), customFloating, namedScratchpadAction, namedScratchpadManageHook)
 import XMonad.Util.Dmenu (dmenu)
@@ -207,7 +205,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
         , (f, s) <- [(W.view, ""), (W.shift, "S-"),(swapWithCurrent, "s ")]] ++
       [ ("M-<Tab>", toggleWS' ["NSP"]) ]
     miscKeys = [
-          ("M-b", sendMessage ToggleStruts) ]
+        ("M-c", spawn "~/bin/clock.sh")
+      , ("M-b", sendMessage ToggleStruts) ]
     quit = do
       s <- dmenu ["yes","no"]
       when (s == "yes") (io exitSuccess)
@@ -221,7 +220,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
 
 myLayoutsHook = refocusLastLayoutHook . avoidStruts . windowNavigation . trackFloating . useTransientFor .
   addTabs shrinkText tabTheme . subLayout [0] (Simplest ||| tiled ||| Mirror tiled) .
-  boringWindows . fullscreenFull $ (Full ||| tiled ||| Mirror tiled)
+  boringWindows $ (Full ||| tiled ||| Mirror tiled)
  where
      tiled   = ResizableTall nmaster delta ratio []
      nmaster = 1
@@ -268,7 +267,6 @@ myHandleEventHook :: Event -> X All
 myHandleEventHook = handleEventHook def
                 <+> refocusLastWhen isFloat
                 <+> fadeWindowsEventHook
-                <+> fullscreenEventHook
 
 myManageHook :: ManageHook
 myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratchpads <+> (composeAll . concat $

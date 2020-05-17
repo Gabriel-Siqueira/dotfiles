@@ -29,7 +29,7 @@ report.uncomplete.dateformat=Y-M-DTH:N
 
 report.planing.description=Report of all uncompleated tasks
 report.planing.sort=project+\/,urgency-
-report.planing.filter=-COMPLETED and -CHILD and -empty and -WAITING
+report.planing.filter=-COMPLETED and -CHILD and -empty and -WAITING and -DELETED
 report.planing.labels=ID,St,Dep,Pri,Project,Tags,R,Wait,Sch,Due,Until,Description
 report.planing.columns=id,status.short,depends,priority,project,tags,recur,wait,scheduled,due,until,description
 report.planing.dateformat=Y-M-DTH:N

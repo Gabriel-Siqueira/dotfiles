@@ -5,7 +5,7 @@
 xclip -h 2>/dev/null || exit 1
 
 eval emojis=$MY_EMOJIS
-chosen=$(cut -d ';' -f1 $emojis | rofi -dmenu -i -l 20 | sed "s/ .*//")
+chosen=$(cut -d ';' -f1 $emojis | rofi -dmenu -i -l 20 -matching normal | sed "s/ .*//")
 
 [ "$chosen" != "" ] || exit
 

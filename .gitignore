@@ -16,3 +16,4 @@ editors/.emacs.d/mysnippets/mysnippets
 /xmonad/.xmonad/dist-newstyle/*
 /xmonad/.stack-work/
 /xmonad/myXmonad.cabal
+/other/.timewarrior/data
