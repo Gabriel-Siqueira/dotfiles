@@ -13,7 +13,7 @@ then
   wrapl=''
   wrapr=''
 else
-  t=$(timew get dom.active.duration | sed -E 's/H|M/:/' | sed -E 's/[A-Z]//g')
+  t=$(timew get dom.active.duration | sed -E 's/H|M/:/g' | sed -E 's/[A-Z]//g')
   wrapl='%{F#fcba03}'
   wrapr='%{F-}'
 fi

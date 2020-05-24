@@ -23,3 +23,8 @@ function! Tomorrow()
 	let id = s:get_id()
   execute 'TW ' . id . ' modify schedule:tomorrow'
 endfunction
+
+function! Undo()
+  let ans=input('confirm undo (yes/no):')
+  call system('echo ' . ans . ' | task undo')
+endfunction

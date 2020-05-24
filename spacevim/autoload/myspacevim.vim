@@ -7,7 +7,7 @@ function! myspacevim#before() abort
   " Which Key
   call SpaceVim#custom#SPCGroupName(['o'], '+Open')
   call SpaceVim#custom#SPC('nmap', ['o','c'], 'call My_OpenBib()', 'citation under cursor', 1)
-  call SpaceVim#custom#SPC('nmap', ['o','w'], 'silent !chromium %', 'open in chromium', 1)
+  call SpaceVim#custom#SPC('nmap', ['o','w'], 'silent !vivaldi-stable %', 'open in vivaldi', 1)
   call SpaceVim#custom#SPC('nmap', ['o','d'], 'call My_Daily()', 'daily view', 1)
   call SpaceVim#custom#SPC('nmap', ['o','t'], 'call TaskFile()', 'task file', 1)
   call SpaceVim#custom#SPCGroupName(['S'], '+Syntax')
@@ -34,6 +34,7 @@ function! myspacevim#after() abort
   augroup TaskwarriorMapping
     autocmd FileType taskreport nmap <buffer> <CR> :call TaskFile()<CR>
     autocmd FileType taskreport nmap <buffer> t :call Tomorrow()<CR>
+    autocmd FileType taskreport nmap <buffer> u :call Undo()<CR>
   augroup END
   imap <C-k> <Plug>(neosnippet_jump)
   smap <C-k> <Plug>(neosnippet_jump)

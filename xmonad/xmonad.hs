@@ -23,8 +23,11 @@ import XMonad.Util.Dmenu (dmenu)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.SpawnOnce (spawnOnce)
 import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.XUtils (fi)
+import XMonad.Util.WindowProperties (getProp32)
 
-import Data.Monoid (All)
+import Data.Monoid (All(..))
+import Data.Maybe (fromMaybe)
 import Control.Monad (when)
 import System.Exit (exitSuccess)
 import System.Posix.Unistd (getSystemID, nodeName)
@@ -245,14 +248,15 @@ myStartupHook host = do
             , "redshift-gtk"
             -- , "alarm-clock-applet --hidden"
             , "nm-applet"
-						-- , "wicd-gtk --tray"
+            -- , "wicd-gtk --tray"
             -- , "netctl-tray"
             , "xfce4-power-manager"
             , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
             , "compton"
             -- , "emacs"
             , "qutebrowser"
-            , "chromium"
+            , "vivaldi-stable"
+            -- , "chromium"
             -- , "brave"
             , "dunst"
             , termLaunch "main_term" "tmux new -A -s standard"
@@ -267,6 +271,7 @@ myHandleEventHook :: Event -> X All
 myHandleEventHook = handleEventHook def
                 <+> refocusLastWhen isFloat
                 <+> fadeWindowsEventHook
+                <+> fullscreenEventHook
 
 myManageHook :: ManageHook
 myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratchpads <+> (composeAll . concat $
@@ -339,3 +344,21 @@ myLogHook h = do
             "Tabbed Tabbed Simplest"      -> "[=]"
             _                             -> x )
       }
+
+fullscreenEventHook :: Event -> X All
+fullscreenEventHook (ClientMessageEvent _ _ _ dpy win typ (action:dats)) = do
+  wmstate <- getAtom "_NET_WM_STATE"
+  fullsc <- getAtom "_NET_WM_STATE_FULLSCREEN"
+  wstate <- fromMaybe [] `fmap` getProp32 wmstate win
+
+  let isFull = fromIntegral fullsc `elem` wstate
+      add = 1
+      toggle = 2
+
+  when (typ == wmstate && fi fullsc `elem` dats) $ do
+    when (action == add || (action == toggle && not isFull)) $ do
+      sendMessage ToggleStruts
+      sendMessage ToggleStruts
+
+  return $ All True
+fullscreenEventHook _ = return $ All True

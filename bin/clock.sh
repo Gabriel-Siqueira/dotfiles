@@ -5,13 +5,26 @@ then
 
   id=$(cat /tmp/my_taskid)
 
-  if [ $(timew get dom.active) -eq 0 ]
+  if [ $id = '-' ]
   then
-    dunstify "start clock"
-    task $id start
+    info=$(cat /tmp/my_task_info)
+    if [ $(timew get dom.active) -eq 0 ]
+    then
+      dunstify "start clock"
+      timew start "$info"
+    else
+      dunstify "stop clock"
+      timew stop "$info"
+    fi
   else
-    dunstify "stop clock"
-    task $id stop
+    if [ $(timew get dom.active) -eq 0 ]
+    then
+      dunstify "start clock"
+      task $id start
+    else
+      dunstify "stop clock"
+      task $id stop
+    fi
   fi
 
 else
