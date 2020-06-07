@@ -197,6 +197,8 @@ filetypes = [
 	"python",
 	"sh"
 ]
+[layers.override_cmd]
+haskell = ['ghcide','--lsp']
 [[layers]]
 name = "lang#c"
 [[layers]]
@@ -249,6 +251,9 @@ hook_add = '''
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_url_maxsave = 0
 let g:vimwiki_list = [{'path': '$MY_WIKI', 'syntax': 'markdown', 'ext': '.md', 'auto_diary_index': 1, 'diary_rel_path': 'diary/'}]
+let g:vimwiki_ext2syntax = {'.md': 'markdown',
+                \ '.mkd': 'markdown',
+                \ '.wiki': 'markdown'}
 call SpaceVim#custom#SPCGroupName(['a','w'], '+wiki')
 call SpaceVim#custom#SPC('nmap', ['a','w','w'], '<Plug>VimwikiIndex', 'open index file', 0)
 call SpaceVim#custom#SPC('nmap', ['a','w','d'], '<Plug>VimwikiDiaryIndex', 'open diary index file', 0)
