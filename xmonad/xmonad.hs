@@ -250,6 +250,7 @@ myStartupHook host = do
             , "nm-applet"
             -- , "wicd-gtk --tray"
             -- , "netctl-tray"
+            -- , "cmst -m -w 5"
             , "xfce4-power-manager"
             , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
             , "compton"

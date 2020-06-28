@@ -195,7 +195,8 @@ filetypes = [
 	"rust",
 	"haskell",
 	"python",
-	"sh"
+	"sh",
+  "html"
 ]
 [layers.override_cmd]
 haskell = ['ghcide','--lsp']
@@ -220,6 +221,8 @@ name = "lang#rust"
 name = "lang#sh"
 [[layers]]
 name = "lang#vim"
+[[layers]]
+name = "lang#html"
 # }}}
 
 # Other File Types {{{
