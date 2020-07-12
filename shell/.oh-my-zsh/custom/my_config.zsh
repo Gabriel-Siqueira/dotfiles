@@ -73,6 +73,7 @@ alias weather='curl http://wttr.in/'
 # scripts {{{
 alias st=$HOME/bin/set_task.sh
 alias ct="$HOME/bin/set_task.sh 0"
+alias pla="$HOME/bin/report.py $MY_REPORTS/daily.txt"
 # }}}
 # }}}
 # Global variables {{{

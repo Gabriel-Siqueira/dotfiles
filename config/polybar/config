@@ -218,7 +218,7 @@ ramp-signal-foreground = ${colors.foreground-alt}
 # }}}
 # module/volume {{{
 [module/volume]
-type = internal/alsa
+type = internal/pulseaudio
 format-volume = <label-volume> <bar-volume>
 format-volume-prefix =
 label-volume =
