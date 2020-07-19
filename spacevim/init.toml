@@ -40,9 +40,6 @@ textobj = ['indent', 'line', 'entire']
 
 # Objects/Motions {{{
 [[custom_plugins]]
-name = "chaoren/vim-wordmotion"
-merged = false
-[[custom_plugins]]
 name = "kana/vim-smartword"
 merged = false
 hook_add = '''

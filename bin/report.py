@@ -40,6 +40,10 @@ def reminder(str):
     print(str.rstrip())
     input()
 
+# C,label,str
+def constant(str):
+    return str.rstrip()
+
 def read_next(fin,anss):
     line = fin.readline()
     if line == "" or line[0] == "%":
@@ -56,6 +60,8 @@ def select(c,*args):
         return int_question(*args)
     elif c == "O":
         return optional(*args)
+    elif c == "C":
+        return constant(*args)
     else:
         return None
 
@@ -64,28 +70,35 @@ def consolidate(anss,fin,path):
         while True:
             line = read_next(fin, anss)
             if line[0] == "@":
-                return
+                break
             print(line.rstrip(),file=fout)
+    os.system("vim " + path)
 
 def main():
     anss = {}
     with open(sys.argv[1], "r") as fin:
         path = fin.readline().rstrip() + date.today().strftime("%Y-%m-%d") + ".md"
         print(path)
+        redo = False
         while True:
-            line = read_next(fin, anss)
-            if line == "":
-                break
-            line = line.split(",")
-            if line[0] == "C":
-                consolidate(anss,fin,path)
-            elif line[0] == "R":
-                reminder(line[1])
+            if not redo:
+                line = read_next(fin, anss)
             else:
-                ans = select(line[0],*line[2:])
-                if ans != None:
-                    anss[line[1]] = ans
-    os.system("vim " + path)
+                redo = False
+            try:
+                if line == "":
+                    break
+                line = line.split("|")
+                if line[0] == "C":
+                    consolidate(anss,fin,path)
+                elif line[0] == "R":
+                    reminder(line[1])
+                else:
+                    ans = select(line[0],*line[2:])
+                    if ans != None:
+                        anss[line[1]] = ans
+            except Exception as e:
+                redo = True
 
 if __name__ == "__main__":
   main()
