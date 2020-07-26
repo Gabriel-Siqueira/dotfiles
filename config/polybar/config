@@ -32,7 +32,7 @@ font-3 = Material Icons:fontformat=truetype:size=8:antialias=true;1
 font-4 = terminus:pixelsize=10;1
 modules-left = powermenu filesystem xkeyboard memory temperature cpu
 modules-center = xmonad
-modules-right = task pacman aur volume xbacklight battery date
+modules-right = task pacman aur volume backlight-acpi battery date
 tray-position = right
 tray-padding = 0
 tray-detached = false
