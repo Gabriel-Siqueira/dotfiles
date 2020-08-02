@@ -154,6 +154,8 @@ config.bind('L', 'tab-move +')
 config.bind('H', 'tab-move -')
 config.bind('<Ctrl-b>', 'set-cmd-text -s :buffer')
 config.bind('<Ctrl-\>', 'leave-mode', mode='passthrough')
+config.bind(',m', 'spawn vlc {url}')
+config.bind(',M', 'hint links spawn vlc {hint-url}')
 # }}}
 
 # Local Variables:
