@@ -250,6 +250,7 @@ merged = false
 hook_add = '''
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_url_maxsave = 0
+let g:vimwiki_markdown_link_ext = 1
 let g:vimwiki_list = [{'path': '$MY_WIKI', 'syntax': 'markdown', 'ext': '.md', 'auto_diary_index': 1, 'diary_rel_path': 'diary/'}]
 let g:vimwiki_ext2syntax = {'.md': 'markdown',
                 \ '.mkd': 'markdown',
@@ -260,6 +261,7 @@ call SpaceVim#custom#SPC('nmap', ['a','w','d'], '<Plug>VimwikiDiaryIndex', 'open
 call SpaceVim#custom#SPC('nmap', ['a','w','t'], '<Plug>VimwikiTabIndex', 'open index file in new tab', 0)
 call SpaceVim#custom#SPC('nmap', ['a','w','s'], '<Plug>VimwikiUISelect', 'select between multiple wikis', 0)
 call SpaceVim#custom#SPC('nmap', ['a','w','e'], '<Plug>VimwikiMakeDiaryNote', 'new diary entry', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','h'], '<Plug>:VimwikiAll2HTML', 'convert to html', 0)
 '''
 [[custom_plugins]]
 name = "blindFS/vim-taskwarrior"
