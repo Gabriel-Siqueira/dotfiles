@@ -1,5 +1,7 @@
 import System.Process
 
-:set prompt "λ "
+:set prompt "\ESC[38;5;135m\STXλ>\ESC[m\STX "
+
 :def! rr \_ -> return ":script ~/.ghci"
-:def! fzf (\_ -> return ":cmd readCreateProcess (shell \"cat $HOME/.ghc/ghci_history | fzf --height 25\") \"\"")
+:def hlint const . return $ ":! hlint \"src\""
+:def hoogle \s -> return $ ":! hoogle --count=15 \"" ++ s ++ "\""
