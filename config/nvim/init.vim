@@ -74,6 +74,7 @@ Plug 'Twinside/vim-haskellFold'                 " fold for haskell
 Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
 Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
 Plug 'rhysd/vim-grammarous'                   " grammar checking
+Plug 'honza/vim-snippets'                     " other snippets
 " Plug 'w0rp/ale'                               " use linter
 
 " }}}
@@ -205,6 +206,7 @@ let g:which_key_map.f = {
 
 let g:which_key_map.s = {
 			\ 'name' : '+search',
+			\ 'a' : [':Ag', 'ag'],
 			\ }
 nmap <leader>sc :noh<CR>
 

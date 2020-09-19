@@ -298,7 +298,7 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
             ])
               where
                 cShiftDeve = ["Eclipse"]
-                cShiftCall = ["zoom"]
+                cShiftCall = ["zoom","discord"]
                 cShiftMail = ["thunderbird","TelegramDesktop","Franz","Inboxer"]
                 cShiftDeft = ["Emacs"]
                 cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera", "Brave-browser"]
