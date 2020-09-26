@@ -16,7 +16,6 @@ endif
 " }}}
 " Misc {{{
 
-Plug 'tpope/vim-sensible'                     " sensible defaut settings
 Plug 'kana/vim-niceblock'                     " I and A in all visual and better transition of visual
 Plug 'nelstrom/vim-visual-star-search'        " * and # search for visual blocks
 Plug 'tpope/vim-repeat'                       " extend use of .
@@ -113,6 +112,7 @@ Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 Plug 'lifepillar/vim-solarized8'
 Plug 'tomasr/molokai'
 Plug 'morhetz/gruvbox'
+Plug 'NLKNguyen/papercolor-theme'
 
 ""}}}
 
@@ -188,6 +188,22 @@ function! VimwikiLinkHandler(link)
 	endif
 endfunction
 
+function! My_Tags()
+	if &filetype=='haskell'
+		call system("fast-tags -R .")
+	else
+		call system("ctags -R .")
+	endif
+endfunction
+
+function! My_show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
 " }}}
 "{{{ ====================== Mappings =======================
 
@@ -197,70 +213,6 @@ call which_key#register('<Space>', "g:which_key_map")
 
 let g:which_key_map = {
 			\ '<Tab>' : [':b#', 'go to previous buffer'],
-			\ }
-
-let g:which_key_map.f = {
-			\ 'name' : '+files',
-			\ 's' : [':update', 'save'],
-			\ }
-
-let g:which_key_map.s = {
-			\ 'name' : '+search',
-			\ 'a' : [':Ag', 'ag'],
-			\ }
-nmap <leader>sc :noh<CR>
-
-let g:which_key_map.S = {
-			\ 'name' : '+syntax',
-			\ 'c' : [':call My_SwitchSpellLang()', 'change dictionary'],
-			\ 's' : [':setlocal spell!', 'toggle spell check'],
-			\ }
-
-let g:which_key_map.S.g = {
-			\ 'name' : '+grammarous',
-			\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
-			\ }
-
-let g:which_key_map.o = {
-			\ 'name' : '+open',
-			\ 'c' : [':call My_OpenBib()', 'citation under cursor'],
-			\ 'w' : [':silent !chromium %', 'open in chromium'],
-			\ 'd' : [':call My_Daily()', 'daily view'],
-			\ 't' : [':call TaskFile()', 'task file'],
-			\ }
-
-let g:which_key_map.w = {
-			\ 'name' : '+windows',
-			\ 'w' : ['<C-W>w', 'other-window'],
-			\ 'd' : ['<C-W>c', 'delete-window'],
-			\ 'h' : ['<C-W>h', 'window-left'],
-			\ 'j' : ['<C-W>j', 'window-below'],
-			\ 'l' : ['<C-W>l', 'window-right'],
-			\ 'k' : ['<C-W>k', 'window-up'],
-			\ 'H' : ['<C-W>5<', 'expand-window-left'],
-			\ 'J' : [':resize +5', 'expand-window-below'],
-			\ 'L' : ['<C-W>5>', 'expand-window-right'],
-			\ 'K' : [':resize -5', 'expand-window-up'],
-			\ '=' : ['<C-W>=', 'balance-window'],
-			\ 's' : ['<C-W>s', 'split-window-below'],
-			\ 'v' : ['<C-W>v', 'split-window-right'],
-			\ 'z' : [':ZoomWinTabToggle', 'zoom toggle'],
-			\ }
-
-let g:which_key_map.b = {
-			\ 'name' : '+buffer',
-			\ 'b' : [':Buffers', 'show buffers'],
-			\ 'd' : [':bd', 'delete buffer'],
-			\ 'n' : [':bn', 'next buffer'],
-			\ 'p' : [':bp', 'prev buffer'],
-			\ }
-
-let g:which_key_map.t = {
-			\ 'name' : '+tabs',
-			\ 'n' : [':tabnew', 'new tab'],
-			\ 'o' : [':tabonly', 'single tab'],
-			\ 'c' : [':tabclose', 'close tab'],
-			\ 'm' : [':tabmove', 'move tab'],
 			\ }
 
 let g:which_key_map.a = {
@@ -298,10 +250,69 @@ let g:which_key_map.a.t = {
 			\ 'd' : [':TW daily', 'open taskwarrior report for today'],
 			\ }
 
+let g:which_key_map.b = {
+			\ 'name' : '+buffer',
+			\ 'b' : [':Buffers', 'show buffers'],
+			\ 'd' : [':bd', 'delete buffer'],
+			\ 'n' : [':bn', 'next buffer'],
+			\ 'p' : [':bp', 'prev buffer'],
+			\ }
+
+let g:which_key_map.e = {
+			\ 'name' : '+errors',
+			\ 'l' : [':CocDiagnostics','list'],
+			\ 'n' : ['<Plug>(coc-diagnostic-next)','next'],
+			\ 'p' : ['<Plug>(coc-diagnostic-prev)','prev'],
+			\ }
+
+let g:which_key_map.f = {
+			\ 'name' : '+files',
+			\ 's' : [':update', 'save'],
+			\ 'f' : [':Files', 'open file'],
+			\ }
+
+let g:which_key_map.g = {
+			\ 'name' : '+git',
+			\ 's' : ['Gstatus', 'git-status'],
+			\ 'S' : ['Git add %', 'stage-current-file'],
+			\ 'U' : ['Git reset -q %', 'unstage-current-file'],
+			\ 'c' : ['Git commit', 'edit-git-commit'],
+			\ 'p' : ['Gpush', 'git-push'],
+			\ 'd' : ['Gdiff', 'view-git-diff'],
+			\ 'A' : ['Git add .', 'stage-all-files'],
+			\ 'b' : ['Gblame', 'view-git-blame'],
+			\ 'V' : ['Glog -- %', 'git-log-of-current-file'],
+			\ 'v' : ['Glog --', 'git-log-of-current-repo'],
+			\ }
+
+let g:which_key_map.l = {
+			\ 'name' : '+language',
+			\ 'd' : [':call My_show_documentation()', 'documentation'],
+			\ 'r' : ['<Plug>(coc-rename)', 'rename'],
+			\ 'f' : ['<Plug>(coc-format-selected)', 'format'],
+			\ 'a' : ['<Plug>(coc-action)', 'action']
+			\ }
+
+let g:which_key_map.l.j = {
+			\ 'name' : '+jump',
+			\ 'd' : ['<Plug>(coc-definition)', 'definition'],
+			\ 't' : ['<Plug>(coc-type-definition)', 'type definition'],
+			\ 'i' : ['<Plug>(coc-implementation)', 'implementation'],
+			\ 'r' : ['<Plug>(coc-references)', 'references'],
+			\ }
+
 let g:which_key_map.n = {
 			\ 'name' : '+numbers',
 			\ 's' : ['<C-U> call My_setNum(v:count1)', 'set'],
-			\ 'n' : ['call My_nextNum()', 'next'],
+			\ 'n' : [':call My_nextNum()', 'next'],
+			\ }
+
+let g:which_key_map.o = {
+			\ 'name' : '+open',
+			\ 'c' : [':call My_OpenBib()', 'citation under cursor'],
+			\ 'w' : [':silent !chromium %', 'open in chromium'],
+			\ 'd' : [':call My_Daily()', 'daily view'],
+			\ 't' : [':call TaskFile()', 'task file'],
 			\ }
 
 let g:which_key_map.r = {
@@ -319,18 +330,50 @@ let g:which_key_map.r = {
 			\ 'c' : [':VtrFlushCommand', ''],
 			\ }
 
-let g:which_key_map.g = {
-			\ 'name' : '+git',
-			\ 's' : ['Gstatus', 'git-status'],
-			\ 'S' : ['Git add %', 'stage-current-file'],
-			\ 'U' : ['Git reset -q %', 'unstage-current-file'],
-			\ 'c' : ['Git commit', 'edit-git-commit'],
-			\ 'p' : ['Gpush', 'git-push'],
-			\ 'd' : ['Gdiff', 'view-git-diff'],
-			\ 'A' : ['Git add .', 'stage-all-files'],
-			\ 'b' : ['Gblame', 'view-git-blame'],
-			\ 'V' : ['Glog -- %', 'git-log-of-current-file'],
-			\ 'v' : ['Glog --', 'git-log-of-current-repo'],
+let g:which_key_map.s = {
+			\ 'name' : '+search',
+			\ 'a' : [':Ag', 'ag'],
+			\ }
+nmap <leader>sc :noh<CR>
+
+let g:which_key_map.S = {
+			\ 'name' : '+syntax',
+			\ 'c' : [':call My_SwitchSpellLang()', 'change dictionary'],
+			\ 's' : [':setlocal spell!', 'toggle spell check'],
+			\ }
+
+let g:which_key_map.S.g = {
+			\ 'name' : '+grammarous',
+			\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
+			\ }
+
+
+let g:which_key_map.t = {
+			\ 'name' : '+tabs/tags',
+			\ 'n' : [':tabnew', 'new tab'],
+			\ 'o' : [':tabonly', 'single tab'],
+			\ 'c' : [':tabclose', 'close tab'],
+			\ 'm' : [':tabmove', 'move tab'],
+			\ 't' : [':Tags', 'search tags'],
+			\ 'g' : [':call My_Tags()', 'generate tags'],
+			\ }
+
+let g:which_key_map.w = {
+			\ 'name' : '+windows',
+			\ 'w' : ['<C-W>w', 'other-window'],
+			\ 'd' : ['<C-W>c', 'delete-window'],
+			\ 'h' : ['<C-W>h', 'window-left'],
+			\ 'j' : ['<C-W>j', 'window-below'],
+			\ 'l' : ['<C-W>l', 'window-right'],
+			\ 'k' : ['<C-W>k', 'window-up'],
+			\ 'H' : ['<C-W>5<', 'expand-window-left'],
+			\ 'J' : [':resize +5', 'expand-window-below'],
+			\ 'L' : ['<C-W>5>', 'expand-window-right'],
+			\ 'K' : [':resize -5', 'expand-window-up'],
+			\ '=' : ['<C-W>=', 'balance-window'],
+			\ 's' : ['<C-W>s', 'split-window-below'],
+			\ 'v' : ['<C-W>v', 'split-window-right'],
+			\ 'z' : [':ZoomWinTabToggle', 'zoom toggle'],
 			\ }
 
 let g:which_key_map['<Leader>'] = {
@@ -398,6 +441,10 @@ nnoremap Y y$
 
 " misc {{{
 
+filetype plugin indent on " detection of filetype, plugin and indentation
+syntax on
+
+set backspace=indent,eol,start " make backspace work
 set nocompatible     " no need to be compatible with vi
 set shiftwidth=4     " size off >>, << and ==
 set tabstop=4        " size of a <tab>
@@ -447,6 +494,7 @@ endif
 set cmdheight=2        " give more space for displaying messages
 set shortmess+=c       " don't pass messages to ins-completion-menu
 set foldmethod=expr    " fold using expressions
+set signcolumn=yes  " display signs with the numbers
 
 " List of languages to toggle between
 let s:myLang = 0
@@ -509,7 +557,7 @@ endif
 " airline {{{
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme='jet'
+let g:airline_theme='murmur'
 let g:airline#extensions#capslock#enabled = 1
 let g:airline#extensions#syntastic#enabled = 1
 let g:airline#extensions#wordcount#enabled = 1
@@ -518,6 +566,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#vimtex#enabled = 1
 let g:airline#extensions#ale#enabled = 1
+let g:airline#extensions#coc#enabled = 1
 let g:airline#extensions#tabline#left_sep = ''
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
@@ -537,7 +586,14 @@ let g:vimwiki_key_mappings = { 'global': 0, }
 let g:vimwiki_folding = 'expr'
 let g:vimwiki_url_maxsave = 0
 let g:vimwiki_markdown_link_ext = 1
-let g:vimwiki_list = [{'path': '$MY_WIKI', 'syntax': 'markdown', 'ext': '.md', 'auto_diary_index': 1, 'diary_rel_path': 'diary/'}]
+let wiki = {}
+let wiki.path = '$MY_WIKI'
+let wiki.syntax = 'markdown'
+let wiki.ext = '.md'
+let wiki.auto_diary_index = 1
+let wiki.diary_rel_path = 'diary/'
+let wiki.nested_syntaxes = {'python': 'python', 'c++': 'cpp', 'haskell': 'haskell', 'zsh': 'zsh'}
+let g:vimwiki_list = [wiki]
 let g:vimwiki_ext2syntax = {'.md': 'markdown',
 			\ '.mkd': 'markdown',
 			\ '.wiki': 'markdown'}

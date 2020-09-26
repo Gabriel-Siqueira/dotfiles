@@ -27,26 +27,6 @@ fi
 alias mkdir='nocorrect mkdir -p'
 alias mv='nocorrect mv -i'
 # }}}
-# files {{{
-alias fvim="vim ~/.vimrc"
-alias fnvim="vim ~/.config/nvim/init.vim"
-alias fzsh="vim ~/.oh-my-zsh/custom/my_config.zsh"
-alias ftmux="vim ~/.tmux.conf"
-alias fxmonad="vim ~/.xmonad/xmonad.hs"
-alias fi3="vim ~/MEGA/dotfiles/wm/i3/i3config.hs"
-alias nfvim="nvim ~/.vimrc"
-alias nfnvim="nvim ~/.config/nvim/init.vim"
-alias nfzsh="nvim ~/.oh-my-zsh/custom/my_config.zsh"
-alias nftmux="nvim ~/.tmux.conf"
-alias nfxmonad="nvim ~/.xmonad/xmonad.hs"
-alias nfi3="nvim ~/MEGA/dotfiles/wm/i3/i3config.hs"
-alias evim="emacsclient ~/.vimrc"
-alias envim="emacsclient ~/.config/nvim/init.vim"
-alias ezsh="emacsclient ~/.oh-my-zsh/custom/my_config.zsh"
-alias etmux="emacsclient ~/.tmux.conf"
-alias exmonad="emacsclient ~/.xmonad/xmonad.hs"
-alias ei3="emacsclient ~/MEGA/dotfiles/wm/i3/i3config.hs"
-# }}}
 # usefull {{{
 alias clr='clear'
 alias gccs='gcc -ansi -pedantic -Wall -Werror -lm'
