@@ -145,13 +145,20 @@ function! My_Daily()
 	execute "TW daily"
 endfunction
 
-function! My_OpenBib()
+function! My_OpenBib(how)
 	" Opend file associated with reference under the cursor.
 	let save_reg = @@
 	execute "normal! yi["
-	let file = $MY_REFS . split(@@,'@')[0] . ".pdf"
-	echo file
-	call system("xdg-open " . file . "&")
+	let cite = split(@@,'@')[0] 
+	if a:how == "pdf"
+		let file = $MY_REFS . cite . ".pdf"
+		echo file
+		call system("xdg-open " . file . "&")
+	elseif a:how == "bib"
+		execute "e $MY_BIB"
+		call search(cite)
+	else
+		echomsg 'Error: Option non existent!'
 	let @@ = save_reg
 endfunction
 
@@ -301,6 +308,12 @@ let g:which_key_map.l.j = {
 			\ 'r' : ['<Plug>(coc-references)', 'references'],
 			\ }
 
+let g:which_key_map.m = {
+			\ 'name' : '+make',
+			\ 'm' : [':make', 'make'],
+			\ 'c' : [':make clean', 'clean'],
+			\ }
+
 let g:which_key_map.n = {
 			\ 'name' : '+numbers',
 			\ 's' : ['<C-U> call My_setNum(v:count1)', 'set'],
@@ -309,10 +322,15 @@ let g:which_key_map.n = {
 
 let g:which_key_map.o = {
 			\ 'name' : '+open',
-			\ 'c' : [':call My_OpenBib()', 'citation under cursor'],
-			\ 'w' : [':silent !chromium %', 'open in chromium'],
+			\ 'w' : [':silent !firefox %', 'open in firefox'],
 			\ 'd' : [':call My_Daily()', 'daily view'],
 			\ 't' : [':call TaskFile()', 'task file'],
+			\ }
+
+let g:which_key_map.o.c = {
+			\ 'name' : '+citation',
+			\ 'p' : [':call My_OpenBib("pdf")', 'pdf'],
+			\ 'c' : [':call My_OpenBib("bib")', 'bib'],
 			\ }
 
 let g:which_key_map.r = {
