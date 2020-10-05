@@ -519,6 +519,7 @@ let s:myLang = 0
 let s:myLangList = ['pt', 'en']
 
 " Color
+set background=dark
 try
 	colorscheme gruvbox
 catch /^Vim\%((\a\+)\)\=:E185/
