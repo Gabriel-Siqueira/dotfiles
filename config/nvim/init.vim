@@ -92,6 +92,7 @@ Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'troydm/zoomwintab.vim'                  " make pane full screen
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
+Plug 'tpope/vim-dispatch'                           " asynchrous make
 
 " }}}
 " Applications interface {{{
@@ -230,8 +231,8 @@ let g:which_key_map.a = {
 
 let g:which_key_map.a.m = {
 			\ 'name' : '+make',
-			\ 'm' : ['make -C %:p:h', 'run make on file path'],
-			\ 'c' : ['make clean -C %:p:h', 'run make clean on file path'],
+			\ 'm' : [':Make', 'make'],
+			\ 'c' : [':Make clean', 'clean'],
 			\ }
 
 let g:which_key_map.a.w = {
@@ -306,12 +307,6 @@ let g:which_key_map.l.j = {
 			\ 't' : ['<Plug>(coc-type-definition)', 'type definition'],
 			\ 'i' : ['<Plug>(coc-implementation)', 'implementation'],
 			\ 'r' : ['<Plug>(coc-references)', 'references'],
-			\ }
-
-let g:which_key_map.m = {
-			\ 'name' : '+make',
-			\ 'm' : [':make', 'make'],
-			\ 'c' : [':make clean', 'clean'],
 			\ }
 
 let g:which_key_map.n = {
@@ -629,7 +624,7 @@ let g:task_rc_override = 'defaultwidth=0'
 " grammarous {{{
 
 let g:grammarous#disabled_rules = {
-			\ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X'],
+			\ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X', 'BARBARISMS'],
 			\ }
 
 " }}}

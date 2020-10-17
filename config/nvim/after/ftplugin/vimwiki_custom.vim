@@ -1,3 +1,4 @@
+noremap <buffer> g+ diWa[]()hhPllpa.md
 map <buffer> <space>mhc <Plug>Vimwiki2HTML
 nmap <buffer> <space>mho <Plug>Vimwiki2HTMLBrowse
 nmap <buffer> <space>mi <Plug>VimwikiDiaryGenerateLinks

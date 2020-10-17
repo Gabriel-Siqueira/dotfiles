@@ -1,6 +1,6 @@
 # Bin Paths
 typeset -U path
-path=(/bin /sbin ~/.local/bin ~/bin
+path=(/bin /sbin /usr/bin/site_perl /usr/bin/vendor_perl /usr/bin/core_perl ~/.local/bin ~/bin
       ~/.ghcup/bin
       ~/.cabal/bin
       ~/.gem/ruby/2.6.0/bin
