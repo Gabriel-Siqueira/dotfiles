@@ -92,7 +92,7 @@ Plug 'sjl/gundo.vim'                          " undo tree
 Plug 'troydm/zoomwintab.vim'                  " make pane full screen
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
-Plug 'tpope/vim-dispatch'                           " asynchrous make
+Plug 'tpope/vim-dispatch'                     " asynchrous make
 
 " }}}
 " Applications interface {{{
@@ -204,12 +204,32 @@ function! My_Tags()
 	endif
 endfunction
 
+function! My_Index()
+	if &filetype=='tex'
+		exe 'LatexTOC'
+	else
+		exe 'Vexplore'
+	endif
+endfunction
+
 function! My_show_documentation()
   if (index(['vim','help'], &filetype) >= 0)
     execute 'h '.expand('<cword>')
   else
     call CocActionAsync('doHover')
   endif
+endfunction
+
+function! My_Pdf()
+	let pdf = expand('%:p:r') . '.pdf'
+	let pdfs = glob('*.pdf',0,1)
+	if filereadable(pdf)
+		call system("xdg-open " . pdf . "&")
+	elseif !empty(pdfs)
+		call system("xdg-open " . pdfs[0] . "&")
+	else
+		echomsg 'No pdf available'
+	endif
 endfunction
 
 " }}}
@@ -320,6 +340,7 @@ let g:which_key_map.o = {
 			\ 'w' : [':silent !firefox %', 'open in firefox'],
 			\ 'd' : [':call My_Daily()', 'daily view'],
 			\ 't' : [':call TaskFile()', 'task file'],
+			\ 'p' : [':call My_Pdf()', 'pdf'],
 			\ }
 
 let g:which_key_map.o.c = {
@@ -369,6 +390,11 @@ let g:which_key_map.t = {
 			\ 'm' : [':tabmove', 'move tab'],
 			\ 't' : [':Tags', 'search tags'],
 			\ 'g' : [':call My_Tags()', 'generate tags'],
+			\ }
+
+let g:which_key_map.T = {
+			\ 'name' : '+toggle',
+			\ 'i' : [':call My_Index()', 'index'],
 			\ }
 
 let g:which_key_map.w = {
@@ -626,6 +652,14 @@ let g:task_rc_override = 'defaultwidth=0'
 let g:grammarous#disabled_rules = {
 			\ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X', 'BARBARISMS'],
 			\ }
+
+" }}}
+" netrw {{{
+
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 20
 
 " }}}
 
