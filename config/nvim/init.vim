@@ -66,6 +66,7 @@ Plug 'blindFS/vim-taskwarrior'                  " for taskwarrior
 Plug 'vimwiki/vimwiki'                          " for vimwiki and markdown
 Plug 'ledger/vim-ledger'                        " for ladger
 Plug 'Twinside/vim-haskellFold'                 " fold for haskell
+Plug 'lervag/vimtex'                            " for latex
 
 " }}}
 " Editing/Syntax {{{
@@ -93,6 +94,7 @@ Plug 'troydm/zoomwintab.vim'                  " make pane full screen
 Plug 'vim-airline/vim-airline'                " new mode line
 Plug 'vim-airline/vim-airline-themes'         " themes for airline
 Plug 'tpope/vim-dispatch'                     " asynchrous make
+Plug 'derekwyatt/vim-fswitch'                 " alternate files
 
 " }}}
 " Applications interface {{{
@@ -297,6 +299,7 @@ let g:which_key_map.f = {
 			\ 'name' : '+files',
 			\ 's' : [':update', 'save'],
 			\ 'f' : [':Files', 'open file'],
+			\ 'a' : [':FSHere', 'alternate'],
 			\ }
 
 let g:which_key_map.g = {
@@ -341,6 +344,7 @@ let g:which_key_map.o = {
 			\ 'd' : [':call My_Daily()', 'daily view'],
 			\ 't' : [':call TaskFile()', 'task file'],
 			\ 'p' : [':call My_Pdf()', 'pdf'],
+			\ 'i' : [':call My_Index()', 'index'],
 			\ }
 
 let g:which_key_map.o.c = {
@@ -390,11 +394,6 @@ let g:which_key_map.t = {
 			\ 'm' : [':tabmove', 'move tab'],
 			\ 't' : [':Tags', 'search tags'],
 			\ 'g' : [':call My_Tags()', 'generate tags'],
-			\ }
-
-let g:which_key_map.T = {
-			\ 'name' : '+toggle',
-			\ 'i' : [':call My_Index()', 'index'],
 			\ }
 
 let g:which_key_map.w = {
@@ -592,6 +591,11 @@ if exists('$SUDO_USER')
 	set nobackup
 	set nowritebackup
 endif
+
+" }}}
+" languages/file types {{{
+
+let g:tex_flavor = 'latex'
 
 " }}}
 " airline {{{
