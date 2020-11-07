@@ -1,11 +1,21 @@
 {
-  "snippets.userSnippetsDirectory": "$HOME/.config/nvim/snippets",
-  "languageserver": {
-    "haskell": {
-      "command": "haskell-language-server-wrapper",
-      "args": ["--lsp"],
-      "rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
-      "filetypes": ["haskell", "lhaskell"]
-    }
-  }
+	"snippets.userSnippetsDirectory": "$HOME/.config/nvim/snippets",
+	"languageserver": {
+		"haskell": {
+			"command": "haskell-language-server-wrapper",
+			"args": ["--lsp"],
+			"rootPatterns": ["*.cabal", "stack.yaml", "cabal.project", "package.yaml", "hie.yaml"],
+			"filetypes": ["haskell", "lhaskell"]
+		},
+		"ccls": {
+			"command": "ccls",
+			"filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+			"rootPatterns": [".ccls", "compile_commands.json", ".git/", ".hg/"],
+			"initializationOptions": {
+				"cache": {
+					"directory": "/tmp/ccls"
+				}
+			}
+		}
+	}
 }
