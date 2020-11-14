@@ -59,6 +59,7 @@ Plug 'tommcdo/vim-exchange'                   " easily exchange text
 " }}}
 " Languages/File types {{{
 
+Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
 Plug 'sheerun/vim-polyglot'                     " multiple languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
 Plug 'jceb/vim-orgmode'                         " for org
@@ -664,6 +665,17 @@ let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_browse_split = 4
 let g:netrw_winsize = 20
+
+" }}}
+" treesitter {{{
+
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+	highlight = { enable = true },
+	textobjects = { enable = true },
+	indent = { enable = true },
+}
+EOF
 
 " }}}
 
