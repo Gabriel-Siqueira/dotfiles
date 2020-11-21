@@ -139,6 +139,8 @@ c.colors.tabs.selected.odd.bg = base05
 c.colors.tabs.selected.odd.fg = base00
 # }}}
 # bindings {{{
+config.bind(',d', 'set content.user_stylesheets solarized-dark.css ;; reload')
+config.bind(',l', 'set content.user_stylesheets "" ;; reload')
 config.bind("a", 'enter-mode insert')
 config.bind('zp', 'open -t https://getpocket.com/edit?url={url}')
 config.bind("e", 'session-save ;; set-cmd-text -s :session-load -c')
