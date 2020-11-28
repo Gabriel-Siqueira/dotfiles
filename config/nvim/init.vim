@@ -152,8 +152,15 @@ endfunction
 function! My_OpenBib(how)
 	" Opend file associated with reference under the cursor.
 	let save_reg = @@
+	let @@ = "failure"
 	execute "normal! yi["
-	let cite = split(@@,'@')[0] 
+	if @@ == "failure"
+		execute "normal! yy"
+		let cite = split(@@,'{')[1]
+		let cite = split(cite,',')[0]
+	else
+		let cite = split(@@,'@')[0]
+	endif
 	if a:how == "pdf"
 		let file = $MY_REFS . cite . ".pdf"
 		echo file
@@ -163,6 +170,7 @@ function! My_OpenBib(how)
 		call search(cite)
 	else
 		echomsg 'Error: Option non existent!'
+	endif
 	let @@ = save_reg
 endfunction
 
@@ -317,9 +325,10 @@ let g:which_key_map.g = {
 			\ 'v' : ['Glog --', 'git-log-of-current-repo'],
 			\ }
 
+noremap <silent> <leader>ld :call My_show_documentation()<CR>
 let g:which_key_map.l = {
 			\ 'name' : '+language',
-			\ 'd' : [':call My_show_documentation()', 'documentation'],
+			\ 'd' : 'documentation',
 			\ 'r' : ['<Plug>(coc-rename)', 'rename'],
 			\ 'f' : ['<Plug>(coc-format-selected)', 'format'],
 			\ 'a' : ['<Plug>(coc-action)', 'action']
@@ -333,25 +342,33 @@ let g:which_key_map.l.j = {
 			\ 'r' : ['<Plug>(coc-references)', 'references'],
 			\ }
 
+noremap <silent> <leader>ns :call My_setNum(v:count1)<CR>
+noremap <silent> <leader>nn :call My_nextNum()<CR>
 let g:which_key_map.n = {
 			\ 'name' : '+numbers',
-			\ 's' : ['<C-U> call My_setNum(v:count1)', 'set'],
-			\ 'n' : [':call My_nextNum()', 'next'],
+			\ 's' : 'set',
+			\ 'n' : 'next',
 			\ }
 
+nnoremap <silent> <leader>od :call My_Daily()<CR>
+nnoremap <silent> <leader>ot :call TaskFile()<CR>
+nnoremap <silent> <leader>op :call My_Pdf()<CR>
+nnoremap <silent> <leader>oi :call My_Index()<CR>
 let g:which_key_map.o = {
 			\ 'name' : '+open',
 			\ 'w' : [':silent !firefox %', 'open in firefox'],
-			\ 'd' : [':call My_Daily()', 'daily view'],
-			\ 't' : [':call TaskFile()', 'task file'],
-			\ 'p' : [':call My_Pdf()', 'pdf'],
-			\ 'i' : [':call My_Index()', 'index'],
+			\ 'd' : 'daily view',
+			\ 't' : 'task file',
+			\ 'p' : 'pdf',
+			\ 'i' : 'index',
 			\ }
 
+nnoremap <silent> <leader>ocp :call My_OpenBib("pdf")<CR>
+nnoremap <silent> <leader>occ :call My_OpenBib("bib")<CR>
 let g:which_key_map.o.c = {
 			\ 'name' : '+citation',
-			\ 'p' : [':call My_OpenBib("pdf")', 'pdf'],
-			\ 'c' : [':call My_OpenBib("bib")', 'bib'],
+			\ 'p' : 'pdf',
+			\ 'c' : 'bib',
 			\ }
 
 let g:which_key_map.r = {
@@ -369,15 +386,17 @@ let g:which_key_map.r = {
 			\ 'c' : [':VtrFlushCommand', ''],
 			\ }
 
+nmap <leader>sc :noh<CR>
 let g:which_key_map.s = {
 			\ 'name' : '+search',
 			\ 'a' : [':Ag', 'ag'],
+			\ 'c' : 'clear',
 			\ }
-nmap <leader>sc :noh<CR>
 
+nnoremap <silent> <leader>Sc :call My_SwitchSpellLang()<CR>
 let g:which_key_map.S = {
 			\ 'name' : '+syntax',
-			\ 'c' : [':call My_SwitchSpellLang()', 'change dictionary'],
+			\ 'c' : 'change dictionary',
 			\ 's' : [':setlocal spell!', 'toggle spell check'],
 			\ }
 
@@ -386,7 +405,7 @@ let g:which_key_map.S.g = {
 			\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
 			\ }
 
-
+nnoremap <silent> <leader>tg :call My_Tags()<CR>
 let g:which_key_map.t = {
 			\ 'name' : '+tabs/tags',
 			\ 'n' : [':tabnew', 'new tab'],
@@ -394,7 +413,7 @@ let g:which_key_map.t = {
 			\ 'c' : [':tabclose', 'close tab'],
 			\ 'm' : [':tabmove', 'move tab'],
 			\ 't' : [':Tags', 'search tags'],
-			\ 'g' : [':call My_Tags()', 'generate tags'],
+			\ 'g' : 'generate tags',
 			\ }
 
 let g:which_key_map.w = {
@@ -676,6 +695,11 @@ require'nvim-treesitter.configs'.setup {
 	indent = { enable = true },
 }
 EOF
+
+" }}}
+" vimtex {{{
+
+let g:vimtex_view_method = 'zathura'
 
 " }}}
 

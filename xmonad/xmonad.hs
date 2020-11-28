@@ -43,7 +43,8 @@ termLaunch :: String -> String -> String
 termLaunch name prog = "kitty --name=" ++ name ++ " " ++ prog
 
 myMenu :: String
-myMenu = "rofi -show run"
+-- myMenu = "rofi -show run"
+myMenu = "ulauncher"
 
 myLock :: String
 myLock = "i3lock -t -i ~/Dropbox/Pictures/lock_und_dm/guide_to_the_galaxy.png"
