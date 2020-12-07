@@ -700,6 +700,7 @@ EOF
 " vimtex {{{
 
 let g:vimtex_view_method = 'zathura'
+let g:vimtex_grammar_vlty = {'lt_command': 'languagetool'}
 
 " }}}
 
