@@ -22,6 +22,10 @@ if type "lsd" > /dev/null; then
 else
   alias ls='ls --color=auto'
 fi
+if type "R" > /dev/null; then
+	disable r
+	alias r='R'
+fi
 # }}}
 # exeptions to auto-correction {{{
 alias mkdir='nocorrect mkdir -p'

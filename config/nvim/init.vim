@@ -155,9 +155,8 @@ function! My_OpenBib(how)
 	let @@ = "failure"
 	execute "normal! yi["
 	if @@ == "failure"
-		execute "normal! yy"
-		let cite = split(@@,'{')[1]
-		let cite = split(cite,',')[0]
+		execute "normal! yi{"
+		let cite = split(@@,',')[0]
 	else
 		let cite = split(@@,'@')[0]
 	endif
