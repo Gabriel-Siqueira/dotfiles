@@ -246,6 +246,7 @@ myStartupHook host = do
   setDefaultCursor xC_left_ptr
   spawns [  "dropbox"
             , "redshift-gtk"
+            , "/usr/lib/geoclue-2.0/demos/agent" -- necessary to redshift
             -- , "alarm-clock-applet --hidden"
             , "nm-applet"
             -- , "wicd-gtk --tray"
@@ -298,7 +299,7 @@ myManageHook = insertPosition Below Newer <+> namedScratchpadManageHook myScratc
             ])
               where
                 cShiftDeve = ["Eclipse"]
-                cShiftCall = ["zoom","discord"]
+                cShiftCall = ["zoom","discord","Slack"]
                 cShiftMail = ["thunderbird","TelegramDesktop","Franz","Inboxer"]
                 cShiftDeft = ["Emacs"]
                 cShiftAuxD = ["Chromium","google-chrome","vivaldi-stable", "Opera", "Brave-browser"]

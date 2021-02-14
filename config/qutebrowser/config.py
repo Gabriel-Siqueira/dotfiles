@@ -1,3 +1,4 @@
+config.load_autoconfig(False) # do not load gui configs
 # settings {{{
 c.qt.force_software_rendering = 'software-opengl' # fix for getting stuck problem
 c.tabs.title.format = "{audio}{index} {current_title}"
