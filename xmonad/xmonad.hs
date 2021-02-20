@@ -261,6 +261,7 @@ myStartupHook host = do
             -- , "chromium"
             -- , "brave"
             , "dunst"
+            , "onedrive_tray"
             , termLaunch "main_term" "tmux new -A -s standard"
             ]
   windows $ W.greedyView startupWorkspace
