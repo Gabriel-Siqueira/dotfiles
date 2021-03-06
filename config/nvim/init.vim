@@ -318,12 +318,12 @@ let g:which_key_map.g = {
 			\ 'S' : ['Git add %', 'stage-current-file'],
 			\ 'U' : ['Git reset -q %', 'unstage-current-file'],
 			\ 'c' : ['Git commit', 'edit-git-commit'],
-			\ 'p' : ['Gpush', 'git-push'],
-			\ 'd' : ['Gdiff', 'view-git-diff'],
+			\ 'p' : ['Git push', 'git-push'],
+			\ 'd' : ['Git diff', 'view-git-diff'],
 			\ 'A' : ['Git add .', 'stage-all-files'],
-			\ 'b' : ['Gblame', 'view-git-blame'],
-			\ 'V' : ['Glog -- %', 'git-log-of-current-file'],
-			\ 'v' : ['Glog --', 'git-log-of-current-repo'],
+			\ 'b' : ['Git blame', 'view-git-blame'],
+			\ 'V' : ['Git log -- %', 'git-log-of-current-file'],
+			\ 'v' : ['Git log --', 'git-log-of-current-repo'],
 			\ }
 
 noremap <silent> <leader>ld :call My_show_documentation()<CR>
