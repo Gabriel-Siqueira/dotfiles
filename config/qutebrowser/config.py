@@ -46,6 +46,7 @@ c.url.start_pages = ['https://booky.io/']
 c.content.autoplay = False
 c.input.insert_mode.leave_on_load = False
 c.url.open_base_url = True
+c.zoom.mouse_divider = 1024
 # }}}
 # color {{{
 base00 = "#1f2022"

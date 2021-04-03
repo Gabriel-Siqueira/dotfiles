@@ -1,17 +1,18 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 import XMonad
-import XMonad.Util.EZConfig (additionalKeysP)
-import XMonad.Actions.Navigation2D (windowGo, Direction2D(..), windowSwap)
-import XMonad.Actions.CycleWS (toggleWS', swapNextScreen, nextScreen)
-import XMonad.Actions.SwapWorkspaces (swapWithCurrent)
-import XMonad.Layout.ResizableTile (ResizableTall(..))
-import XMonad.Layout.Tabbed (shrinkText, Theme(..), addTabs)
-import XMonad.Layout.SubLayouts (GroupMsg(UnMerge,MergeAll), pullGroup, onGroup, subLayout, toSubl)
-import XMonad.Layout.Simplest (Simplest(Simplest))
-import XMonad.Layout.WindowNavigation (windowNavigation)
-import XMonad.Layout.BoringWindows (boringWindows, focusUp, focusDown)
-import XMonad.Layout.TrackFloating (trackFloating, useTransientFor)
+import XMonad.Util.EZConfig
+import XMonad.Actions.Navigation2D
+import XMonad.Actions.CycleWS
+import XMonad.Actions.SwapWorkspaces
+import XMonad.Layout.ResizableTile
+import XMonad.Layout.Tabbed
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.Simplest
+import XMonad.Layout.WindowNavigation
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.TrackFloating
+import XMonad.Layout.Spacing
 import XMonad.Hooks.UrgencyHook (focusUrgent, withUrgencyHook, NoUrgencyHook(..))
 import XMonad.Hooks.DynamicLog (PP(..), wrap, dynamicLogWithPP)
 import XMonad.Hooks.ManageDocks (docks, avoidStruts, ToggleStruts(ToggleStruts))
@@ -109,7 +110,7 @@ main = do
     , handleEventHook = myHandleEventHook
     , normalBorderColor = "#000000"
     , focusedBorderColor = "#000000"
-    , borderWidth = 3
+    , borderWidth = 2
     , manageHook = myManageHook
     , focusFollowsMouse = False
     , logHook = myLogHook handle
@@ -189,7 +190,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-.", sendMessage Expand)]
     moreLayoutKeys = [
         ("M-r ,", sendMessage (IncMasterN 1))
-      , ("M-r .", sendMessage (IncMasterN (-1)))
+                     , ("M-r .", sendMessage (IncMasterN (-1)))
+      , ("M-r s", toggleWindowSpacingEnabled)
       , ("M-r u", withFocused (sendMessage . UnMerge))
       , ("M-r m", withFocused (sendMessage . MergeAll))
       , ("M-r h", sendMessage $ pullGroup L)
@@ -221,10 +223,12 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       when flt toggleFocus
       namedScratchpadAction myScratchpads com
 
-myLayoutsHook = refocusLastLayoutHook . avoidStruts . windowNavigation . trackFloating . useTransientFor .
-  addTabs shrinkText tabTheme . subLayout [0] (Simplest ||| tiled ||| Mirror tiled) .
-  boringWindows $ (Full ||| tiled ||| Mirror tiled)
+myLayoutsHook = refocusLastLayoutHook . avoidStruts . windowNavigation . trackFloating .
+                useTransientFor .  addTabs shrinkText tabTheme .
+                subLayout [0] (Simplest ||| tiled ||| Mirror tiled) .  boringWindows $
+                (Full ||| space tiled ||| (space . Mirror $ tiled))
  where
+     space l = spacingRaw False (Border 0 0 0 0) False (Border 5 5 5 5) False l
      tiled   = ResizableTall nmaster delta ratio []
      nmaster = 1
      ratio   = 1/2
@@ -253,7 +257,9 @@ myStartupHook host = do
             -- , "netctl-tray"
             -- , "cmst -m -w 5"
             , "xfce4-power-manager"
-            , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
+            -- , "feh --bg-fill ~/Dropbox/Pictures/mywallpaper/" ++ myWallpaper host
+            -- , "variety"
+            , "nohup python3 /usr/local/bin/WeatherDesk > /dev/null &"
             , "compton"
             -- , "emacs"
             , "qutebrowser"
@@ -261,7 +267,6 @@ myStartupHook host = do
             -- , "chromium"
             -- , "brave"
             , "dunst"
-            , "onedrive_tray"
             , termLaunch "main_term" "tmux new -A -s standard"
             ]
   windows $ W.greedyView startupWorkspace
@@ -345,6 +350,14 @@ myLogHook h = do
             "Tabbed Grid"                 -> "[+]"
             "Tabbed Full"                 -> "[" ++ show n_windows ++ "]"
             "Tabbed Tabbed Simplest"      -> "[=]"
+            "Tabbed Spacing Simplest"             -> "[=]"
+            "Tabbed Spacing BSP"                  -> "[T]"
+            "Tabbed Spacing ResizableTall"        -> "[|]"
+            "Tabbed Spacing Mirror ResizableTall" -> "[-]"
+            "Tabbed Spacing Circle"               -> "[o]"
+            "Tabbed Spacing Grid"                 -> "[+]"
+            "Tabbed Spacing Full"                 -> "[" ++ show n_windows ++ "]"
+            "Tabbed Spacing Tabbed Simplest"      -> "[=]"
             _                             -> x )
       }
 
