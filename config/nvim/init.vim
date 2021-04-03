@@ -35,7 +35,11 @@ Plug 'lucapette/vim-textobj-underscore'       " underscore (_)
 Plug 'sgur/vim-textobj-parameter'             " parameter of a function
 Plug 'thinca/vim-textobj-between'             " between characters
 Plug 'tpope/vim-surround'                     " surround
-Plug 'easymotion/vim-easymotion'              " move following letters
+if exists('g:vscode')
+	Plug 'ChristianChiarulli/vscode-easymotion'   " move following letters
+else
+	Plug 'easymotion/vim-easymotion'              " move following letters
+endif
 Plug 'jeetsukumaran/vim-indentwise'           " indentation level motion
 
 " }}}
@@ -59,66 +63,76 @@ Plug 'tommcdo/vim-exchange'                   " easily exchange text
 " }}}
 " Languages/File types {{{
 
-if has('nvim-0.5')
-	Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
+if !exists('g:vscode')
+	if has('nvim-0.5')
+		Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
+	endif
+	Plug 'sheerun/vim-polyglot'                     " multiple languages
+	Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
+	Plug 'jceb/vim-orgmode'                         " for org
+	Plug 'blindFS/vim-taskwarrior'                  " for taskwarrior
+	Plug 'vimwiki/vimwiki'                          " for vimwiki and markdown
+	Plug 'ledger/vim-ledger'                        " for ladger
+	Plug 'Twinside/vim-haskellFold'                 " fold for haskell
+	Plug 'lervag/vimtex'                            " for latex
 endif
-Plug 'sheerun/vim-polyglot'                     " multiple languages
-Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
-Plug 'jceb/vim-orgmode'                         " for org
-Plug 'blindFS/vim-taskwarrior'                  " for taskwarrior
-Plug 'vimwiki/vimwiki'                          " for vimwiki and markdown
-Plug 'ledger/vim-ledger'                        " for ladger
-Plug 'Twinside/vim-haskellFold'                 " fold for haskell
-Plug 'lervag/vimtex'                            " for latex
 
 " }}}
 " Editing/Syntax {{{
 
-Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
-Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
-Plug 'rhysd/vim-grammarous'                   " grammar checking
-Plug 'honza/vim-snippets'                     " other snippets
-" Plug 'w0rp/ale'                               " use linter
+if !exists('g:vscode')
+	Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
+	Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
+	Plug 'rhysd/vim-grammarous'                   " grammar checking
+	Plug 'honza/vim-snippets'                     " other snippets
+	" Plug 'w0rp/ale'                               " use linter
+endif
 
 " }}}
 " Interface {{{
 
-if !has('nvim')
-	Plug 'vim-utils/vim-man'                      " view man pages
-	Plug 'osyo-manga/vim-over'                    " highlight substitute pattern
-	Plug 'Konfekt/FastFold'                       " fold/unfold on right times
-endif
+if !exists('g:vscode')
+	if !has('nvim')
+		Plug 'vim-utils/vim-man'                      " view man pages
+		Plug 'osyo-manga/vim-over'                    " highlight substitute pattern
+		Plug 'Konfekt/FastFold'                       " fold/unfold on right times
+	endif
 
-Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
-Plug 'juanpabloaj/help.vim'                   " better navigation in help
-Plug 'seagoj/last-position.vim'               " save cursor position
-Plug 'sjl/gundo.vim'                          " undo tree
-Plug 'troydm/zoomwintab.vim'                  " make pane full screen
-Plug 'vim-airline/vim-airline'                " new mode line
-Plug 'vim-airline/vim-airline-themes'         " themes for airline
-Plug 'tpope/vim-dispatch'                     " asynchrous make
-Plug 'derekwyatt/vim-fswitch'                 " alternate files
+	Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
+	Plug 'juanpabloaj/help.vim'                   " better navigation in help
+	Plug 'seagoj/last-position.vim'               " save cursor position
+	Plug 'sjl/gundo.vim'                          " undo tree
+	Plug 'troydm/zoomwintab.vim'                  " make pane full screen
+	Plug 'vim-airline/vim-airline'                " new mode line
+	Plug 'vim-airline/vim-airline-themes'         " themes for airline
+	Plug 'tpope/vim-dispatch'                     " asynchrous make
+	Plug 'derekwyatt/vim-fswitch'                 " alternate files
+endif
 
 " }}}
 " Applications interface {{{
 
-" Plug 'blindFS/vim-taskwarrior'           " work with taskwarrior
-Plug 'tpope/vim-fugitive'                " work with git
-Plug 'szw/vim-tags'                      " automatic generate tags on save
-Plug 'tpope/vim-eunuch'                  " unix commands inside vim
+if !exists('g:vscode')
+	" Plug 'blindFS/vim-taskwarrior'           " work with taskwarrior
+	Plug 'tpope/vim-fugitive'                " work with git
+	Plug 'szw/vim-tags'                      " automatic generate tags on save
+	Plug 'tpope/vim-eunuch'                  " unix commands inside vim
 
-" Tmux
-Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
-Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
-Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
+	" Tmux
+	Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
+	Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
+	Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
+endif
 
 " }}}
 ""{{{ Colors
 
-Plug 'lifepillar/vim-solarized8'
-Plug 'tomasr/molokai'
-Plug 'morhetz/gruvbox'
-Plug 'NLKNguyen/papercolor-theme'
+if !exists('g:vscode')
+	Plug 'lifepillar/vim-solarized8'
+	Plug 'tomasr/molokai'
+	Plug 'morhetz/gruvbox'
+	Plug 'NLKNguyen/papercolor-theme'
+endif
 
 ""}}}
 
@@ -247,6 +261,7 @@ endfunction
 " }}}
 "{{{ ====================== Mappings =======================
 
+if !exists('vscode')
 let g:mapleader = "\<Space>"
 let g:maplocalleader = '\\'
 call which_key#register('<Space>', "g:which_key_map")
@@ -315,15 +330,15 @@ let g:which_key_map.f = {
 let g:which_key_map.g = {
 			\ 'name' : '+git',
 			\ 's' : ['Gstatus', 'git-status'],
-			\ 'S' : ['Git add %', 'stage-current-file'],
-			\ 'U' : ['Git reset -q %', 'unstage-current-file'],
-			\ 'c' : ['Git commit', 'edit-git-commit'],
-			\ 'p' : ['Git push', 'git-push'],
-			\ 'd' : ['Git diff', 'view-git-diff'],
-			\ 'A' : ['Git add .', 'stage-all-files'],
-			\ 'b' : ['Git blame', 'view-git-blame'],
-			\ 'V' : ['Git log -- %', 'git-log-of-current-file'],
-			\ 'v' : ['Git log --', 'git-log-of-current-repo'],
+			\ 'S' : [':Git add %', 'stage-current-file'],
+			\ 'U' : [':Git reset -q %', 'unstage-current-file'],
+			\ 'c' : [':Git commit', 'edit-git-commit'],
+			\ 'p' : [':Git push', 'git-push'],
+			\ 'd' : [':Git diff', 'view-git-diff'],
+			\ 'A' : [':Git add .', 'stage-all-files'],
+			\ 'b' : [':Git blame', 'view-git-blame'],
+			\ 'V' : [':Git log -- %', 'git-log-of-current-file'],
+			\ 'v' : [':Git log --', 'git-log-of-current-repo'],
 			\ }
 
 noremap <silent> <leader>ld :call My_show_documentation()<CR>
@@ -374,17 +389,17 @@ let g:which_key_map.o.c = {
 
 let g:which_key_map.r = {
 			\ 'name' : '+tmuxrunner',
-			\ 'r' : [':VtrResizeRunner', ''],
-			\ 't' : [':VtrReorientRunner', ''],
-			\ 's' : [':VtrSendCommandToRunner', ''],
-			\ 'l' : [':VtrSendLinesToRunner', ''],
-			\ 'o' : [':VtrOpenRunner', ''],
-			\ 'k' : [':VtrKillRunner', ''],
-			\ 'f' : [':VtrFocusRunner', ''],
-			\ 'd' : [':VtrDetachRunner', ''],
-			\ 'a' : [':VtrReattachRunner', ''],
-			\ 'e' : [':VtrClearRunner', ''],
-			\ 'c' : [':VtrFlushCommand', ''],
+			\ 'r' : [':VtrResizeRunner', 'rezise'],
+			\ 't' : [':VtrReorientRunner', 'reorient'],
+			\ 's' : [':VtrSendCommandToRunner', 'send command'],
+			\ 'l' : [':VtrSendLinesToRunner', 'send lines'],
+			\ 'o' : [':VtrOpenRunner', 'open'],
+			\ 'k' : [':VtrKillRunner', 'kill'],
+			\ 'f' : [':VtrFocusRunner', 'focus'],
+			\ 'd' : [':VtrDetachRunner', 'detach'],
+			\ 'a' : [':VtrReattachRunner', 'reattach'],
+			\ 'e' : [':VtrClearRunner', 'clear'],
+			\ 'c' : [':VtrFlushCommand', 'flush'],
 			\ }
 
 nmap <leader>sc :noh<CR>
@@ -438,6 +453,12 @@ let g:which_key_map.w = {
 let g:which_key_map['<Leader>'] = {
 			\ 'name' : '+easymotion',
 			\ }
+call which_key#register('<Space>', "g:which_key_map")
+
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
+endif
+
 nmap <leader><leader>c <Plug>(easymotion-s)
 nmap <leader><leader>C <Plug>(easymotion-overwin-f)
 nmap <leader><leader>w <Plug>(easymotion-bd-w)
@@ -448,11 +469,7 @@ nmap <leader><leader>; <Plug>(easymotion-next)
 nmap <leader><leader>, <Plug>(easymotion-prev)
 nmap <leader><leader><leader> <Plug>(easymotion-jumptoanywhere)
 
-call which_key#register('<Space>', "g:which_key_map")
-
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
-nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
-
+if !exists('vscode')
 " snippets
 imap <M-/> <Plug>(coc-snippets-expand)
 vmap <M-/> <Plug>(coc-snippets-select)
@@ -461,6 +478,7 @@ let g:coc_snippet_prev = '<c-k>'
 
 " other operators
 nmap gG <Plug>(operator-grammarous)
+endif
 
 " swap visual and real line motions
 noremap  k gk
@@ -480,11 +498,13 @@ map ge <Plug>(smartword-ge)
 
 call camelcasemotion#CreateMotionMappings('<localleader>')
 
+if !exists('vscode')
 augroup TaskwarriorMapping
 	autocmd FileType taskreport nmap <buffer> <CR> :call TaskFile()<CR>
 	autocmd FileType taskreport nmap <buffer> t :call Tomorrow()<CR>
 	autocmd FileType taskreport nmap <buffer> u :call Undo()<CR>
 augroup END
+endif
 
 " accept habits
 cnoreabbrev Q q
@@ -689,7 +709,7 @@ let g:netrw_winsize = 20
 " }}}
 " treesitter {{{
 "
-if has('nvim-0.5')
+if has('nvim-0.5') && !exists('vscode')
 lua << EOF
 require'nvim-treesitter.configs'.setup {
 	highlight = { enable = true },
@@ -702,10 +722,120 @@ endif
 " }}}
 " vimtex {{{
 
+if !exists('vscode')
 let g:vimtex_view_method = 'zathura'
 let g:vimtex_grammar_vlty = {'lt_command': 'languagetool'}
+endif
 
 " }}}
 
 " }}}
+"{{{ ===================== VSCode ========================
+if exists('g:vscode')
+
+function! s:split(...) abort
+    let direction = a:1
+    let file = a:2
+    call VSCodeCall(direction == 'h' ? 'workbench.action.splitEditorDown' : 'workbench.action.splitEditorRight')
+    if file != ''
+        call VSCodeExtensionNotify('open-file', expand(file), 'all')
+    endif
+endfunction
+
+function! s:splitNew(...)
+    let file = a:2
+    call s:split(a:1, file == '' ? '__vscode_new__' : file)
+endfunction
+
+function! s:closeOtherEditors()
+    call VSCodeNotify('workbench.action.closeEditorsInOtherGroups')
+    call VSCodeNotify('workbench.action.closeOtherEditors')
+endfunction
+
+function! s:manageEditorSize(...)
+    let count = a:1
+    let to = a:2
+    for i in range(1, count ? count : 1)
+        call VSCodeNotify(to == 'increase' ? 'workbench.action.increaseViewSize' : 'workbench.action.decreaseViewSize')
+    endfor
+endfunction
+
+function! s:vscodeCommentary(...) abort
+    if !a:0
+        let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+        return 'g@'
+    elseif a:0 > 1
+        let [line1, line2] = [a:1, a:2]
+    else
+        let [line1, line2] = [line("'["), line("']")]
+    endif
+
+    call VSCodeCallRange("editor.action.commentLine", line1, line2, 0)
+endfunction
+
+function! s:openVSCodeCommandsInVisualMode()
+    normal! gv
+    let visualmode = visualmode()
+    if visualmode == "V"
+        let startLine = line("v")
+        let endLine = line(".")
+        call VSCodeNotifyRange("workbench.action.showCommands", startLine, endLine, 1)
+    else
+        let startPos = getpos("v")
+        let endPos = getpos(".")
+        call VSCodeNotifyRangePos("workbench.action.showCommands", startPos[1], endPos[1], startPos[2], endPos[2], 1)
+    endif
+endfunction
+
+function! s:openWhichKeyInVisualMode()
+    normal! gv
+    let visualmode = visualmode()
+    if visualmode == "V"
+        let startLine = line("v")
+        let endLine = line(".")
+        call VSCodeNotifyRange("whichkey.show", startLine, endLine, 1)
+    else
+        let startPos = getpos("v")
+        let endPos = getpos(".")
+        call VSCodeNotifyRangePos("whichkey.show", startPos[1], endPos[1], startPos[2], endPos[2], 1)
+    endif
+endfunction
+
+
+command! -complete=file -nargs=? Split call <SID>split('h', <q-args>)
+command! -complete=file -nargs=? Vsplit call <SID>split('v', <q-args>)
+command! -complete=file -nargs=? New call <SID>split('h', '__vscode_new__')
+command! -complete=file -nargs=? Vnew call <SID>split('v', '__vscode_new__')
+command! -bang Only if <q-bang> == '!' | call <SID>closeOtherEditors() | else | call VSCodeNotify('workbench.action.joinAllGroups') | endif
+
+" Better Navigation with Control
+nnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
+xnoremap <silent> <C-j> :call VSCodeNotify('workbench.action.navigateDown')<CR>
+nnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
+xnoremap <silent> <C-k> :call VSCodeNotify('workbench.action.navigateUp')<CR>
+nnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
+xnoremap <silent> <C-h> :call VSCodeNotify('workbench.action.navigateLeft')<CR>
+nnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
+xnoremap <silent> <C-l> :call VSCodeNotify('workbench.action.navigateRight')<CR>
+
+nnoremap gr <Cmd>call VSCodeNotify('editor.action.goToReferences')<CR>
+
+" Bind C-/ to vscode commentary since calling from vscode produces double comments due to multiple cursors
+xnoremap <expr> <C-/> <SID>vscodeCommentary()
+nnoremap <expr> <C-/> <SID>vscodeCommentary() . '_'
+
+nnoremap <silent> <C-w>_ :<C-u>call VSCodeNotify('workbench.action.toggleEditorWidths')<CR>
+
+nnoremap <silent> <Space> :call VSCodeNotify('whichkey.show')<CR>
+xnoremap <silent> <Space> :<C-u>call <SID>openWhichKeyInVisualMode()<CR>
+
+xnoremap <silent> <C-P> :<C-u>call <SID>openVSCodeCommandsInVisualMode()<CR>
+
+xmap gc  <Plug>VSCodeCommentary
+nmap gc  <Plug>VSCodeCommentary
+omap gc  <Plug>VSCodeCommentary
+nmap gcc <Plug>VSCodeCommentaryLine
+
+endif
+"}}}
 " vim: foldmethod=marker foldlevel=0
