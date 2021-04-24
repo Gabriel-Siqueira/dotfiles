@@ -165,8 +165,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-S-<Up>", windowSwap U False)
       , ("M-S-<Right>", windowSwap R False)
       , ("M-S-m", windows W.swapMaster)
-      , ("M-S-n", windows W.swapUp)
-      , ("M-S-p", windows W.swapDown)
+      , ("M-S-p", windows W.swapUp)
+      , ("M-S-n", windows W.swapDown)
       , ("M-M1-t", withFocused $ windows . W.sink)]
     focusKeys = [
         ("M-u", focusUrgent)
@@ -179,8 +179,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-<Down>", windowGo D False)
       , ("M-<Up>", windowGo U False)
       , ("M-<Right>", windowGo R False)
-      , ("M-n", focusUp)
-      , ("M-p", focusDown)
+      , ("M-p", onGroup W.focusUp')
+      , ("M-n", onGroup W.focusDown')
       , ("M-g t", onGroup W.focusDown')
       , ("M-g S-t", onGroup W.focusUp')
       , ("M-g M-t", onGroup W.focusDown')
@@ -267,7 +267,7 @@ myStartupHook host = do
             -- , "chromium"
             -- , "brave"
             , "dunst"
-            , termLaunch "main_term" "tmux new -A -s standard"
+            -- , termLaunch "main_term" "tmux new -A -s standard"
             ]
   windows $ W.greedyView startupWorkspace
   where
