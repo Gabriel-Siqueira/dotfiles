@@ -38,10 +38,10 @@ import qualified Data.Map as M
 import qualified XMonad.StackSet as W
 
 myTerminal :: String
-myTerminal = "kitty"
+myTerminal = "kitty -o allow_remote_control=yes --single-instance --listen-on unix:@mykitty"
 
 termLaunch :: String -> String -> String
-termLaunch name prog = "kitty --name=" ++ name ++ " " ++ prog
+termLaunch name prog = myTerminal ++ " --name=" ++ name ++ " " ++ prog
 
 myMenu :: String
 -- myMenu = "rofi -show run"
@@ -179,8 +179,8 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       , ("M-<Down>", windowGo D False)
       , ("M-<Up>", windowGo U False)
       , ("M-<Right>", windowGo R False)
-      , ("M-p", onGroup W.focusUp')
-      , ("M-n", onGroup W.focusDown')
+      , ("M-n", focusUp)
+      , ("M-p", focusDown)
       , ("M-g t", onGroup W.focusDown')
       , ("M-g S-t", onGroup W.focusUp')
       , ("M-g M-t", onGroup W.focusDown')

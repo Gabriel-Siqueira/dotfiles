@@ -106,9 +106,10 @@ Plug 'derekwyatt/vim-fswitch'                 " alternate files
 Plug 'tpope/vim-fugitive'                " work with git
 Plug 'szw/vim-tags'                      " automatic generate tags on save
 Plug 'tpope/vim-eunuch'                  " unix commands inside vim
+Plug 'knubie/vim-kitty-navigator'        " same navigation vim and kitty
 
 " Tmux
-Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
+" Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
 Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
 Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 
@@ -331,7 +332,7 @@ let g:which_key_map.l = {
 			\ 'name' : '+language',
 			\ 'd' : 'documentation',
 			\ 'r' : ['<Plug>(coc-rename)', 'rename'],
-			\ 'f' : ['<Plug>(coc-format-selected)', 'format'],
+			\ 'f' : ['<Plug>(coc-format)', 'format'],
 			\ 'a' : ['<Plug>(coc-action)', 'action']
 			\ }
 
