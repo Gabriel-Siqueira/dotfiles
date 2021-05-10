@@ -86,6 +86,7 @@ hash -d dri=~/Drive
 hash -d ath=~/Dropbox/Context/mestrado/
 hash -d had=~/Dropbox/Context/mestrado/had/
 hash -d min=~/Dropbox/Context/doutorado/
+hash -d cyc=~/Dropbox/Context/doutorado/GitHub/cyc/
 hash -d chi=~/Dropbox/Context/doutorado/chi/2021-1S/
 hash -d jup=~/Dropbox/Context/doutorado/jup/2021/
 hash -d chim=~/Dropbox/Context/doutorado/chim/

@@ -107,11 +107,12 @@ Plug 'tpope/vim-fugitive'                " work with git
 Plug 'szw/vim-tags'                      " automatic generate tags on save
 Plug 'tpope/vim-eunuch'                  " unix commands inside vim
 Plug 'knubie/vim-kitty-navigator'        " same navigation vim and kitty
+Plug 'hkupty/iron.nvim'                  " To use repls
 
 " Tmux
 " Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
-Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
-Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
+" Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
+" Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 
 " }}}
 ""{{{ Colors
@@ -315,7 +316,7 @@ let g:which_key_map.f = {
 
 let g:which_key_map.g = {
 			\ 'name' : '+git',
-			\ 's' : ['Gstatus', 'git-status'],
+			\ 's' : [':Git', 'git-status'],
 			\ 'S' : [':Git add %', 'stage-current-file'],
 			\ 'U' : [':Git reset -q %', 'unstage-current-file'],
 			\ 'c' : [':Git commit', 'edit-git-commit'],
@@ -373,20 +374,34 @@ let g:which_key_map.o.c = {
 			\ 'c' : 'bib',
 			\ }
 
+" let g:which_key_map.r = {
+" 			\ 'name' : '+tmuxrunner',
+" 			\ 'r' : [':VtrResizeRunner', 'rezise'],
+" 			\ 't' : [':VtrReorientRunner', 'reorient'],
+" 			\ 's' : [':VtrSendCommandToRunner', 'send command'],
+" 			\ 'l' : [':VtrSendLinesToRunner', 'send lines'],
+" 			\ 'o' : [':VtrOpenRunner', 'open'],
+" 			\ 'k' : [':VtrKillRunner', 'kill'],
+" 			\ 'f' : [':VtrFocusRunner', 'focus'],
+" 			\ 'd' : [':VtrDetachRunner', 'detach'],
+" 			\ 'a' : [':VtrReattachRunner', 'reattach'],
+" 			\ 'e' : [':VtrClearRunner', 'clear'],
+" 			\ 'c' : [':VtrFlushCommand', 'flush'],
+" 			\ }
+"
 let g:which_key_map.r = {
-			\ 'name' : '+tmuxrunner',
-			\ 'r' : [':VtrResizeRunner', 'rezise'],
-			\ 't' : [':VtrReorientRunner', 'reorient'],
-			\ 's' : [':VtrSendCommandToRunner', 'send command'],
-			\ 'l' : [':VtrSendLinesToRunner', 'send lines'],
-			\ 'o' : [':VtrOpenRunner', 'open'],
-			\ 'k' : [':VtrKillRunner', 'kill'],
+			\ 'name' : '+repl',
+			\ 's' : ['<Plug>(iron-send-motion)', 'send motion'],
+			\ 'l' : ['<Plug>(iron-send-line)', 'send line'],
+			\ 'r' : [' <Plug>(iron-repeat-cmd)', 'repeat'],
+			\ 'k' : ['<Plug>(iron-exit)', 'kill'],
 			\ 'f' : [':VtrFocusRunner', 'focus'],
-			\ 'd' : [':VtrDetachRunner', 'detach'],
-			\ 'a' : [':VtrReattachRunner', 'reattach'],
-			\ 'e' : [':VtrClearRunner', 'clear'],
-			\ 'c' : [':VtrFlushCommand', 'flush'],
+			\ 'e' : ['<Plug>(iron-clear)', 'clear'],
+			\ 'i' : ['<plug>(iron-interrupt)', 'interrupt'],
+			\ 'CR' : ['<Plug>(iron-cr)','newline'],
+			\ 'o' : [':IronRepl', 'open']
 			\ }
+vmap <leader>rs <Plug>(iron-visual-send)
 
 nmap <leader>sc :noh<CR>
 let g:which_key_map.s = {
@@ -426,10 +441,14 @@ let g:which_key_map.w = {
 			\ 'j' : ['<C-W>j', 'window-below'],
 			\ 'l' : ['<C-W>l', 'window-right'],
 			\ 'k' : ['<C-W>k', 'window-up'],
-			\ 'H' : ['<C-W>5<', 'expand-window-left'],
-			\ 'J' : [':resize +5', 'expand-window-below'],
-			\ 'L' : ['<C-W>5>', 'expand-window-right'],
-			\ 'K' : [':resize -5', 'expand-window-up'],
+			\ 'H' : ['<C-W>H', 'move-window-left'],
+			\ 'J' : ['<C-W>J', 'move-window-below'],
+			\ 'L' : ['<C-W>L', 'move-window-right'],
+			\ 'K' : ['<C-W>K', 'move-window-up'],
+			\ '<' : ['<C-W>5<', 'expand-window-left'],
+			\ ',' : [':resize +5', 'expand-window-below'],
+			\ '>' : ['<C-W>5>', 'expand-window-right'],
+			\ '.' : [':resize -5', 'expand-window-up'],
 			\ '=' : ['<C-W>=', 'balance-window'],
 			\ 's' : ['<C-W>s', 'split-window-below'],
 			\ 'v' : ['<C-W>v', 'split-window-right'],
@@ -706,6 +725,18 @@ require'nvim-treesitter.configs'.setup {
 	highlight = { enable = true },
 	textobjects = { enable = true },
 	indent = { enable = true },
+}
+EOF
+endif
+
+" }}}
+" iron {{{
+
+if has('nvim-0.5')
+lua << EOF
+local iron = require("iron")
+iron.core.set_config{
+  repl_open_cmd = "vsplit"
 }
 EOF
 endif
