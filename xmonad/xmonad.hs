@@ -211,6 +211,7 @@ keyMaps = programKeys ++ menuKeys ++ quitRealoadKeys ++ multiMediaKeys ++ moveKe
       [ ("M-<Tab>", toggleWS' ["NSP"]) ]
     miscKeys = [
         ("M-c", spawn "~/bin/clock.sh")
+      , ("M-S-t", spawn "~/bin/theme.sh")
       , ("M-b", sendMessage ToggleStruts) ]
     quit = do
       s <- dmenu ["yes","no"]

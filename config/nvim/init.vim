@@ -75,7 +75,7 @@ Plug 'lervag/vimtex'                            " for latex
 " Editing/Syntax {{{
 
 Plug 'godlygeek/tabular'                      " align text (:Tab[ularize])
-Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
+" Plug 'jiangmiao/auto-pairs'                   " add pairs automatically
 Plug 'rhysd/vim-grammarous'                   " grammar checking
 Plug 'honza/vim-snippets'                     " other snippets
 " Plug 'w0rp/ale'                               " use linter
@@ -159,8 +159,13 @@ function! My_OpenBib(how)
 	let @@ = "failure"
 	execute "normal! yi["
 	if @@ == "failure"
-		execute "normal! yi{"
-		let cite = split(@@,',')[0]
+		execute "normal yi,"
+		if @@ == "failure"
+			execute "normal! yi{"
+			let cite = split(@@,',')[0]
+		else
+			let cite = @@
+		endif
 	else
 		let cite = split(@@,'@')[0]
 	endif
@@ -492,6 +497,7 @@ noremap  gj j
 noremap  g0 0
 noremap  g$ $
 
+
 " replace normal words with smart words
 map w  <Plug>(smartword-w)
 map b  <Plug>(smartword-b)
@@ -527,6 +533,7 @@ set backspace=indent,eol,start " make backspace work
 set nocompatible     " no need to be compatible with vi
 set shiftwidth=4     " size off >>, << and ==
 set tabstop=4        " size of a <tab>
+set expandtab        " use spaces instead of tab
 set autoindent       " automatic insert indentation
 set number           " Line number
 set numberwidth=2    " size of numbers
@@ -573,14 +580,21 @@ endif
 set cmdheight=2        " give more space for displaying messages
 set shortmess+=c       " don't pass messages to ins-completion-menu
 set foldmethod=expr    " fold using expressions
-set signcolumn=yes  " display signs with the numbers
+set signcolumn=yes     " display signs with the numbers
+set spell              " spell check on by defaut
 
 " List of languages to toggle between
 let s:myLang = 0
 let s:myLangList = ['pt', 'en']
 
 " Color
-set background=dark
+let s:myBackground=readfile("/tmp/theme.txt")
+echomsg s:myBackground[0]
+if s:myBackground[0]=='light'
+    set background=light
+else
+    set background=dark
+endif
 try
 	colorscheme gruvbox
 catch /^Vim\%((\a\+)\)\=:E185/
