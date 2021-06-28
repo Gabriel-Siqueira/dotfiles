@@ -30,7 +30,7 @@ font-1 = terminus:pixelsize=10;1
 font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-3 = Material Icons:fontformat=truetype:size=8:antialias=true;1
 font-4 = terminus:pixelsize=10;1
-modules-left = powermenu filesystem xkeyboard memory temperature cpu
+modules-left = powermenu filesystem trash xkeyboard memory temperature cpu
 modules-center = xmonad
 modules-right = task pacman aur volume backlight-acpi battery date
 tray-position = right
@@ -94,6 +94,19 @@ label-indicator-padding = 1
 label-indicator-underline = ${colors.background}
 label-indicator-overline = ${colors.background}
 label-indicator-background = ${colors.background-alt}
+# }}}
+# module/trash {{{
+[module/trash]
+type = custom/script
+interval = 360
+exec = du -h -d 0 ~/.local/share/Trash/ | cut -f 1
+format = <label>
+format-foreground = #ff9900
+label = %output%
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
 # }}}
 # module/filesystem {{{
 [module/filesystem]

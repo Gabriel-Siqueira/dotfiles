@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+
+
 if [ -e /tmp/my_taskid ]
 then
 
@@ -31,11 +33,9 @@ else
 
   if [ $(timew get dom.active) -eq 0 ]
   then
-    dunstify "start clock"
-    timew start "Performe miscellania activity"
+    timew start "up time"
   else
-    dunstify "stop clock"
-    timew stop "Performe miscellania activity"
+    timew stop "up time"
   fi
 
 fi

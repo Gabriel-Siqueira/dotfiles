@@ -1,10 +1,10 @@
 name:                myXmonad
 version:             0.1.0.0
 dependencies:
-- base >= 4.7 && < 5
+- base
 - xmonad
 - unix
-- xmonad-contrib >= 0.16
+- xmonad-contrib
 - containers
 - mtl
 
