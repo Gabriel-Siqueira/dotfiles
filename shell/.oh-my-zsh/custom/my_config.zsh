@@ -91,7 +91,7 @@ hash -d chi=~/Dropbox/Context/doutorado/chi/2021-1S/
 hash -d jup=~/Dropbox/Context/doutorado/jup/2021/
 hash -d chim=~/Dropbox/Context/doutorado/chim/
 hash -d maze=~/Dropbox/Context/programing/maze/
-hash -d hep=~/Dropbox/Projects/hep
+hash -d her=~/Dropbox/Context/doutorado/her
 hash -d ran=~/random
 hash -d trash=~/.local/share/Trash/files
 # }}}

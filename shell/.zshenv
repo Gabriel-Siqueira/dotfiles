@@ -3,7 +3,7 @@ typeset -U path
 path=(/bin /sbin /usr/bin/site_perl /usr/bin/vendor_perl /usr/bin/core_perl ~/.local/bin ~/bin
       ~/.ghcup/bin
       ~/.cabal/bin
-      ~/.gem/ruby/2.6.0/bin
+      ~/.local/share/gem/ruby/3.0.0/bin
       ~/.go/bin
       ~/.npm_global/bin/
 	  ~/.Gurobi/bin

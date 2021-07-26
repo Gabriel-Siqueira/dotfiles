@@ -59,9 +59,9 @@ Plug 'tommcdo/vim-exchange'                   " easily exchange text
 " }}}
 " Languages/File types {{{
 
-if has('nvim-0.5')
-	Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
-endif
+" if has('nvim-0.5')
+	" Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
+" endif
 Plug 'sheerun/vim-polyglot'                     " multiple languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
 Plug 'jceb/vim-orgmode'                         " for org
@@ -733,15 +733,15 @@ let g:netrw_winsize = 20
 " }}}
 " treesitter {{{
 "
-if has('nvim-0.5')
-lua << EOF
-require'nvim-treesitter.configs'.setup {
-	highlight = { enable = true },
-	textobjects = { enable = true },
-	indent = { enable = true },
-}
-EOF
-endif
+" if has('nvim-0.5')
+" lua << EOF
+" require'nvim-treesitter.configs'.setup {
+	" highlight = { enable = true },
+	" textobjects = { enable = true },
+	" indent = { enable = true },
+" }
+" EOF
+" endif
 
 " }}}
 " iron {{{
@@ -751,6 +751,15 @@ lua << EOF
 local iron = require("iron")
 iron.core.set_config{
   repl_open_cmd = "vsplit"
+}
+iron.core.add_repl_definitions{
+  haskell = {
+    stack = {
+      command = {"stack", "ghci"},
+      open = ":{", -- multiline block begin
+      close = {":}", ""} -- multiline block end with two lines
+    }
+  }
 }
 EOF
 endif
