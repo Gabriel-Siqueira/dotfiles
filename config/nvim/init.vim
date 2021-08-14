@@ -499,10 +499,10 @@ noremap  g$ $
 
 
 " replace normal words with smart words
-map w  <Plug>(smartword-w)
-map b  <Plug>(smartword-b)
-map e  <Plug>(smartword-e)
-map ge <Plug>(smartword-ge)
+" map w  <Plug>(smartword-w)
+" map b  <Plug>(smartword-b)
+" map e  <Plug>(smartword-e)
+" map ge <Plug>(smartword-ge)
 
 call camelcasemotion#CreateMotionMappings('<localleader>')
 
