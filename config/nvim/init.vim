@@ -59,13 +59,12 @@ Plug 'tommcdo/vim-exchange'                   " easily exchange text
 " }}}
 " Languages/File types {{{
 
-" if has('nvim-0.5')
-	" Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
-" endif
+if has('nvim-0.5')
+	Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
+endif
 Plug 'sheerun/vim-polyglot'                     " multiple languages
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
 Plug 'jceb/vim-orgmode'                         " for org
-Plug 'blindFS/vim-taskwarrior'                  " for taskwarrior
 Plug 'vimwiki/vimwiki'                          " for vimwiki and markdown
 Plug 'ledger/vim-ledger'                        " for ladger
 Plug 'Twinside/vim-haskellFold'                 " fold for haskell
@@ -274,28 +273,34 @@ let g:which_key_map.a.m = {
 			\ 'c' : [':Make clean', 'clean'],
 			\ }
 
-let g:which_key_map.a.w = {
-			\ 'name' : '+wiki',
-			\ 'w' : ['<Plug>VimwikiIndex', 'open index file'],
-			\ 'd' : ['<Plug>VimwikiDiaryIndex', 'open diary index file'],
-			\ 't' : ['<Plug>VimwikiTabIndex', 'open index file in new tab'],
-			\ 's' : ['<Plug>VimwikiUISelect', 'select between multiple wikis'],
-			\ 'e' : ['<Plug>VimwikiMakeDiaryNote', 'new diary entry'],
-			\ 'h' : ['<Plug>:VimwikiAll2HTML', 'convert to html'],
-			\ }
+if has_key(plugs, 'vimwiki')
+    let g:which_key_map.a.w = {
+                \ 'name' : '+wiki',
+                \ 'w' : ['<Plug>VimwikiIndex', 'open index file'],
+                \ 'd' : ['<Plug>VimwikiDiaryIndex', 'open diary index file'],
+                \ 't' : ['<Plug>VimwikiTabIndex', 'open index file in new tab'],
+                \ 's' : ['<Plug>VimwikiUISelect', 'select between multiple wikis'],
+                \ 'e' : ['<Plug>VimwikiMakeDiaryNote', 'new diary entry'],
+                \ 'h' : ['<Plug>:VimwikiAll2HTML', 'convert to html'],
+                \ }
+endif
 
-let g:which_key_map.a.l = {
-			\ 'name' : '+ladger',
-			\ 'l': [':e $MY_LEDGER', 'open ledger file'],
-			\ 'b': [':Ledger bal', 'balance'],
-			\ }
+if has_key(plugs, 'vim-ledger')
+    let g:which_key_map.a.l = {
+                \ 'name' : '+ladger',
+                \ 'l': [':e $MY_LEDGER', 'open ledger file'],
+                \ 'b': [':Ledger bal', 'balance'],
+                \ }
+endif
 
-let g:which_key_map.a.t = {
-			\ 'name' : '+task',
-			\ 'p' : [':TW planing', 'open taskwarrior planing report'],
-			\ 't' : [':TW tomorrow', 'open taskwarrior report for tommorrow'],
-			\ 'd' : [':TW daily', 'open taskwarrior report for today'],
-			\ }
+if has_key(plugs, 'taskwarrior')
+    let g:which_key_map.a.t = {
+                \ 'name' : '+task',
+                \ 'p' : [':TW planing', 'open taskwarrior planing report'],
+                \ 't' : [':TW tomorrow', 'open taskwarrior report for tommorrow'],
+                \ 'd' : [':TW daily', 'open taskwarrior report for today'],
+                \ }
+endif
 
 let g:which_key_map.b = {
 			\ 'name' : '+buffer',
@@ -319,19 +324,21 @@ let g:which_key_map.f = {
 			\ 'a' : [':FSHere', 'alternate'],
 			\ }
 
-let g:which_key_map.g = {
-			\ 'name' : '+git',
-			\ 's' : [':Git', 'git-status'],
-			\ 'S' : [':Git add %', 'stage-current-file'],
-			\ 'U' : [':Git reset -q %', 'unstage-current-file'],
-			\ 'c' : [':Git commit', 'edit-git-commit'],
-			\ 'p' : [':Git push', 'git-push'],
-			\ 'd' : [':Git diff', 'view-git-diff'],
-			\ 'A' : [':Git add .', 'stage-all-files'],
-			\ 'b' : [':Git blame', 'view-git-blame'],
-			\ 'V' : [':Git log -- %', 'git-log-of-current-file'],
-			\ 'v' : [':Git log --', 'git-log-of-current-repo'],
-			\ }
+if has_key(plugs, 'vim-fugitive')
+    let g:which_key_map.g = {
+                \ 'name' : '+git',
+                \ 's' : [':Git', 'git-status'],
+                \ 'S' : [':Git add %', 'stage-current-file'],
+                \ 'U' : [':Git reset -q %', 'unstage-current-file'],
+                \ 'c' : [':Git commit', 'edit-git-commit'],
+                \ 'p' : [':Git push', 'git-push'],
+                \ 'd' : [':Git diff', 'view-git-diff'],
+                \ 'A' : [':Git add .', 'stage-all-files'],
+                \ 'b' : [':Git blame', 'view-git-blame'],
+                \ 'V' : [':Git log -- %', 'git-log-of-current-file'],
+                \ 'v' : [':Git log --', 'git-log-of-current-repo'],
+                \ }
+endif
 
 noremap <silent> <leader>ld :call My_show_documentation()<CR>
 let g:which_key_map.l = {
@@ -359,14 +366,12 @@ let g:which_key_map.n = {
 			\ }
 
 nnoremap <silent> <leader>od :call My_Daily()<CR>
-nnoremap <silent> <leader>ot :call TaskFile()<CR>
 nnoremap <silent> <leader>op :call My_Pdf()<CR>
 nnoremap <silent> <leader>oi :call My_Index()<CR>
 let g:which_key_map.o = {
 			\ 'name' : '+open',
 			\ 'w' : [':silent !firefox %', 'open in firefox'],
 			\ 'd' : 'daily view',
-			\ 't' : 'task file',
 			\ 'p' : 'pdf',
 			\ 'i' : 'index',
 			\ }
@@ -379,34 +384,38 @@ let g:which_key_map.o.c = {
 			\ 'c' : 'bib',
 			\ }
 
-" let g:which_key_map.r = {
-" 			\ 'name' : '+tmuxrunner',
-" 			\ 'r' : [':VtrResizeRunner', 'rezise'],
-" 			\ 't' : [':VtrReorientRunner', 'reorient'],
-" 			\ 's' : [':VtrSendCommandToRunner', 'send command'],
-" 			\ 'l' : [':VtrSendLinesToRunner', 'send lines'],
-" 			\ 'o' : [':VtrOpenRunner', 'open'],
-" 			\ 'k' : [':VtrKillRunner', 'kill'],
-" 			\ 'f' : [':VtrFocusRunner', 'focus'],
-" 			\ 'd' : [':VtrDetachRunner', 'detach'],
-" 			\ 'a' : [':VtrReattachRunner', 'reattach'],
-" 			\ 'e' : [':VtrClearRunner', 'clear'],
-" 			\ 'c' : [':VtrFlushCommand', 'flush'],
-" 			\ }
-"
-let g:which_key_map.r = {
-			\ 'name' : '+repl',
-			\ 's' : ['<Plug>(iron-send-motion)', 'send motion'],
-			\ 'l' : ['<Plug>(iron-send-line)', 'send line'],
-			\ 'r' : [' <Plug>(iron-repeat-cmd)', 'repeat'],
-			\ 'k' : ['<Plug>(iron-exit)', 'kill'],
-			\ 'f' : [':VtrFocusRunner', 'focus'],
-			\ 'e' : ['<Plug>(iron-clear)', 'clear'],
-			\ 'i' : ['<plug>(iron-interrupt)', 'interrupt'],
-			\ 'CR' : ['<Plug>(iron-cr)','newline'],
-			\ 'o' : [':IronRepl', 'open']
-			\ }
-vmap <leader>rs <Plug>(iron-visual-send)
+if has_key(plugs, 'vim-tmux-runner')
+    let g:which_key_map.r = {
+                \ 'name' : '+tmuxrunner',
+                \ 'r' : [':VtrResizeRunner', 'rezise'],
+                \ 't' : [':VtrReorientRunner', 'reorient'],
+                \ 's' : [':VtrSendCommandToRunner', 'send command'],
+                \ 'l' : [':VtrSendLinesToRunner', 'send lines'],
+                \ 'o' : [':VtrOpenRunner', 'open'],
+                \ 'k' : [':VtrKillRunner', 'kill'],
+                \ 'f' : [':VtrFocusRunner', 'focus'],
+                \ 'd' : [':VtrDetachRunner', 'detach'],
+                \ 'a' : [':VtrReattachRunner', 'reattach'],
+                \ 'e' : [':VtrClearRunner', 'clear'],
+                \ 'c' : [':VtrFlushCommand', 'flush'],
+                \ }
+endif
+
+if has_key(plugs, 'iron')
+    let g:which_key_map.r = {
+                \ 'name' : '+repl',
+                \ 's' : ['<Plug>(iron-send-motion)', 'send motion'],
+                \ 'l' : ['<Plug>(iron-send-line)', 'send line'],
+                \ 'r' : [' <Plug>(iron-repeat-cmd)', 'repeat'],
+                \ 'k' : ['<Plug>(iron-exit)', 'kill'],
+                \ 'f' : [':VtrFocusRunner', 'focus'],
+                \ 'e' : ['<Plug>(iron-clear)', 'clear'],
+                \ 'i' : ['<plug>(iron-interrupt)', 'interrupt'],
+                \ 'CR' : ['<Plug>(iron-cr)','newline'],
+                \ 'o' : [':IronRepl', 'open']
+                \ }
+    vmap <leader>rs <Plug>(iron-visual-send)
+endif
 
 nmap <leader>sc :noh<CR>
 let g:which_key_map.s = {
@@ -422,10 +431,12 @@ let g:which_key_map.S = {
 			\ 's' : [':setlocal spell!', 'toggle spell check'],
 			\ }
 
-let g:which_key_map.S.g = {
-			\ 'name' : '+grammarous',
-			\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
-			\ }
+if has_key(plugs, 'grammarous')
+    let g:which_key_map.S.g = {
+                \ 'name' : '+grammarous',
+                \ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
+                \ }
+endif
 
 nnoremap <silent> <leader>tg :call My_Tags()<CR>
 let g:which_key_map.t = {
@@ -497,20 +508,13 @@ noremap  gj j
 noremap  g0 0
 noremap  g$ $
 
-
-" replace normal words with smart words
-" map w  <Plug>(smartword-w)
-" map b  <Plug>(smartword-b)
-" map e  <Plug>(smartword-e)
-" map ge <Plug>(smartword-ge)
-
 call camelcasemotion#CreateMotionMappings('<localleader>')
 
-augroup TaskwarriorMapping
-	autocmd FileType taskreport nmap <buffer> <CR> :call TaskFile()<CR>
-	autocmd FileType taskreport nmap <buffer> t :call Tomorrow()<CR>
-	autocmd FileType taskreport nmap <buffer> u :call Undo()<CR>
-augroup END
+" augroup TaskwarriorMapping
+" 	autocmd FileType taskreport nmap <buffer> <CR> :call TaskFile()<CR>
+" 	autocmd FileType taskreport nmap <buffer> t :call Tomorrow()<CR>
+" 	autocmd FileType taskreport nmap <buffer> u :call Undo()<CR>
+" augroup END
 
 " accept habits
 cnoreabbrev Q q
@@ -588,13 +592,14 @@ let s:myLang = 0
 let s:myLangList = ['pt', 'en']
 
 " Color
-let s:myBackground=readfile("/tmp/theme.txt")
-echomsg s:myBackground[0]
-if s:myBackground[0]=='light'
-    set background=light
-else
-    set background=dark
-endif
+" let s:myBackground=readfile("/tmp/theme.txt")
+" echomsg s:myBackground[0]
+" if s:myBackground[0]=='light'
+"     set background=light
+" else
+"     set background=dark
+" endif
+set background=dark
 try
 	colorscheme gruvbox
 catch /^Vim\%((\a\+)\)\=:E185/
@@ -676,10 +681,12 @@ let g:vimwiki_ext2syntax = {'.md': 'markdown',
 " }}}
 " taskwarrior {{{
 
-let g:task_default_prompt = ['description', 'due', 'scheduled', 'wait', 'priority', 'project']
-let g:task_report_command  = ['uncomplete','daily','planing', 'tomorrow']
-let g:task_report_name = 'planing'
-let g:task_rc_override = 'defaultwidth=0'
+if has_key(plugs, 'taskwarrior')
+    let g:task_default_prompt = ['description', 'due', 'scheduled', 'wait', 'priority', 'project']
+    let g:task_report_command  = ['uncomplete','daily','planing', 'tomorrow']
+    let g:task_report_name = 'planing'
+    let g:task_rc_override = 'defaultwidth=0'
+endif
 
 " }}}
 " latex {{{
@@ -733,20 +740,20 @@ let g:netrw_winsize = 20
 " }}}
 " treesitter {{{
 "
-" if has('nvim-0.5')
-" lua << EOF
-" require'nvim-treesitter.configs'.setup {
-	" highlight = { enable = true },
-	" textobjects = { enable = true },
-	" indent = { enable = true },
-" }
-" EOF
-" endif
+if has_key(plugs, 'treesitter') && has('nvim-0.5')
+lua << EOF
+require'nvim-treesitter.configs'.setup {
+	highlight = { enable = true },
+	textobjects = { enable = true },
+	indent = { enable = true },
+}
+EOF
+endif
 
 " }}}
 " iron {{{
 
-if has('nvim-0.5')
+if has_key(plugs, 'iron') && has('nvim-0.5')
 lua << EOF
 local iron = require("iron")
 iron.core.set_config{

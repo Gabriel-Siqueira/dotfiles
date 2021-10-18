@@ -14,7 +14,8 @@ path=(/bin /sbin /usr/bin/site_perl /usr/bin/vendor_perl /usr/bin/core_perl ~/.l
 export FZF_BASE=~/.fzf.zsh
 export EDITOR="nvim"
 export VISUAL="nvim"
-export MANPAGER="nvim -c 'set ft=man' -"
+export MANPAGER='nvim +Man!'
+export MANWIDTH=999
 
 # irace
 export IRACE_HOME="$HOME/R/x86_64-pc-linux-gnu-library/4.0/irace"
@@ -27,10 +28,10 @@ export GRB_LICENSE_FILE="$GUROBI_HOME/gurobi.lic"
 
 # Paths Variables
 export TASKDATA="$HOME/Dropbox/Backup/pc/task/"
-export MY_WIKI="$HOME/Dropbox/Wiki/"
+export MY_WIKI="$HOME/Dropbox/Local/Wiki/"
 export MY_LEDGER="$HOME/Dropbox/Personal/finance.ledger"
-export MY_REFS="$HOME/Dropbox/Ref/pdfs/"
-export MY_BIB="$HOME/Dropbox/Ref/better-ref.bib"
+export MY_REFS="$HOME/Dropbox/Local/Ref/pdfs/"
+export MY_BIB="$HOME/Dropbox/Local/Ref/better-ref.bib"
 export MY_MACROS="$HOME/Dropbox/Backup/pc/xmacro/"
 export MY_EMOJIS="$HOME/Dropbox/Backup/pc/emojis.txt"
 export MY_OTHER_ACT="$HOME/Dropbox/Backup/pc/other_activities.txt"

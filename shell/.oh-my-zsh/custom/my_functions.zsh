@@ -20,5 +20,5 @@ function rcd() {
 
 # betterbib without abbrev
 function bbib() {
-  betterbib-sync $1 | betterbib-format -b - $2
+  betterbib up -l $1 | betterbib f -b - > $2
 }

@@ -1,9 +1,5 @@
 # Alias {{{
 # programs {{{
-if type "thefuck" > /dev/null; then
-	eval $(thefuck --alias)
-	alias f='fuck'
-fi
 if type "nvim" > /dev/null; then
 	alias vim-old='vim'
 	alias vim='nvim'
@@ -92,7 +88,7 @@ hash -d jup=~/Dropbox/Context/doutorado/jup/
 hash -d chim=~/Dropbox/Context/doutorado/chim/
 hash -d maze=~/Dropbox/Context/programing/maze/
 hash -d her=~/Dropbox/Context/doutorado/her
-hash -d ran=~/random
+hash -d ran=~/Random
 hash -d trash=~/.local/share/Trash/files
 # }}}
 # Settings {{{

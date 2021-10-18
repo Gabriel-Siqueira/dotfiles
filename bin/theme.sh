@@ -7,15 +7,16 @@ if [ `cat /tmp/theme.txt` = "light" ]
 then
     cat $GTK2_CONF | sed -e 's/Adwaita"/Adwaita-dark"/' > $GTK2_CONF.tmp && mv $GTK2_CONF.tmp $GTK2_CONF
     cat $GTK3_CONF | sed -e 's/Adwaita$/Adwaita-dark/' > $GTK3_CONF.tmp && mv $GTK3_CONF.tmp $GTK3_CONF
-    gsettings set org.gnome.desktop.interface gtk-theme "Adwaita-dark"
     ln -s -f ~/.config/kitty/dark.conf ~/.config/kitty/theme.conf
     kitty @ --to unix:@mykitty set-colors -a -c ~/.config/kitty/dark.conf
+    lookandfeeltool -a org.kde.breezedark.desktop
     echo "dark" > /tmp/theme.txt
 else
     cat $GTK2_CONF | sed -e 's/Adwaita-dark"/Adwaita"/' > $GTK2_CONF.tmp && mv $GTK2_CONF.tmp $GTK2_CONF
     cat $GTK3_CONF | sed -e 's/Adwaita-dark$/Adwaita/' > $GTK3_CONF.tmp && mv $GTK3_CONF.tmp $GTK3_CONF
     ln -s -f ~/.config/kitty/light.conf ~/.config/kitty/theme.conf
     kitty @ --to unix:@mykitty set-colors -a -c ~/.config/kitty/light.conf
+    lookandfeeltool -a org.kde.breeze.desktop
     echo "light" > /tmp/theme.txt
 fi
 

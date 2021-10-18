@@ -66,24 +66,6 @@ URxvt.iso14755_52: false
 !! fullscreen
 URxvt.keysym.F11:          perl:fullscreen:switch
 !! }}}
-!! rofi {{{
-
-rofi.matching: fuzzy
-rofi.modi: drun,run
-rofi.font: Michroma 15
-rofi.location: 1
-rofi.yoffset: 20
-rofi.columns: 1
-rofi.lines: 10
-rofi.width: 100
-rofi.color-window: #aa222222,#aa222222,#aa00ff00
-rofi.separator-style: solid
-! State:           ´bg´,     ´fg´,     ´bgalt´,  ´hlbg´,   ´hlfg´
-rofi.color-normal: #aa222222,#ffeeeeee,#aa222222,#aa000000,#ff00ff00
-rofi.kb-mode-next: Shift+Right
-rofi.hide-scrollbar: true
-
-!!}}}
 !! vim: foldmethod=marker foldlevel=0
 !! Local Variables:
 !! origami-fold-style: triple-braces
