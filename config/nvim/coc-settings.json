@@ -1,5 +1,6 @@
 {
 	"snippets.userSnippetsDirectory": "$HOME/.config/nvim/snippets",
+    "codeLens.enable": true,
 	"languageserver": {
 		"haskell": {
 			"command": "haskell-language-server-wrapper",

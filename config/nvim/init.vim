@@ -346,7 +346,7 @@ let g:which_key_map.l = {
 			\ 'd' : 'documentation',
 			\ 'r' : ['<Plug>(coc-rename)', 'rename'],
 			\ 'f' : ['<Plug>(coc-format)', 'format'],
-			\ 'a' : ['<Plug>(coc-action)', 'action']
+			\ 'a' : ['<Plug>(coc-codeaction-cursor)', 'action']
 			\ }
 
 let g:which_key_map.l.j = {
