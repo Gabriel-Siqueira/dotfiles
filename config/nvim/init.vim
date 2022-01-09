@@ -250,6 +250,11 @@ function! My_Pdf()
 	endif
 endfunction
 
+function! My_SendLine()
+    execute "normal \<Plug>(iron-send-line)"
+    normal j
+endfunction
+
 " }}}
 "{{{ ====================== Mappings =======================
 
@@ -401,20 +406,20 @@ if has_key(plugs, 'vim-tmux-runner')
                 \ }
 endif
 
-if has_key(plugs, 'iron')
+if has_key(plugs, 'iron.nvim')
     let g:which_key_map.r = {
                 \ 'name' : '+repl',
+                \ 'r' : 'send line',
                 \ 's' : ['<Plug>(iron-send-motion)', 'send motion'],
-                \ 'l' : ['<Plug>(iron-send-line)', 'send line'],
-                \ 'r' : [' <Plug>(iron-repeat-cmd)', 'repeat'],
                 \ 'k' : ['<Plug>(iron-exit)', 'kill'],
-                \ 'f' : [':VtrFocusRunner', 'focus'],
+                \ 'f' : [':IronFocus', 'focus'],
                 \ 'e' : ['<Plug>(iron-clear)', 'clear'],
                 \ 'i' : ['<plug>(iron-interrupt)', 'interrupt'],
                 \ 'CR' : ['<Plug>(iron-cr)','newline'],
                 \ 'o' : [':IronRepl', 'open']
                 \ }
     vmap <leader>rs <Plug>(iron-visual-send)
+    nnoremap <silent> <leader>rr :call My_SendLine()<CR>
 endif
 
 nmap <leader>sc :noh<CR>
@@ -524,6 +529,11 @@ cnoreabbrev Wq q
 cnoreabbrev X x
 cnoreabbrev xx X
 nnoremap Y y$
+
+" Mouse bindings
+" Disable middle mouse button paste
+:map <MiddleMouse> <Nop>
+:imap <MiddleMouse> <Nop>
 
 "}}}
 "{{{ ====================== Settings =======================
@@ -753,7 +763,7 @@ endif
 " }}}
 " iron {{{
 
-if has_key(plugs, 'iron') && has('nvim-0.5')
+if has_key(plugs, 'iron.nvim') && has('nvim-0.5')
 lua << EOF
 local iron = require("iron")
 iron.core.set_config{
