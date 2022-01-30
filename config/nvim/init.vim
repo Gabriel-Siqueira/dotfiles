@@ -767,6 +767,9 @@ if has_key(plugs, 'iron.nvim') && has('nvim-0.5')
 lua << EOF
 local iron = require("iron")
 iron.core.set_config{
+  preferred = {
+    python = 'ipython'
+  },
   repl_open_cmd = "vsplit"
 }
 iron.core.add_repl_definitions{
