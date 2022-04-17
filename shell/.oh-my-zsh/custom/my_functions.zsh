@@ -20,5 +20,7 @@ function rcd() {
 
 # betterbib without abbrev
 function bbib() {
-  betterbib up -l $1 | betterbib f -b - > $2
+  pyenv activate 3.8
+  pyenv exec betterbib up -l $1 | pyenv exec betterbib f -b - > $2
+  pyenv deactivate
 }

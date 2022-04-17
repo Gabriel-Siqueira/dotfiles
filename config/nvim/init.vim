@@ -21,6 +21,7 @@ Plug 'nelstrom/vim-visual-star-search'        " * and # search for visual blocks
 Plug 'tpope/vim-repeat'                       " extend use of .
 Plug 'liuchengxu/vim-which-key'               " show keys
 Plug 'junegunn/fzf.vim'                       " use fzf in vim
+Plug 'michal-h21/vim-zettel'                  " Zettelkasten in vimwiki
 
 " }}}
 " Objects/Motions {{{
@@ -63,6 +64,9 @@ if has('nvim-0.5')
 	Plug 'nvim-treesitter/nvim-treesitter'          " parser for multiple languages
 endif
 Plug 'sheerun/vim-polyglot'                     " multiple languages
+Plug 'vim-pandoc/vim-pandoc'                    " necessary to vim-rmarkdown
+Plug 'vim-pandoc/vim-pandoc-syntax'             " necessary to vim-rmarkdown
+Plug 'vim-pandoc/vim-rmarkdown'                 " rmarkdown
 Plug 'neoclide/coc.nvim', {'branch': 'release'} " use language server
 Plug 'jceb/vim-orgmode'                         " for org
 Plug 'vimwiki/vimwiki'                          " for vimwiki and markdown
@@ -779,6 +783,12 @@ iron.core.add_repl_definitions{
       open = ":{", -- multiline block begin
       close = {":}", ""} -- multiline block end with two lines
     }
+  }
+}
+
+require("iron.fts").Rmd = {
+  rmarkdown = {
+    command = {"r"}
   }
 }
 EOF
