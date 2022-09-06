@@ -440,7 +440,7 @@ let g:which_key_map.S = {
 			\ 's' : [':setlocal spell!', 'toggle spell check'],
 			\ }
 
-if has_key(plugs, 'grammarous')
+if has_key(plugs, 'vim-grammarous')
     let g:which_key_map.S.g = {
                 \ 'name' : '+grammarous',
                 \ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
@@ -538,7 +538,12 @@ nnoremap Y y$
 " Disable middle mouse button paste
 :map <MiddleMouse> <Nop>
 :imap <MiddleMouse> <Nop>
-
+:map <2-MiddleMouse> <Nop>
+:map! <2-MiddleMouse> <Nop>
+:map <3-MiddleMouse> <Nop>
+:map! <3-MiddleMouse> <Nop>
+:map <4-MiddleMouse> <Nop>
+:map! <4-MiddleMouse> <Nop>
 "}}}
 "{{{ ====================== Settings =======================
 
@@ -769,23 +774,43 @@ endif
 
 if has_key(plugs, 'iron.nvim') && has('nvim-0.5')
 lua << EOF
-local iron = require("iron")
-iron.core.set_config{
-  preferred = {
-    python = 'ipython'
+local iron = require("iron.core")
+
+iron.setup {
+  config = {
+    -- If iron should expose `<plug>(...)` mappings for the plugins
+    should_map_plug = true,
+    -- Whether a repl should be discarded or not
+    scratch_repl = true,
+
+    preferred = {
+      python = 'ipython'
+    },
+
+    -- Your repl definitions come here
+    repl_definition = {
+      sh = {
+        command = {"zsh"}
+      },
+      haskell = {
+        stack = {
+          command = {"stack", "ghci"},
+          open = ":{", -- multiline block begin
+          close = {":}", ""} -- multiline block end with two lines
+        }
+      }
+    },
+    repl_open_cmd = "vsplit"
+    -- how the REPL window will be opened, the default is opening
+    -- a float window of height 40 at the bottom.
   },
-  repl_open_cmd = "vsplit"
-}
-iron.core.add_repl_definitions{
-  haskell = {
-    stack = {
-      command = {"stack", "ghci"},
-      open = ":{", -- multiline block begin
-      close = {":}", ""} -- multiline block end with two lines
-    }
+  -- If the highlight is on, you can change how it looks
+  -- For the available options, check nvim_set_hl
+  highlight = {
+    italic = true
   }
 }
-
+ 
 require("iron.fts").Rmd = {
   rmarkdown = {
     command = {"r"}
