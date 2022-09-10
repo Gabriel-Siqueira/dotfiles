@@ -77,17 +77,17 @@ setopt hist_ignore_all_dups
 # Hashs {{{
 hash -d dow=~/Downloads
 hash -d doc=~/Documents
-hash -d dro=~/Dropbox
+hash -d dro=$DROPBOX
 hash -d dri=~/Drive
-hash -d ath=~/Dropbox/Context/mestrado/
-hash -d had=~/Dropbox/Context/mestrado/had/
-hash -d min=~/Dropbox/Context/doutorado/min/
-hash -d cyc=~/Dropbox/Context/doutorado/GitHub/cyc/
-hash -d chi=~/Dropbox/Context/doutorado/chi/
-hash -d jup=~/Dropbox/Context/doutorado/jup/
-hash -d chim=~/Dropbox/Context/doutorado/chim/
-hash -d maze=~/Dropbox/Context/programing/maze/
-hash -d her=~/Dropbox/Context/doutorado/her
+hash -d ath=$DROPBOX/Context/mestrado/
+hash -d had=$DROPBOX/Context/mestrado/had/
+hash -d min=$DROPBOX/Context/doutorado/min/
+hash -d cyc=$DROPBOX/Context/doutorado/GitHub/cyc/
+hash -d chi=$DROPBOX/Context/doutorado/chi/
+hash -d jup=$DROPBOX/Context/doutorado/jup/
+hash -d chim=$DROPBOX/Context/doutorado/chim/
+hash -d maze=$DROPBOX/Context/programing/maze/
+hash -d her=$DROPBOX/Context/doutorado/her
 hash -d ran=~/Random
 hash -d trash=~/.local/share/Trash/files
 # }}}

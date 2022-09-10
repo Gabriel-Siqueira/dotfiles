@@ -16,6 +16,7 @@ export EDITOR="nvim"
 export VISUAL="nvim"
 export MANPAGER='nvim +Man!'
 export MANWIDTH=999
+export DROPBOX=/mnt/c/Users/Dell/Dropbox
 
 # irace
 export IRACE_HOME="$HOME/R/x86_64-pc-linux-gnu-library/4.0/irace"
@@ -27,17 +28,17 @@ export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$GUROBI_HOME/lib"
 export GRB_LICENSE_FILE="$GUROBI_HOME/gurobi.lic"
 
 # Paths Variables
-export TASKDATA="$HOME/Dropbox/Backup/pc/task/"
-export MY_WIKI="$HOME/Dropbox/Local/Wiki/"
-export MY_LEDGER="$HOME/Dropbox/Personal/finance.ledger"
-export MY_REFS="$HOME/Dropbox/Local/Ref/pdfs/"
-export MY_BIB="$HOME/Dropbox/Local/Ref/better-ref.bib"
-export MY_MACROS="$HOME/Dropbox/Backup/pc/xmacro/"
-export MY_EMOJIS="$HOME/Dropbox/Backup/pc/emojis.txt"
-export MY_OTHER_ACT="$HOME/Dropbox/Backup/pc/other_activities.txt"
-export MY_REPORTS="$HOME/Dropbox/Backup/pc/reports"
+export TASKDATA="$DROPBOX/Backup/pc/task/"
+export MY_WIKI="$DROPBOX/Local/Wiki/"
+export MY_LEDGER="$DROPBOX/Personal/finance.ledger"
+export MY_REFS="$DROPBOX/Local/Ref/pdfs/"
+export MY_BIB="$DROPBOX/Local/Ref/better-ref.bib"
+export MY_MACROS="$DROPBOX/Backup/pc/xmacro/"
+export MY_EMOJIS="$DROPBOX/Backup/pc/emojis.txt"
+export MY_OTHER_ACT="$DROPBOX/Backup/pc/other_activities.txt"
+export MY_REPORTS="$DROPBOX/Backup/pc/reports"
 export MY_VIMRC="$HOME/.config/nvim/init.vim"
 export MY_VSCODE="$HOME/.config/Code/User/settings.json"
 export MY_ZSH="$HOME/.oh-my-zsh/custom/my_config.zsh"
 export MY_XMONAD="$HOME/.xmonad/xmonad.hs"
-export YGGDRASIL_PATH="$HOME/Dropbox/YGG_DB/"
+export YGGDRASIL_PATH="$DROPBOX/YGG_DB/"

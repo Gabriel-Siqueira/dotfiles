@@ -92,7 +92,7 @@ if !has('nvim')
 	Plug 'Konfekt/FastFold'                       " fold/unfold on right times
 endif
 
-Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
+" Plug 'Shougo/denite.nvim'                     " search/display info (file, buf)
 Plug 'juanpabloaj/help.vim'                   " better navigation in help
 Plug 'seagoj/last-position.vim'               " save cursor position
 Plug 'sjl/gundo.vim'                          " undo tree
@@ -110,10 +110,11 @@ Plug 'tpope/vim-fugitive'                " work with git
 Plug 'szw/vim-tags'                      " automatic generate tags on save
 Plug 'tpope/vim-eunuch'                  " unix commands inside vim
 Plug 'knubie/vim-kitty-navigator'        " same navigation vim and kitty
-Plug 'hkupty/iron.nvim'                  " To use repls
+Plug 'urbainvaes/vim-ripple'             " To use repls
+Plug 'machakann/vim-highlightedyank'     " highlight code chunks sent to REPL
 
 " Tmux
-" Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
+Plug 'christoomey/vim-tmux-navigator'    " same navigation vim and tmux
 " Plug 'christoomey/vim-tmux-runner'       " send commands/code from vim to tmux
 " Plug 'roxma/vim-tmux-clipboard'          " same clipboard vim and tmux
 
@@ -255,7 +256,7 @@ function! My_Pdf()
 endfunction
 
 function! My_SendLine()
-    execute "normal \<Plug>(iron-send-line)"
+    execute "normal \<Plug>(ripple_send_line)"
     normal j
 endfunction
 
@@ -410,19 +411,14 @@ if has_key(plugs, 'vim-tmux-runner')
                 \ }
 endif
 
-if has_key(plugs, 'iron.nvim')
+if has_key(plugs, 'vim-ripple')
     let g:which_key_map.r = {
                 \ 'name' : '+repl',
                 \ 'r' : 'send line',
-                \ 's' : ['<Plug>(iron-send-motion)', 'send motion'],
-                \ 'k' : ['<Plug>(iron-exit)', 'kill'],
-                \ 'f' : [':IronFocus', 'focus'],
-                \ 'e' : ['<Plug>(iron-clear)', 'clear'],
-                \ 'i' : ['<plug>(iron-interrupt)', 'interrupt'],
-                \ 'CR' : ['<Plug>(iron-cr)','newline'],
-                \ 'o' : [':IronRepl', 'open']
+                \ 's' : ['<Plug>(ripple_send_motion)', 'send motion'],
+                \ 'o' : ['<Plug>(ripple_open_repl)', 'open']
                 \ }
-    vmap <leader>rs <Plug>(iron-visual-send)
+    vmap <leader>rs <Plug>(ripple_send_selection)
     nnoremap <silent> <leader>rr :call My_SendLine()<CR>
 endif
 
@@ -587,7 +583,7 @@ set splitright       " split on the right
 set noshowmode        " remove text insert from command line (status line already have it)
 set virtualedit=block " better block selection
 set fileformats=unix,dos,mac " order of file format
-set laststatus=2      " Always display the status line
+set laststatus=3      " Always display the status line
 set lazyredraw        " Don't redraw while executing macros (good performance)
 set list listchars=tab:»\ ,trail:-,extends:>,precedes:<,eol:¬,nbsp:·
 set omnifunc=syntaxcomplete#Complete " omnicompletion
@@ -770,55 +766,16 @@ EOF
 endif
 
 " }}}
-" iron {{{
+" ripple {{{
 
-if has_key(plugs, 'iron.nvim') && has('nvim-0.5')
-lua << EOF
-local iron = require("iron.core")
+let g:ripple_repls = {}
+let g:ripple_repls["haskell"] = {
+    \ "command": "stack ghci",
+    \ "pre": ":{",
+    \ "post": ":}",
+    \ "addcr": 0,
+    \ "filter": 0,
+    \ }
 
-iron.setup {
-  config = {
-    -- If iron should expose `<plug>(...)` mappings for the plugins
-    should_map_plug = true,
-    -- Whether a repl should be discarded or not
-    scratch_repl = true,
-
-    preferred = {
-      python = 'ipython'
-    },
-
-    -- Your repl definitions come here
-    repl_definition = {
-      sh = {
-        command = {"zsh"}
-      },
-      haskell = {
-        stack = {
-          command = {"stack", "ghci"},
-          open = ":{", -- multiline block begin
-          close = {":}", ""} -- multiline block end with two lines
-        }
-      }
-    },
-    repl_open_cmd = "vsplit"
-    -- how the REPL window will be opened, the default is opening
-    -- a float window of height 40 at the bottom.
-  },
-  -- If the highlight is on, you can change how it looks
-  -- For the available options, check nvim_set_hl
-  highlight = {
-    italic = true
-  }
-}
- 
-require("iron.fts").Rmd = {
-  rmarkdown = {
-    command = {"r"}
-  }
-}
-EOF
-endif
-
-" }}}
 " }}}
 " vim: foldmethod=marker foldlevel=0
