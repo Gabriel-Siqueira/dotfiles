@@ -6,8 +6,9 @@ path=(/bin /sbin /usr/bin/site_perl /usr/bin/vendor_perl /usr/bin/core_perl ~/.l
       ~/.local/share/gem/ruby/3.0.0/bin
       ~/.go/bin
       ~/.npm_global/bin/
-	  ~/.Gurobi/bin
-	  ~/R/x86_64-pc-linux-gnu-library/4.0/irace/bin
+      ~/.Gurobi/bin
+      ~/R/x86_64-pc-linux-gnu-library/4.0/irace/bin
+      ~/.local/lib/python3.8/site-packages
       $path)
 
 # Variables

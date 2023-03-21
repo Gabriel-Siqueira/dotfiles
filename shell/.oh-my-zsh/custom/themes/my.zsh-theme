@@ -11,9 +11,9 @@ MODE_INDICATOR="%{$fg_bold[red]%}"
 
 local theme_precmd () {
     # Git number of changes
-    if git rev-parse --is-inside-work-tree 2> /dev/null | grep -q 'true' ; then
-        local git_status=$(git status --short | wc -l | awk '{$1=$1};1')
-    fi
+    # if git rev-parse --is-inside-work-tree 2> /dev/null | grep -q 'true' ; then
+        # local git_status=$(git status --short | wc -l | awk '{$1=$1};1')
+    # fi
     # Check if has sudo
     local with_sudo=$(sudo -n uptime 2>&1|grep "load"|wc -l)
     if [ ${with_sudo} -gt 0 ]; then
@@ -42,30 +42,31 @@ local theme_precmd () {
     local date="%F{$color1} (%f%F{$color2}%T%f%F{$color1}) %f%F{$color3}╾╼%f"
 
     # GIT
-    local git='$(git_prompt_info)'
+    local git=""
+    # local git='$(git_prompt_info)'
 
-    ZSH_THEME_GIT_PROMPT_PREFIX="
-%F{$color3}┝ %f%F{$color1}git(%F{gray}$git_status%f:%F{$color2}"
-    ZSH_THEME_GIT_PROMPT_SUFFIX="%F{$color1})"
-    ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
-    ZSH_THEME_GIT_PROMPT_BRANCH=" %{$fg[magenta]%}"
-    ZSH_THEME_GIT_PROMPT_STAGED=" %{$fg[red]%}%{●%G%}"
-    ZSH_THEME_GIT_PROMPT_CONFLICTS=" %{$fg[red]%}%{✖%G%}"
-    ZSH_THEME_GIT_PROMPT_CHANGED=" %{$fg[blue]%}%{✚%G%}"
-    ZSH_THEME_GIT_PROMPT_BEHIND=" %{↓%G%}"
-    ZSH_THEME_GIT_PROMPT_AHEAD=" %{↑%G%}"
-    ZSH_THEME_GIT_PROMPT_UNTRACKED=" %{…%G%}"
-    ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}%{✔%G%}%f"
-    ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}✗"
+    # ZSH_THEME_GIT_PROMPT_PREFIX="
+# %F{$color3}┝ %f%F{$color1}git(%F{gray}$git_status%f:%F{$color2}"
+    # ZSH_THEME_GIT_PROMPT_SUFFIX="%F{$color1})"
+    # ZSH_THEME_GIT_PROMPT_SEPARATOR="|"
+    # ZSH_THEME_GIT_PROMPT_BRANCH=" %{$fg[magenta]%}"
+    # ZSH_THEME_GIT_PROMPT_STAGED=" %{$fg[red]%}%{●%G%}"
+    # ZSH_THEME_GIT_PROMPT_CONFLICTS=" %{$fg[red]%}%{✖%G%}"
+    # ZSH_THEME_GIT_PROMPT_CHANGED=" %{$fg[blue]%}%{✚%G%}"
+    # ZSH_THEME_GIT_PROMPT_BEHIND=" %{↓%G%}"
+    # ZSH_THEME_GIT_PROMPT_AHEAD=" %{↑%G%}"
+    # ZSH_THEME_GIT_PROMPT_UNTRACKED=" %{…%G%}"
+    # ZSH_THEME_GIT_PROMPT_CLEAN=" %{$fg[green]%}%{✔%G%}%f"
+    # ZSH_THEME_GIT_PROMPT_DIRTY=" %{$fg[red]%}✗"
 
     # SVN
-    local svn='$(svn_prompt_info)'
+    # local svn='$(svn_prompt_info)'
 
-    ZSH_THEME_SVN_PROMPT_PREFIX="
-%F{$color3}┝ %f%F{$color1}svn(%F{$color2}"
-    ZSH_THEME_SVN_PROMPT_SUFFIX="%F{$color1})"
-    ZSH_THEME_SVN_PROMPT_CLEAN=" %{$fg[green]%}%{✔%G%}%f"
-    ZSH_THEME_SVN_PROMPT_DIRTY=" %{$fg[red]%}✗"
+    # ZSH_THEME_SVN_PROMPT_PREFIX="
+# %F{$color3}┝ %f%F{$color1}svn(%F{$color2}"
+    # ZSH_THEME_SVN_PROMPT_SUFFIX="%F{$color1})"
+    # ZSH_THEME_SVN_PROMPT_CLEAN=" %{$fg[green]%}%{✔%G%}%f"
+    # ZSH_THEME_SVN_PROMPT_DIRTY=" %{$fg[red]%}✗"
 
     # Other info
 

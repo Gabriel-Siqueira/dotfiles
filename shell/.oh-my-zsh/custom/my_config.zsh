@@ -83,6 +83,7 @@ hash -d ath=$DROPBOX/Context/mestrado/
 hash -d had=$DROPBOX/Context/mestrado/had/
 hash -d min=$DROPBOX/Context/doutorado/min/
 hash -d cyc=$DROPBOX/Context/doutorado/GitHub/cyc/
+hash -d hub=$DROPBOX/Context/doutorado/GitHub/
 hash -d chi=$DROPBOX/Context/doutorado/chi/
 hash -d jup=$DROPBOX/Context/doutorado/jup/
 hash -d chim=$DROPBOX/Context/doutorado/chim/
