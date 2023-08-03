@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# name: use-package
+# key: pkg
+# --
+(use-package $1
+	:ensure t
+	:custom 
+		$2
+	:init
+		$3
+	:config
+		$4
+	${5::diminish}
+)

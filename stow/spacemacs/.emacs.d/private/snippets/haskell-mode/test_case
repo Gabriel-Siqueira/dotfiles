@@ -1,0 +1,7 @@
+# -*- mode: snippet; require-final-newline: nil -*-
+# key: test
+# name: test case
+# --
+test$1 = TestCase (${2:assertEqual} "$3"
+    $4
+    ($0))

@@ -1,0 +1,415 @@
+# colors {{{
+[colors]
+background = #333
+background-alt = #000
+foreground = #bbbbbb
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+# }}}
+# bar/main {{{
+[bar/main]
+monitor = ${env:MONITOR:}
+width = 100%
+height = 20
+radius = 0.0
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+line-size = 3
+line-color = #f00
+border-size = 0
+border-color = #ff000000
+padding-left = 1
+padding-right = 2
+module-margin-left = 0
+module-margin-right = 1
+font-0 = mono:pixelsize=8;1
+font-1 = terminus:pixelsize=10;1
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = Material Icons:fontformat=truetype:size=8:antialias=true;1
+font-4 = terminus:pixelsize=10;1
+modules-left = powermenu filesystem trash xkeyboard memory temperature cpu
+modules-center = xmonad
+modules-right = task pacman aur volume backlight-acpi battery date
+tray-position = right
+tray-padding = 0
+tray-detached = false
+cursor-click = pointer
+cursor-scroll = ns-resize
+# }}}
+# module/i3 {{{
+[module/i3]
+type = internal/i3
+pin-workspaces = true
+format = <label-state> <label-mode>
+index-sort = true
+wrapping-scroll = false
+label-mode-padding = 2
+label-mode-foreground = #000
+label-mode-background = ${colors.primary}
+label-focused = %name%
+label-focused-background = ${colors.background}
+label-focused-underline = ${colors.primary}
+label-focused-padding = 1
+label-unfocused = %name%
+label-unfocused-background = ${colors.background}
+label-unfocused-padding = 1
+label-visible = %name%
+label-visible-background = ${colors.background}
+label-visible-underline = ${colors.secondary}
+label-visible-padding = 1
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 1
+# }}}
+# module/xmonad {{{
+[module/xmonad]
+type = custom/script
+exec = tail -F /tmp/xmonad-log-$MONITOR
+# exec-if = [ -p /tmp/xmonad-log-${monitor} ]
+label = %{T5}%output%%{T-}
+tail = true
+# }}}
+# module/xwindow {{{
+[module/xwindow]
+type = internal/xwindow
+format-foreground = #a0a
+format-background = ${colors.background}
+label = %title:0:30:...%
+# }}}
+# module/xkeyboard {{{
+[module/xkeyboard]
+type = internal/xkeyboard
+label-layout = %layout%
+label-indicator-foreground = #aaaaaa
+label-layout-foreground = #ee00ee
+label-indicator = %name%
+label-layout-padding = 1
+label-layout-underline = ${colors.background}
+label-layout-overline = ${colors.background}
+label-layout-background = ${colors.background-alt}
+label-indicator-padding = 1
+label-indicator-underline = ${colors.background}
+label-indicator-overline = ${colors.background}
+label-indicator-background = ${colors.background-alt}
+# }}}
+# module/trash {{{
+[module/trash]
+type = custom/script
+interval = 360
+exec = du -h -d 0 ~/.local/share/Trash/ | cut -f 1
+format = <label>
+format-foreground = #ff9900
+label = %output%
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+# }}}
+# module/filesystem {{{
+[module/filesystem]
+type = internal/fs
+interval = 25
+mount-0 = /
+label-mounted =  %used%
+label-unmounted = %mountpoint% not mounted
+label-mounted-background = ${colors.background-alt}
+label-unmounted-background = ${colors.background-alt}
+label-mounted-foreground = 00ffff
+label-indicator-foreground = ${colors.foreground-alt}
+label-mounted-padding = 1
+label-mounted-underline = ${colors.background}
+label-mounted-overline = ${colors.background}
+label-unmounted-padding = 1
+label-unmounted-underline = ${colors.background}
+label-unmounted-overline = ${colors.background}
+# }}}
+# module/memory {{{
+[module/memory]
+type = internal/memory
+interval = 2
+label =  %percentage_used%% (%percentage_swap_used%%)
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+format-foreground = #ffaa00
+# }}}
+# module/cpu {{{
+[module/cpu]
+type = internal/cpu
+interval = 2
+format = <label>% <ramp-coreload>
+ramp-coreload-spacing = 1
+ramp-coreload-0 = ▁
+ramp-coreload-1 = ▂
+ramp-coreload-2 = ▃
+ramp-coreload-3 = ▄
+ramp-coreload-4 = ▅
+ramp-coreload-5 = ▆
+ramp-coreload-6 = ▇
+ramp-coreload-7 = █
+format-prefix-foreground = ${colors.foreground-alt}
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+format-foreground = #ffff00
+label = %percentage%
+# }}}
+# module/backlight-acpi {{{
+[module/backlight-acpi]
+inherit = module/xbacklight
+type = internal/backlight
+card = intel_backlight
+# }}}
+# module/pacman {{{
+[module/pacman]
+type = custom/script
+interval = 360
+exec = checkupdates 2> /dev/null | wc -l
+format = <label>
+format-foreground = #ffff00
+label = %output%
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+# }}}
+# module/aur {{{
+[module/aur]
+type = custom/script
+interval = 360
+exec = yay -Qua 2> /dev/null | wc -l
+format = <label>
+format-foreground = #ffff00
+label = %output%*
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+# }}}
+# module/wlan {{{
+[module/wlan]
+type = internal/network
+interface = wlp2s0
+interval = 3.0
+format-connected-prefix = 
+format-connected = <ramp-signal> <label-connected>
+label-connected = %signal%%
+format-connected-background = ${colors.background}
+format-disconnected = 
+format-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected-background = ${colors.background}
+ramp-signal-0 =
+ramp-signal-1 =
+ramp-signal-2 =
+ramp-signal-3 =
+ramp-signal-4 =
+ramp-signal-foreground = ${colors.foreground-alt}
+# }}}
+# module/eth {{{
+[module/eth]
+type = internal/network
+interface = enp1s0f0
+interval = 3.0
+format-connected-prefix = 
+format-connected = <ramp-signal> <label-connected>
+label-connected = %signal%%
+format-connected-background = ${colors.background}
+format-disconnected = 
+format-disconnected-foreground = ${colors.foreground-alt}
+format-disconnected-background = ${colors.background}
+ramp-signal-0 =
+ramp-signal-1 =
+ramp-signal-2 =
+ramp-signal-3 =
+ramp-signal-4 =
+ramp-signal-foreground = ${colors.foreground-alt}
+# }}}
+# module/volume {{{
+[module/volume]
+type = internal/pulseaudio
+format-volume = <label-volume> <bar-volume>
+format-volume-prefix =
+label-volume =
+label-volume-foreground = ${root.foreground}
+format-muted-prefix =
+format-muted-foreground = ${colors.foreground-alt}
+format-volume-padding = 1
+format-volume-underline = ${colors.background}
+format-volume-overline = ${colors.background}
+format-volume-background = ${colors.background-alt}
+format-muted-padding = 1
+format-muted-underline = ${colors.background}
+format-muted-overline = ${colors.background}
+format-muted-background = ${colors.background-alt}
+format-muted = 
+bar-volume-width = 10
+bar-volume-foreground-0 = #55aa55
+bar-volume-foreground-1 = #55aa55
+bar-volume-foreground-2 = #55aa55
+bar-volume-foreground-3 = #55aa55
+bar-volume-foreground-4 = #55aa55
+bar-volume-foreground-5 = #f5a70a
+bar-volume-foreground-6 = #ff5555
+bar-volume-gradient = false
+bar-volume-indicator =
+bar-volume-indicator-font = 2
+bar-volume-fill = ─
+bar-volume-fill-font = 2
+bar-volume-empty = ─
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+# }}}
+# module/xbacklight {{{
+[module/xbacklight]
+type = internal/xbacklight
+format = <label> <bar>
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+label =
+bar-width = 10
+bar-indicator =
+bar-indicator-foreground = #fff
+bar-indicator-font = 2
+bar-fill = ─
+bar-fill-font = 2
+bar-fill-foreground = #ffff00
+bar-empty = ─
+bar-empty-font = 2
+bar-empty-foreground = ${colors.foreground-alt}
+# }}}
+# module/battery {{{
+[module/battery]
+type = internal/battery
+battery = BAT1
+adapter = ACAD
+full-at = 98
+format-full-prefix =
+format-charging-prefix =
+format-discharging-prefix =
+format-full-foreground = #00ff00
+format-charging-foreground = #ffff00
+format-discharging-foreground = #ff0000
+label-charging = %percentage%%
+label-discharging = %percentage%%
+label-full = %percentage%%
+format-full-padding = 1
+format-full-underline = ${colors.background}
+format-full-overline = ${colors.background}
+format-full-background = ${colors.background-alt}
+format-charging-padding = 1
+format-charging-underline = ${colors.background}
+format-charging-overline = ${colors.background}
+format-charging-background = ${colors.background-alt}
+format-discharging-padding = 1
+format-discharging-underline = ${colors.background}
+format-discharging-overline = ${colors.background}
+format-discharging-background = ${colors.background-alt}
+# }}}
+# module/temperature {{{
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+warn-temperature = 60
+format = <ramp> <label>
+format-warn = <ramp> <label-warn>
+label = %temperature-c%
+label-foreground = #00ff00
+label-warn = %temperature-c%
+label-warn-foreground = ${colors.secondary}
+ramp-0 =
+ramp-1 =
+ramp-2 =
+ramp-foreground = ${colors.foreground-alt}
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+format-warn-padding = 1
+format-warn-underline = ${colors.background}
+format-warn-overline = ${colors.background}
+format-warn-background = ${colors.background-alt}
+# }}}
+# module/date {{{
+[module/date]
+type = internal/date
+interval = 5
+date = %{T2}%d/%m%{T-}
+date-alt = %d/%m/%Y
+time = %{T2}%H:%M%{T-}
+time-alt = %H:%M:%S
+format-prefix =
+format-prefix-foreground = ${colors.foreground-alt}
+label-foreground = #ffffff
+label = %date% %time%
+format-padding = 1
+format-background = ${colors.background-alt}
+# }}}
+# module/mpd {{{
+[module/mpd]
+type = internal/mpd
+format-online = <label-song>  <icon-prev> <icon-stop> <toggle> <icon-next>
+icon-prev =
+icon-stop =
+icon-play =
+icon-pause =
+icon-next =
+label-song-maxlen = 25
+label-song-ellipsis = true
+# }}}
+# module/powermenu {{{
+[module/powermenu]
+type = custom/menu
+expand-right = true
+format-spacing = 10
+label-open = ◯
+label-open-foreground = ${colors.foreground}
+label-close = cancel
+label-close-foreground = #ee0000
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+menu-0-0 = exit
+menu-0-0-exec = i3-msg exit
+menu-0-1 = reboot
+menu-0-1-exec = reboot
+menu-0-2 = suspend
+menu-0-2-exec = systemctl suspend
+menu-0-3 = power off
+menu-0-3-exec = poweroff
+# }}}
+# module/task {{{
+[module/task]
+type = custom/script
+exec = $HOME/bin/get_task.sh
+format = <label>
+format-foreground = #aaaaaa
+label = %output%
+format-padding = 1
+format-underline = ${colors.background}
+format-overline = ${colors.background}
+format-background = ${colors.background-alt}
+# }}}
+# settings {{{
+[settings]
+screenchange-reload = true
+;compositing-background = xor
+;compositing-background = screen
+;compositing-foreground = source
+;compositing-border = over
+# }}}
+# global/wm {{{
+[global/wm]
+margin-top = 3
+margin-bottom = 1
+# }}}
+
+# vim:foldmethod=marker foldlevel=0
+# Local Variables:
+# origami-fold-style: triple-braces
+# End:

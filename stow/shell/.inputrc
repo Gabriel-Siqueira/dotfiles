@@ -1,0 +1,10 @@
+set editing-mode vi
+set keymap vi
+
+# Case insensitive completion
+set completion-ignore-case On
+
+$if mode=vi
+    set keymap vi-insert
+    "\C-w": backward-kill-word
+$endif

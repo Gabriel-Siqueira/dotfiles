@@ -1,0 +1,5 @@
+#!/bin/bash
+stack build :myXmonad --verbosity error
+stack install :myXmonad --local-bin-path bin/ --verbosity error
+mv bin/myXmonad "$1"
+rm -rf bin

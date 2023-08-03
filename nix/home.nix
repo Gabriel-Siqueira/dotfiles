@@ -16,6 +16,7 @@
     packages = with pkgs; [
       ranger
       fzf
+      wget
       tree-sitter
       ghc
       stack
@@ -65,7 +66,10 @@
             type = "lua";
             config = ''
               local lsp = require('lsp-zero').preset({})
-              lsp.setup_servers({'rnix-lsp', 'haskell-language-server'})
+              lsp.on_attach(function(client, bufnr)
+                lsp.default_keymaps({buffer = bufnr})
+              end)
+              lsp.setup_servers({'rnix', 'hls'})
               lsp.setup()
             '';
           }

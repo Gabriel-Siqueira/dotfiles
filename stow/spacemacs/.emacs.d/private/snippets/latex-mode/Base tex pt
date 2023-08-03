@@ -1,0 +1,31 @@
+# -*- mode: snippet -*-
+# name: Base tex pt
+# key: base_pt
+# --
+\documentclass[11pt,a4pape]{article}
+
+\usepackage[brazil]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{mathtools}
+\usepackage{float}
+\usepackage{cite}
+\usepackage[ruled,linesnumbered,portuguese]{algorithm2e}
+
+\graphicspath{{images/}}
+hypersetup{linktoc=all,}
+
+\begin{document}
+
+$0
+
+{\small
+\bibliographystyle{unsrt}
+\bibliography{\string~/MEGA/references/ref.bib}
+}
+\end{document}

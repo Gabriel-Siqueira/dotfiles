@@ -1,0 +1,21 @@
+name:                myXmonad
+version:             0.1.0.0
+dependencies:
+- base
+- xmonad
+- unix
+- xmonad-contrib
+- containers
+- mtl
+
+library:
+  source-dirs: .
+
+executables:
+  myXmonad:
+    main:                xmonad.hs
+    source-dirs:         .
+    ghc-options:
+    - -ilib
+    - -fforce-recomp
+    - -main-is main

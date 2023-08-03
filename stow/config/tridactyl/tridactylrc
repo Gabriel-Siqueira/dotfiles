@@ -1,0 +1,4 @@
+bind J back
+bind K forward
+bind H tabprev
+bind L tabnext

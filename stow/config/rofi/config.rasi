@@ -1,0 +1,17 @@
+configuration {
+    matching: "fuzzy";
+    modi: "drun,run";
+    font: "Michroma 15";
+    location: 1;
+    yoffset: 200;
+    xoffset: 500;
+    columns: 1;
+    lines: 10;
+    width: 100;
+    color-window: "#aa222222,#aa222222,#aa00ff00";
+    separator-style: "solid";
+    color-normal: "#aa222222,#ffeeeeee,#aa222222,#aa000000,#ff00ff00";
+    kb-mode-next: "Shift+Right";
+    hide-scrollbar: "true";
+}
+@theme "gruvbox-dark-soft"

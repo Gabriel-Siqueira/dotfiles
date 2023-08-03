@@ -1,0 +1,49 @@
+data.location=~/Dropbox/Backup/pc/task
+
+# Color theme (uncomment one to use)
+#include /usr/share/doc/task/rc/light-16.theme
+#include /usr/share/doc/task/rc/light-256.theme
+#include /usr/share/doc/task/rc/dark-16.theme
+#include /usr/share/doc/task/rc/dark-256.theme
+#include /usr/share/doc/task/rc/dark-red-256.theme
+#include /usr/share/doc/task/rc/dark-green-256.theme
+#include /usr/share/doc/task/rc/dark-blue-256.theme
+#include /usr/share/doc/task/rc/dark-violets-256.theme
+#include /usr/share/doc/task/rc/dark-yellow-green.theme
+#include /usr/share/doc/task/rc/dark-gray-256.theme
+#include /usr/share/doc/task/rc/dark-gray-blue-256.theme
+include /usr/share/doc/task/rc/solarized-dark-256.theme
+#include /usr/share/doc/task/rc/solarized-light-256.theme
+#include /usr/share/doc/task/rc/no-color.theme
+
+verbose=blank,footnote,label,new-id,affected,edit,special,project,sync,unwait
+defaultwidth=0
+editor=nvim
+
+report.uncomplete.description=Report of all uncompleated tasks
+report.uncomplete.sort=project+\/,urgency-
+report.uncomplete.filter=-COMPLETED and -CHILD
+report.uncomplete.labels=ID,St,Dep,Pri,Project,Tags,R,Wait,Sch,Due,Until,Description
+report.uncomplete.columns=id,status.short,depends,priority,project,tags,recur,wait,scheduled,due,until,description
+report.uncomplete.dateformat=Y-M-DTH:N
+
+report.planing.description=Report of all uncompleated tasks
+report.planing.sort=project+\/,urgency-
+report.planing.filter=-COMPLETED and -CHILD and -empty and -future and -WAITING and -DELETED
+report.planing.labels=ID,St,Dep,Pri,Project,Tags,R,Wait,Sch,Due,Until,Description
+report.planing.columns=id,status.short,depends,priority,project,tags,recur,wait,scheduled,due,until,description
+report.planing.dateformat=Y-M-DTH:N
+
+report.daily.description=Daily report
+report.daily.sort=urgency-
+report.daily.filter=+READY and (+SCHEDULED or (+CHILD and +TODAY))
+report.daily.labels=ID,Pri,Project,Tags,Sch,Due,Description
+report.daily.columns=id,priority,project,tags,scheduled,due,description
+report.daily.dateformat=Y-M-DTH:N
+
+report.tomorrow.description=Tomorrow review
+report.tomorrow.sort=urgency-
+report.tomorrow.filter=(+SCHEDULED and scheduled:tomorrow) or (+CHILD and +TOMORROW)
+report.tomorrow.labels=ID,Pri,Project,Tags,Sch,Due,Description
+report.tomorrow.columns=id,priority,project,tags,scheduled,due,description
+report.tomorrow.dateformat=Y-M-DTH:N

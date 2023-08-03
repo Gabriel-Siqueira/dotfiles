@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# key: alg
+# name: algorithm
+# --
+\begin{algorithm}
+\caption{$1}
+\label{alg:$2}
+$0
+\end{algorithm}

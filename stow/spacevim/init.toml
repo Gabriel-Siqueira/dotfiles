@@ -1,0 +1,300 @@
+# Options {{{
+[options]
+	bootstrap_before = "myspacevim#before"
+	bootstrap_after = "myspacevim#after"
+	statusline_separator = "nil"
+	statusline_inactive_separator = "nil"
+	buffer_index_type = 4
+	enable_tabline_filetype_icon = true
+	enable_statusline_mode = false
+	enable_vimfiler_welcome = false
+	windows_smartclose = ""
+	colorscheme = "gruvbox"
+	colorscheme_bg = "dark"
+	enable_guicolors = true
+	relativenumber = false
+	terminal_cursor_shape = 1
+	autocomplete_method = "coc"
+# }}}
+
+# Autocomplete {{{
+[[layers]]
+name = 'autocomplete'
+auto-completion-return-key-behavior = "smart"
+auto-completion-tab-key-behavior = "cycle"
+hook_add='''
+let g:neosnippet#snippets_directory = '~/.SpaceVim.d/snippets'
+'''
+# }}}
+
+# Color {{{
+[[layers]]
+name = 'colorscheme'
+# }}}
+
+# Edit {{{
+[[layers]]
+name = "edit"
+textobj = ['indent', 'line', 'entire']
+# }}}
+
+# Objects/Motions {{{
+[[custom_plugins]]
+name = "kana/vim-smartword"
+merged = false
+hook_add = '''
+map <leader>w <Plug>(smartword-w)
+map <leader>b <Plug>(smartword-b)
+map <leader>e <Plug>(smartword-e)
+map <leader>ge <Plug>(smartword-ge)
+'''
+[[custom_plugins]]
+name = "kana/vim-textobj-fold"
+merged = false
+[[custom_plugins]]
+name = "lucapette/vim-textobj-underscore"
+merged = false
+[[custom_plugins]]
+name = "lucapette/vim-textobj-underscore"
+merged = false
+[[custom_plugins]]
+name = "sgur/vim-textobj-parameter"
+merged = false
+[[custom_plugins]]
+name = "thinca/vim-textobj-between"
+merged = false
+[[custom_plugins]]
+name = "jeetsukumaran/vim-indentwise"
+merged = false
+# }}}
+
+# Operators {{{
+[[custom_plugins]]
+name = 'AndrewRadev/splitjoin.vim'
+merged = false
+[[custom_plugins]]
+name = 'christoomey/vim-sort-motion'
+merged = false
+[[custom_plugins]]
+name = 'tpope/vim-abolish'
+merged = false
+[[custom_plugins]]
+name = 'tpope/vim-speeddating'
+merged = false
+[[custom_plugins]]
+name = 'vim-scripts/ReplaceWithRegister'
+merged = false
+[[custom_plugins]]
+name = 'tommcdo/vim-exchange'
+merged = false
+# }}}
+
+# Visual {{{
+[[custom_plugins]]
+name = 'kana/vim-niceblock'
+merged = false
+[[custom_plugins]]
+name = 'nelstrom/vim-visual-star-search'
+merged = false
+# }}}
+
+# Folds {{{
+[[custom_plugins]]
+name = 'obreitwi/vim-sort-folds'
+merged = false
+hook_add = '''
+vmap <Leader>gs <Plug>SortFolds
+'''
+# }}}
+
+# Shell {{{
+[[layers]]
+name = 'shell'
+default_position = 'top'
+default_height = 30
+# }}}
+
+# Denite {{{
+[[layers]]
+name = 'denite'
+# }}}
+
+# VC/Git {{{
+[[layers]]
+name = "VersionControl"
+[[layers]]
+name = "git"
+git-plugin = "fugitive"
+# }}}
+
+# Syntax Check {{{
+[[layers]]
+name = "checkers"
+# }}}
+
+# Grammar Check {{{
+[[custom_plugins]]
+name = "rhysd/vim-grammarous"
+hook_add = '''
+nmap gG <Plug>(operator-grammarous)
+call SpaceVim#custom#SPCGroupName(['S','g'], '+grammarous')
+call SpaceVim#custom#SPC('nmap', ['S','g','i'], '<Plug>(grammarous-open-info-window)', 'open info window', 0)
+let g:grammarous#disabled_rules = {
+            \ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X'],
+            \ }
+'''
+# }}}
+
+# Debug {{{
+[[layers]]
+name = "debug"
+# }}}
+
+# Gtags {{{
+[[layers]]
+name = "gtags"
+# }}}
+
+# Sudo {{{
+[[layers]]
+name = "sudo"
+# }}}
+
+# Test {{{
+[[layers]]
+name = "test"
+# }}}
+
+# Tmux {{{
+[[layers]]
+name = "tmux"
+[[custom_plugins]]
+name = "benmills/vimux"
+merged = false
+hook_add = '''
+'''
+# }}}
+
+# Gundo {{{
+[[custom_plugins]]
+name = "sjl/gundo.vim"
+merged = false
+hook_add = '''
+noremap <space>au :GundoToggle<CR>
+'''
+# }}}
+
+# Languages {{{
+[[layers]]
+name = "lsp"
+filetypes = [
+	"c",
+	"rust",
+	"haskell",
+	"python",
+	"sh",
+  "html"
+]
+[layers.override_cmd]
+haskell = ['ghcide','--lsp']
+[[layers]]
+name = "lang#c"
+[[layers]]
+name = "lang#extra"
+[[layers]]
+name = "lang#haskell"
+[[custom_plugins]]
+name = "Twinside/vim-haskellFold"
+merged = false
+[[layers]]
+name = "lang#latex"
+[[layers]]
+name = "lang#python"
+[[layers]]
+name = "lang#r"
+[[layers]]
+name = "lang#rust"
+[[layers]]
+name = "lang#sh"
+[[layers]]
+name = "lang#vim"
+[[layers]]
+name = "lang#html"
+# }}}
+
+# Other File Types {{{
+[[custom_plugins]]
+name = "jceb/vim-orgmode"
+merged = false
+on_ft = "org"
+hook_add = '''
+let g:org_agenda_files = ['~/Dropbox/Org/activities.org']
+'''
+[[custom_plugins]]
+name = "ledger/vim-ledger"
+merged = false
+on_ft = "ledger"
+hook_add = '''
+call SpaceVim#custom#SPCGroupName(['a','l'], '+ladger')
+call SpaceVim#custom#SPC('nmap', ['a','l','l'], ':e $MY_LEDGER<CR>', 'open ledger file',1)
+call SpaceVim#custom#SPC('nmap', ['a','l','b'], 'Ledger bal', 'balance',1)
+nmap <space>all 
+nmap <space>alb 
+'''
+# }}}
+
+# Wiki/Task {{{
+[[custom_plugins]]
+name = "vimwiki/vimwiki"
+merged = false
+hook_add = '''
+let g:vimwiki_folding = 'expr'
+let g:vimwiki_url_maxsave = 0
+let g:vimwiki_markdown_link_ext = 1
+let g:vimwiki_list = [{'path': '$MY_WIKI', 'syntax': 'markdown', 'ext': '.md', 'auto_diary_index': 1, 'diary_rel_path': 'diary/'}]
+let g:vimwiki_ext2syntax = {'.md': 'markdown',
+                \ '.mkd': 'markdown',
+                \ '.wiki': 'markdown'}
+call SpaceVim#custom#SPCGroupName(['a','w'], '+wiki')
+call SpaceVim#custom#SPC('nmap', ['a','w','w'], '<Plug>VimwikiIndex', 'open index file', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','d'], '<Plug>VimwikiDiaryIndex', 'open diary index file', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','t'], '<Plug>VimwikiTabIndex', 'open index file in new tab', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','s'], '<Plug>VimwikiUISelect', 'select between multiple wikis', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','e'], '<Plug>VimwikiMakeDiaryNote', 'new diary entry', 0)
+call SpaceVim#custom#SPC('nmap', ['a','w','h'], '<Plug>:VimwikiAll2HTML', 'convert to html', 0)
+'''
+[[custom_plugins]]
+name = "blindFS/vim-taskwarrior"
+merged = false
+hook_add = '''
+let g:task_default_prompt = ['description', 'due', 'scheduled', 'wait', 'priority', 'project']
+let g:task_report_command  = ['uncomplete','daily','planing', 'tomorrow']
+let g:task_report_name = 'planing'
+let g:task_rc_override = 'defaultwidth=0'
+call SpaceVim#custom#SPCGroupName(['a','t'], '+task')
+call SpaceVim#custom#SPC('nmap', ['a','t','p'], 'TW planing', 'open taskwarrior planing report',1)
+call SpaceVim#custom#SPC('nmap', ['a','t','t'], 'TW tomorrow', 'open taskwarrior report for tommorrow',1)
+call SpaceVim#custom#SPC('nmap', ['a','t','d'], 'TW daily', 'open taskwarrior report for today',1)
+'''
+# }}}
+
+# Firenvim {{{
+[[custom_plugins]]
+name = "glacambre/firenvim"
+merged = false
+hook_post_update = "firenvim#install(0)"
+# }}}
+
+# Citations {{{
+[[custom_plugins]]
+name = "rafaqz/citation.vim"
+merged = false
+hook_add = '''
+let g:citation_vim_bibtex_file = $MY_BIB
+let g:citation_vim_mode = 'bibtex'
+let g:citation_vim_cache_path='~/.cache/SpaceVim/'
+call SpaceVim#custom#SPC('nnoremap', ['i','c'], '<C-u>Unite -buffer-name=citation-start-insert -default-action=append citation/key', 'citation', 1)
+'''
+# }}}
+
+# vim:foldmethod=marker foldlevel=0
