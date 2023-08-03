@@ -3,13 +3,20 @@
 
 * Install Configurations
 
+** With nixos
+
+- replace files in /etc/nixos/ with the correspondent files in nix and recompile nix
+
+** With install.sh
+
+- old method for files in the stow folder
 - verify install.sh
 - necessary to install:
   bash, python, stow
 - depending on the config files choosen to install:
   conky, polybar, emacs, vim, nvim, ranger, neomutt, qutebrowser, termite, zathura, zsh, fish, tmux, i3, fzf, atool (zip, unzip in ranger)
 
-* I3
+* Configuration for I3
 
 - programs for i3:
   feh, gnome-screenshot, alsa-utils, xbacklight, playerctl, jq
@@ -18,33 +25,7 @@
 - install fonts for polybar: terminus, ttf-unifont, material icons
 - copy xmacros to .local/share/
 
-* Xmonad
+* Configuration for Xmonad
 
 - install for xmonad: feh, imageMagick, alsa-utils, xbacklight, playerctl, kitty, rofi, dropbox, xfce4-power-manager, dunst, compton, redshift, xmobar, dmenu, xorg-fonts-misc
 - copy xmacros to .local/share/
-
-* Emacs
-
-- to use spell-check download aspell dictionaries (use the system package manager)
-- to use langtool download languagetool (use the system package manager) and verify the path in the configuration
-- to use java layer install eclim
-- to use fasd download fasd
-- to replace text on helm install rg, ag, pt or ack
-
-* SpaceVim
-
-+ run checkhealth
-+ dowload tools for spacific programing languages
-+ to use spell-check download aspell dictionaries (use the system package manager) and copy files:
-#+begin_src sh
-aspell -l pt_BR dump master \
-   | aspell -l pt_BR expand | tr ' ' '\n' \
-   | aspell -l pt_BR expand | tr ' ' '\n' \
-   >/tmp/pt_br.words
-mkdir ~/.SpaceVim/spell/
-#+end_src
-#+begin_src vimL
-:mkspell pt_br lista_de_palavras.txt
-#+end_src
-+ other programs to install:
-      - [[https://pybtex.org/][pybtex]] for citation.vim

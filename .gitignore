@@ -10,7 +10,6 @@ editors/.emacs.d/mysnippets/mysnippets
 *.un~
 */*/.stack-work
 /xmonad/.xmonad/my-xmonad.cabal
-*.lock
 /spacemacs/.emacs.d/private/custom.el
 /xmonad/.xmonad/myXmonad.cabal
 /spacemacs/.emacs.d/private/local/firacode.el

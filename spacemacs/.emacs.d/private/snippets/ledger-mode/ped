@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: ped
-# key: ped
-# --
-
-`(format-time-string "%Y/%m/%d")` Bolsa PED
-assets:checking:save
-income:unicamp                                     R$-550,00

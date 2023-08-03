@@ -1,8 +1,0 @@
-# -*- mode: snippet -*-
-# name: previdencia
-# key: previdencia
-# --
-
-$1 Previdencia
-assets:checking:essentials                       R$-116,85
-expenses:bb:previdencia
