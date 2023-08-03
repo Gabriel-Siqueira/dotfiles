@@ -5,7 +5,11 @@
 
 ** With nixos
 
-- replace files in /etc/nixos/ with the correspondent files in nix and recompile nix
+- Change user on /etc/nixos/configuration.nix and add the line `environment.systemPackages = [ pkgs.git ];`
+- Recompile nix with `nixos-recompile switch`
+- Clone the dotfiles into ~/.dotfiles
+- Reboot
+- Recompile with `sudo nixos-rebuild switch --flake ~/.dotfiles/nix/` 
 
 ** With install.sh
 
