@@ -9,14 +9,14 @@ function! My_SwitchSpellLang()
 endfunction
 
 function! My_Daily()
-	" Opend daily rotine/activities.
+	" Open daily routine/activities.
 	execute "tabe " . $MY_WIKI . "weekday.md"
 	execute "vsplit"
 	execute "TW daily"
 endfunction
 
 function! My_OpenBib(how)
-	" Opend file associated with reference under the cursor.
+	" Open file associated with reference under the cursor.
 	let save_reg = @@
 	let @@ = "failure"
 	execute "normal! yi["
@@ -45,12 +45,12 @@ function! My_OpenBib(how)
 endfunction
 
 function! My_setNum(num)
-	" Set number in numer register.
+	" Set number in number register.
 	let @n = a:num
 endfunction
 
 function! My_nextNum()
-	" Replace caracter with number of number register and incremente number
+	" Replace character with number of number register and increment number
 	" register.
 	execute "normal a\<BS>\<ESC>\"np"
 	let num = @n
@@ -167,7 +167,7 @@ let g:which_key_map.b = {
 
 let g:which_key_map.e = {
 			\ 'name' : '+errors',
-			\ 'l' : [':CocDiagnostics','list'],
+			\ 'l' : [':lua vim.diagnostic.show()','list'],
 			\ 'n' : [':lua vim.diagnostic.goto_next()','next'],
 			\ 'p' : [':lua vim.diagnostic.goto_prev()','prev'],
 			\ }
@@ -193,10 +193,8 @@ let g:which_key_map.g = {
 	\ 'v' : [':Git log --', 'git-log-of-current-repo'],
 	\ }
 
-noremap <silent> <leader>ld :call My_show_documentation()<CR>
 let g:which_key_map.l = {
 			\ 'name' : '+language',
-			\ 'd' : 'documentation',
 			\ 'r' : [':lua vim.lsp.buf.rename{}', 'rename'],
 			\ 'f' : [':lua vim.lsp.buf.format{}', 'format'],
 			\ 'a' : [':lua vim.lsp.buf.code_action{}', 'action']
@@ -276,10 +274,11 @@ let g:which_key_map.S = {
 			\ 's' : [':setlocal spell!', 'toggle spell check'],
 			\ }
 
-" let g:which_key_map.S.g = {
-" 	\ 'name' : '+grammarous',
-" 	\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open info window'],
-" 	\ }
+let g:which_key_map.S.g = {
+	\ 'name' : '+grammarous',
+	\ 'i' : ['<Plug>(grammarous-open-info-window)', 'open grammar info window'],
+	\ 'g' : [':GrammarousCheck ', 'start grammar checker'],
+	\ }
 
 nnoremap <silent> <leader>tg :call My_Tags()<CR>
 let g:which_key_map.t = {
@@ -337,9 +336,6 @@ imap <M-/> <Plug>(coc-snippets-expand)
 vmap <M-/> <Plug>(coc-snippets-select)
 let g:coc_snippet_next = '<c-j>'
 let g:coc_snippet_prev = '<c-k>'
-
-" other operators
-nmap gG <Plug>(operator-grammarous)
 
 " swap visual and real line motions
 noremap  k gk
@@ -440,7 +436,7 @@ set spell              " spell check on by defaut
 
 " List of languages to toggle between
 let s:myLang = 0
-let s:myLangList = ['pt', 'en']
+let s:myLangList = ['pt_br', 'en_us', 'fr']
 
 " Color
 " let s:myBackground=readfile("/tmp/theme.txt")
@@ -485,6 +481,11 @@ let g:vimtex_view_method = 'zathura'
 let g:vimtex_grammar_vlty = {'lt_command': 'languagetool'}
 
 " }}}
+" nix {{{
+
+au! BufEnter *.nix set commentstring=#%s
+
+" }}}
 " }}}
 " vim-tmux-runner {{{
 
@@ -493,13 +494,6 @@ let g:VtrClearEmptyLines = 0
 let g:VtrAppendNewline = 1
 let g:VtrOrientation = "h"
 let g:VtrPercentage = 50
-
-" }}}
-" grammarous {{{
-
-let g:grammarous#disabled_rules = {
-			\ '*' : ['REPEATED_WORDS','REPEATED_WORDS_3X', 'BARBARISMS'],
-			\ }
 
 " }}}
 " ripple {{{

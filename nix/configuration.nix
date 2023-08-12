@@ -1,4 +1,4 @@
-{ lib, pkgs, config, modulesPath, ... }:
+{ pkgs, modulesPath, lib, overlays, ... }:
 
 with lib;
 {
@@ -11,13 +11,12 @@ with lib;
     wslConf.automount.root = "/mnt";
     defaultUser = "gabriel";
     startMenuLaunchers = true;
+  };
 
-    # Enable native Docker support
-    # docker-native.enable = true;
-
-    # Enable integration with Docker Desktop (needs to be installed)
-    # docker-desktop.enable = true;
-
+  environment =  {
+    noXlibs = lib.mkForce false; # openjdk does not install without this
+    variables.EDITOR = "nvim";
+    pathsToLink = [ "/share/zsh" ];
   };
 
   users.users.gabriel = {
@@ -26,19 +25,23 @@ with lib;
     extraGroups  = [ "wheel" "networkmanager" ];
   };
 
+  programs.zsh.enable = true;
+  users.defaultUserShell = pkgs.zsh;
+
   networking.hostName = "GERy";
 
   # Enable nix flakes
-  nix.package = pkgs.nixFlakes;
+  nix.package = pkgs.nixUnstable;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
 
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
-  environment.variables.EDITOR = "nvim";
-  environment.pathsToLink = [ "/share/zsh" ];
+  nixpkgs = {
+    config = {
+      allowUnfree = true;
+    };
+    inherit overlays;
+  };
 
   system.stateVersion = "23.05";
 }

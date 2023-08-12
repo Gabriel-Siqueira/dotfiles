@@ -1,37 +1,52 @@
 { config, pkgs, lib, ... }:
+
 {
 
   home = {
-    stateVersion = "23.05";
-    homeDirectory = "/home/gabriel";
-    username = "gabriel";
+    inherit (pkgs) stateVersion;
+    inherit (pkgs) username;
+    inherit (pkgs) homeDirectory;
+
     sessionVariables = {
       DROPBOX = "/mnt/c/Users/Dell/Dropbox";
       MY_WIKI = "$DROPBOX/Local/Wiki/";
       MY_LEDGER = "$DROPBOX/Personal/finance.ledger";
       MY_REFS = "$DROPBOX/Local/Ref/pdfs/";
       MY_BIB = "$DROPBOX/Local/Ref/better-ref.bib";
+      MY_OBSIDIAN = "$DROPBOX/Local/Obsidian";
       MY_NIX = "$HOME/.dotfiles/nix";
     };
-    packages = with pkgs; [
-      ranger
-      fzf
-      wget
-      tree-sitter
-      ghc
-      stack
-      haskell-language-server
-      # Packages used in vim
-      ripgrep
-      fd
-      rnix-lsp
-    ];
+
+    packages =
+      let
+        tex = (pkgs.texlive.combine {
+          inherit (pkgs.texlive) scheme-medium amsmath ulem hyperref;
+        });
+      in
+      with pkgs; [
+        ranger
+        fzf
+        wget
+        openjdk
+        unzip
+        tex
+
+        # Packages used in vim
+        tree-sitter
+        ripgrep
+        fd
+        # Language Servers
+        rnix-lsp # nix
+        texlab # Latex
+        ltex-ls # Latex (grammar)
+        lua-language-server # lua
+      ];
   };
 
   programs = {
     git = {
       enable = true;
-      userName  = "Gabriel-Siqueira";
+      userName = "Gabriel-Siqueira";
       userEmail = "gabriel.gabrielhs@gmail.com";
     };
 
@@ -43,54 +58,85 @@
 
         plugins = with pkgs.vimPlugins; [
 
-          vim-which-key               # Show keymaps
-          fugitive                    # Deal with git
-          vim-sleuth                  # Guess tab related settings for each file
-          telescope-nvim              # Fuzzy Finder for a lot of stuff
+          vim-which-key # Show keymaps
+          fugitive # Deal with git
+          vim-sleuth # Guess tab related settings for each file
+          telescope-nvim # Fuzzy Finder for a lot of stuff
           telescope-fzf-native-nvim
-          vim-commentary              # Command to comment and uncomment lines
+          vim-commentary # Command to comment and uncomment lines
           vim-visual-star-search
-          vim-surround                # Change surrounding things
-          vim-unimpaired              # Multiple pairs of keybindings
+          vim-surround # Change surrounding things
+          vim-unimpaired # Multiple pairs of keybindings
           # vim-textobj-between         # Motion between for any character
-          vim-easymotion              # move following letters
-          vim-tmux-navigator          # Seamless navigation with tmux
-          nvim-treesitter.withAllGrammars
-          nvim-cmp
-          cmp-nvim-lsp
-          # nvim-LuaSnip
-          nvim-lspconfig
+          targets-vim # More targets for surrounding characters
+          vim-easymotion # move following letters
+          vim-tmux-navigator # Seamless navigation with tmux
+          luasnip
 
           {
-            plugin = lsp-zero-nvim;
+            # Syntax highlighting and other functionalities using tree-sitter
+            plugin = nvim-treesitter.withAllGrammars;
             type = "lua";
             config = ''
-              local lsp = require('lsp-zero').preset({})
-              lsp.on_attach(function(client, bufnr)
-                lsp.default_keymaps({buffer = bufnr})
-              end)
-              lsp.setup_servers({'rnix', 'hls'})
-              lsp.setup()
+              ${builtins.readFile(./vim/plugins_conf/treesitter.lua)}
             '';
           }
 
           {
-            plugin = gruvbox;
+            # To edit files from obsidian vault
+            plugin = pkgs.vimExtraPlugins.obsidian-nvim;
+            type = "lua";
             config = ''
-              set background=dark
-              try
-                colorscheme gruvbox
-              catch /^Vim\%((\a\+)\)\=:E185/
-              endtry
+              ${builtins.readFile(./vim/plugins_conf/obsidian.lua)}
+            '';
+          }
+
+          {
+            # Collection of language servers configurations
+            plugin = nvim-lspconfig;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/lsp_config.lua)}
+            '';
+          }
+
+          {
+            # Autocompletion plugin and other plugins for specific type of completions
+            plugin = nvim-cmp;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/cmp.lua)}
+            '';
+          }
+          cmp-nvim-lsp
+          cmp-buffer
+          cmp-path
+          cmp-cmdline
+          cmp_luasnip
+
+          {
+            # Theme
+            plugin = gruvbox-material;
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/gruvbox_material.vim)}
+            '';
+          }
+
+          {
+            # Status line
+            plugin = lualine-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/lualine.lua)}
             '';
           }
 
         ];
 
         extraConfig =
-        ''
-          ${builtins.readFile(./vim/config.vim)}
-        '';
+          ''
+            ${builtins.readFile(./vim/config.vim)}
+          '';
       };
 
     tmux = {
@@ -103,7 +149,6 @@
         yank
       ];
       extraConfig = ''
-        setw -g mouse on                             # enable mouse support for switching panes/windows
         set -sa terminal-overrides ",xterm-*:Tc"     # Better color suport
         # Visual mode more vimlike
         set-window-option -g mode-keys vi
