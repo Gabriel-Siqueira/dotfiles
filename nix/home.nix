@@ -30,6 +30,7 @@
         openjdk
         unzip
         tex
+        ledger
 
         # Packages used in vim
         tree-sitter
@@ -58,8 +59,6 @@
 
         plugins = with pkgs.vimPlugins; [
 
-          vim-which-key # Show keymaps
-          fugitive # Deal with git
           vim-sleuth # Guess tab related settings for each file
           telescope-nvim # Fuzzy Finder for a lot of stuff
           telescope-fzf-native-nvim
@@ -69,9 +68,68 @@
           vim-unimpaired # Multiple pairs of keybindings
           # vim-textobj-between         # Motion between for any character
           targets-vim # More targets for surrounding characters
-          vim-easymotion # move following letters
-          vim-tmux-navigator # Seamless navigation with tmux
-          luasnip
+
+          {
+            # Deal with git
+            plugin = fugitive;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/fugitive.lua)}
+            '';
+          }
+
+          {
+            # Deal with ledger
+            plugin = vim-ledger;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/ledger.lua)}
+            '';
+          }
+
+          {
+            # Show keymaps
+            plugin = which-key-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/which_key.lua)}
+            '';
+          }
+
+          {
+            # Asynchronous make
+            plugin = vim-dispatch;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/dispatch.lua)}
+            '';
+          }
+
+          {
+            # Open alternative files
+            plugin = other-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/other.lua)}
+            '';
+          }
+
+          {
+            # move following letters
+            plugin = hop-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/hop.lua)}
+            '';
+          }
+
+          {
+            # Seamless navigation with tmux
+            plugin = vim-tmux-navigator;
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/tmux_navigator.vim)}
+            '';
+          }
 
           {
             # Syntax highlighting and other functionalities using tree-sitter
@@ -88,6 +146,15 @@
             type = "lua";
             config = ''
               ${builtins.readFile(./vim/plugins_conf/obsidian.lua)}
+            '';
+          }
+
+          {
+            # Snippets
+            plugin = luasnip;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/luasnip.lua)}
             '';
           }
 
@@ -115,6 +182,14 @@
           cmp_luasnip
 
           {
+            # Use IA for code suggestions
+            plugin = copilot-vim;
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/copilot.vim)}
+            '';
+          }
+
+          {
             # Theme
             plugin = gruvbox-material;
             config = ''
@@ -133,9 +208,9 @@
 
         ];
 
-        extraConfig =
+        extraLuaConfig =
           ''
-            ${builtins.readFile(./vim/config.vim)}
+            ${builtins.readFile(./vim/config.lua)}
           '';
       };
 
@@ -143,22 +218,12 @@
       enable = true;
       plugins = with pkgs.tmuxPlugins; [
         sensible
-        vim-tmux-navigator
         pain-control
         catppuccin
         yank
       ];
       extraConfig = ''
-        set -sa terminal-overrides ",xterm-*:Tc"     # Better color suport
-        # Visual mode more vimlike
-        set-window-option -g mode-keys vi
-        bind-key -T copy-mode-vi v send-keys -X begin-selection
-        bind-key -T copy-mode-vi C-v send-keys -X rectangle-toggle
-        bind-key -T copy-mode-vi y send-keys -X copy-selection-and-cancel
-        # reload config file
-        bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
-        # new window/pane with the current path (tmux 1.9+)
-        bind-key c new-window -c "#{pane_current_path}"
+        ${builtins.readFile(./tmux_extra.conf)}
       '';
     };
 
