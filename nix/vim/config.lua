@@ -5,7 +5,7 @@ local switch_spell_lang = function()
 	vim.opt.spelllang = vim.g.myLangList[vim.g.myLang]
 	print('language:' .. vim.g.myLangList[vim.g.myLang])
 	vim.g.myLang = vim.g.myLang + 1
-	if vim.g.myLang >= #vim.g.myLangList then vim.g.myLang = 0 end
+	if vim.g.myLang > #vim.g.myLangList then vim.g.myLang = 1 end
 end
 
 local open_bib = function(how)
@@ -23,7 +23,7 @@ local open_bib = function(how)
 			cite = vim.fn.getreg("@")
 		end
 	else
-		cite = vim.split(vim.fn.getreg("@"), "@")[1]
+		cite = vim.split(vim.fn.getreg("@"), "@")[2]
 	end
 	if how == "pdf" then
 		local file = vim.env.MY_REFS .. cite .. ".pdf"
@@ -91,7 +91,7 @@ local send_line = function()
 end
 
 -- }}}
--- ====================== Mappings =======================
+-- {{{ ====================== Mappings =======================
 
 vim.g.mapleader = " "
 vim.g.maplocalleader = "\\"
@@ -153,6 +153,12 @@ wk.register({
     r = { vim.lsp.buf.rename, 'rename' },
     f = { vim.lsp.buf.format, 'format' },
     a = { vim.lsp.buf.code_action, 'action' },
+  },
+}, { prefix = "<leader>" })
+
+wk.register({
+  a = {
+    name = "+insert",
   },
 }, { prefix = "<leader>" })
 
@@ -245,7 +251,8 @@ wk.register({
   },
 }, { prefix = "<leader>w" })
 
--- ====================== Settings =======================
+-- }}}
+-- {{{ ====================== Settings =======================
 
 -- misc {{{
 
@@ -310,7 +317,7 @@ vim.o.signcolumn='yes'   -- display signs with the numbers
 vim.o.spell=true         -- spell check on by defaut
 
 -- List of languages to toggle between
-vim.g.myLang = 0
+vim.g.myLang = 1
 vim.g.myLangList = {'pt_br', 'en_us', 'fr'}
 
 -- set backup           -- keep backup file after write
@@ -337,6 +344,8 @@ vim.api.nvim_create_autocmd('BufEnter', {
 	pattern = '*.nix',
 	command = 'setlocal commentstring=#%s'
 })
+
+-- }}}
 
 -- }}}
 -- vim: foldmethod=marker foldlevel=0

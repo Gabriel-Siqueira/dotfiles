@@ -18,12 +18,14 @@
     };
 
     packages =
+      with pkgs;
       let
         tex = (pkgs.texlive.combine {
           inherit (pkgs.texlive) scheme-medium amsmath ulem hyperref;
         });
+        R-with-packages = rWrapper.override { packages = with rPackages; [ ggplot2 dplyr tidyverse ]; };
       in
-      with pkgs; [
+      [
         ranger
         fzf
         wget
@@ -31,6 +33,9 @@
         unzip
         tex
         ledger
+        gnumake
+        R-with-packages
+        git-filter-repo
 
         # Packages used in vim
         tree-sitter
@@ -60,14 +65,24 @@
         plugins = with pkgs.vimPlugins; [
 
           vim-sleuth # Guess tab related settings for each file
-          telescope-nvim # Fuzzy Finder for a lot of stuff
-          telescope-fzf-native-nvim
           vim-commentary # Command to comment and uncomment lines
           vim-visual-star-search
           vim-surround # Change surrounding things
           vim-unimpaired # Multiple pairs of keybindings
           # vim-textobj-between         # Motion between for any character
           targets-vim # More targets for surrounding characters
+
+          {
+            # Fuzzy Finder for a lot of stuff
+            plugin = telescope-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/telescope.lua)}
+            '';
+          }
+          telescope-fzf-native-nvim
+          telescope-undo-nvim
+          pkgs.vimExtraPlugins.telescope-bibtex-nvim
 
           {
             # Deal with git
@@ -221,6 +236,8 @@
         pain-control
         catppuccin
         yank
+        resurrect
+        continuum
       ];
       extraConfig = ''
         ${builtins.readFile(./tmux_extra.conf)}
