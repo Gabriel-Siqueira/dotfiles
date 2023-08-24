@@ -21,9 +21,34 @@
       with pkgs;
       let
         tex = (pkgs.texlive.combine {
-          inherit (pkgs.texlive) scheme-medium amsmath ulem hyperref;
+          inherit (pkgs.texlive)
+            scheme-medium
+            amsmath
+            ulem
+            hyperref
+            environ
+            multirow
+            makecell
+            todonotes
+            ifoddpage
+            relsize
+            ;
         });
-        R-with-packages = rWrapper.override { packages = with rPackages; [ ggplot2 dplyr tidyverse ]; };
+        python-with-packages = pkgs.python3.withPackages (ps: with ps; [
+          pandas
+          numpy
+          ipython
+          matplotlib
+          weasyprint
+          jinja2
+        ]);
+        R-with-packages = rWrapper.override {
+          packages = with rPackages; [
+            ggplot2
+            dplyr
+            tidyverse
+          ];
+        };
       in
       [
         ranger
@@ -31,10 +56,12 @@
         wget
         openjdk
         unzip
+        zip
         tex
         ledger
         gnumake
         R-with-packages
+        python-with-packages
         git-filter-repo
 
         # Packages used in vim
@@ -46,6 +73,7 @@
         texlab # Latex
         ltex-ls # Latex (grammar)
         lua-language-server # lua
+        pyright # python
       ];
   };
 

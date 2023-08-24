@@ -13,16 +13,16 @@ with lib;
     startMenuLaunchers = true;
   };
 
-  environment =  {
+  environment = {
     noXlibs = lib.mkForce false; # openjdk does not install without this
     variables.EDITOR = "nvim";
     pathsToLink = [ "/share/zsh" ];
   };
 
   users.users.gabriel = {
-    isNormalUser  = true;
-    home  = "/home/gabriel";
-    extraGroups  = [ "wheel" "networkmanager" ];
+    isNormalUser = true;
+    home = "/home/gabriel";
+    extraGroups = [ "wheel" "networkmanager" ];
   };
 
   programs.zsh.enable = true;

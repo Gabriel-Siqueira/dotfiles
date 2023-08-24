@@ -14,3 +14,4 @@ require 'lspconfig'.ltex.setup {
 }
 require 'lspconfig'.texlab.setup {}
 require 'lspconfig'.lua_ls.setup {}
+require'lspconfig'.pyright.setup {}
