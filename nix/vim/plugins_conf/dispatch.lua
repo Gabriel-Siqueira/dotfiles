@@ -1,7 +1,7 @@
 require("which-key").register({
   m = {
     name = "+make",
-    m = { ":Make", "make" },
-    c = { ":Make clean", "clean" },
+    m = { "<cmd>Make<CR>", "make" },
+    c = { "<cmd>Make clean<CR>", "clean" },
   },
 }, { prefix = "<leader>a" })

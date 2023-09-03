@@ -1,0 +1,45 @@
+Host julia
+    Hostname 143.106.60.15
+    Port 2222
+    User gabriel
+
+Host sansa
+    Hostname sansa.loco.ic.unicamp.br
+    Port 2222
+    User gabriel
+
+Host arya
+    Hostname arya.loco.ic.unicamp.br
+    Port 2222
+    User gabriel
+
+Host rna
+    Hostname rna.loco.ic.unicamp.br
+    Port 2222
+    User gabriel
+
+Host dna
+    Hostname dna.loco.ic.unicamp.br
+    Port 2222
+    User gabriel
+
+Host bio
+    Hostname bio.loco.ic.unicamp.br
+    Port 2222
+    User gabriel
+
+Host manaus
+    Hostname manaus.ic.unicamp.br
+    User ra155446
+
+Host ic
+    Hostname ssh.students.ic.unicamp.br
+    User ra155446
+
+Host ic2
+    Hostname ssh2.students.ic.unicamp.br
+    User ra155446
+
+Host mc102
+    Hostname manaus.ic.unicamp.br
+    User mc102

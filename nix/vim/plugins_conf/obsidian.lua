@@ -19,6 +19,6 @@ require("which-key").register({
     b = { "<cmd>ObsidianBacklinks<CR>", "backlinks" },
     l = { "<cmd>ObsidianLinkNew<CR>", "create a new link" },
     f = { "<cmd>ObsidianFollowLink<CR>", "follow link" },
-    t = { "<cmd>ObsidianTemplate<CR>", "follow link" },
+    t = { "<cmd>ObsidianTemplate<CR>", "add template" },
   },
 }, { prefix = "<leader>a" })

@@ -84,6 +84,13 @@
       userEmail = "gabriel.gabrielhs@gmail.com";
     };
 
+    ssh = {
+      enable = true;
+      extraConfig = ''
+        ${builtins.readFile(./ssh_config)}
+      '';
+    };
+
     neovim =
       {
         enable = true;
