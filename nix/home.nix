@@ -32,6 +32,8 @@
             todonotes
             ifoddpage
             relsize
+            beamertheme-metropolis
+            tabu
             ;
         });
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
@@ -269,13 +271,18 @@
       plugins = with pkgs.tmuxPlugins; [
         sensible
         pain-control
-        catppuccin
+        {
+          plugin = catppuccin;
+          extraConfig = '' 
+          ${builtins.readFile(./tmux/tmux_catppuccin.conf)}
+          '';
+        }
         yank
         resurrect
         continuum
       ];
       extraConfig = ''
-        ${builtins.readFile(./tmux_extra.conf)}
+        ${builtins.readFile(./tmux/tmux_extra.conf)}
       '';
     };
 
