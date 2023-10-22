@@ -8,7 +8,8 @@
     inherit (pkgs) homeDirectory;
 
     sessionVariables = {
-      DROPBOX = "/mnt/c/Users/Dell/Dropbox";
+      # DROPBOX = "/mnt/c/Users/Dell/Dropbox";
+      DROPBOX = "$HOME/Dropbox";
       MY_WIKI = "$DROPBOX/Local/Wiki/";
       MY_LEDGER = "$DROPBOX/Personal/finance.ledger";
       MY_REFS = "$DROPBOX/Local/Ref/pdfs/";
@@ -53,18 +54,35 @@
         };
       in
       [
+        firefox
+        zoom-us
+        spotify
+        discord
+        openvpn
+        obsidian
+        libreoffice
+        obs-studio
         ranger
-        fzf
-        wget
         openjdk
-        unzip
-        zip
         tex
         ledger
         gnumake
         R-with-packages
         python-with-packages
         git-filter-repo
+        openboard
+
+        # Cloud
+        dropbox
+        plasma5Packages.kio-gdrive
+
+        # Misc command line tools
+        fzf
+        wget
+        lshw
+        usbutils
+        unzip
+        zip
 
         # Packages used in vim
         tree-sitter
