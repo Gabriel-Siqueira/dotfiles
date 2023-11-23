@@ -44,37 +44,71 @@
           matplotlib
           weasyprint
           jinja2
+          (
+            buildPythonPackage rec {
+              pname = "csvtomd";
+              version = "0.3.0";
+              src = fetchPypi {
+                inherit pname version;
+                sha256 = "sha256-ofvx24bUt7YqddwlmAdxmyMB7QHbXR19m7ScSohYd4s=";
+              };
+              doCheck = false;
+              propagatedBuildInputs = [
+                # Specify dependencies
+              ];
+            }
+          )
         ]);
-        R-with-packages = rWrapper.override {
+        rstudio-with-packages = rstudioWrapper.override {
           packages = with rPackages; [
             ggplot2
             dplyr
             tidyverse
+            reshape2
+            glmnet
+            caret
+            rpart
+            rpart_plot
+            randomForest
+            ramify
+            pROC
           ];
         };
       in
       [
         firefox
-        zoom-us
         spotify
-        discord
         openvpn
         obsidian
         libreoffice
         obs-studio
-        ranger
         openjdk
-        tex
+        ranger
         ledger
-        gnumake
-        R-with-packages
-        python-with-packages
-        git-filter-repo
         openboard
-
-        # Cloud
+        hugo
         dropbox
+
+        # KDE
+        yakuake
         plasma5Packages.kio-gdrive
+
+        # Social
+        zoom-us
+        discord
+        slack
+        skypeforlinux
+
+        # Programming
+        go
+        rstudio-with-packages
+        python-with-packages
+        tex
+        gnumake
+        git-filter-repo
+        stdenv.cc
+        gcc
+        valgrind
 
         # Misc command line tools
         fzf
@@ -83,6 +117,8 @@
         usbutils
         unzip
         zip
+        pulseaudio
+        xclip
 
         # Packages used in vim
         tree-sitter

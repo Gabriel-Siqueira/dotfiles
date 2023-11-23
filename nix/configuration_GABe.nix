@@ -39,9 +39,10 @@ with lib;
     LC_TIME = "pt_BR.UTF-8";
   };
 
-  environment.systemPackages = [
-    pkgs.fprintd
-  ];
+  # environment.systemPackages = with pkgs; [
+    # pkgs.fprintd
+  # ];
+
 
   services = {
     xserver = {
@@ -61,16 +62,24 @@ with lib;
       # Configure keymap in X11
       layout = "us";
       xkbVariant = "";
+      xkbOptions = "compose:ralt, caps:escape";
     };
+
     # Fingerprint reader
-    fprintd = {
-      enable = true;
-      tod.enable = true;
-      tod.driver = pkgs.libfprint-2-tod1-vfs0090;
-    };
+    # fprintd = {
+    #   enable = true;
+    #   tod.enable = true;
+    #   tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+    # };
 
     # Enable CUPS to print documents.
     printing.enable = true;
+  };
+
+  # Allow ports for dropbox
+  networking.firewall = {
+    allowedTCPPorts = [ 17500 ];
+    allowedUDPPorts = [ 17500 ];
   };
 
   # Enable sound with pipewire.
