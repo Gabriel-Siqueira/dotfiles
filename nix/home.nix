@@ -1,5 +1,9 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, specialArgs, ... }:
 
+let
+  inherit (specialArgs) withGUI inWSL;
+  inherit (lib) optionals;
+in
 {
 
   home = {
@@ -8,8 +12,7 @@
     inherit (pkgs) homeDirectory;
 
     sessionVariables = {
-      # DROPBOX = "/mnt/c/Users/Dell/Dropbox";
-      DROPBOX = "$HOME/Dropbox";
+      DROPBOX = if inWSL then "/mnt/c/Users/Dell/Dropbox" else "$HOME/Dropbox";
       MY_WIKI = "$DROPBOX/Local/Wiki/";
       MY_LEDGER = "$DROPBOX/Personal/finance.ledger";
       MY_REFS = "$DROPBOX/Local/Ref/pdfs/";
@@ -59,35 +62,36 @@
             }
           )
         ]);
+        my-rPackages = with rPackages; [
+          ggplot2
+          dplyr
+          tidyverse
+          reshape2
+          glmnet
+          caret
+          rpart
+          rpart_plot
+          randomForest
+          ramify
+          pROC
+        ];
+        r-with-packages = rWrapper.override {
+          packages = my-rPackages;
+        };
         rstudio-with-packages = rstudioWrapper.override {
-          packages = with rPackages; [
-            ggplot2
-            dplyr
-            tidyverse
-            reshape2
-            glmnet
-            caret
-            rpart
-            rpart_plot
-            randomForest
-            ramify
-            pROC
-          ];
+          packages = my-rPackages;
         };
       in
-      [
+      optionals withGUI [
         firefox
         spotify
         openvpn
         obsidian
         libreoffice
         obs-studio
-        openjdk
-        ranger
-        ledger
         openboard
-        hugo
         dropbox
+        pulseaudio
 
         # KDE
         yakuake
@@ -100,8 +104,19 @@
         skypeforlinux
 
         # Programming
-        go
         rstudio-with-packages
+      ]
+      ++ optionals (!withGUI) [
+        r-with-packages
+      ]
+      ++ [
+        openjdk
+        ranger
+        ledger
+        hugo
+
+        # Programming
+        go
         python-with-packages
         tex
         gnumake
@@ -117,7 +132,6 @@
         usbutils
         unzip
         zip
-        pulseaudio
         xclip
 
         # Packages used in vim

@@ -15,57 +15,65 @@
   };
 
   outputs = { self, nixpkgs, NixOS-WSL, home-manager, nixneovimplugins }:
-  let
-    username = "gabriel";
-    system = "x86_64-linux";
-    stateVersion = "23.05";
-    pkgs = import nixpkgs { inherit system; };
+    let
+      username = "gabriel";
+      system = "x86_64-linux";
+      stateVersion = "23.05";
+      pkgs = import nixpkgs { inherit system; };
 
-    overlays = [
-      (final: prev: {
-        homeDirectory = "/home/${username}";
-        inherit stateVersion username;
-      })
-      nixneovimplugins.overlays.default
-    ];
-  in
-  {
-    nixosConfigurations."GABe" = nixpkgs.lib.nixosSystem {
-      inherit system;
-
-      modules = [
-        self.localModules.GABe
-	home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.gabriel = import ./home.nix;
-        }
+      overlays = [
+        (final: prev: {
+          homeDirectory = "/home/${username}";
+          inherit stateVersion username;
+        })
+        nixneovimplugins.overlays.default
       ];
-    };
+    in
+    {
+      nixosConfigurations."GABe" = nixpkgs.lib.nixosSystem {
+        inherit system;
 
-    nixosConfigurations."GERy" = nixpkgs.lib.nixosSystem {
-      inherit system;
+        modules = [
+          self.localModules.GABe
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.gabriel = import ./home.nix;
+            home-manager.extraSpecialArgs = {
+              withGUI = true;
+              inWSL = false;
+            };
+          }
+        ];
+      };
 
-      modules = [
-        self.localModules.wsl
-        NixOS-WSL.nixosModules.wsl
-	home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.gabriel = import ./home.nix;
-        }
-      ];
-    };
+      nixosConfigurations."GERy" = nixpkgs.lib.nixosSystem {
+        inherit system;
 
-    localModules = {
-        wsl = { pkgs, lib, modulesPath,... }: import ./configuration_wsl.nix {
+        modules = [
+          self.localModules.wsl
+          NixOS-WSL.nixosModules.wsl
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.gabriel = import ./home.nix;
+            home-manager.extraSpecialArgs = {
+              withGUI = false;
+              inWSL = true;
+            };
+          }
+        ];
+      };
+
+      localModules = {
+        wsl = { pkgs, lib, modulesPath, ... }: import ./configuration_wsl.nix {
           inherit overlays pkgs lib modulesPath;
         };
-        GABe = { pkgs, lib, modulesPath,... }: import ./configuration_GABe.nix {
+        GABe = { pkgs, lib, modulesPath, ... }: import ./configuration_GABe.nix {
           inherit overlays pkgs lib modulesPath;
         };
+      };
     };
-  };
 }
