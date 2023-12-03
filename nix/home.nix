@@ -121,9 +121,10 @@ in
         tex
         gnumake
         git-filter-repo
-        stdenv.cc
-        gcc
+        clang
         valgrind
+        cmake
+        perl
 
         # Misc command line tools
         fzf
@@ -144,6 +145,7 @@ in
         ltex-ls # Latex (grammar)
         lua-language-server # lua
         pyright # python
+        clang-tools # add clangd for C/C++
       ];
   };
 
