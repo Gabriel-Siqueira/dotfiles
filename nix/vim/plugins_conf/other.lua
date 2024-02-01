@@ -9,15 +9,23 @@ require("other-nvim").setup({
         -- custom mapping
         {
             context = "test",
-            pattern = "src/.*/(.*).hs$",
+            pattern = "src/(.*).hs$",
             target = "test/%1Check.hs",
-            transformer = "lowercase"
         },
         {
             context = "implementation",
-            pattern = "test/.*/(.*)Check.hs$",
+            pattern = "test/(.*)Check.hs$",
             target = "src/%1.hs",
-            transformer = "lowercase"
+        },
+        {
+            context = "test",
+            pattern = "src/(.*)/(.*).hs$",
+            target = "test/%1/%2Check.hs",
+        },
+        {
+            context = "implementation",
+            pattern = "test/(.*)/(.*)Check.hs$",
+            target = "src/%1/%2.hs",
         }
     },
     transformers = {

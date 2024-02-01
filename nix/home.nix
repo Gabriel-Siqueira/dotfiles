@@ -38,6 +38,10 @@ in
             relsize
             beamertheme-metropolis
             tabu
+            adjustbox
+            enumitem
+            threeparttable
+            xurl
             ;
         });
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
