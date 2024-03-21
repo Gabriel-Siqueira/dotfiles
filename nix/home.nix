@@ -26,31 +26,36 @@ in
       let
         tex = (pkgs.texlive.combine {
           inherit (pkgs.texlive)
-            scheme-medium
-            amsmath
-            ulem
-            hyperref
-            environ
-            multirow
-            makecell
-            todonotes
-            ifoddpage
-            relsize
-            beamertheme-metropolis
-            tabu
             adjustbox
+            amsmath
+            beamertheme-metropolis
+            biblatex
             enumitem
+            environ
+            hyperref
+            ifoddpage
+            lipsum
+            makecell
+            multirow
+            relsize
+            scheme-medium
+            subfigure
+            tabu
             threeparttable
+            titling
+            todonotes
+            ulem
             xurl
             ;
         });
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
-          pandas
-          numpy
           ipython
-          matplotlib
-          weasyprint
           jinja2
+          markdown
+          matplotlib
+          numpy
+          pandas
+          weasyprint
           (
             buildPythonPackage rec {
               pname = "csvtomd";
@@ -67,17 +72,38 @@ in
           )
         ]);
         my-rPackages = with rPackages; [
-          ggplot2
-          dplyr
-          tidyverse
-          reshape2
-          glmnet
+          FactoMineR
+          Hmisc
+          ade4
+          akima
+          amap
           caret
+          corrplot
+          cowplot
+          dplyr
+          ggplot2
+          ggrepel
+          ggridges
+          ggstatsplot
+          glmnet
+          gridExtra
+          gt
+          hexbin
+          hrbrthemes
+          kableExtra
+          patchwork
+          pROC
+          plot3D
+          plotly
+          ramify
+          randomForest
+          reshape2
+          rgl
           rpart
           rpart_plot
-          randomForest
-          ramify
-          pROC
+          sjPlot
+          tidyverse
+          zoo
         ];
         r-with-packages = rWrapper.override {
           packages = my-rPackages;
@@ -87,25 +113,26 @@ in
         };
       in
       optionals withGUI [
+        dropbox
         firefox
-        spotify
-        openvpn
-        obsidian
+        google-chrome
         libreoffice
         obs-studio
-        openboard
-        dropbox
+        obsidian
+        openvpn
         pulseaudio
+        spotify
+        write_stylus
 
         # KDE
-        yakuake
         plasma5Packages.kio-gdrive
+        yakuake
 
         # Social
-        zoom-us
         discord
-        slack
         skypeforlinux
+        slack
+        zoom-us
 
         # Programming
         rstudio-with-packages
@@ -114,42 +141,46 @@ in
         r-with-packages
       ]
       ++ [
-        openjdk
-        ranger
-        ledger
+        # Misc command line tools
+        biber
+        fzf
+        ghostscript
+        htop
         hugo
+        ledger
+        lshw
+        openjdk
+        poppler_utils
+        ranger
+        unzip
+        usbutils
+        wget
+        xclip
+        zip
 
         # Programming
+        clang
+        cmake
+        git-filter-repo
+        gnumake
         go
+        perl
         python-with-packages
         tex
-        gnumake
-        git-filter-repo
-        clang
         valgrind
-        cmake
-        perl
-
-        # Misc command line tools
-        fzf
-        wget
-        lshw
-        usbutils
-        unzip
-        zip
-        xclip
 
         # Packages used in vim
-        tree-sitter
-        ripgrep
         fd
+        ripgrep
+        tree-sitter
+
         # Language Servers
-        rnix-lsp # nix
-        texlab # Latex
+        clang-tools # add clangd for C/C++
         ltex-ls # Latex (grammar)
         lua-language-server # lua
         pyright # python
-        clang-tools # add clangd for C/C++
+        rnix-lsp # nix
+        texlab # Latex
       ];
   };
 
