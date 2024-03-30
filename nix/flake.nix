@@ -11,10 +11,15 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
     nixneovimplugins.url = "github:jooooscha/nixpkgs-vim-extra-plugins";
   };
 
-  outputs = { self, nixpkgs, NixOS-WSL, home-manager, nixneovimplugins }:
+  outputs = { self, nixpkgs, NixOS-WSL, home-manager, nixneovimplugins, plasma-manager }:
     let
       username = "gabriel";
       system = "x86_64-linux";
@@ -39,7 +44,12 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.gabriel = import ./home.nix;
+            home-manager.users.gabriel = { ... }: {
+              imports = [
+                ./home.nix
+                plasma-manager.homeManagerModules.plasma-manager
+              ];
+            };
             home-manager.extraSpecialArgs = {
               withGUI = true;
               inWSL = false;
