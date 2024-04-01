@@ -132,9 +132,7 @@ in
         write_stylus
 
         # KDE
-        plasma5Packages.kio-gdrive
-        plasma5Packages.plasma-browser-integration
-        yakuake
+        kdePackages.yakuake
 
         # Social
         discord
@@ -156,6 +154,7 @@ in
         htop
         hugo
         ledger
+        libwebp
         lshw
         openjdk
         poppler_utils
@@ -187,7 +186,7 @@ in
         ltex-ls # Latex (grammar)
         lua-language-server # lua
         pyright # python
-        rnix-lsp # nix
+        nil # nix
         texlab # Latex
       ];
   };
@@ -208,7 +207,7 @@ in
 
     firefox = {
       package = pkgs.firefox.override {
-        cfg.nativeMessagingHosts.packages = [ pkgs.plasma5Packages.plasma-browser-integration ];
+        cfg.nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ];
       };
       enable = true;
       profiles.defaut.userChrome = ''
@@ -419,7 +418,7 @@ in
 
     zsh = {
       enable = true;
-      enableAutosuggestions = true;
+      autosuggestion.enable = true;
       enableCompletion = true;
       autocd = true;
       history = {
@@ -567,55 +566,49 @@ in
         "yakuake"."toggle-window-state" = "Meta+T";
       };
       configFile = {
-        "kactivitymanagerdrc"."activities"."21001635-79a1-4b14-84d4-144a95ac249f" = "G";
-        "kactivitymanagerdrc"."activities"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4" = "L";
-        "kactivitymanagerdrc"."activities"."b3fad55d-ee09-4b18-b1b5-b3360c222daf" = "S";
-        "kactivitymanagerdrc"."activities"."c53d6251-38db-43e1-b32b-5426eec2108c" = "W";
-        "kactivitymanagerdrc"."activities-icons"."21001635-79a1-4b14-84d4-144a95ac249f" = "/home/gabriel/Dropbox/Backup/pc/icons/purple.svg";
-        "kactivitymanagerdrc"."activities-icons"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4" = "/home/gabriel/Dropbox/Backup/pc/icons/yellow.svg";
-        "kactivitymanagerdrc"."activities-icons"."b3fad55d-ee09-4b18-b1b5-b3360c222daf" = "/home/gabriel/Dropbox/Backup/pc/icons/blue.svg";
-        "kactivitymanagerdrc"."activities-icons"."c53d6251-38db-43e1-b32b-5426eec2108c" = "/home/gabriel/Dropbox/Backup/pc/icons/red.svg";
-        "kactivitymanagerdrc"."main"."currentActivity" = "c53d6251-38db-43e1-b32b-5426eec2108c";
-        "kwinrc"."Desktops"."Id_1" = "83b69802-e2e5-4bd4-8075-4f437301100c";
-        "kwinrc"."Desktops"."Id_2" = "0817145f-47e6-4908-a1df-44ea8d12d4d1";
-        "kwinrc"."Desktops"."Id_3" = "1ef811de-5c05-48a1-8d42-e5cb2d4edb9a";
-        "kwinrc"."Desktops"."Id_4" = "95b3ace1-1d66-46e6-a8a4-7bd7954c1a39";
-        "kwinrc"."Desktops"."Id_5" = "b144560d-0a68-49c2-9cf2-5229a65faf23";
-        "kwinrc"."Desktops"."Id_6" = "35d581c4-bf54-48ce-b529-48b71b4a3b90";
-        "kwinrc"."Desktops"."Id_7" = "8747464e-26eb-4705-8062-97044541849f";
-        "kwinrc"."Desktops"."Id_8" = "a6145aa2-40a3-44a0-872a-c89b9e5fe7a1";
-        "kwinrc"."Desktops"."Id_9" = "2dd20c0c-40de-4da4-b52b-ffb94fa4e998";
-        "kwinrc"."Desktops"."Number" = 9;
-        "kwinrc"."Desktops"."Rows" = 4;
-        "kwinrc"."Effect-magnifier"."Height" = 500;
-        "kwinrc"."Effect-magnifier"."Width" = 500;
-        "kwinrc"."NightColor"."Active" = true;
-        "kwinrc"."Plugins"."magnifierEnabled" = true;
-        "kwinrc"."Plugins"."zoomEnabled" = false;
-        "kwinrc"."Tiling"."padding" = 4;
-        "kwinrc"."Tiling"."13371289-f79d-503b-a81b-530715a93428"."tiles" = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
-        "kwinrc"."Tiling"."1ff627ae-c325-59d8-ba2f-76d0659d78c6"."tiles" = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
-        "kwinrc"."Tiling"."58ca410b-ce44-58d6-82b9-fefe44aba0e3"."tiles" = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
-        "kwinrc"."Tiling"."e550e875-7fe7-53b9-90c7-3db30180244e"."tiles" = "{\"layoutDirection\":\"horizontal\",\"tiles\":[{\"width\":0.25},{\"width\":0.5},{\"width\":0.25}]}";
-        "kwinrulesrc"."1"."Description" = "Firefox in all activities";
-        "kwinrulesrc"."1"."activity" = "00000000-0000-0000-0000-000000000000";
-        "kwinrulesrc"."1"."activityrule" = 2;
-        "kwinrulesrc"."1"."wmclass" = "firefox";
-        "kwinrulesrc"."1"."wmclassmatch" = 2;
-        "kwinrulesrc"."General"."count" = 1;
-        "kwinrulesrc"."General"."rules" = 1;
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."Description" = "Firefox in all activities";
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activity" = "00000000-0000-0000-0000-000000000000";
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activityrule" = 3;
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclass" = "Firefox";
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclassmatch" = 2;
-        "plasma-localerc"."Formats"."LANG" = "en_US.UTF-8";
-        "plasmarc"."Wallpapers"."usersWallpapers" = "/home/gabriel/Dropbox/Backup/pc/mywallpaper/purple_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/red_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/yellow_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/blue_circle.jpg";
+        "kactivitymanagerdrc"."activities"."21001635-79a1-4b14-84d4-144a95ac249f".value = "G";
+        "kactivitymanagerdrc"."activities"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4".value = "L";
+        "kactivitymanagerdrc"."activities"."b3fad55d-ee09-4b18-b1b5-b3360c222daf".value = "S";
+        "kactivitymanagerdrc"."activities"."c53d6251-38db-43e1-b32b-5426eec2108c".value = "W";
+        "kactivitymanagerdrc"."activities-icons"."21001635-79a1-4b14-84d4-144a95ac249f".value = "/home/gabriel/Dropbox/Backup/pc/icons/purple.svg";
+        "kactivitymanagerdrc"."activities-icons"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4".value = "/home/gabriel/Dropbox/Backup/pc/icons/yellow.svg";
+        "kactivitymanagerdrc"."activities-icons"."b3fad55d-ee09-4b18-b1b5-b3360c222daf".value = "/home/gabriel/Dropbox/Backup/pc/icons/blue.svg";
+        "kactivitymanagerdrc"."activities-icons"."c53d6251-38db-43e1-b32b-5426eec2108c".value = "/home/gabriel/Dropbox/Backup/pc/icons/red.svg";
+        "kactivitymanagerdrc"."main"."currentActivity".value = "c53d6251-38db-43e1-b32b-5426eec2108c";
+        "kwinrc"."Desktops"."Id_1".value = "83b69802-e2e5-4bd4-8075-4f437301100c";
+        "kwinrc"."Desktops"."Id_2".value = "0817145f-47e6-4908-a1df-44ea8d12d4d1";
+        "kwinrc"."Desktops"."Id_3".value = "1ef811de-5c05-48a1-8d42-e5cb2d4edb9a";
+        "kwinrc"."Desktops"."Id_4".value = "95b3ace1-1d66-46e6-a8a4-7bd7954c1a39";
+        "kwinrc"."Desktops"."Id_5".value = "b144560d-0a68-49c2-9cf2-5229a65faf23";
+        "kwinrc"."Desktops"."Id_6".value = "35d581c4-bf54-48ce-b529-48b71b4a3b90";
+        "kwinrc"."Desktops"."Id_7".value = "8747464e-26eb-4705-8062-97044541849f";
+        "kwinrc"."Desktops"."Id_8".value = "a6145aa2-40a3-44a0-872a-c89b9e5fe7a1";
+        "kwinrc"."Desktops"."Id_9".value = "2dd20c0c-40de-4da4-b52b-ffb94fa4e998";
+        "kwinrc"."Desktops"."Number".value = 9;
+        "kwinrc"."Desktops"."Rows".value = 4;
+        "kwinrc"."Effect-magnifier"."Height".value = 500;
+        "kwinrc"."Effect-magnifier"."Width".value = 500;
+        "kwinrc"."NightColor"."Active".value = true;
+        "kwinrc"."Plugins"."magnifierEnabled".value = true;
+        "kwinrc"."Plugins"."zoomEnabled".value = false;
+        "kwinrulesrc"."1"."Description".value = "Firefox in all activities";
+        "kwinrulesrc"."1"."activity".value = "00000000-0000-0000-0000-000000000000";
+        "kwinrulesrc"."1"."activityrule".value = 2;
+        "kwinrulesrc"."1"."wmclass".value = "firefox";
+        "kwinrulesrc"."1"."wmclassmatch".value = 2;
+        "kwinrulesrc"."General"."count".value = 1;
+        "kwinrulesrc"."General"."rules".value = 1;
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."Description".value = "Firefox in all activities";
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activity".value = "00000000-0000-0000-0000-000000000000";
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activityrule".value = 3;
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclass".value = "Firefox";
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclassmatch".value = 2;
+        "plasma-localerc"."Formats"."LANG".value = "en_US.UTF-8";
+        "plasmarc"."Wallpapers"."usersWallpapers".value = "/home/gabriel/Dropbox/Backup/pc/mywallpaper/purple_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/red_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/yellow_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/blue_circle.jpg";
       };
-      lookAndFeel = {
-        theme = "BreezeDark";
-        icons = "BreezeDark";
-        cursor = "BreezeDark";
+      workspace = {
+        theme = "breeze-dark";
+        colorScheme = "BreezeDark";
       };
     };
 

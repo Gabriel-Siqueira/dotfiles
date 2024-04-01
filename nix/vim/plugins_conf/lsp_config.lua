@@ -1,10 +1,6 @@
-vim.g.lsplist = { 'hls', 'rnix', 'ltex', 'texlab', 'lua_ls', 'pyright', 'clangd' }
-require 'lspconfig'.hls.setup {
-    capabilities = capabilities
-}
-require 'lspconfig'.rnix.setup {
-    capabilities = capabilities
-}
+vim.g.lsplist = { 'hls', 'nil_ls', 'ltex', 'texlab', 'lua_ls', 'pyright', 'clangd' }
+require 'lspconfig'.hls.setup {}
+require 'lspconfig'.nil_ls.setup {}
 require 'lspconfig'.ltex.setup {
     settings = {
         ltex = {

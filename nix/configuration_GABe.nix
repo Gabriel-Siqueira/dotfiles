@@ -40,29 +40,32 @@ with lib;
   };
 
   # environment.systemPackages = with pkgs; [
-    # pkgs.fprintd
+  # pkgs.fprintd
   # ];
 
 
   services = {
+    # Enable the KDE Plasma Desktop Environment.
+    desktopManager.plasma6.enable = true;
+
     xserver = {
       # Enable the X11 windowing system.
       enable = true;
 
-      # Enable the KDE Plasma Desktop Environment.
-      desktopManager.plasma5.enable = true;
-
       displayManager = {
         sddm.enable = true;
+        sddm.wayland.enable = true;
         # Enable automatic login for the user.
         autoLogin.enable = true;
         autoLogin.user = "gabriel";
       };
 
       # Configure keymap in X11
-      layout = "us";
-      xkbVariant = "";
-      xkbOptions = "compose:ralt, caps:escape";
+      xkb = {
+        layout = "us";
+        variant = "";
+        options = "compose:ralt, caps:escape";
+      };
     };
 
     # Fingerprint reader
@@ -123,8 +126,8 @@ with lib;
 
   programs._1password.enable = true;
   programs._1password-gui = {
-      enable = true;
-      polkitPolicyOwners = [ "gabriel" ];
+    enable = true;
+    polkitPolicyOwners = [ "gabriel" ];
   };
 
   fonts.packages = with pkgs; [
@@ -136,6 +139,9 @@ with lib;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';
+
+  # Alternative cache
+  nix.settings.substituters = [ "https://aseipp-nix-cache.global.ssl.fastly.net" ];
 
   nixpkgs = {
     config = {
