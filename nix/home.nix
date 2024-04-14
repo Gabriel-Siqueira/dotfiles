@@ -120,6 +120,8 @@ in
         };
       in
       optionals withGUI [
+        android-tools
+        droidcam
         dropbox
         firefox
         google-chrome
@@ -502,13 +504,13 @@ in
         "kmix"."mute" = "Volume Mute";
         "ksmserver"."Lock Session" = [ "Meta+L" "Screensaver" ];
         "kwin"."ExposeAll" = "Meta+W";
-        "kwin"."ExposeClass" = "Meta+Shift+W";
+        "kwin"."ExposeClass" = "Meta+Alt+W";
         "kwin"."Kill Window" = "Meta+Shift+Backspace";
-        "kwin"."ShowDesktopGrid" = "Meta+Num+0";
-        "kwin"."Switch Window Down" = "Meta+Alt+Down";
-        "kwin"."Switch Window Left" = "Meta+Alt+Left";
-        "kwin"."Switch Window Right" = "Meta+Alt+Right";
-        "kwin"."Switch Window Up" = "Meta+Alt+Up";
+        "kwin"."Toggle Grid View" = "Meta+Num+0";
+        "kwin"."Switch Window Down" = "Meta+Down";
+        "kwin"."Switch Window Left" = "Meta+Left";
+        "kwin"."Switch Window Right" = "Meta+Right";
+        "kwin"."Switch Window Up" = "Meta+Up";
         "kwin"."Switch to Desktop 1" = "Meta+Num+1";
         "kwin"."Switch to Desktop 2" = "Meta+Num+2";
         "kwin"."Switch to Desktop 3" = "Meta+Num+3";
