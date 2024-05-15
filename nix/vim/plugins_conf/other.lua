@@ -1,12 +1,14 @@
 require("other-nvim").setup({
     mappings = {
         -- builtin mappings
-        "livewire",
         "angular",
-        "laravel",
-        "rails",
+        "c",
         "golang",
+        "laravel",
+        "livewire",
+        "rails",
         -- custom mapping
+        -- Haskell
         {
             context = "test",
             pattern = "src/(.*).hs$",
@@ -26,6 +28,27 @@ require("other-nvim").setup({
             context = "implementation",
             pattern = "test/(.*)/(.*)Check.hs$",
             target = "src/%1/%2.hs",
+        },
+        -- CPP
+        {
+            context = "header",
+            pattern = "(.*).cpp$",
+            target = "%1.hpp",
+        },
+        {
+            context = "implementation",
+            pattern = "(.*).hpp$",
+            target = "%1.cpp",
+        },
+        {
+            context = "header",
+            pattern = "(.*)/(.*).cpp$",
+            target = "%1/%2.hpp",
+        },
+        {
+            context = "implementation",
+            pattern = "(.*)/(.*).hpp$",
+            target = "%1/%2.cpp",
         }
     },
     transformers = {

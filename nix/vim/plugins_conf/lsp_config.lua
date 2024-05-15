@@ -1,14 +1,18 @@
-vim.g.lsplist = { 'hls', 'nil_ls', 'ltex', 'texlab', 'lua_ls', 'pyright', 'clangd' }
-require 'lspconfig'.hls.setup {}
-require 'lspconfig'.nil_ls.setup {}
-require 'lspconfig'.ltex.setup {
-    settings = {
-        ltex = {
-            language = "auto",
-        },
-    }
+vim.g.lsplist = {
+    -- 'agda_ls',
+    'clangd',
+    'hls',
+    'ltex',
+    'lua_ls',
+    'nil_ls',
+    'pyright',
+    'texlab'
 }
-require 'lspconfig'.texlab.setup {}
-require 'lspconfig'.lua_ls.setup {}
-require 'lspconfig'.pyright.setup {}
+-- require 'lspconfig'.agda_ls.setup {}
 require 'lspconfig'.clangd.setup {}
+require 'lspconfig'.hls.setup {}
+require 'lspconfig'.ltex.setup { settings = { ltex = { language = "auto", }, } }
+require 'lspconfig'.lua_ls.setup {}
+require 'lspconfig'.nil_ls.setup {}
+require 'lspconfig'.pyright.setup {}
+require 'lspconfig'.texlab.setup {}

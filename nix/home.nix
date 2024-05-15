@@ -24,6 +24,7 @@ in
     packages =
       with pkgs;
       let
+
         tex = (pkgs.texlive.combine {
           inherit (pkgs.texlive)
             adjustbox
@@ -48,6 +49,7 @@ in
             xurl
             ;
         });
+
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
           ipython
           jinja2
@@ -71,6 +73,11 @@ in
             }
           )
         ]);
+
+        # agda-with-packages = agda.withPackages (ps: with ps; [
+        #   standard-library
+        # ]);
+
         my-rPackages = with rPackages; [
           FactoMineR
           Hmisc
@@ -118,6 +125,7 @@ in
         rstudio-with-packages = rstudioWrapper.override {
           packages = my-rPackages;
         };
+
       in
       optionals withGUI [
         android-tools
@@ -131,7 +139,9 @@ in
         openvpn
         pulseaudio
         spotify
+        vlc
         write_stylus
+        yt-dlp
 
         # KDE
         kdePackages.yakuake
@@ -168,11 +178,13 @@ in
         zip
 
         # Programming
+        # agda-with-packages
         clang
         cmake
         git-filter-repo
         gnumake
         go
+        lean4
         perl
         python-with-packages
         tex
@@ -190,6 +202,7 @@ in
         pyright # python
         nil # nix
         texlab # Latex
+        # haskellPackages.agda-language-server # Agda
       ];
   };
 
@@ -387,6 +400,15 @@ in
             type = "lua";
             config = ''
               ${builtins.readFile(./vim/plugins_conf/lualine.lua)}
+            '';
+          }
+
+          {
+            # Lean support
+            plugin = lean-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/lean.lua)}
             '';
           }
 
