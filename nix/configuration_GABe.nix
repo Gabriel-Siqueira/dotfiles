@@ -48,17 +48,17 @@ with lib;
     # Enable the KDE Plasma Desktop Environment.
     desktopManager.plasma6.enable = true;
 
+    displayManager = {
+      sddm.enable = true;
+      sddm.wayland.enable = true;
+      # Enable automatic login for the user.
+      autoLogin.enable = true;
+      autoLogin.user = "gabriel";
+    };
+
     xserver = {
       # Enable the X11 windowing system.
       enable = true;
-
-      displayManager = {
-        sddm.enable = true;
-        sddm.wayland.enable = true;
-        # Enable automatic login for the user.
-        autoLogin.enable = true;
-        autoLogin.user = "gabriel";
-      };
 
       # Configure keymap in X11
       xkb = {
@@ -139,7 +139,7 @@ with lib;
   ];
 
   # Enable nix flakes
-  nix.package = pkgs.nixUnstable;
+  nix.package = pkgs.nixVersions.latest;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';

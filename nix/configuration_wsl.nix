@@ -31,7 +31,7 @@ with lib;
   networking.hostName = "GERy";
 
   # Enable nix flakes
-  nix.package = pkgs.nixUnstable;
+  nix.package = pkgs.nixVersions.latest;
   nix.extraOptions = ''
     experimental-features = nix-command flakes
   '';

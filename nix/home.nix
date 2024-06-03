@@ -179,7 +179,7 @@ in
 
         # Programming
         # agda-with-packages
-        clang
+        gcc
         cmake
         git-filter-repo
         gnumake
@@ -196,7 +196,7 @@ in
         tree-sitter
 
         # Language Servers
-        clang-tools # add clangd for C/C++
+        ccls # C/C++
         ltex-ls # Latex (grammar)
         lua-language-server # lua
         pyright # python

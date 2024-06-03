@@ -1,6 +1,6 @@
 vim.g.lsplist = {
     -- 'agda_ls',
-    'clangd',
+    'ccls',
     'hls',
     'ltex',
     'lua_ls',
@@ -9,7 +9,7 @@ vim.g.lsplist = {
     'texlab'
 }
 -- require 'lspconfig'.agda_ls.setup {}
-require 'lspconfig'.clangd.setup {}
+require 'lspconfig'.ccls.setup { compilationDatabaseDirectory = "build", index = { threads = 0, }, }
 require 'lspconfig'.hls.setup {}
 require 'lspconfig'.ltex.setup { settings = { ltex = { language = "auto", }, } }
 require 'lspconfig'.lua_ls.setup {}
