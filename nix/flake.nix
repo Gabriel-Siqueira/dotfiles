@@ -68,7 +68,12 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.gabriel = import ./home.nix;
+            home-manager.users.gabriel = { ... }: {
+              imports = [
+                ./home.nix
+                plasma-manager.homeManagerModules.plasma-manager
+              ];
+            };
             home-manager.extraSpecialArgs = {
               withGUI = false;
               inWSL = true;

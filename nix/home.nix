@@ -2,7 +2,7 @@
 
 let
   inherit (specialArgs) withGUI inWSL;
-  inherit (lib) optionals;
+  inherit (lib) optionals mkIf;
 in
 {
 
@@ -220,7 +220,7 @@ in
       '';
     };
 
-    firefox = {
+    firefox = mkIf (withGUI) {
       package = pkgs.firefox.override {
         cfg.nativeMessagingHosts.packages = [ pkgs.kdePackages.plasma-browser-integration ];
       };
@@ -511,7 +511,7 @@ in
       '';
     };
 
-    plasma = {
+    plasma = mkIf (withGUI) {
       enable = true;
       shortcuts = {
         "ActivityManager"."switch-to-activity-21001635-79a1-4b14-84d4-144a95ac249f" = "Meta+Shift+G";
