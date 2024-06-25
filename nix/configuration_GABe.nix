@@ -6,6 +6,9 @@ with lib;
     ./hardware-configuration.nix
   ];
 
+  # Select specific kernel if current kernel is not working.
+  boot.kernelPackages = pkgs.linuxPackages_6_8;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

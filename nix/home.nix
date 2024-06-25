@@ -133,6 +133,7 @@ in
         dropbox
         firefox
         google-chrome
+        kitty
         libreoffice
         obs-studio
         obsidian
@@ -567,7 +568,7 @@ in
         "mediacontrol"."playpausemedia" = "Media Play";
         "mediacontrol"."previousmedia" = "Media Previous";
         "mediacontrol"."stopmedia" = "Media Stop";
-        "org.kde.konsole.desktop"."_launch" = "Meta+Return";
+        "org.kde.kitty.desktop"."_launch" = "Meta+Return";
         "org.kde.krunner.desktop"."_launch" = [ "Search" "Meta+D" ];
         "org.kde.plasma.emojier.desktop"."_launch" = "Meta+.";
         "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = "Meta+Shift+Print";
@@ -642,6 +643,9 @@ in
     "ranger/commands.py".source = ./ranger/commands.py;
     "ranger/rc.conf".source = ./ranger/rc.conf;
     "ranger/rifle.conf".source = ./ranger/rifle.conf;
+    "kitty/kitty.conf".source = ./kitty/kitty.conf;
+    "kitty/neighboring_window.py".source = ./kitty/neighboring_window.py;
+    "kitty/pass_keys.py".source = ./kitty/pass_keys.py;
   };
 
   xdg.mimeApps.defaultApplications = {
