@@ -164,12 +164,14 @@ in
         biber
         fzf
         ghostscript
+        groff
         htop
         hugo
         ledger
         libwebp
         lshw
         openjdk
+        pandoc
         poppler_utils
         ranger
         unzip
