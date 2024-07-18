@@ -129,6 +129,7 @@ in
       in
       optionals withGUI [
         android-tools
+        calibre
         droidcam
         dropbox
         firefox
