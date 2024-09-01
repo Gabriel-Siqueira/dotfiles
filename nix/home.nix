@@ -51,27 +51,29 @@ in
         });
 
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
+          csv2md
           ipython
           jinja2
           markdown
           matplotlib
           numpy
           pandas
+          pytz
           weasyprint
-          (
-            buildPythonPackage rec {
-              pname = "csvtomd";
-              version = "0.3.0";
-              src = fetchPypi {
-                inherit pname version;
-                sha256 = "sha256-ofvx24bUt7YqddwlmAdxmyMB7QHbXR19m7ScSohYd4s=";
-              };
-              doCheck = false;
-              propagatedBuildInputs = [
-                # Specify dependencies
-              ];
-            }
-          )
+          # (
+          #   buildPythonPackage rec {
+          #     pname = "csvtomd";
+          #     version = "0.3.0";
+          #     src = fetchPypi {
+          #       inherit pname version;
+          #       sha256 = "sha256-ofvx24bUt7YqddwlmAdxmyMB7QHbXR19m7ScSohYd4s=";
+          #     };
+          #     doCheck = false;
+          #     propagatedBuildInputs = [
+          #       # Specify dependencies
+          #     ];
+          #   }
+          # )
         ]);
 
         # agda-with-packages = agda.withPackages (ps: with ps; [
@@ -93,7 +95,9 @@ in
           dplyr
           factoextra
           fclust
+          forecast
           fpc
+          fpp2
           ggplot2
           ggrepel
           ggridges
@@ -116,6 +120,7 @@ in
           rpart
           rpart_plot
           sjPlot
+          skimr
           tidyverse
           zoo
         ];
@@ -132,6 +137,7 @@ in
         calibre
         droidcam
         dropbox
+        filelight
         firefox
         google-chrome
         kitty
