@@ -1,8 +1,6 @@
-require("which-key").register({
-  l = {
-    name = "+ledger",
-    l = { "<cmd>e $MY_LEDGER<CR>", "open ledger file" },
-    b = { "<cmd>Ledger bal<CR>", "balance" },
-    a = { "<cmd>LedgerAlign<CR>", "aligned" },
-  },
-}, { prefix = "<leader>a" })
+require("which-key").add({
+  { "<leader>al",  group = "ledger" },
+  { "<leader>ala", "<cmd>LedgerAlign<CR>",  desc = "aligned" },
+  { "<leader>alb", "<cmd>Ledger bal<CR>",   desc = "balance" },
+  { "<leader>all", "<cmd>e $MY_LEDGER<CR>", desc = "open ledger file" },
+})

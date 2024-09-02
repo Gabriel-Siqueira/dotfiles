@@ -43,6 +43,7 @@ in
             subfigure
             tabu
             threeparttable
+            titlesec
             titling
             todonotes
             ulem

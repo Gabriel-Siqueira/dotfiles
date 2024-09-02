@@ -10,15 +10,13 @@ require("obsidian").setup({
   },
 })
 
-require("which-key").register({
-  o = {
-    name = "+obsidian",
-    s = { "<cmd>ObsidianQuickSwitch<CR>", "search note name and open" },
-    S = { "<cmd>ObsidianSearch<CR>", "search text in notes" },
-    n = { "<cmd>ObsidianNew<CR>", "new note" },
-    b = { "<cmd>ObsidianBacklinks<CR>", "backlinks" },
-    l = { "<cmd>ObsidianLinkNew<CR>", "create a new link" },
-    f = { "<cmd>ObsidianFollowLink<CR>", "follow link" },
-    t = { "<cmd>ObsidianTemplate<CR>", "add template" },
-  },
-}, { prefix = "<leader>a" })
+require("which-key").add({
+  { "<leader>ao",  group = "obsidian" },
+  { "<leader>aoS", "<cmd>ObsidianSearch<CR>",      desc = "search text in notes" },
+  { "<leader>aob", "<cmd>ObsidianBacklinks<CR>",   desc = "backlinks" },
+  { "<leader>aof", "<cmd>ObsidianFollowLink<CR>",  desc = "follow link" },
+  { "<leader>aol", "<cmd>ObsidianLinkNew<CR>",     desc = "create a new link" },
+  { "<leader>aon", "<cmd>ObsidianNew<CR>",         desc = "new note" },
+  { "<leader>aos", "<cmd>ObsidianQuickSwitch<CR>", desc = "search note name and open" },
+  { "<leader>aot", "<cmd>ObsidianTemplate<CR>",    desc = "add template" },
+})

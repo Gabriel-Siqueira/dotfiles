@@ -1,7 +1,5 @@
-require("which-key").register({
-  m = {
-    name = "+make",
-    m = { "<cmd>Make<CR>", "make" },
-    c = { "<cmd>Make clean<CR>", "clean" },
-  },
-}, { prefix = "<leader>a" })
+require("which-key").add({
+  { "<leader>am",  group = "make" },
+  { "<leader>amc", "<cmd>Make clean<CR>", desc = "clean" },
+  { "<leader>amm", "<cmd>Make<CR>",       desc = "make" },
+})
