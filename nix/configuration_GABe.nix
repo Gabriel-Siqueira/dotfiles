@@ -51,6 +51,8 @@ with lib;
     # Enable the KDE Plasma Desktop Environment.
     desktopManager.plasma6.enable = true;
 
+    udev.extraRules = builtins.readFile ./udev.rules;
+
     displayManager = {
       sddm.enable = true;
       sddm.wayland.enable = true;

@@ -332,10 +332,10 @@ in
           }
 
           {
-            # Seamless navigation with tmux
-            plugin = vim-tmux-navigator;
+            # Seamless navigation with zellij-nav-nvim
+            plugin = zellij-nav-nvim;
             config = ''
-              ${builtins.readFile(./vim/plugins_conf/tmux_navigator.vim)}
+              ${builtins.readFile(./vim/plugins_conf/zellij_navigator.vim)}
             '';
           }
 
@@ -430,6 +430,21 @@ in
             ${builtins.readFile(./vim/config.lua)}
           '';
       };
+
+    zellij = {
+      enable = true;
+      enableZshIntegration = false;
+      settings = {
+        theme = "gruvbox";
+        pane_frames = false;
+        keybindings.normal = {
+          "bind \"Ctrl Left\"" = { moveFocus = "Left"; };
+          "bind \"Ctrl Right\"" = { moveFocus = "Right"; };
+          "bind \"Ctrl Down\"" = { moveFocus = "Down"; };
+          "bind \"Ctrl Up\"" = { moveFocus = "Up"; };
+        };
+      };
+    };
 
     tmux = {
       enable = true;
@@ -544,6 +559,10 @@ in
         "kwin"."Switch Window Left" = "Meta+Left";
         "kwin"."Switch Window Right" = "Meta+Right";
         "kwin"."Switch Window Up" = "Meta+Up";
+        "kwin"."Quick Tile Window to the Bottom" = "Meta+Shift+Down";
+        "kwin"."Quick Tile Window to the Top" = "Meta+Shift+Up";
+        "kwin"."Quick Tile Window to the Left" = "Meta+Shift+Left";
+        "kwin"."Quick Tile Window to the Right" = "Meta+Shift+Right";
         "kwin"."Switch to Desktop 1" = "Meta+Num+1";
         "kwin"."Switch to Desktop 2" = "Meta+Num+2";
         "kwin"."Switch to Desktop 3" = "Meta+Num+3";
