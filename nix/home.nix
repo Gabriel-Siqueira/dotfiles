@@ -437,12 +437,12 @@ in
       settings = {
         theme = "gruvbox";
         pane_frames = false;
-        keybindings.normal = {
-          "bind \"Ctrl Left\"" = { moveFocus = "Left"; };
-          "bind \"Ctrl Right\"" = { moveFocus = "Right"; };
-          "bind \"Ctrl Down\"" = { moveFocus = "Down"; };
-          "bind \"Ctrl Up\"" = { moveFocus = "Up"; };
-        };
+        # keybindings.normal = {
+        #   "bind \"Ctrl Left\"" = { MoveFocus = "Left"; };
+        #   "bind \"Ctrl Right\"" = { MoveFocus = "Right"; };
+        #   "bind \"Ctrl Down\"" = { MoveFocus = "Down"; };
+        #   "bind \"Ctrl Up\"" = { MoveFocus = "Up"; };
+        # };
       };
     };
 
