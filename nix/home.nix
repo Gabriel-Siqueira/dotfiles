@@ -466,6 +466,16 @@ in
       '';
     };
 
+    # Better cd
+    zoxide = {
+      enable = true;
+    };
+
+    # Better ls
+    eza = {
+      enable = true;
+    };
+
     zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -479,14 +489,16 @@ in
       };
 
       shellAliases = {
-        ll = "ls -l";
-        la = "ls -a";
-        lh = "ls -lh";
-        ltr = "ls -ltr";
-        "cd.." = "cd ..";
+        ls = "eza";
+        ll = "eza -l";
+        la = "eza -a";
+        lh = "eza -lh";
+        ltr = "eza -ltr";
+        cd = "zoxide";
+        "cd.." = "zoxide ..";
         "." = "pwd";
-        ".." = "cd ..";
-        "..." = "cd ../..";
+        ".." = "zoxide ..";
+        "..." = "zoxide ../..";
         cp = "cp -ai";
         rm = "rm -i";
         grep = "grep --color=auto";
@@ -511,6 +523,7 @@ in
         chi = "$DROPBOX/Context/doutorado/chi/";
         jup = "$DROPBOX/Context/doutorado/jup/";
         chim = "$DROPBOX/Context/doutorado/chim/";
+        tho = "$DROPBOX/Context/doutorado/tho/";
         maze = "$DROPBOX/Context/programing/maze/";
         her = "$DROPBOX/Context/doutorado/her";
         ran = "$HOME/Random";
