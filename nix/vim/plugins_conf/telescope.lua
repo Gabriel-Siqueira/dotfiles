@@ -10,6 +10,7 @@ require("telescope").setup({
 })
 require("telescope").load_extension("undo")
 require("telescope").load_extension("bibtex")
+require("telescope").load_extension("noice")
 
 vim.keymap.set('n', '<leader>bb', '<cmd>Telescope buffers<CR>', { noremap = true, desc = 'select buffer' })
 vim.keymap.set('n', '<leader>hv', '<cmd>Telescope help_tags<CR>', { noremap = true, desc = 'help' })

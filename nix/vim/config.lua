@@ -3,6 +3,13 @@
 local switch_spell_lang = function()
 	-- Loop through languages.
 	vim.opt.spelllang = vim.g.myLangList[vim.g.myLang]
+	local new_language = string.gsub(vim.g.myLangList[vim.g.myLang],"_","-")
+	local clients = vim.lsp.get_active_clients()
+    for _, client in ipairs(clients) do
+        if client.name == "ltex" then
+            client.config.settings.ltex.language = new_language
+        end
+    end
 	print('language:' .. vim.g.myLangList[vim.g.myLang])
 	vim.g.myLang = vim.g.myLang + 1
 	if vim.g.myLang > #vim.g.myLangList then vim.g.myLang = 1 end
@@ -265,7 +272,7 @@ vim.opt.listchars = {
 vim.o.omnifunc = 'syntaxcomplete#Complete' -- omnicompletion
 vim.o.showcmd = true                       -- Show current commands
 if vim.fn.has('wildmenu') == 1 then
-	vim.o.wildmenu = true                    -- show options as list when switching buffers etc
+	vim.o.wildmenu = true                  -- show options as list when switching buffers etc
 end
 vim.o.wildmode = 'longest:full,full'       -- shell-like autocomplete to unambiguous portion
 if vim.fn.has('windows') == 1 then
@@ -319,9 +326,9 @@ vim.api.nvim_create_autocmd('BufRead', {
 				local ft = vim.bo[opts.buf].filetype
 				local last_known_line = vim.api.nvim_buf_get_mark(opts.buf, '"')[1]
 				if
-						not (ft:match('commit') and ft:match('rebase'))
-						and last_known_line > 1
-						and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
+					not (ft:match('commit') and ft:match('rebase'))
+					and last_known_line > 1
+					and last_known_line <= vim.api.nvim_buf_line_count(opts.buf)
 				then
 					vim.api.nvim_feedkeys([[g`"]], 'nx', false)
 				end

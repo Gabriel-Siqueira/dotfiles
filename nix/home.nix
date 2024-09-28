@@ -29,8 +29,12 @@ in
           inherit (pkgs.texlive)
             adjustbox
             amsmath
+            babel
+            babel-portuges
             beamertheme-metropolis
             biblatex
+            comment
+            csquotes
             enumitem
             environ
             hyperref
@@ -38,6 +42,7 @@ in
             lipsum
             makecell
             multirow
+            placeins
             relsize
             scheme-medium
             subfigure
@@ -47,6 +52,7 @@ in
             titling
             todonotes
             ulem
+            wrapfig
             xurl
             ;
         });
@@ -278,6 +284,15 @@ in
           pkgs.vimExtraPlugins.telescope-bibtex-nvim
 
           {
+            # Alternative UI
+            plugin = noice-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/noice.lua)}
+            '';
+          }
+
+          {
             # Deal with git
             plugin = fugitive;
             type = "lua";
@@ -494,11 +509,11 @@ in
         la = "eza -a";
         lh = "eza -lh";
         ltr = "eza -ltr";
-        cd = "zoxide";
-        "cd.." = "zoxide ..";
+        cd = "z";
+        "cd.." = "z ..";
         "." = "pwd";
-        ".." = "zoxide ..";
-        "..." = "zoxide ../..";
+        ".." = "z ..";
+        "..." = "z ../..";
         cp = "cp -ai";
         rm = "rm -i";
         grep = "grep --color=auto";
@@ -572,10 +587,10 @@ in
         "kwin"."Switch Window Left" = "Meta+Left";
         "kwin"."Switch Window Right" = "Meta+Right";
         "kwin"."Switch Window Up" = "Meta+Up";
-        "kwin"."Quick Tile Window to the Bottom" = "Meta+Shift+Down";
-        "kwin"."Quick Tile Window to the Top" = "Meta+Shift+Up";
-        "kwin"."Quick Tile Window to the Left" = "Meta+Shift+Left";
-        "kwin"."Quick Tile Window to the Right" = "Meta+Shift+Right";
+        "kwin"."Window Quick Tile Bottom" = "Meta+Shift+Down";
+        "kwin"."Window Quick Tile Top" = "Meta+Shift+Up";
+        "kwin"."Window Quick Tile Left" = "Meta+Shift+Left";
+        "kwin"."Window Quick Tile Right" = "Meta+Shift+Right";
         "kwin"."Switch to Desktop 1" = "Meta+Num+1";
         "kwin"."Switch to Desktop 2" = "Meta+Num+2";
         "kwin"."Switch to Desktop 3" = "Meta+Num+3";
