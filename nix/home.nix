@@ -111,7 +111,6 @@ in
           ggstatsplot
           glmnet
           gridExtra
-          gt
           hexbin
           hrbrthemes
           kableExtra
@@ -145,7 +144,6 @@ in
         droidcam
         dropbox
         filelight
-        firefox
         google-chrome
         kitty
         libreoffice
@@ -184,7 +182,6 @@ in
         ledger
         libwebp
         lshw
-        openjdk
         pandoc
         poppler_utils
         ranger

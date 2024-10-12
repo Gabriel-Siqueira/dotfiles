@@ -14,7 +14,6 @@ with lib;
   };
 
   environment = {
-    noXlibs = lib.mkForce false; # openjdk does not install without this
     variables.EDITOR = "nvim";
     pathsToLink = [ "/share/zsh" ];
   };
