@@ -1,4 +1,0 @@
-set background=dark
-let g:gruvbox_material_dim_inactive_windows=1
-let g:gruvbox_material_diagnostic_line_highlight=1
-colorscheme gruvbox-material

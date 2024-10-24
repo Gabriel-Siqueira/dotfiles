@@ -127,7 +127,7 @@ in
           rpart_plot
           sjPlot
           skimr
-          tidyverse
+          # tidyverse
           zoo
         ];
         r-with-packages = rWrapper.override {
@@ -140,7 +140,7 @@ in
       in
       optionals withGUI [
         android-tools
-        calibre
+        # calibre
         droidcam
         dropbox
         filelight
@@ -280,14 +280,14 @@ in
           telescope-undo-nvim
           pkgs.vimExtraPlugins.telescope-bibtex-nvim
 
-          {
-            # Alternative UI
-            plugin = noice-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/noice.lua)}
-            '';
-          }
+          # {
+          #   # Alternative UI
+          #   plugin = noice-nvim;
+          #   type = "lua";
+          #   config = ''
+          #     ${builtins.readFile(./vim/plugins_conf/noice.lua)}
+          #   '';
+          # }
 
           {
             # Deal with git
@@ -346,8 +346,9 @@ in
           {
             # Seamless navigation with zellij-nav-nvim
             plugin = zellij-nav-nvim;
+            type = "lua";
             config = ''
-              ${builtins.readFile(./vim/plugins_conf/zellij_navigator.vim)}
+              ${builtins.readFile(./vim/plugins_conf/zellij_navigator.lua)}
             '';
           }
 
@@ -404,16 +405,18 @@ in
           {
             # Use IA for code suggestions
             plugin = copilot-vim;
+            type = "lua";
             config = ''
-              ${builtins.readFile(./vim/plugins_conf/copilot.vim)}
+              ${builtins.readFile(./vim/plugins_conf/copilot.lua)}
             '';
           }
 
           {
             # Theme
             plugin = gruvbox-material;
+            type = "lua";
             config = ''
-              ${builtins.readFile(./vim/plugins_conf/gruvbox_material.vim)}
+              ${builtins.readFile(./vim/plugins_conf/gruvbox_material.lua)}
             '';
           }
 
