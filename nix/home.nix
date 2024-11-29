@@ -59,6 +59,7 @@ in
 
         python-with-packages = pkgs.python3.withPackages (ps: with ps; [
           csv2md
+          gurobipy
           ipython
           jinja2
           markdown
