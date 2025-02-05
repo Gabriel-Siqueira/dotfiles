@@ -120,9 +120,10 @@ wk.add({
 
 wk.add({
 	{ "<leader>e",  group = "errors" },
-	{ "<leader>el", vim.diagnostic.show,      desc = "list" },
-	{ "<leader>en", vim.diagnostic.goto_next, desc = "next" },
-	{ "<leader>ep", vim.diagnostic.goto_prev, desc = "prev" },
+	{ "<leader>el", vim.diagnostic.show,       desc = "list" },
+	{ "<leader>en", vim.diagnostic.goto_next,  desc = "next" },
+	{ "<leader>ep", vim.diagnostic.goto_prev,  desc = "prev" },
+	{ "<leader>es", vim.diagnostic.open_float, desc = "show" },
 })
 
 wk.add({
@@ -141,6 +142,7 @@ wk.add({
 	{ "<leader>ld", vim.lsp.buf.hover,       desc = "describe" },
 	{ "<leader>lf", vim.lsp.buf.format,      desc = "format" },
 	{ "<leader>lr", vim.lsp.buf.rename,      desc = "rename" },
+	{ "<leader>lh", vim.lsp.buf.hover,       desc = "hover" },
 })
 
 wk.add({
