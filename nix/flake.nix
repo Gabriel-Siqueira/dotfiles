@@ -2,7 +2,11 @@
   description = "NixOS configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs = {
+      # url = "github:NixOS/nixpkgs/nixos-unstable";
+      # Commit with fix to boost version in RStudio (new version is given compilation error)
+      url = "github:NixOS/nixpkgs/5d57a90e2abf555de084876009bffba7dc40f0f2";
+    };
     NixOS-WSL = {
       url = "github:nix-community/NixOS-WSL";
       inputs.nixpkgs.follows = "nixpkgs";

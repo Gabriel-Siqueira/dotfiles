@@ -89,7 +89,7 @@ in
         # ]);
 
         my-rPackages = with rPackages; [
-          FactoMineR
+          FactoMineR 
           Hmisc
           NbClust
           ade4
@@ -141,7 +141,8 @@ in
       in
       optionals withGUI [
         android-tools
-        # calibre
+        atool # compress and decompress files of multiple formats
+        calibre
         droidcam
         dropbox
         filelight
@@ -168,9 +169,6 @@ in
 
         # Programming
         rstudio-with-packages
-      ]
-      ++ optionals (!withGUI) [
-        r-with-packages
       ]
       ++ [
         # Misc command line tools
@@ -202,6 +200,7 @@ in
         lean4
         perl
         python-with-packages
+        r-with-packages
         tex
         valgrind
 
@@ -459,25 +458,25 @@ in
       };
     };
 
-    tmux = {
-      enable = true;
-      plugins = with pkgs.tmuxPlugins; [
-        sensible
-        pain-control
-        {
-          plugin = catppuccin;
-          extraConfig = ''
-            ${builtins.readFile(./tmux/tmux_catppuccin.conf)}
-          '';
-        }
-        yank
-        resurrect
-        continuum
-      ];
-      extraConfig = ''
-        ${builtins.readFile(./tmux/tmux_extra.conf)}
-      '';
-    };
+    # tmux = {
+    #   enable = true;
+    #   plugins = with pkgs.tmuxPlugins; [
+    #     sensible
+    #     pain-control
+    #     {
+    #       plugin = catppuccin;
+    #       extraConfig = ''
+    #         ${builtins.readFile(./tmux/tmux_catppuccin.conf)}
+    #       '';
+    #     }
+    #     yank
+    #     resurrect
+    #     continuum
+    #   ];
+    #   extraConfig = ''
+    #     ${builtins.readFile(./tmux/tmux_extra.conf)}
+    #   '';
+    # };
 
     # Better cd
     zoxide = {
