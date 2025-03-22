@@ -15,4 +15,14 @@ require 'lspconfig'.ltex.setup { settings = { ltex = { language = "auto", }, } }
 require 'lspconfig'.lua_ls.setup {}
 require 'lspconfig'.nil_ls.setup {}
 require 'lspconfig'.pyright.setup {}
-require 'lspconfig'.texlab.setup {}
+require 'lspconfig'.texlab.setup {
+    settings = {
+        latex = {
+            forwardSearch = {
+                executable = "okular",
+                args = { "--unique", "file:%p#src:%l%f" },
+                onSave = true,
+            }
+        }
+    }
+}

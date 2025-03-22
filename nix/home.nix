@@ -112,6 +112,7 @@ in
           ggstatsplot
           glmnet
           gridExtra
+          gt
           hexbin
           hrbrthemes
           kableExtra
@@ -128,7 +129,7 @@ in
           rpart_plot
           sjPlot
           skimr
-          # tidyverse
+          tidyverse
           zoo
         ];
         r-with-packages = rWrapper.override {
@@ -261,12 +262,7 @@ in
         plugins = with pkgs.vimPlugins; [
 
           vim-sleuth # Guess tab related settings for each file
-          vim-commentary # Command to comment and uncomment lines
           vim-visual-star-search
-          vim-surround # Change surrounding things
-          vim-unimpaired # Multiple pairs of keybindings
-          # vim-textobj-between         # Motion between for any character
-          targets-vim # More targets for surrounding characters
 
           {
             # Fuzzy Finder for a lot of stuff
@@ -280,14 +276,14 @@ in
           telescope-undo-nvim
           pkgs.vimExtraPlugins.telescope-bibtex-nvim
 
-          # {
-          #   # Alternative UI
-          #   plugin = noice-nvim;
-          #   type = "lua";
-          #   config = ''
-          #     ${builtins.readFile(./vim/plugins_conf/noice.lua)}
-          #   '';
-          # }
+          {
+            # A single library with a lot of plugins
+            plugin = mini-nvim;
+            type = "lua";
+            config = ''
+              ${builtins.readFile(./vim/plugins_conf/mini.lua)}
+            '';
+          }
 
           {
             # Deal with git
