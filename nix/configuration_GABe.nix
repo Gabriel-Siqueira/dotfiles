@@ -74,11 +74,12 @@ with lib;
     };
 
     # Fingerprint reader
-    # fprintd = {
-    #   enable = true;
-    #   tod.enable = true;
-    #   tod.driver = pkgs.libfprint-2-tod1-vfs0090;
-    # };
+    fprintd = {
+      enable = true;
+      tod.enable = true;
+      tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+      # tod.driver = pkgs.libfprint-2-tod1-goodix;
+    };
 
     # Enable CUPS to print documents.
     printing.enable = true;

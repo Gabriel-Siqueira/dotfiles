@@ -150,6 +150,7 @@ in
         google-chrome
         kitty
         libreoffice
+        lorien # Infinity canvas
         obs-studio
         obsidian
         openvpn
@@ -206,15 +207,17 @@ in
         valgrind
 
         # Packages used in vim
-        fd
-        ripgrep
+        fd # better find
+        ripgrep # better grep
+        ripgrep-all # ripgrep with support for pdf, docx, etc.
         tree-sitter
 
         # Language Servers
         ccls # C/C++
         ltex-ls # Latex (grammar)
         lua-language-server # lua
-        pyright # python
+        pyright # python (general language server)
+        ruff # python (linting)
         nil # nix
         texlab # Latex
         # haskellPackages.agda-language-server # Agda
@@ -484,6 +487,11 @@ in
       enable = true;
     };
 
+    # Better cat
+    bat = {
+      enable = true;
+    };
+
     zsh = {
       enable = true;
       autosuggestion.enable = true;
@@ -502,6 +510,7 @@ in
         la = "eza -a";
         lh = "eza -lh";
         ltr = "eza -ltr";
+        cat = "bat";
         cd = "z";
         "cd.." = "z ..";
         "." = "pwd";
@@ -509,7 +518,8 @@ in
         "..." = "z ../..";
         cp = "cp -ai";
         rm = "rm -i";
-        grep = "grep --color=auto";
+        grep = "rg";
+        grepall = "rga";
         clr = "clear";
         df = "df -h";
         df10 = "df -H";

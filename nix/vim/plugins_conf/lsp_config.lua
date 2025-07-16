@@ -40,6 +40,7 @@ require 'lspconfig'.ltex.setup {
 require 'lspconfig'.lua_ls.setup {}
 require 'lspconfig'.nil_ls.setup {}
 require 'lspconfig'.pyright.setup {}
+require 'lspconfig'.ruff.setup {}
 require 'lspconfig'.texlab.setup {
     settings = {
         latex = {
