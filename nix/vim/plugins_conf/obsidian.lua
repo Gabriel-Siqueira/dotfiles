@@ -1,7 +1,12 @@
 require("obsidian").setup({
-  dir = "$MY_OBSIDIAN",
+  workspaces = {
+  {
+    name = "main",
+    path = "$MY_OBSIDIAN",
+  },
+  },
   notes_subdir = "Zettelkasten/Notes",
-  mappings = {},
+  legacy_commands = false,
   disable_frontmatter = true,
   templates = {
     subdir = "Zettelkasten/Templates",

@@ -184,6 +184,7 @@ in
         libwebp
         lshw
         pandoc
+        qpdf
         poppler_utils
         ranger
         unzip
