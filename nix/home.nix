@@ -148,6 +148,7 @@ in
         dropbox
         filelight
         google-chrome
+        inkscape
         kitty
         libreoffice
         lorien # Infinity canvas
