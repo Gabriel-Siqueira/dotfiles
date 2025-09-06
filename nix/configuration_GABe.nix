@@ -1,4 +1,10 @@
-{ pkgs, modulesPath, lib, overlays, ... }:
+{
+  pkgs,
+  modulesPath,
+  lib,
+  overlays,
+  ...
+}:
 
 with lib;
 {
@@ -23,6 +29,10 @@ with lib;
 
   # Enable networking
   networking.networkmanager.enable = true;
+  # Enable openvpn plugin for networkmanager
+  networking.networkmanager.plugins = [
+    pkgs.networkmanager-openvpn
+  ];
 
   # Set your time zone.
   time.timeZone = "America/Sao_Paulo";
@@ -45,7 +55,6 @@ with lib;
   # environment.systemPackages = with pkgs; [
   # pkgs.fprintd
   # ];
-
 
   services = {
     # Enable the KDE Plasma Desktop Environment.
@@ -74,12 +83,12 @@ with lib;
     };
 
     # Fingerprint reader
-    fprintd = {
-      enable = true;
-      tod.enable = true;
-      tod.driver = pkgs.libfprint-2-tod1-vfs0090;
-      # tod.driver = pkgs.libfprint-2-tod1-goodix;
-    };
+    # fprintd = {
+    # enable = true;
+    # tod.enable = true;
+    # tod.driver = pkgs.libfprint-2-tod1-vfs0090;
+    # tod.driver = pkgs.libfprint-2-tod1-goodix;
+    # };
 
     # Enable CUPS to print documents.
     printing.enable = true;
@@ -110,8 +119,8 @@ with lib;
   # Bluetooth
   hardware = {
     bluetooth = {
-        enable = true; # enables support for Bluetooth
-        powerOnBoot = true; # powers up the default Bluetooth controller on boot
+      enable = true; # enables support for Bluetooth
+      powerOnBoot = true; # powers up the default Bluetooth controller on boot
     };
   };
 
@@ -120,7 +129,10 @@ with lib;
     isNormalUser = true;
     description = "Gabriel";
     home = "/home/gabriel";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+    ];
   };
 
   environment = {

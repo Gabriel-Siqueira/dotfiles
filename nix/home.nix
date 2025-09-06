@@ -92,6 +92,7 @@ in
           FactoMineR 
           Hmisc
           NbClust
+          PerformanceAnalytics
           ade4
           akima
           amap
@@ -146,7 +147,6 @@ in
         calibre
         droidcam
         dropbox
-        filelight
         google-chrome
         inkscape
         kitty
@@ -162,11 +162,11 @@ in
         yt-dlp
 
         # KDE
+        kdePackages.filelight
         kdePackages.yakuake
 
         # Social
         discord
-        skypeforlinux
         slack
         zoom-us
 
@@ -565,7 +565,7 @@ in
         ];
       };
 
-      initExtra = ''
+      initContent = ''
         source ~/.p10k.zsh
       '';
     };
