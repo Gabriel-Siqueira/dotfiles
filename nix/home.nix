@@ -1,4 +1,10 @@
-{ config, pkgs, lib, specialArgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  specialArgs,
+  ...
+}:
 
 let
   inherit (specialArgs) withGUI inWSL;
@@ -25,71 +31,75 @@ in
       with pkgs;
       let
 
-        tex = (pkgs.texlive.combine {
-          inherit (pkgs.texlive)
-            adjustbox
-            amsmath
-            babel
-            babel-portuges
-            beamertheme-metropolis
-            biblatex
-            comment
-            csquotes
-            enumitem
-            environ
-            hyperref
-            ifoddpage
-            lipsum
-            makecell
-            multirow
-            placeins
-            relsize
-            scheme-medium
-            subfigure
-            tabu
-            threeparttable
-            titlesec
-            titling
-            todonotes
-            ulem
-            wrapfig
-            xurl
-            ;
-        });
+        tex = (
+          pkgs.texlive.combine {
+            inherit (pkgs.texlive)
+              adjustbox
+              amsmath
+              babel
+              babel-portuges
+              beamertheme-metropolis
+              biblatex
+              comment
+              csquotes
+              enumitem
+              environ
+              hyperref
+              ifoddpage
+              lipsum
+              makecell
+              multirow
+              placeins
+              relsize
+              scheme-medium
+              subfigure
+              tabu
+              threeparttable
+              titlesec
+              titling
+              todonotes
+              ulem
+              wrapfig
+              xurl
+              ;
+          }
+        );
 
-        python-with-packages = pkgs.python3.withPackages (ps: with ps; [
-          csv2md
-          gurobipy
-          ipython
-          jinja2
-          markdown
-          matplotlib
-          numpy
-          pandas
-          pytz
-          weasyprint
-          # (
-          #   buildPythonPackage rec {
-          #     pname = "csvtomd";
-          #     version = "0.3.0";
-          #     src = fetchPypi {
-          #       inherit pname version;
-          #       sha256 = "sha256-ofvx24bUt7YqddwlmAdxmyMB7QHbXR19m7ScSohYd4s=";
-          #     };
-          #     doCheck = false;
-          #     propagatedBuildInputs = [
-          #       # Specify dependencies
-          #     ];
-          #   }
-          # )
-        ]);
+        python-with-packages = pkgs.python3.withPackages (
+          ps: with ps; [
+            csv2md
+            gurobipy
+            ipython
+            jinja2
+            markdown
+            matplotlib
+            numpy
+            pandas
+            pytz
+            weasyprint
+            # (
+            #   buildPythonPackage rec {
+            #     pname = "csvtomd";
+            #     version = "0.3.0";
+            #     src = fetchPypi {
+            #       inherit pname version;
+            #       sha256 = "sha256-ofvx24bUt7YqddwlmAdxmyMB7QHbXR19m7ScSohYd4s=";
+            #     };
+            #     doCheck = false;
+            #     propagatedBuildInputs = [
+            #       # Specify dependencies
+            #     ];
+            #   }
+            # )
+          ]
+        );
 
         # agda-with-packages = agda.withPackages (ps: with ps; [
         #   standard-library
         # ]);
 
         my-rPackages = with rPackages; [
-          FactoMineR 
+          FactoMineR
           Hmisc
           NbClust
           PerformanceAnalytics
@@ -115,7 +125,6 @@ in
           gridExtra
           gt
           hexbin
-          hrbrthemes
           kableExtra
           patchwork
           pROC
@@ -158,7 +167,7 @@ in
         pulseaudio
         spotify
         vlc
-        write_stylus
+        styluslabs-write-bin
         yt-dlp
 
         # KDE
@@ -186,7 +195,7 @@ in
         lshw
         pandoc
         qpdf
-        poppler_utils
+        poppler-utils
         ranger
         unzip
         usbutils
@@ -229,14 +238,27 @@ in
   programs = {
     git = {
       enable = true;
-      userName = "Gabriel-Siqueira";
-      userEmail = "gabriel.gabrielhs@gmail.com";
+      settings.user.name = "Gabriel-Siqueira";
+      settings.user.email = "gabriel.gabrielhs@gmail.com";
     };
 
     ssh = {
       enable = true;
+      enableDefaultConfig = false;
+      matchBlocks."*" = {
+        forwardAgent = false;
+        addKeysToAgent = "no";
+        compression = false;
+        serverAliveInterval = 0;
+        serverAliveCountMax = 3;
+        hashKnownHosts = false;
+        userKnownHostsFile = "~/.ssh/known_hosts";
+        controlMaster = "no";
+        controlPath = "~/.ssh/master-%r@%n:%p";
+        controlPersist = "no";
+      };
       extraConfig = ''
-        ${builtins.readFile(./ssh_config)}
+        ${builtins.readFile (./ssh_config)}
       '';
     };
 
@@ -258,194 +280,192 @@ in
       '';
     };
 
-    neovim =
-      {
-        enable = true;
-        defaultEditor = true;
-        vimAlias = true;
+    neovim = {
+      enable = true;
+      defaultEditor = true;
+      vimAlias = true;
 
-        plugins = with pkgs.vimPlugins; [
+      plugins = with pkgs.vimPlugins; [
 
-          vim-sleuth # Guess tab related settings for each file
-          vim-visual-star-search
+        vim-sleuth # Guess tab related settings for each file
+        vim-visual-star-search
 
-          {
-            # Fuzzy Finder for a lot of stuff
-            plugin = telescope-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/telescope.lua)}
-            '';
-          }
-          telescope-fzf-native-nvim
-          telescope-undo-nvim
-          pkgs.vimExtraPlugins.telescope-bibtex-nvim
-
-          {
-            # A single library with a lot of plugins
-            plugin = mini-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/mini.lua)}
-            '';
-          }
-
-          {
-            # Deal with git
-            plugin = fugitive;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/fugitive.lua)}
-            '';
-          }
-
-          {
-            # Deal with ledger
-            plugin = vim-ledger;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/ledger.lua)}
-            '';
-          }
-
-          {
-            # Show keymaps
-            plugin = which-key-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/which_key.lua)}
-            '';
-          }
-
-          {
-            # Asynchronous make
-            plugin = vim-dispatch;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/dispatch.lua)}
-            '';
-          }
-
-          {
-            # Open alternative files
-            plugin = other-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/other.lua)}
-            '';
-          }
-
-          {
-            # move following letters
-            plugin = hop-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/hop.lua)}
-            '';
-          }
-
-          {
-            # Seamless navigation with zellij-nav-nvim
-            plugin = zellij-nav-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/zellij_navigator.lua)}
-            '';
-          }
-
-          {
-            # Syntax highlighting and other functionalities using tree-sitter
-            plugin = nvim-treesitter.withAllGrammars;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/treesitter.lua)}
-            '';
-          }
-
-          {
-            # To edit files from obsidian vault
-            plugin = pkgs.vimExtraPlugins.obsidian-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/obsidian.lua)}
-            '';
-          }
-
-          {
-            # Snippets
-            plugin = luasnip;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/luasnip.lua)}
-            '';
-          }
-
-          {
-            # Collection of language servers configurations
-            plugin = nvim-lspconfig;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/lsp_config.lua)}
-            '';
-          }
-
-          {
-            # Autocompletion plugin and other plugins for specific type of completions
-            plugin = nvim-cmp;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/cmp.lua)}
-            '';
-          }
-          cmp-nvim-lsp
-          cmp-buffer
-          cmp-path
-          cmp-cmdline
-          cmp_luasnip
-
-          {
-            # Use IA for code suggestions
-            plugin = copilot-vim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/copilot.lua)}
-            '';
-          }
-
-          {
-            # Theme
-            plugin = gruvbox-material;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/gruvbox_material.lua)}
-            '';
-          }
-
-          {
-            # Status line
-            plugin = lualine-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/lualine.lua)}
-            '';
-          }
-
-          {
-            # Lean support
-            plugin = lean-nvim;
-            type = "lua";
-            config = ''
-              ${builtins.readFile(./vim/plugins_conf/lean.lua)}
-            '';
-          }
-
-        ];
-
-        extraLuaConfig =
-          ''
-            ${builtins.readFile(./vim/config.lua)}
+        {
+          # Fuzzy Finder for a lot of stuff
+          plugin = telescope-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/telescope.lua)}
           '';
-      };
+        }
+        telescope-fzf-native-nvim
+        telescope-undo-nvim
+        # pkgs.vimExtraPlugins.telescope-bibtex-nvim
+
+        {
+          # A single library with a lot of plugins
+          plugin = mini-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/mini.lua)}
+          '';
+        }
+
+        {
+          # Deal with git
+          plugin = fugitive;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/fugitive.lua)}
+          '';
+        }
+
+        {
+          # Deal with ledger
+          plugin = vim-ledger;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/ledger.lua)}
+          '';
+        }
+
+        {
+          # Show keymaps
+          plugin = which-key-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/which_key.lua)}
+          '';
+        }
+
+        {
+          # Asynchronous make
+          plugin = vim-dispatch;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/dispatch.lua)}
+          '';
+        }
+
+        {
+          # Open alternative files
+          plugin = other-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/other.lua)}
+          '';
+        }
+
+        {
+          # move following letters
+          plugin = hop-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/hop.lua)}
+          '';
+        }
+
+        {
+          # Seamless navigation with zellij-nav-nvim
+          plugin = zellij-nav-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/zellij_navigator.lua)}
+          '';
+        }
+
+        {
+          # Syntax highlighting and other functionalities using tree-sitter
+          plugin = nvim-treesitter.withAllGrammars;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/treesitter.lua)}
+          '';
+        }
+
+        {
+          # To edit files from obsidian vault
+          plugin = obsidian-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/obsidian.lua)}
+          '';
+        }
+
+        {
+          # Snippets
+          plugin = luasnip;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/luasnip.lua)}
+          '';
+        }
+
+        {
+          # Collection of language servers configurations
+          plugin = nvim-lspconfig;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/lsp_config.lua)}
+          '';
+        }
+
+        {
+          # Autocompletion plugin and other plugins for specific type of completions
+          plugin = nvim-cmp;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/cmp.lua)}
+          '';
+        }
+        cmp-nvim-lsp
+        cmp-buffer
+        cmp-path
+        cmp-cmdline
+        cmp_luasnip
+
+        {
+          # Use IA for code suggestions
+          plugin = copilot-vim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/copilot.lua)}
+          '';
+        }
+
+        {
+          # Theme
+          plugin = gruvbox-material;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/gruvbox_material.lua)}
+          '';
+        }
+
+        {
+          # Status line
+          plugin = lualine-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/lualine.lua)}
+          '';
+        }
+
+        {
+          # Lean support
+          plugin = lean-nvim;
+          type = "lua";
+          config = ''
+            ${builtins.readFile (./vim/plugins_conf/lean.lua)}
+          '';
+        }
+
+      ];
+
+      extraLuaConfig = ''
+        ${builtins.readFile (./vim/config.lua)}
+      '';
+    };
 
     zellij = {
       enable = true;
@@ -454,7 +474,7 @@ in
         theme = "gruvbox";
         pane_frames = false;
         keybinds = {
-          unbind = ["Ctrl q"];  # First unbind the default Ctrl-q
+          unbind = [ "Ctrl q" ]; # First unbind the default Ctrl-q
         };
       };
     };
@@ -560,7 +580,10 @@ in
           { name = "unixorn/fzf-zsh-plugin"; }
           {
             name = "romkatv/powerlevel10k";
-            tags = [ as:theme depth:1 ];
+            tags = [
+              "as:theme"
+              "depth:1"
+            ];
           }
         ];
       };
@@ -581,9 +604,15 @@ in
         "kmix"."decrease_volume" = "Volume Down";
         "kmix"."increase_microphone_volume" = "Microphone Volume Up";
         "kmix"."increase_volume" = "Volume Up";
-        "kmix"."mic_mute" = [ "Microphone Mute" "Meta+Volume Mute" ];
+        "kmix"."mic_mute" = [
+          "Microphone Mute"
+          "Meta+Volume Mute"
+        ];
         "kmix"."mute" = "Volume Mute";
-        "ksmserver"."Lock Session" = [ "Meta+L" "Screensaver" ];
+        "ksmserver"."Lock Session" = [
+          "Meta+L"
+          "Screensaver"
+        ];
         "kwin"."ExposeAll" = "Meta+W";
         "kwin"."ExposeClass" = "Meta+Alt+W";
         "kwin"."Kill Window" = "Meta+Shift+Backspace";
@@ -631,7 +660,10 @@ in
         "mediacontrol"."previousmedia" = "Media Previous";
         "mediacontrol"."stopmedia" = "Media Stop";
         "org.kde.kitty.desktop"."_launch" = "Meta+Return";
-        "org.kde.krunner.desktop"."_launch" = [ "Search" "Meta+D" ];
+        "org.kde.krunner.desktop"."_launch" = [
+          "Search"
+          "Meta+D"
+        ];
         "org.kde.plasma.emojier.desktop"."_launch" = "Meta+.";
         "org.kde.spectacle.desktop"."ActiveWindowScreenShot" = "Meta+Shift+Print";
         "org.kde.spectacle.desktop"."FullScreenScreenShot" = "Shift+Print";
@@ -657,10 +689,14 @@ in
         "kactivitymanagerdrc"."activities"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4".value = "L";
         "kactivitymanagerdrc"."activities"."b3fad55d-ee09-4b18-b1b5-b3360c222daf".value = "S";
         "kactivitymanagerdrc"."activities"."c53d6251-38db-43e1-b32b-5426eec2108c".value = "W";
-        "kactivitymanagerdrc"."activities-icons"."21001635-79a1-4b14-84d4-144a95ac249f".value = "/home/gabriel/Dropbox/Backup/pc/icons/purple.svg";
-        "kactivitymanagerdrc"."activities-icons"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4".value = "/home/gabriel/Dropbox/Backup/pc/icons/yellow.svg";
-        "kactivitymanagerdrc"."activities-icons"."b3fad55d-ee09-4b18-b1b5-b3360c222daf".value = "/home/gabriel/Dropbox/Backup/pc/icons/blue.svg";
-        "kactivitymanagerdrc"."activities-icons"."c53d6251-38db-43e1-b32b-5426eec2108c".value = "/home/gabriel/Dropbox/Backup/pc/icons/red.svg";
+        "kactivitymanagerdrc"."activities-icons"."21001635-79a1-4b14-84d4-144a95ac249f".value =
+          "/home/gabriel/Dropbox/Backup/pc/icons/purple.svg";
+        "kactivitymanagerdrc"."activities-icons"."a4a61117-3acf-49d3-adb6-a9e3fc329ce4".value =
+          "/home/gabriel/Dropbox/Backup/pc/icons/yellow.svg";
+        "kactivitymanagerdrc"."activities-icons"."b3fad55d-ee09-4b18-b1b5-b3360c222daf".value =
+          "/home/gabriel/Dropbox/Backup/pc/icons/blue.svg";
+        "kactivitymanagerdrc"."activities-icons"."c53d6251-38db-43e1-b32b-5426eec2108c".value =
+          "/home/gabriel/Dropbox/Backup/pc/icons/red.svg";
         "kactivitymanagerdrc"."main"."currentActivity".value = "c53d6251-38db-43e1-b32b-5426eec2108c";
         "kwinrc"."Desktops"."Id_1".value = "83b69802-e2e5-4bd4-8075-4f437301100c";
         "kwinrc"."Desktops"."Id_2".value = "0817145f-47e6-4908-a1df-44ea8d12d4d1";
@@ -685,13 +721,16 @@ in
         "kwinrulesrc"."1"."wmclassmatch".value = 2;
         "kwinrulesrc"."General"."count".value = 1;
         "kwinrulesrc"."General"."rules".value = 1;
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."Description".value = "Firefox in all activities";
-        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activity".value = "00000000-0000-0000-0000-000000000000";
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."Description".value =
+          "Firefox in all activities";
+        "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activity".value =
+          "00000000-0000-0000-0000-000000000000";
         "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."activityrule".value = 3;
         "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclass".value = "Firefox";
         "kwinrulesrc"."fbfd0f9c-d44c-4e3a-b00e-0365005b9463"."wmclassmatch".value = 2;
         "plasma-localerc"."Formats"."LANG".value = "en_US.UTF-8";
-        "plasmarc"."Wallpapers"."usersWallpapers".value = "/home/gabriel/Dropbox/Backup/pc/mywallpaper/purple_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/red_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/yellow_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/blue_circle.jpg";
+        "plasmarc"."Wallpapers"."usersWallpapers".value =
+          "/home/gabriel/Dropbox/Backup/pc/mywallpaper/purple_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/red_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/yellow_circle.jpg,/home/gabriel/Dropbox/Backup/pc/mywallpaper/blue_circle.jpg";
       };
       workspace = {
         theme = "breeze-dark";
@@ -723,4 +762,3 @@ in
     ".hindent.yaml".source = ./haskell/hindent.yaml;
   };
 }
-

@@ -50,7 +50,7 @@
             home-manager.users.gabriel = { ... }: {
               imports = [
                 ./home.nix
-                plasma-manager.homeManagerModules.plasma-manager
+                plasma-manager.homeModules.plasma-manager
               ];
             };
             home-manager.extraSpecialArgs = {
@@ -74,7 +74,7 @@
             home-manager.users.gabriel = { ... }: {
               imports = [
                 ./home.nix
-                plasma-manager.homeManagerModules.plasma-manager
+                plasma-manager.homeModules.plasma-manager
               ];
             };
             home-manager.extraSpecialArgs = {
