@@ -185,6 +185,7 @@ in
       ++ [
         # Misc command line tools
         biber
+        ffmpeg
         fzf
         ghostscript
         groff
@@ -210,6 +211,7 @@ in
         git-filter-repo
         gnumake
         go
+        jdk
         lean4
         perl
         python-with-packages

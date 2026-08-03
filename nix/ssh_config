@@ -24,7 +24,7 @@ Host dna
     User gabriel
 
 Host bio
-    Hostname bio.loco.ic.unicamp.br
+    Hostname 143.106.60.32
     Port 2222
     User gabriel
 
