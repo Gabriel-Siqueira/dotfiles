@@ -7,7 +7,7 @@ require("obsidian").setup({
   },
   notes_subdir = "Zettelkasten/Notes",
   legacy_commands = false,
-  disable_frontmatter = true,
+  frontmatter = { enable = false },
   config = {
     templates = {
       subdir = "Zettelkasten/Templates",
