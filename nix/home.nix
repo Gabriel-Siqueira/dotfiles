@@ -31,41 +31,39 @@ in
       with pkgs;
       let
 
-        tex = (
-          pkgs.texlive.combine {
-            inherit (pkgs.texlive)
-              adjustbox
-              amsmath
-              babel
-              babel-portuges
-              beamertheme-metropolis
-              biblatex
-              comment
-              csquotes
-              enumitem
-              environ
-              hyperref
-              ifoddpage
-              lipsum
-              makecell
-              multirow
-              placeins
-              relsize
-              scheme-medium
-              subfigure
-              tabu
-              threeparttable
-              titlesec
-              titling
-              todonotes
-              ulem
-              wrapfig
-              xurl
-              ;
-          }
+        tex = texliveSmall.withPackages (
+          ps: with pkgs.texlive; [
+            adjustbox
+            amsmath
+            babel
+            babel-portuges
+            beamertheme-metropolis
+            biblatex
+            comment
+            csquotes
+            enumitem
+            environ
+            hyperref
+            ifoddpage
+            lipsum
+            makecell
+            multirow
+            placeins
+            relsize
+            scheme-medium
+            subfigure
+            tabu
+            threeparttable
+            titlesec
+            titling
+            todonotes
+            ulem
+            wrapfig
+            xurl
+          ]
         );
 
-        python-with-packages = pkgs.python3.withPackages (
+        python-with-packages = python3.withPackages (
           ps: with ps; [
             csv2md
             gurobipy
@@ -185,6 +183,7 @@ in
       ++ [
         # Misc command line tools
         biber
+        ffmpeg
         fzf
         ghostscript
         groff
@@ -210,6 +209,7 @@ in
         git-filter-repo
         gnumake
         go
+        jdk
         lean4
         perl
         python-with-packages
@@ -284,6 +284,8 @@ in
       enable = true;
       defaultEditor = true;
       vimAlias = true;
+      withRuby = false;
+      withPython3 = false;
 
       plugins = with pkgs.vimPlugins; [
 
@@ -313,7 +315,7 @@ in
 
         {
           # Deal with git
-          plugin = fugitive;
+          plugin = vim-fugitive;
           type = "lua";
           config = ''
             ${builtins.readFile (./vim/plugins_conf/fugitive.lua)}
