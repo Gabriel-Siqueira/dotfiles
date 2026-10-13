@@ -20,6 +20,7 @@ vim.g.lsplist = {
     'lua_ls',
     'nil_ls',
     'pyright',
+    'ruff',
     'texlab'
 }
 

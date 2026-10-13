@@ -151,14 +151,13 @@ in
       optionals withGUI [
         android-tools
         atool # compress and decompress files of multiple formats
+        baobab # Disk Usage Analyzer
         calibre
-        droidcam
         dropbox
         google-chrome
         inkscape
         kitty
         libreoffice
-        lorien # Infinity canvas
         obs-studio
         obsidian
         openvpn
@@ -169,7 +168,6 @@ in
         yt-dlp
 
         # KDE
-        kdePackages.filelight
         kdePackages.yakuake
 
         # Social
@@ -183,6 +181,7 @@ in
       ++ [
         # Misc command line tools
         biber
+        claude-code
         ffmpeg
         fzf
         ghostscript
@@ -210,7 +209,7 @@ in
         gnumake
         go
         jdk
-        lean4
+        # lean4
         perl
         python-with-packages
         r-with-packages
